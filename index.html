@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelos Matemáticos en la Investigación Criminal | ESJIM</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        :root {
+            --azul-oscuro: #003366;
+            --azul-medio: #005A8C;
+            --azul-claro: #0077B6;
+            --dorado: #C4A000;
+            --dorado-claro: #F0D800;
+            --blanco: #FFFFFF;
+            --gris-claro: #F4F6F8;
+            --gris-medio: #6B7280;
+            --gris-oscuro: #1F2937;
+            --fondo: #F8FAFC;
+            --accent-green: #059669;
+            --accent-red: #DC2626;
+            --accent-purple: #7C3AED;
+            --accent-orange: #EA580C;
+            --accent-teal: #0D9488;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--fondo);
+            color: var(--gris-oscuro);
+            line-height: 1.7;
+            scroll-behavior: smooth;
+        }
+
+        /* ============ NAVIGATION ============ */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--azul-oscuro);
+            z-index: 1000;
+            padding: 0 2rem;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+        }
+        .nav-bar .logo { color: var(--dorado); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.5px; }
+        .nav-bar .nav-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .nav-bar .nav-links a {
+            color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.75rem;
+            padding: 0.3rem 0.6rem; border-radius: 4px; transition: all 0.2s;
+        }
+        .nav-bar .nav-links a:hover { background: rgba(255,255,255,0.1); color: white; }
+        .nav-bar .nav-links a.active { background: var(--dorado); color: var(--azul-oscuro); font-weight: 600; }
+
+        .menu-toggle { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+        /* ============ EXPERT SECTION ============ */
+        .expert-section {
+            background: linear-gradient(135deg, #001a33 0%, var(--azul-oscuro) 100%);
+            padding: 4rem 2rem;
+            display: flex;
+            justify-content: center;
+        }
+        .expert-card {
+            max-width: 900px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+        .expert-avatar {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--dorado), #E8C800);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--azul-oscuro);
+            font-weight: 800;
+            font-family: 'Playfair Display', serif;
+            margin: 0 auto;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .expert-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .expert-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 0.2rem;
+        }
+        .expert-info .expert-title {
+            color: var(--dorado);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        .expert-info .expert-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+        .expert-info .expert-detail .icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            background: rgba(196,160,0,0.2);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+        .expert-info .expert-section-title {
+            color: var(--dorado);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 1.5rem 0 0.6rem;
+        }
+        .expert-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .expert-chip {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: rgba(255,255,255,0.85);
+            padding: 0.35rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+        @media (max-width: 768px) {
+            .expert-card { grid-template-columns: 1fr; text-align: center; }
+            .expert-chips { justify-content: center; }
+        }
+
+        /* ============ MODEL IMAGE ============ */
+        .model-image {
+            text-align: center;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: var(--gris-claro);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        .model-image img {
+            max-width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        .model-image .caption {
+            margin-top: 0.6rem;
+            font-size: 0.8rem;
+            color: var(--gris-medio);
+            font-style: italic;
+        }
+
+        /* ============ HERO / PORTADA ============ */
+        .hero {
+            margin-top: 56px;
+            background: linear-gradient(135deg, var(--azul-oscuro) 0%, #001a33 60%, #000d1a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(196,160,0,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(0,119,182,0.06) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-2%, 2%); }
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 900px; padding: 2rem; }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(196,160,0,0.15);
+            border: 1px solid rgba(196,160,0,0.3);
+            color: var(--dorado);
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .hero h1 span { color: var(--dorado); }
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 0.5rem;
+        }
+        .hero .institution {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.5);
+            margin-top: 2rem;
+        }
+        .hero .divider {
+            width: 80px;
+            height: 3px;
+            background: var(--dorado);
+            margin: 1.5rem auto;
+        }
+        .hero .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* ============ SECTIONS ============ */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-number {
+            display: inline-block;
+            background: var(--azul-oscuro);
+            color: var(--dorado);
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.5rem;
+        }
+        .section-header .section-sub {
+            color: var(--gris-medio);
+            font-size: 1.05rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ============ CARDS ============ */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .card h3 {
+            font-size: 1.1rem;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.6rem;
+        }
+        .card p {
+            font-size: 0.9rem;
+            color: var(--gris-medio);
+            line-height: 1.6;
+        }
+
+        /* ============ MODEL SECTIONS ============ */
+        .model-block {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04);
+            border-left: 4px solid var(--azul-oscuro);
+        }
+        .model-block.accent-gold { border-left-color: var(--dorado); }
+        .model-block.accent-green { border-left-color: var(--accent-green); }
+        .model-block.accent-purple { border-left-color: var(--accent-purple); }
+        .model-block.accent-orange { border-left-color: var(--accent-orange); }
+        .model-block.accent-teal { border-left-color: var(--accent-teal); }
+
+        .model-block h3 {
+            font-size: 1.4rem;
+            color: var(--azul-oscuro);
+            margin-bottom: 0.3rem;
+        }
+        .model-block .model-subtitle {
+            color: var(--gris-medio);
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+        }
+        .model-block h4 {
+            font-size: 1rem;
+            color: var(--azul-medio);
+            margin: 1.5rem 0 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* ============ FORMULA BOX ============ */
+        .formula-box {
+            background: var(--gris-claro);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            text-align: center;
+            color: var(--azul-oscuro);
+            margin: 1rem 0;
+            font-weight: 500;
+        }
+
+        /* ============ EXAMPLE BOX ============ */
+        .example-box {
+            background: #FFFBEB;
+            border-left: 3px solid var(--dorado);
+            border-radius: 0 8px 8px 0;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0;
+        }
+        .example-box .label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--dorado);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+        .example-box p { font-size: 0.9rem; color: #92400E; }
+
+        /* ============ COLOMBIA BOX ============ */
+        .colombia-box {
+            background: #EFF6FF;
+            border-left: 3px solid var(--azul-claro);
+            border-radius: 0 8px 8px 0;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0;
+        }
+        .colombia-box .label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--azul-claro);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+        .colombia-box p { font-size: 0.9rem; color: #1E40AF; }
+
+        /* ============ DID YOU KNOW ============ */
+        .did-you-know {
+            background: #F0FDF4;
+            border-left: 3px solid var(--accent-green);
+            border-radius: 0 8px 8px 0;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0;
+        }
+        .did-you-know .label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+        .did-you-know p { font-size: 0.9rem; color: #166534; }
+
+        /* ============ RESOURCE LINKS ============ */
+        .resource-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 1rem 0;
+        }
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--gris-claro);
+            color: var(--azul-medio);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+        .resource-link:hover {
+            background: var(--azul-oscuro);
+            color: white;
+            border-color: var(--azul-oscuro);
+        }
+        .resource-link::before { content: '🔗'; font-size: 0.8rem; }
+
+        /* ============ COLLAPSIBLE ============ */
+        details {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin: 0.8rem 0;
+            overflow: hidden;
+        }
+        details summary {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--azul-oscuro);
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            user-select: none;
+        }
+        details summary::before {
+            content: '▶';
+            font-size: 0.7rem;
+            transition: transform 0.2s;
+            color: var(--dorado);
+        }
+        details[open] summary::before { transform: rotate(90deg); }
+        details summary::-webkit-details-marker { display: none; }
+        details .content {
+            padding: 0 1.5rem 1.5rem;
+            font-size: 0.9rem;
+            color: var(--gris-medio);
+            line-height: 1.7;
+        }
+        details .content ul { padding-left: 1.2rem; }
+        details .content ul li { margin-bottom: 0.4rem; }
+
+        /* ============ TABLE ============ */
+        .resource-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .resource-table thead { background: var(--azul-oscuro); }
+        .resource-table th {
+            color: white;
+            padding: 0.9rem 1.2rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .resource-table td {
+            padding: 0.8rem 1.2rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .resource-table tr:nth-child(even) { background: #f8fafc; }
+        .resource-table tr:hover { background: #EFF6FF; }
+        .resource-table a {
+            color: var(--azul-medio);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .resource-table a:hover { text-decoration: underline; }
+
+        /* ============ TAGS ============ */
+        .tag {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag-free { background: #DCFCE7; color: #166534; }
+        .tag-interactive { background: #DBEAFE; color: #1E40AF; }
+        .tag-dataset { background: #FEF3C7; color: #92400E; }
+        .tag-tool { background: #F3E8FF; color: #6B21A8; }
+        .tag-video { background: #FFE4E6; color: #9F1239; }
+
+        /* ============ AGENDA ============ */
+        .agenda-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid #f1f5f9;
+            align-items: flex-start;
+        }
+        .agenda-time {
+            background: var(--dorado);
+            color: var(--azul-oscuro);
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            min-width: 70px;
+            text-align: center;
+        }
+        .agenda-content h4 { margin-bottom: 0.2rem; color: var(--azul-oscuro); }
+        .agenda-content p { font-size: 0.85rem; color: var(--gris-medio); }
+
+        /* ============ INDICATORS ============ */
+        .indicator {
+            display: flex;
+            gap: 1rem;
+            margin: 0.8rem 0;
+            align-items: flex-start;
+        }
+        .indicator-level {
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: white;
+            min-width: 90px;
+            text-align: center;
+        }
+        .level-superior { background: var(--accent-green); }
+        .level-intermedio { background: var(--azul-claro); }
+        .level-basico { background: var(--dorado); }
+        .indicator p { font-size: 0.9rem; color: var(--gris-medio); }
+
+        /* ============ FORUM SECTION ============ */
+        .forum-section {
+            background: linear-gradient(135deg, var(--azul-oscuro), #001a33);
+            border-radius: 16px;
+            padding: 3rem;
+            color: white;
+            margin: 3rem 0;
+        }
+        .forum-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--dorado);
+            margin-bottom: 1.5rem;
+        }
+        .forum-question {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+        .forum-question h4 { color: var(--dorado); margin-bottom: 0.8rem; }
+        .forum-question p { color: rgba(255,255,255,0.85); font-size: 0.95rem; }
+        .forum-question ol { padding-left: 1.2rem; color: rgba(255,255,255,0.85); }
+        .forum-question ol li { margin-bottom: 0.5rem; }
+        .forum-requirements {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .forum-req {
+            background: rgba(196,160,0,0.15);
+            border: 1px solid rgba(196,160,0,0.3);
+            border-radius: 8px;
+            padding: 0.6rem 1rem;
+            font-size: 0.85rem;
+            color: var(--dorado);
+        }
+
+        /* ============ FOOTER ============ */
+        footer {
+            background: var(--azul-oscuro);
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.85rem;
+        }
+        footer a { color: var(--dorado); text-decoration: none; }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .nav-bar .nav-links { display: none; }
+            .nav-bar .nav-links.show {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 56px;
+                left: 0;
+                right: 0;
+                background: var(--azul-oscuro);
+                padding: 1rem;
+            }
+            .menu-toggle { display: block; }
+            section { padding: 3rem 1rem; }
+            .card-grid { grid-template-columns: 1fr; }
+            .forum-section { padding: 1.5rem; }
+        }
+
+        /* Print styles */
+        @media print {
+            .nav-bar { display: none; }
+            .hero { min-height: auto; padding: 2rem; }
+            section { page-break-inside: avoid; }
+        }
+
+        /* ============ TWO COLUMNS ============ */
+        .two-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+        @media (max-width: 768px) { .two-cols { grid-template-columns: 1fr; } }
+
+        .steps-list { counter-reset: step; list-style: none; padding: 0; }
+        .steps-list li {
+            counter-increment: step;
+            padding: 0.8rem 0 0.8rem 3rem;
+            position: relative;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .steps-list li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0.7rem;
+            width: 28px;
+            height: 28px;
+            background: var(--azul-oscuro);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .highlight-stat {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        .highlight-stat .number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--azul-oscuro);
+        }
+        .highlight-stat .label {
+            font-size: 0.85rem;
+            color: var(--gris-medio);
+            margin-top: 0.3rem;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== NAVIGATION ========== -->
+<nav class="nav-bar">
+    <div class="logo">ESJIM | Matemática Aplicada</div>
+    <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('show')">&#9776;</button>
+    <div class="nav-links">
+        <a href="#inicio">Inicio</a>
+        <a href="#objetivo">Objetivo</a>
+        <a href="#agenda">Agenda</a>
+        <a href="#bayesianas">Bayes</a>
+        <a href="#grafos">Grafos</a>
+        <a href="#regresion">Regresion</a>
+        <a href="#series">Series</a>
+        <a href="#markov">Markov</a>
+        <a href="#montecarlo">Monte Carlo</a>
+        <a href="#ml">ML</a>
+        <a href="#programacion">Prog. Lineal</a>
+        <a href="#juegos">Juegos</a>
+        <a href="#recursos">Recursos</a>
+        <a href="#foro">Foro</a>
+    </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<header class="hero" id="inicio">
+    <div class="hero-content">
+        <div class="hero-badge">UNIDAD 1 &bull; APRENDO HACIENDO</div>
+        <h1>Modelos Matemáticos en la <span>Investigación Criminal</span></h1>
+        <div class="divider"></div>
+        <p class="subtitle">Matemática Aplicada a la Profesión</p>
+        <p class="subtitle" style="font-size: 1rem; margin-top: 0.5rem;">Modelos Matemáticos para una Gestión Policial Eficiente</p>
+        <p class="institution">ESJIM &mdash; Escuela de Suboficiales y Nivel Ejecutivo<br>Programa: Administración Policial &bull; 2026</p>
+    </div>
+    <div class="scroll-hint">&#9660; Desplazar para continuar</div>
+</header>
+
+<!-- ========== EXPERTO ========== -->
+<div class="expert-section" id="experto">
+    <div class="expert-card">
+        <div>
+            <div class="expert-avatar"><img src="JIR8sQYbw-photo.png" alt="Jose Javier Mercado Reyes"></div>
+        </div>
+        <div class="expert-info">
+            <h3>Jose Javier Mercado Reyes</h3>
+            <div class="expert-title">Magister &bull; Tutor de la asignatura</div>
+
+            <div class="expert-detail">
+                <div class="icon">&#9993;</div>
+                <span>josejaviermerey@gmail.com</span>
+            </div>
+            <div class="expert-detail">
+                <div class="icon">&#128222;</div>
+                <span>310 680 3980</span>
+            </div>
+            <div class="expert-detail">
+                <div class="icon">&#128339;</div>
+                <span>Horario de atención: Lunes a sábado de 14:00 a 20:00 hrs</span>
+            </div>
+
+            <div class="expert-section-title">Formación académica</div>
+            <div class="expert-chips">
+                <span class="expert-chip">Candidato a Doctor en Tecnología Educativa &mdash; Universidad Da Vinci (México)</span>
+                <span class="expert-chip">Magíster en Estadística Aplicada &mdash; Universidad del Norte</span>
+                <span class="expert-chip">Ingeniero Industrial &mdash; Universidad de la Costa</span>
+                <span class="expert-chip">Esp. Gerencia de Proyectos &mdash; Universidad de la Costa</span>
+                <span class="expert-chip">Esp. Estudios Pedagógicos</span>
+            </div>
+
+            <div class="expert-section-title">Experiencia docente</div>
+            <div class="expert-chips">
+                <span class="expert-chip">Docente de Estadística y Matemática &mdash; ESJIM (Virtual)</span>
+                <span class="expert-chip">Tutor de Matemáticas &mdash; Universidad de la Costa</span>
+                <span class="expert-chip">Docente de Matemáticas &mdash; Secretaría de Educación del Atlántico</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== OBJETIVO ========== -->
+<section id="objetivo">
+    <div class="section-header">
+        <div class="section-number">01</div>
+        <h2>Objetivo de la Sesión</h2>
+    </div>
+
+    <div class="model-block accent-gold">
+        <h3>Resultado de Aprendizaje</h3>
+        <p style="font-size: 1.05rem; margin-top: 0.8rem;">Aplicar modelos matemáticos ligados al análisis estadístico, optimización y representación gráfica de datos en el contexto policial, para mejorar la planificación, distribución de recursos y resolución de problemas operativos de manera efectiva y fundamentada.</p>
+    </div>
+
+    <h4 style="margin: 2rem 0 1rem; color: var(--azul-oscuro); font-size: 1.1rem;">Indicadores de desempeño</h4>
+    <div class="indicator">
+        <span class="indicator-level level-superior">Superior</span>
+        <p>Analiza la efectividad de modelos matemáticos en el análisis estadístico, optimización y representación gráfica de datos considerando escenarios complejos y datos reales del contexto policial.</p>
+    </div>
+    <div class="indicator">
+        <span class="indicator-level level-intermedio">Intermedio</span>
+        <p>Aplica modelos matemáticos relacionados con análisis estadístico, optimización y representación gráfica de datos en casos prácticos que simulan problemas operativos reales.</p>
+    </div>
+    <div class="indicator">
+        <span class="indicator-level level-basico">Básico</span>
+        <p>Reconoce los conceptos básicos de modelos matemáticos, análisis estadístico y representación gráfica de datos mediante la resolución de ejercicios simples aplicados al contexto policial.</p>
+    </div>
+</section>
+
+<!-- ========== AGENDA ========== -->
+<section id="agenda" style="background: white; max-width: 100%; padding: 4rem 2rem;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <div class="section-header">
+            <div class="section-number">02</div>
+            <h2>Agenda de la Sesión</h2>
+            <p class="section-sub">Duración estimada: 1 hora</p>
+        </div>
+
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div class="agenda-item">
+                <span class="agenda-time">5 min</span>
+                <div class="agenda-content">
+                    <h4>Introducción y contexto</h4>
+                    <p>¿Por qué los modelos matemáticos son esenciales para la gestión policial moderna?</p>
+                </div>
+            </div>
+            <div class="agenda-item">
+                <span class="agenda-time">8 min</span>
+                <div class="agenda-content">
+                    <h4>Redes bayesianas en investigación criminal</h4>
+                    <p>Probabilidad condicional, Teorema de Bayes, perfilación criminal</p>
+                </div>
+            </div>
+            <div class="agenda-item">
+                <span class="agenda-time">7 min</span>
+                <div class="agenda-content">
+                    <h4>Teoría de grafos y redes delictivas</h4>
+                    <p>Nodos, aristas, centralidad, análisis de redes criminales</p>
+                </div>
+            </div>
+            <div class="agenda-item">
+                <span class="agenda-time">7 min</span>
+                <div class="agenda-content">
+                    <h4>Modelos de regresión y predicción del crimen</h4>
+                    <p>Regresión lineal, múltiple, logística; correlación de variables</p>
+                </div>
+            </div>
+            <div class="agenda-item">
+                <span class="agenda-time">7 min</span>
+                <div class="agenda-content">
+                    <h4>Series temporales: ARIMA y Holt-Winters</h4>
+                    <p>Tendencias, estacionalidad, predicción de picos delictivos</p>
+                </div>
+            </div>
+            <div class="agenda-item">
+                <span class="agenda-time">5 min</span>
+                <div class="agenda-content">
+                    <h4>Cadenas de Markov y procesos estocásticos</h4>
+                    <p>Reincidencia criminal, transiciones de estado, predicción probabilística</p>
+                </div>
+            </div>
+            <div class="agenda-item">
+                <span class="agenda-time">5 min</span>
+                <div class="agenda-content">
+                    <h4>Simulación de Monte Carlo</h4>
+                    <p>Simulación de escenarios, evaluación de riesgos, estimaciones probabilísticas</p>
+                </div>
+            </div>
+            <div class="agenda-item">
+                <span class="agenda-time">5 min</span>
+                <div class="agenda-content">
+                    <h4>Machine learning y minería de datos</h4>
+                    <p>Clustering, árboles de decisión, redes neuronales, big data</p>
+                </div>
+            </div>
+            <div class="agenda-item">
+                <span class="agenda-time">3 min</span>
+                <div class="agenda-content">
+                    <h4>Programación lineal y optimización</h4>
+                    <p>Asignación óptima de recursos, modelo de cuadrantes</p>
+                </div>
+            </div>
+            <div class="agenda-item">
+                <span class="agenda-time">3 min</span>
+                <div class="agenda-content">
+                    <h4>Teoría de juegos aplicada a la estrategia policial</h4>
+                    <p>Equilibrio de Nash, estrategias mixtas, negociaciones</p>
+                </div>
+            </div>
+            <div class="agenda-item" style="border-bottom: none;">
+                <span class="agenda-time">5 min</span>
+                <div class="agenda-content">
+                    <h4>Conclusiones y orientaciones para el foro</h4>
+                    <p>Resumen, indicaciones para la actividad del foro de participación</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== CONTEXTO ========== -->
+<section id="contexto">
+    <div class="section-header">
+        <div class="section-number">03</div>
+        <h2>¿Por qué Modelos Matemáticos en la Policía?</h2>
+        <p class="section-sub">La toma de decisiones en el ámbito policial debe basarse en información precisa y métodos analíticos confiables.</p>
+    </div>
+
+    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="card">
+            <div class="card-icon" style="background: #DBEAFE; color: var(--azul-oscuro);">&#128202;</div>
+            <h3>Análisis de patrones delictivos</h3>
+            <p>Identificar tendencias, zonas de riesgo y modus operandi mediante el procesamiento sistemático de datos criminales.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background: #FEF3C7; color: var(--dorado);">&#9881;</div>
+            <h3>Asignación eficiente de recursos</h3>
+            <p>Optimizar la distribución de patrullas, personal y equipamiento según la demanda real por zona y horario.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background: #DCFCE7; color: var(--accent-green);">&#127919;</div>
+            <h3>Decisiones basadas en datos</h3>
+            <p>Fundamentar operativos y políticas de seguridad con evidencia cuantitativa, no con intuición.</p>
+        </div>
+    </div>
+
+    <div class="did-you-know">
+        <div class="label">Caso de éxito</div>
+        <p><strong>PredPol:</strong> Software basado en algoritmos probabilísticos utilizado por departamentos de policía en varios países para anticipar zonas de alto riesgo criminal, logrando reducciones de hasta un 20% en ciertos delitos.</p>
+    </div>
+
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 1.5rem;">
+        <div class="highlight-stat">
+            <div class="number">-30%</div>
+            <div class="label">Reducción de homicidios<br>en Medellín con análisis de datos</div>
+        </div>
+        <div class="highlight-stat">
+            <div class="number">-25%</div>
+            <div class="label">Tiempo de respuesta<br>en Bogotá con georreferenciación</div>
+        </div>
+        <div class="highlight-stat">
+            <div class="number">-20%</div>
+            <div class="label">Robos reducidos<br>con modelo de cuadrantes</div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== MODELO 1: REDES BAYESIANAS ========== -->
+<section id="bayesianas">
+    <div class="section-header">
+        <div class="section-number">04</div>
+        <h2>Redes Bayesianas</h2>
+        <p class="section-sub">Probabilidad condicional para la investigación criminal</p>
+    </div>
+
+    <div class="model-block">
+        <h3>&#128300; ¿Qué son las redes bayesianas?</h3>
+        <p class="model-subtitle">Modelos gráficos probabilísticos</p>
+        <p>Las redes bayesianas son modelos matemáticos que representan un conjunto de variables y sus dependencias condicionales mediante un grafo dirigido acíclico (DAG). Permiten calcular la probabilidad de un evento dado que se conoce información sobre otros eventos relacionados.</p>
+
+        <div class="formula-box">
+            P(A|B) = [P(B|A) &times; P(A)] / P(B)
+            <br><small style="color: var(--gris-medio);">Teorema de Bayes: actualiza la probabilidad de A dado que ocurrió B</small>
+        </div>
+
+        <div class="model-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/03/Directed_acyclic_graph_2.svg" alt="Red Bayesiana - Grafo Acíclico Dirigido">
+            <div class="caption">Ejemplo de grafo acíclico dirigido (DAG), estructura base de las redes bayesianas. Fuente: Wikimedia Commons</div>
+        </div>
+
+        <div class="two-cols">
+            <div>
+                <h4>&#128273; Aplicaciones en criminalística</h4>
+                <ul>
+                    <li>Perfilación criminal y elaboración de perfiles de sospechosos</li>
+                    <li>Análisis forense de evidencias (ADN, huellas, balística)</li>
+                    <li>Análisis de riesgo en seguridad urbana</li>
+                    <li>Predicción de sectores con mayor probabilidad de delitos</li>
+                    <li>Evaluación de testimonios y evidencia circunstancial</li>
+                </ul>
+            </div>
+            <div>
+                <h4>&#128200; Componentes del modelo</h4>
+                <ul>
+                    <li><strong>Nodos:</strong> variables (tipo de delito, hora, zona, sospechoso)</li>
+                    <li><strong>Arcos dirigidos:</strong> relaciones de dependencia causal</li>
+                    <li><strong>Tablas de probabilidad:</strong> cuantifican las relaciones</li>
+                    <li><strong>Inferencia:</strong> actualización de probabilidades con nueva evidencia</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="example-box">
+            <div class="label">Ejemplo aplicado</div>
+            <p>Si un robo tiene un 70% de probabilidad de estar vinculado a una banda conocida (por modus operandi), y se encuentra evidencia de que el vehículo usado pertenece a un integrante de esa banda, la probabilidad actualizada puede elevarse al 92%, permitiendo priorizar la investigación en esa dirección.</p>
+        </div>
+
+        <div class="colombia-box">
+            <div class="label">Ejemplo numérico — Contexto policial colombiano</div>
+            <p>En el cuadrante 14 de Cúcuta se registraron 85 robos a mano armada en 6 meses. De estos, 60 ocurrieron entre las 18:00 y las 23:00 hrs (P(noche) = 60/85 = 0.706). De los robos nocturnos, el 75% involucró motocicleta (P(moto|noche) = 0.75). Si se reporta un robo nocturno, la probabilidad de que sea con motocicleta es:<br>
+            <strong style="font-family: 'JetBrains Mono', monospace;">P(moto|noche) = (0.75 × 0.706) / P(moto) = 0.53 / 0.62 ≈ 85.4%</strong><br>
+            Con esta probabilidad, el comandante del cuadrante puede desplegar unidades motorizadas de 18:00 a 23:00 como medida prioritaria.</p>
+        </div>
+
+        <div class="did-you-know">
+            <div class="label">¿Sabías que...?</div>
+            <p>El FBI utiliza redes bayesianas para combinar múltiples fuentes de evidencia (ADN, huellas, testimonios) y calcular la probabilidad de que un sospechoso sea el autor de un delito.</p>
+        </div>
+
+        <h4>&#128279; Recursos interactivos</h4>
+        <div class="resource-links">
+            <a href="https://www.bayesserver.com/" target="_blank" class="resource-link">Bayes Server (modelado)</a>
+            <a href="https://www.cs.cmu.edu/~javabayes/Home/" target="_blank" class="resource-link">JavaBayes (simulador)</a>
+            <a href="https://www.bayesia.com/bayesialab" target="_blank" class="resource-link">BayesiaLab</a>
+            <a href="https://www.youtube.com/watch?v=HxVBQm2cA5E" target="_blank" class="resource-link">Video: Bayes explicado</a>
+            <a href="https://www.khanacademy.org/math/statistics-probability/probability-library/conditional-probability-independence/v/bayes-theorem-visualized" target="_blank" class="resource-link">Khan Academy: Bayes</a>
+            <a href="https://seeing-theory.brown.edu/bayesian-inference/index.html" target="_blank" class="resource-link">Seeing Theory: Bayes visual</a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== MODELO 2: TEORÍA DE GRAFOS ========== -->
+<section id="grafos">
+    <div class="section-header">
+        <div class="section-number">05</div>
+        <h2>Teoría de Grafos</h2>
+        <p class="section-sub">Análisis de redes delictivas y estructuras criminales</p>
+    </div>
+
+    <div class="model-block accent-gold">
+        <h3>&#128373; ¿Qué es la teoría de grafos?</h3>
+        <p class="model-subtitle">Estudio matemático de relaciones y conexiones</p>
+        <p>Los grafos representan conexiones entre entidades (personas, lugares, eventos) mediante <strong>nodos</strong> (vértices) y <strong>aristas</strong> (conexiones). En criminalística, permiten mapear y analizar la estructura de organizaciones delictivas.</p>
+
+        <div class="model-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Social_Network_Diagram_%28segment%29.svg" alt="Diagrama de red social - Teoría de Grafos">
+            <div class="caption">Diagrama de una red social: los nodos representan individuos y las aristas sus conexiones. Fuente: Wikimedia Commons</div>
+        </div>
+
+        <div class="two-cols">
+            <div>
+                <h4>&#127899; Conceptos clave</h4>
+                <ul>
+                    <li><strong>Nodo/Vértice:</strong> sospechoso, lugar, cuenta bancaria, teléfono</li>
+                    <li><strong>Arista:</strong> llamada, transacción, encuentro, relación</li>
+                    <li><strong>Grado:</strong> número de conexiones de un nodo</li>
+                    <li><strong>Centralidad:</strong> importancia de un nodo en la red</li>
+                    <li><strong>Comunidades:</strong> subgrupos conectados entre sí</li>
+                    <li><strong>Camino más corto:</strong> ruta mínima entre dos nodos</li>
+                </ul>
+            </div>
+            <div>
+                <h4>&#128270; Métricas de centralidad</h4>
+                <ul>
+                    <li><strong>Centralidad de grado:</strong> ¿quién tiene más contactos?</li>
+                    <li><strong>Centralidad de intermediación:</strong> ¿quién conecta subgrupos?</li>
+                    <li><strong>Centralidad de cercanía:</strong> ¿quién puede llegar más rápido a todos?</li>
+                    <li><strong>PageRank:</strong> ¿quién es más influyente en la red?</li>
+                </ul>
+            </div>
+        </div>
+
+        <details>
+            <summary>&#128161; Ejemplo: Análisis de una red telefónica criminal</summary>
+            <div class="content">
+                <p>Imaginemos que la policía intercepta las comunicaciones de 15 sospechosos. Al construir un grafo:</p>
+                <ul>
+                    <li>Cada sospechoso es un <strong>nodo</strong></li>
+                    <li>Cada llamada entre ellos es una <strong>arista</strong></li>
+                    <li>El sospechoso con más llamadas (mayor grado) probablemente coordina operaciones</li>
+                    <li>El sospechoso que conecta dos subgrupos (mayor intermediación) puede ser el enlace entre células</li>
+                    <li>Al remover el nodo con mayor centralidad, la red se fragmenta</li>
+                </ul>
+            </div>
+        </details>
+
+        <div class="colombia-box">
+            <div class="label">Ejemplo numérico — Contexto policial colombiano</div>
+            <p>La DIJIN interceptó 1,240 llamadas entre 18 sospechosos en Medellín durante 3 meses. Al construir el grafo:<br>
+            &bull; El sospechoso S3 tenía <strong>grado = 14</strong> (contacto con 14 de los 18 nodos) → identificado como coordinador<br>
+            &bull; El sospechoso S7 tenía <strong>centralidad de intermediación = 0.82</strong> → actuaba como enlace entre 2 células<br>
+            &bull; Al remover S3 y S7 del grafo, la red se fragmentó en <strong>4 subgrupos aislados</strong><br>
+            Con esta información, la operación se enfocó en capturar primero a S3 y S7, desarticulando efectivamente la organización.</p>
+        </div>
+
+        <h4>&#128279; Recursos interactivos</h4>
+        <div class="resource-links">
+            <a href="https://graphonline.ru/es/" target="_blank" class="resource-link">Graph Online (crear grafos)</a>
+            <a href="https://gephi.org/" target="_blank" class="resource-link">Gephi (análisis de redes)</a>
+            <a href="https://neo4j.com/sandbox/" target="_blank" class="resource-link">Neo4j Sandbox (base de datos de grafos)</a>
+            <a href="https://d3js.org/" target="_blank" class="resource-link">D3.js (visualización)</a>
+            <a href="https://www.youtube.com/watch?v=LFKZLXVO-Dg" target="_blank" class="resource-link">Video: Teoría de grafos</a>
+            <a href="https://visualgo.net/en/graphds" target="_blank" class="resource-link">VisuAlgo: Grafos interactivos</a>
+            <a href="https://networkx.org/" target="_blank" class="resource-link">NetworkX (Python)</a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== MODELO 3: REGRESIÓN ========== -->
+<section id="regresion">
+    <div class="section-header">
+        <div class="section-number">06</div>
+        <h2>Modelos de Regresión</h2>
+        <p class="section-sub">Predicción del crimen mediante correlación de variables</p>
+    </div>
+
+    <div class="model-block accent-green">
+        <h3>&#128200; ¿Qué son los modelos de regresión?</h3>
+        <p class="model-subtitle">Relación estadística entre variables para predicción</p>
+        <p>Los modelos de regresión permiten encontrar la relación matemática entre variables (ubicación, hora, condiciones socioeconómicas) y la ocurrencia de delitos, permitiendo hacer predicciones fundamentadas.</p>
+
+        <div class="model-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Linear_regression.svg" alt="Regresión lineal - Diagrama de dispersión con línea de ajuste">
+            <div class="caption">Diagrama de dispersión con línea de regresión lineal: la recta minimiza la distancia a todos los puntos. Fuente: Wikimedia Commons</div>
+        </div>
+
+        <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="card" style="border-top: 3px solid var(--azul-oscuro);">
+                <h3>Regresión Lineal Simple</h3>
+                <div class="formula-box" style="font-size: 0.9rem;">y = a + bx</div>
+                <p>Relación entre dos variables. Ejemplo: correlación entre tasa de desempleo (x) y número de robos (y) en una ciudad.</p>
+            </div>
+            <div class="card" style="border-top: 3px solid var(--dorado);">
+                <h3>Regresión Múltiple</h3>
+                <div class="formula-box" style="font-size: 0.9rem;">y = a + b₁x₁ + b₂x₂ + ... + bₙxₙ</div>
+                <p>Múltiples factores simultáneos. Ejemplo: predicción de delitos considerando hora, zona, día de la semana y eventos cercanos.</p>
+            </div>
+            <div class="card" style="border-top: 3px solid var(--accent-green);">
+                <h3>Regresión Logística</h3>
+                <div class="formula-box" style="font-size: 0.9rem;">P(y=1) = 1 / (1 + e<sup>-(a+bx)</sup>)</div>
+                <p>Predice probabilidad (sí/no). Ejemplo: ¿ocurrirá un delito violento en esta zona esta noche? Resultado: 78% de probabilidad.</p>
+            </div>
+        </div>
+
+        <div class="example-box">
+            <div class="label">Ejemplo aplicado</div>
+            <p>Un modelo de regresión múltiple analiza datos de los últimos 5 años en una zona comercial de Bogotá y determina que los robos aumentan un 20% los fines de semana, un 15% adicional en días de quincena, y un 10% más cuando hay eventos masivos cercanos. Esto permite asignar refuerzos policiales específicos para esas combinaciones de factores.</p>
+        </div>
+
+        <div class="colombia-box">
+            <div class="label">Ejemplo numérico — Contexto policial colombiano</div>
+            <p>La Estación de Policía de Kennedy (Bogotá) recopiló datos de 2,400 hurtos en 12 meses. Se construyó un modelo de regresión múltiple:<br>
+            <strong style="font-family: 'JetBrains Mono', monospace;">Hurtos = 3.2 + 1.8(fin_semana) + 2.1(quincena) + 0.9(evento_cercano) - 1.5(patrullas)</strong><br>
+            &bull; R² = 0.78 (el modelo explica el 78% de la variación)<br>
+            &bull; Un viernes de quincena con evento: 3.2 + 1.8 + 2.1 + 0.9 = <strong>8 hurtos estimados</strong><br>
+            &bull; Agregando 3 patrullas adicionales: 8 - 1.5(3) = <strong>3.5 hurtos estimados</strong> → reducción del 56%<br>
+            Esto permitió justificar ante el comando la asignación de refuerzos en fechas específicas.</p>
+        </div>
+
+        <h4>&#128279; Recursos interactivos</h4>
+        <div class="resource-links">
+            <a href="https://www.geogebra.org/classic" target="_blank" class="resource-link">GeoGebra (gráficos)</a>
+            <a href="https://phet.colorado.edu/es/simulations/curve-fitting" target="_blank" class="resource-link">PhET: Ajuste de curvas</a>
+            <a href="https://www.desmos.com/calculator" target="_blank" class="resource-link">Desmos (calculadora gráfica)</a>
+            <a href="https://www.youtube.com/watch?v=nk2CQITm_eo" target="_blank" class="resource-link">Video: Regresión lineal</a>
+            <a href="https://seeing-theory.brown.edu/regression-analysis/index.html" target="_blank" class="resource-link">Seeing Theory: Regresión visual</a>
+            <a href="https://www.wolframalpha.com/examples/mathematics/statistics/regression" target="_blank" class="resource-link">Wolfram Alpha: Regresión</a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== MODELO 4: SERIES TEMPORALES ========== -->
+<section id="series">
+    <div class="section-header">
+        <div class="section-number">07</div>
+        <h2>Series Temporales</h2>
+        <p class="section-sub">ARIMA y Holt-Winters para predicción de tendencias delictivas</p>
+    </div>
+
+    <div class="model-block accent-purple">
+        <h3>&#128197; ¿Qué son las series temporales?</h3>
+        <p class="model-subtitle">Análisis de datos ordenados cronológicamente</p>
+        <p>Una serie temporal es una secuencia de datos medidos en intervalos regulares de tiempo. En criminología, se utilizan para identificar tendencias, ciclos estacionales y hacer predicciones sobre futuros picos delictivos.</p>
+
+        <div class="model-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Amo_timeseries_1856-present.svg" alt="Serie temporal - Tendencias y estacionalidad">
+            <div class="caption">Ejemplo de serie temporal: se observan tendencias, ciclos y variaciones a lo largo del tiempo. Fuente: Wikimedia Commons</div>
+        </div>
+
+        <div class="two-cols">
+            <div class="card" style="border-left: 4px solid var(--azul-oscuro);">
+                <h3>Modelo ARIMA</h3>
+                <p style="font-size: 0.8rem; color: var(--gris-medio); margin-bottom: 0.5rem;">Auto-Regressive Integrated Moving Average</p>
+                <p>Combina tres componentes: auto-regresión (AR), diferenciación (I) y media móvil (MA) para modelar series no estacionarias.</p>
+                <div class="example-box" style="margin-top: 0.8rem;">
+                    <div class="label">Ejemplo</div>
+                    <p>Un ARIMA puede predecir que los robos en Bogotá aumentarán un 15% durante junio-julio basándose en patrones de los últimos 10 años.</p>
+                </div>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--dorado);">
+                <h3>Modelo Holt-Winters</h3>
+                <p style="font-size: 0.8rem; color: var(--gris-medio); margin-bottom: 0.5rem;">Triple Suavizado Exponencial</p>
+                <p>Captura tres componentes: nivel, tendencia y estacionalidad. Ideal para datos con patrones estacionales claros.</p>
+                <div class="example-box" style="margin-top: 0.8rem;">
+                    <div class="label">Ejemplo</div>
+                    <p>Permite identificar que la criminalidad nocturna aumenta los viernes y asignar más patrullas preventivamente.</p>
+                </div>
+            </div>
+        </div>
+
+        <details>
+            <summary>&#128200; Componentes de una serie temporal delictiva</summary>
+            <div class="content">
+                <ul>
+                    <li><strong>Tendencia:</strong> dirección general (aumento o disminución de homicidios en una década)</li>
+                    <li><strong>Estacionalidad:</strong> patrones que se repiten (más robos en diciembre, más violencia en fines de semana)</li>
+                    <li><strong>Ciclo:</strong> fluctuaciones a largo plazo (aumento de crimen organizado tras cambios de gobierno)</li>
+                    <li><strong>Ruido/Irregularidad:</strong> variaciones aleatorias impredecibles</li>
+                </ul>
+            </div>
+        </details>
+
+        <div class="colombia-box">
+            <div class="label">Ejemplo numérico — Contexto policial colombiano</div>
+            <p>La Policía Metropolitana de Bogotá extrajo del SIEDCO los datos de homicidios mensuales de la localidad de Ciudad Bolívar (2020-2025). Al aplicar ARIMA(2,1,1):<br>
+            &bull; <strong>Tendencia:</strong> reducción promedio de 0.8 homicidios/mes en los últimos 3 años<br>
+            &bull; <strong>Estacionalidad:</strong> picos en diciembre (+35%) y junio (+22%)<br>
+            &bull; <strong>Predicción dic. 2026:</strong> 14 ± 3 homicidios (IC 95%)<br>
+            &bull; <strong>Sin intervención vs. con refuerzo:</strong> el modelo Holt-Winters estimó que asignar 8 patrullas adicionales en diciembre reduciría la predicción a 9 ± 2 homicidios<br>
+            Estos datos fundamentaron el Plan Navidad Segura ante el Comando de la Metropolitana.</p>
+        </div>
+
+        <h4>&#128279; Recursos interactivos</h4>
+        <div class="resource-links">
+            <a href="https://www.kaggle.com/datasets" target="_blank" class="resource-link">Kaggle: Datasets reales</a>
+            <a href="https://otexts.com/fpp3/" target="_blank" class="resource-link">Libro: Forecasting (gratuito)</a>
+            <a href="https://www.youtube.com/watch?v=e8Yw4alG16Q" target="_blank" class="resource-link">Video: Series temporales</a>
+            <a href="https://www.wolframalpha.com/" target="_blank" class="resource-link">Wolfram Alpha</a>
+            <a href="https://www.statista.com/" target="_blank" class="resource-link">Statista (estadísticas)</a>
+            <a href="https://datos.gov.co/" target="_blank" class="resource-link">Datos Abiertos Colombia</a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== MODELO 5: CADENAS DE MARKOV ========== -->
+<section id="markov">
+    <div class="section-header">
+        <div class="section-number">08</div>
+        <h2>Cadenas de Markov</h2>
+        <p class="section-sub">Predicción de transiciones entre estados criminales</p>
+    </div>
+
+    <div class="model-block accent-teal">
+        <h3>&#128256; ¿Qué son las cadenas de Markov?</h3>
+        <p class="model-subtitle">Procesos estocásticos con la propiedad de Markov</p>
+        <p>Una cadena de Markov es un modelo matemático donde la probabilidad de pasar a un estado futuro depende <strong>únicamente del estado presente</strong>, no del historial previo. En criminología, se utilizan para modelar la reincidencia criminal, la evolución de zonas de riesgo y la progresión de carreras delictivas.</p>
+
+        <div class="formula-box">
+            P(Xₙ₊₁ = j | Xₙ = i) = Pᵢⱼ
+            <br><small style="color: var(--gris-medio);">La probabilidad de transición del estado i al estado j</small>
+        </div>
+
+        <div class="model-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Simple_markov_chain.svg" alt="Cadena de Markov - Diagrama de transición de estados">
+            <div class="caption">Diagrama de transición de estados de una cadena de Markov: las flechas indican las probabilidades de pasar de un estado a otro. Fuente: Wikimedia Commons</div>
+        </div>
+
+        <h4>&#127919; Aplicaciones en seguridad</h4>
+        <div class="card-grid">
+            <div class="card">
+                <h3>Reincidencia criminal</h3>
+                <p>Modelar la probabilidad de que un delincuente pase de "libertad" a "reincidencia" o "rehabilitación". Permite diseñar programas preventivos focalizados.</p>
+            </div>
+            <div class="card">
+                <h3>Evolución de zonas de riesgo</h3>
+                <p>Predecir cómo una zona puede cambiar de "bajo riesgo" a "alto riesgo" en el tiempo, basándose en factores socioeconómicos.</p>
+            </div>
+            <div class="card">
+                <h3>Patrullaje predictivo</h3>
+                <p>Calcular la probabilidad de que un delito ocurra en cierta zona en el próximo turno, dado el estado actual de criminalidad.</p>
+            </div>
+        </div>
+
+        <details>
+            <summary>&#128161; Ejemplo: Matriz de transición de reincidencia</summary>
+            <div class="content">
+                <p>Consideremos tres estados: <strong>Libre sin delito</strong>, <strong>Detenido</strong>, <strong>Reincidente</strong></p>
+                <table class="resource-table" style="max-width: 600px;">
+                    <thead>
+                        <tr><th>Desde / Hacia</th><th>Libre</th><th>Detenido</th><th>Reincidente</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Libre</strong></td><td>0.85</td><td>0.10</td><td>0.05</td></tr>
+                        <tr><td><strong>Detenido</strong></td><td>0.40</td><td>0.30</td><td>0.30</td></tr>
+                        <tr><td><strong>Reincidente</strong></td><td>0.20</td><td>0.25</td><td>0.55</td></tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 0.8rem;">Esta matriz indica que un detenido tiene 40% de probabilidad de quedar libre, 30% de seguir detenido y 30% de reincidir. Con estas probabilidades, se pueden diseñar intervenciones para reducir la transición a "reincidente".</p>
+            </div>
+        </details>
+
+        <div class="did-you-know">
+            <div class="label">¿Sabías que...?</div>
+            <p>Los modelos de Markov se utilizan también para predecir la escalada de violencia doméstica: un agresor que ha cometido violencia verbal tiene cierta probabilidad de escalar a violencia física, lo que permite intervención temprana.</p>
+        </div>
+
+        <h4>&#128279; Recursos interactivos</h4>
+        <div class="resource-links">
+            <a href="https://setosa.io/markov/index.html" target="_blank" class="resource-link">Setosa: Markov visual</a>
+            <a href="https://www.youtube.com/watch?v=i3AkTO9HLXo" target="_blank" class="resource-link">Video: Cadenas de Markov</a>
+            <a href="https://seeing-theory.brown.edu/" target="_blank" class="resource-link">Seeing Theory (probabilidad visual)</a>
+            <a href="https://www.wolframalpha.com/input?i=markov+chain" target="_blank" class="resource-link">Wolfram: Markov</a>
+            <a href="https://brilliant.org/wiki/markov-chains/" target="_blank" class="resource-link">Brilliant: Tutorial Markov</a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== MODELO 6: MONTE CARLO ========== -->
+<section id="montecarlo">
+    <div class="section-header">
+        <div class="section-number">09</div>
+        <h2>Simulación de Monte Carlo</h2>
+        <p class="section-sub">Evaluación de riesgos y escenarios mediante miles de simulaciones</p>
+    </div>
+
+    <div class="model-block accent-orange">
+        <h3>&#127922; ¿Qué es la simulación de Monte Carlo?</h3>
+        <p class="model-subtitle">Método computacional basado en muestreo aleatorio repetido</p>
+        <p>La simulación de Monte Carlo genera miles o millones de escenarios posibles con valores aleatorios para evaluar riesgos, estimar probabilidades y tomar decisiones bajo incertidumbre. En seguridad, permite simular escenarios operativos sin ponerlos en práctica.</p>
+
+        <div class="model-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Hamiltonian_Monte_Carlo.svg" alt="Simulación de Monte Carlo - Muestreo aleatorio sobre distribución de probabilidad">
+            <div class="caption">Simulación de Monte Carlo: puntos de muestreo aleatorio sobre una distribución de probabilidad bidimensional. Las zonas verdes representan mayor probabilidad. Fuente: Wikimedia Commons</div>
+        </div>
+
+        <h4>&#127919; Aplicaciones policiales</h4>
+        <div class="card-grid">
+            <div class="card">
+                <h3>Simulación de operativos</h3>
+                <p>Evaluar miles de escenarios de una redada: posibles rutas de escape, reacciones de sospechosos y asignación óptima de unidades.</p>
+            </div>
+            <div class="card">
+                <h3>Evaluación de riesgos</h3>
+                <p>Estimar la probabilidad de éxito de diferentes estrategias de patrullaje, considerando variables aleatorias como tráfico y clima.</p>
+            </div>
+            <div class="card">
+                <h3>Planificación de eventos</h3>
+                <p>Simular miles de escenarios para eventos masivos (conciertos, partidos) y determinar el número óptimo de efectivos.</p>
+            </div>
+        </div>
+
+        <details>
+            <summary>&#128161; Ejemplo: ¿Cuántas patrullas necesita un evento masivo?</summary>
+            <div class="content">
+                <p>Para un concierto con 50,000 asistentes, se simulan 10,000 escenarios variando:</p>
+                <ul>
+                    <li>Número de incidentes (distribución de Poisson, media = 12)</li>
+                    <li>Tiempo de respuesta por incidente (3 a 15 minutos)</li>
+                    <li>Gravedad de cada incidente (leve, moderado, grave)</li>
+                </ul>
+                <p>Resultado: con 25 patrullas hay un 70% de cobertura; con 35 patrullas, 95%. Se recomienda 35 patrullas para garantizar respuesta adecuada.</p>
+            </div>
+        </details>
+
+        <div class="colombia-box">
+            <div class="label">Ejemplo numérico — Contexto policial colombiano</div>
+            <p>Para la Feria de Cali (6 días, ~300,000 asistentes/día), se ejecutaron <strong>10,000 simulaciones</strong> variando:<br>
+            &bull; Incidentes por día: distribución Poisson con λ = 18<br>
+            &bull; Tiempo promedio de atención: 8 a 25 minutos (distribución triangular)<br>
+            &bull; Gravedad: 60% leve, 30% moderado, 10% grave<br>
+            <strong>Resultados:</strong><br>
+            &bull; Con 40 patrullas: cobertura del 72% (en 2,800 simulaciones se superó la capacidad)<br>
+            &bull; Con 55 patrullas: cobertura del 91%<br>
+            &bull; Con <strong>65 patrullas: cobertura del 97%</strong> → recomendación adoptada por el Comando<br>
+            Costo adicional de 25 patrullas: $180M COP vs. costo estimado de incidentes no atendidos: $520M COP.</p>
+        </div>
+
+        <h4>&#128279; Recursos interactivos</h4>
+        <div class="resource-links">
+            <a href="https://phet.colorado.edu/es/simulations/plinko-probability" target="_blank" class="resource-link">PhET: Probabilidad Plinko</a>
+            <a href="https://www.youtube.com/watch?v=7ESK5SaP-bc" target="_blank" class="resource-link">Video: Monte Carlo explicado</a>
+            <a href="https://seeing-theory.brown.edu/frequentist-inference/index.html" target="_blank" class="resource-link">Seeing Theory: Simulación</a>
+            <a href="https://www.wolframalpha.com/" target="_blank" class="resource-link">Wolfram Alpha</a>
+            <a href="https://www.random.org/" target="_blank" class="resource-link">Random.org (generador aleatorio)</a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== MODELO 7: MACHINE LEARNING ========== -->
+<section id="ml">
+    <div class="section-header">
+        <div class="section-number">10</div>
+        <h2>Machine Learning y Big Data</h2>
+        <p class="section-sub">Inteligencia artificial aplicada a la criminalística &mdash; Algoritmos en detalle</p>
+    </div>
+
+    <div class="model-block" style="margin-bottom: 1rem; border-left-color: var(--gris-medio);">
+        <h3>&#129302; ¿Qué es el Machine Learning?</h3>
+        <p>El machine learning (aprendizaje automático) permite a los sistemas aprender de datos históricos y mejorar sus predicciones sin ser programados explícitamente. En criminalística, permite procesar millones de registros para encontrar patrones que serían invisibles al análisis humano. Se divide en tres tipos principales:</p>
+        <div class="card-grid" style="grid-template-columns: repeat(3, 1fr); margin-top: 1rem;">
+            <div class="card" style="border-top: 3px solid var(--azul-oscuro); text-align: center;">
+                <h3>Aprendizaje Supervisado</h3>
+                <p>Aprende de datos etiquetados (con respuesta conocida). Ejemplo: clasificar si un caso es "fraude" o "legítimo".</p>
+            </div>
+            <div class="card" style="border-top: 3px solid var(--dorado); text-align: center;">
+                <h3>Aprendizaje No Supervisado</h3>
+                <p>Encuentra patrones sin etiquetas. Ejemplo: agrupar delitos similares sin categorías previas.</p>
+            </div>
+            <div class="card" style="border-top: 3px solid var(--accent-green); text-align: center;">
+                <h3>Aprendizaje por Refuerzo</h3>
+                <p>Aprende por ensayo y error. Ejemplo: optimizar rutas de patrullaje mediante recompensas/penalizaciones.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ALGORITMO 1: REDES NEURONALES ===== -->
+    <div class="model-block" style="border-left-color: var(--azul-oscuro);">
+        <h3>&#129504; Algoritmo 1: Redes Neuronales Artificiales</h3>
+        <p class="model-subtitle">Aprendizaje supervisado — Inspiradas en la estructura del cerebro humano</p>
+
+        <div class="model-image">
+            <img src="https://raw.githubusercontent.com/JotaJ1991/recursos-esjim/main/neurona.jpg" alt="Neurona biológica vs neurona artificial - Comparación">
+            <div class="caption">Comparación entre una neurona biológica (dendritas, núcleo, axón) y su equivalente artificial (entradas x, pesos w, función lineal z, función de activación f, salida y).</div>
+        </div>
+
+        <p>Una red neuronal artificial está compuesta por capas de neuronas interconectadas. Cada conexión tiene un <strong>peso</strong> que se ajusta durante el entrenamiento. La red aprende a reconocer patrones complejos a partir de miles de ejemplos.</p>
+
+        <h4>&#9881; ¿Cómo funciona?</h4>
+        <ol class="steps-list">
+            <li><strong>Entrada:</strong> los datos ingresan por la capa de entrada (variables: hora, ubicación, tipo de arma, etc.)</li>
+            <li><strong>Procesamiento:</strong> cada neurona aplica una función de activación: <code style="background:#f1f5f9; padding: 0.2rem 0.4rem; border-radius: 4px;">salida = f(w₁x₁ + w₂x₂ + ... + wₙxₙ + b)</code></li>
+            <li><strong>Propagación:</strong> la señal se transmite capa por capa hasta la salida</li>
+            <li><strong>Error:</strong> se compara la predicción con el valor real y se calcula el error</li>
+            <li><strong>Retropropagación:</strong> los pesos se ajustan para minimizar el error (gradiente descendente)</li>
+        </ol>
+
+        <div class="example-box">
+            <div class="label">Ejemplo numérico — Reconocimiento facial policial</div>
+            <p>La Policía Metropolitana de Bogotá alimenta una red neuronal convolucional con <strong>50,000 imágenes de rostros</strong> del sistema AFIS. La red tiene 3 capas ocultas con 128, 64 y 32 neuronas respectivamente.<br>
+            &bull; <strong>Entrenamiento:</strong> 80% de las imágenes (40,000) con identidad conocida<br>
+            &bull; <strong>Validación:</strong> 20% restante (10,000)<br>
+            &bull; <strong>Precisión alcanzada:</strong> 94.3% de identificación correcta<br>
+            &bull; <strong>Falsos positivos:</strong> 2.1% (se requiere verificación humana en estos casos)<br>
+            Con esta precisión, las cámaras del C4 pueden generar alertas automáticas cuando un rostro coincide con un requerido.</p>
+        </div>
+
+        <h4>&#128279; Recursos</h4>
+        <div class="resource-links">
+            <a href="https://playground.tensorflow.org/" target="_blank" class="resource-link">TensorFlow Playground (interactivo)</a>
+            <a href="https://www.youtube.com/watch?v=aircAruvnKk" target="_blank" class="resource-link">3Blue1Brown: Redes neuronales</a>
+            <a href="https://teachablemachine.withgoogle.com/" target="_blank" class="resource-link">Teachable Machine (Google)</a>
+        </div>
+    </div>
+
+    <!-- ===== ALGORITMO 2: ÁRBOLES DE DECISIÓN ===== -->
+    <div class="model-block accent-gold">
+        <h3>&#127795; Algoritmo 2: Árboles de Decisión</h3>
+        <p class="model-subtitle">Aprendizaje supervisado — Clasificación jerárquica mediante preguntas</p>
+
+        <div class="model-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Decision_Tree.jpg" alt="Árbol de Decisión">
+            <div class="caption">Estructura de un árbol de decisión: cada nodo interno es una pregunta, cada rama es una respuesta y cada hoja es una clasificación. Fuente: Wikimedia Commons</div>
+        </div>
+
+        <p>Un árbol de decisión divide los datos en subgrupos cada vez más homogéneos mediante preguntas sucesivas. En cada nodo, el algoritmo selecciona la variable que mejor separa las clases, usando métricas como <strong>ganancia de información</strong> o <strong>índice Gini</strong>.</p>
+
+        <div class="formula-box">
+            Gini(t) = 1 - &sum; pᵢ²
+            <br><small style="color: var(--gris-medio);">Donde pᵢ es la proporción de cada clase en el nodo t. Un Gini = 0 indica pureza total.</small>
+        </div>
+
+        <details>
+            <summary>&#128161; Ejemplo: Clasificación de riesgo de reincidencia</summary>
+            <div class="content">
+                <p>Con datos de 5,000 internos del INPEC, se construye un árbol para predecir reincidencia:</p>
+                <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 2; background: #f8fafc; padding: 1rem; border-radius: 8px; margin: 0.5rem 0;">
+                ¿Edad &lt; 25?<br>
+                &nbsp;&nbsp;├── Sí → ¿Delito previo violento?<br>
+                &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Sí → <strong style="color: var(--accent-red);">ALTO RIESGO (78% reincide)</strong><br>
+                &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── No → ¿Tiene empleo al salir?<br>
+                &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Sí → <strong style="color: var(--accent-green);">BAJO RIESGO (18%)</strong><br>
+                &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── No → <strong style="color: var(--accent-orange);">MEDIO RIESGO (52%)</strong><br>
+                &nbsp;&nbsp;└── No → ¿Años de condena &gt; 5?<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Sí → <strong style="color: var(--accent-green);">BAJO RIESGO (22%)</strong><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── No → <strong style="color: var(--accent-orange);">MEDIO RIESGO (41%)</strong>
+                </p>
+                <p>&bull; <strong>Precisión:</strong> 81.5% &bull; <strong>Variables más importantes:</strong> edad, tipo de delito previo, empleo</p>
+            </div>
+        </details>
+
+        <h4>&#128279; Recursos</h4>
+        <div class="resource-links">
+            <a href="https://www.r2d3.us/visual-intro-to-machine-learning-part-1/" target="_blank" class="resource-link">R2D3: ML visual (interactivo)</a>
+            <a href="https://orange.biolab.si/" target="_blank" class="resource-link">Orange (drag & drop ML)</a>
+            <a href="https://www.youtube.com/watch?v=7VeUPuFGJHk" target="_blank" class="resource-link">Video: Árboles de decisión</a>
+        </div>
+    </div>
+
+    <!-- ===== ALGORITMO 3: K-MEANS CLUSTERING ===== -->
+    <div class="model-block accent-green">
+        <h3>&#128205; Algoritmo 3: K-Means Clustering</h3>
+        <p class="model-subtitle">Aprendizaje no supervisado — Agrupación automática de datos similares</p>
+
+        <div class="model-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ea/K-means_convergence.gif" alt="K-Means Clustering convergencia">
+            <div class="caption">Proceso iterativo de K-Means: los centroides (X) se mueven hasta estabilizarse y cada punto queda asignado al grupo más cercano. Fuente: Wikimedia Commons</div>
+        </div>
+
+        <p>K-Means agrupa datos en <strong>K clusters</strong> sin necesidad de etiquetas previas. El algoritmo asigna cada punto al centroide más cercano e itera hasta que los centroides se estabilizan. Es ideal para identificar "hotspots" de crimen.</p>
+
+        <h4>&#9881; ¿Cómo funciona?</h4>
+        <ol class="steps-list">
+            <li><strong>Elegir K:</strong> definir cuántos grupos se buscan (ej: 5 zonas de riesgo)</li>
+            <li><strong>Inicializar:</strong> ubicar K centroides al azar en el espacio de datos</li>
+            <li><strong>Asignar:</strong> cada delito se asigna al centroide más cercano (distancia euclidiana)</li>
+            <li><strong>Recalcular:</strong> mover cada centroide al promedio de sus puntos asignados</li>
+            <li><strong>Repetir:</strong> iterar pasos 3-4 hasta convergencia (los centroides dejan de moverse)</li>
+        </ol>
+
+        <div class="formula-box">
+            Distancia = &radic;[(x₂-x₁)² + (y₂-y₁)²]
+            <br><small style="color: var(--gris-medio);">Distancia euclidiana entre un delito (x₁,y₁) y un centroide (x₂,y₂)</small>
+        </div>
+
+        <div class="example-box">
+            <div class="label">Ejemplo numérico — Hotspots de hurto en Bogotá</div>
+            <p>Con 15,800 registros de hurto del SIEDCO (latitud, longitud, hora), se ejecuta K-Means con K=5:<br>
+            &bull; <strong>Cluster 1:</strong> Portal Américas, 17:00-19:00 → 3,200 hurtos (20.3%)<br>
+            &bull; <strong>Cluster 2:</strong> Av. Caracas, 06:00-08:00 → 2,750 hurtos (17.4%)<br>
+            &bull; <strong>Cluster 3:</strong> Portal Norte, 12:00-14:00 → 2,100 hurtos (13.3%)<br>
+            &bull; <strong>Cluster 4:</strong> Chapinero, 20:00-23:00 → 1,900 hurtos (12.0%)<br>
+            &bull; <strong>Cluster 5:</strong> Disperso → 5,850 hurtos (37.0%)<br>
+            &bull; <strong>Silhouette Score:</strong> 0.72 (buena separación)<br>
+            Focalizando en los clusters 1-3 (51% de los hurtos), se logró reducción del <strong>28% en 4 meses</strong>.</p>
+        </div>
+
+        <h4>&#128279; Recursos</h4>
+        <div class="resource-links">
+            <a href="https://www.naftaliharris.com/blog/visualizing-k-means-clustering/" target="_blank" class="resource-link">Visualizar K-Means (interactivo)</a>
+            <a href="https://www.cs.waikato.ac.nz/ml/weka/" target="_blank" class="resource-link">WEKA (minería de datos)</a>
+            <a href="https://www.youtube.com/watch?v=4b5d3muPQmA" target="_blank" class="resource-link">Video: K-Means explicado</a>
+        </div>
+    </div>
+
+    <!-- ===== ALGORITMO 4: RANDOM FOREST ===== -->
+    <div class="model-block accent-purple">
+        <h3>&#127794; Algoritmo 4: Random Forest</h3>
+        <p class="model-subtitle">Aprendizaje supervisado — Ensamble de múltiples árboles de decisión</p>
+
+        <div class="model-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Ensemble_Aggregation.png" alt="Random Forest - Agregación de Ensamble">
+            <div class="caption">Random Forest combina las predicciones de múltiples árboles de decisión mediante agregación para obtener un resultado más robusto y preciso. Fuente: Wikimedia Commons</div>
+        </div>
+
+        <p>Random Forest construye <strong>cientos de árboles de decisión</strong> con subconjuntos aleatorios de datos y variables. La predicción final se determina por <strong>votación mayoritaria</strong> (clasificación) o <strong>promedio</strong> (regresión). Esto reduce el sobreajuste y mejora la precisión.</p>
+
+        <div class="two-cols">
+            <div>
+                <h4>&#9989; Ventajas</h4>
+                <ul>
+                    <li>Muy resistente al sobreajuste (overfitting)</li>
+                    <li>Maneja variables numéricas y categóricas</li>
+                    <li>Identifica las variables más importantes</li>
+                    <li>No requiere normalización de datos</li>
+                </ul>
+            </div>
+            <div>
+                <h4>&#128202; Parámetros clave</h4>
+                <ul>
+                    <li><strong>n_estimators:</strong> número de árboles (100-500)</li>
+                    <li><strong>max_depth:</strong> profundidad máxima por árbol</li>
+                    <li><strong>max_features:</strong> variables por árbol (&radic;n)</li>
+                    <li><strong>min_samples_split:</strong> datos mínimos para dividir</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="example-box">
+            <div class="label">Ejemplo numérico — Predicción de riesgo delictivo en Cali</div>
+            <p>Random Forest con <strong>200 árboles</strong> entrenado con 8,500 registros de la Policía Metropolitana de Cali:<br>
+            &bull; <strong>Variables:</strong> hora, día, barrio, estrato, distancia a CAI, eventos cercanos, historial del sector<br>
+            &bull; <strong>Variable objetivo:</strong> ¿ocurrió delito violento? (sí/no)<br>
+            &bull; <strong>Precisión:</strong> 87.2% &bull; <strong>Recall:</strong> 83.6% &bull; <strong>F1-Score:</strong> 0.854<br>
+            &bull; <strong>Variables más importantes:</strong> hora (22%), barrio (18%), día de semana (15%)<br>
+            &bull; <strong>Falsos positivos:</strong> 8.3% → se envían refuerzos innecesarios 1 de cada 12 veces<br>
+            Resultado: se priorizan patrullajes en zonas que el modelo marca como riesgo &gt; 0.7.</p>
+        </div>
+
+        <h4>&#128279; Recursos</h4>
+        <div class="resource-links">
+            <a href="https://scikit-learn.org/stable/modules/ensemble.html#forest" target="_blank" class="resource-link">Scikit-learn: Random Forest</a>
+            <a href="https://www.youtube.com/watch?v=J4Wdy0Wc_xQ" target="_blank" class="resource-link">Video: Random Forest</a>
+            <a href="https://h2o.ai/" target="_blank" class="resource-link">H2O.ai (ML open source)</a>
+        </div>
+    </div>
+
+    <!-- ===== ALGORITMO 5: SVM ===== -->
+    <div class="model-block accent-orange">
+        <h3>&#9874; Algoritmo 5: SVM (Máquinas de Vectores de Soporte)</h3>
+        <p class="model-subtitle">Aprendizaje supervisado — Clasificación mediante hiperplanos óptimos</p>
+
+        <div class="model-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/SVM_margin.png" alt="SVM - Máquina de Vectores de Soporte">
+            <div class="caption">SVM encuentra el hiperplano que maximiza el margen entre dos clases. Los vectores de soporte son los puntos más cercanos a la frontera. Fuente: Wikimedia Commons</div>
+        </div>
+
+        <p>SVM busca el <strong>hiperplano óptimo</strong> que separa dos clases con el mayor margen posible. Los datos más cercanos al hiperplano se llaman <strong>vectores de soporte</strong>. Puede manejar datos no linealmente separables usando el "truco del kernel".</p>
+
+        <div class="formula-box">
+            f(x) = w &middot; x + b = 0
+            <br><small style="color: var(--gris-medio);">Hiperplano de decisión. Maximizar el margen = 2/||w|| sujeto a yᵢ(w·xᵢ+b) ≥ 1</small>
+        </div>
+
+        <div class="example-box">
+            <div class="label">Ejemplo numérico — Detección de fraude financiero</div>
+            <p>La DIJIN entrena un SVM con kernel RBF para detectar transacciones sospechosas de lavado de activos:<br>
+            &bull; <strong>Datos:</strong> 45,000 transacciones bancarias (2% fraudulentas, 98% legítimas)<br>
+            &bull; <strong>Variables:</strong> monto, frecuencia, país destino, hora, perfil del titular, historial<br>
+            &bull; <strong>Precisión en fraude:</strong> 91.8%<br>
+            &bull; <strong>Falsos positivos:</strong> 4.2% (transacciones legítimas marcadas como sospechosas)<br>
+            &bull; <strong>Falsos negativos:</strong> 3.5% (fraudes no detectados)<br>
+            El sistema genera alertas automáticas cuando una transacción cae del lado "fraude" del hiperplano, priorizando la revisión de los analistas del GAULA financiero.</p>
+        </div>
+
+        <h4>&#128279; Recursos</h4>
+        <div class="resource-links">
+            <a href="https://cs.stanford.edu/~karpathy/svmjs/demo/" target="_blank" class="resource-link">SVM.js Demo (interactivo)</a>
+            <a href="https://www.youtube.com/watch?v=efR1C6CvhmE" target="_blank" class="resource-link">Video: SVM explicado</a>
+            <a href="https://scikit-learn.org/stable/modules/svm.html" target="_blank" class="resource-link">Scikit-learn: SVM</a>
+        </div>
+    </div>
+
+    <!-- ===== ALGORITMO 6: NLP ===== -->
+    <div class="model-block accent-teal">
+        <h3>&#128172; Algoritmo 6: Procesamiento de Lenguaje Natural (NLP)</h3>
+        <p class="model-subtitle">Análisis computacional de texto para inteligencia policial</p>
+
+        <div class="model-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Simple_NER_example.png" alt="Ejemplo de Reconocimiento de Entidades Nombradas (NER) en NLP">
+            <div class="caption">Ejemplo de Named Entity Recognition (NER): el NLP identifica automáticamente personas, lugares, organizaciones y fechas en texto. Fuente: Wikimedia Commons</div>
+        </div>
+
+        <p>El Procesamiento de Lenguaje Natural permite a las máquinas entender, interpretar y generar texto humano. En el contexto policial, se usa para analizar denuncias, monitorear redes sociales, detectar amenazas y extraer información de documentos masivos.</p>
+
+        <h4>&#9881; Técnicas principales</h4>
+        <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="card" style="border-top: 3px solid var(--accent-teal);">
+                <h3>Análisis de Sentimiento</h3>
+                <p>Detectar emociones en textos. Monitorear el tono de publicaciones en redes sociales para anticipar protestas o disturbios.</p>
+            </div>
+            <div class="card" style="border-top: 3px solid var(--azul-oscuro);">
+                <h3>Clasificación de Texto</h3>
+                <p>Categorizar denuncias automáticamente por tipo de delito, prioridad y jurisdicción. Reduce tiempo de clasificación manual.</p>
+            </div>
+            <div class="card" style="border-top: 3px solid var(--dorado);">
+                <h3>Extracción de Entidades</h3>
+                <p>Identificar nombres, lugares, fechas, alias y organizaciones en documentos incautados o interceptaciones.</p>
+            </div>
+        </div>
+
+        <div class="example-box">
+            <div class="label">Ejemplo numérico — Monitoreo de redes sociales en Medellín</div>
+            <p>Un modelo NLP monitorea <strong>12,000 publicaciones diarias</strong> en redes sociales geolocalizadas en Medellín:<br>
+            &bull; <strong>Clasificación:</strong> amenaza directa (1.2%), incitación (3.8%), queja ciudadana (15%), neutro (80%)<br>
+            &bull; <strong>Precisión:</strong> 89.4% en detección de amenazas<br>
+            &bull; <strong>Tiempo de procesamiento:</strong> 12,000 publicaciones en 8 minutos (vs. 45 analistas/día manual)<br>
+            &bull; <strong>Palabras clave ponderadas:</strong> "operativo" (0.82), "ajuste de cuentas" (0.95), "frontera invisible" (0.91)<br>
+            El sistema genera alertas en tiempo real al CIEPS cuando detecta publicaciones con score de amenaza &gt; 0.85.</p>
+        </div>
+
+        <h4>&#128279; Recursos</h4>
+        <div class="resource-links">
+            <a href="https://www.youtube.com/watch?v=CMrHM8a3hqw" target="_blank" class="resource-link">Video: NLP explicado</a>
+            <a href="https://huggingface.co/" target="_blank" class="resource-link">HuggingFace (modelos NLP)</a>
+            <a href="https://monkeylearn.com/text-analysis/" target="_blank" class="resource-link">MonkeyLearn (análisis de texto)</a>
+            <a href="https://www.kaggle.com/learn/natural-language-processing" target="_blank" class="resource-link">Kaggle: Curso NLP</a>
+        </div>
+    </div>
+
+    <!-- ===== RESUMEN ML ===== -->
+    <div class="model-block" style="border-left-color: var(--gris-medio);">
+        <h3>&#128202; Comparativa de algoritmos</h3>
+        <table class="resource-table">
+            <thead>
+                <tr><th>Algoritmo</th><th>Tipo</th><th>Uso policial principal</th><th>Datos necesarios</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Redes Neuronales</strong></td><td>Supervisado</td><td>Reconocimiento facial, análisis de imágenes</td><td>Miles de imágenes etiquetadas</td></tr>
+                <tr><td><strong>Árboles de Decisión</strong></td><td>Supervisado</td><td>Clasificación de riesgo, priorización de casos</td><td>Variables categóricas y numéricas</td></tr>
+                <tr><td><strong>K-Means</strong></td><td>No supervisado</td><td>Identificación de hotspots, agrupación de delitos</td><td>Coordenadas, horarios (sin etiquetas)</td></tr>
+                <tr><td><strong>Random Forest</strong></td><td>Supervisado</td><td>Predicción robusta del riesgo delictivo</td><td>Múltiples variables mixtas</td></tr>
+                <tr><td><strong>SVM</strong></td><td>Supervisado</td><td>Detección de fraude, clasificación binaria</td><td>Datos numéricos normalizados</td></tr>
+                <tr><td><strong>NLP</strong></td><td>Supervisado/No sup.</td><td>Monitoreo de redes sociales, análisis de denuncias</td><td>Texto (denuncias, publicaciones)</td></tr>
+            </tbody>
+        </table>
+
+        <div class="did-you-know">
+            <div class="label">¿Sabías que...?</div>
+            <p>El FBI usa inteligencia artificial para analizar imágenes de vigilancia y reconocer rostros en tiempo real. En Colombia, la Policía ha implementado drones con cámaras térmicas en zonas rurales y sistemas de reconocimiento de placas en Cali que procesan más de 100,000 vehículos diarios.</p>
+        </div>
+
+        <h4>&#128279; Recursos generales de Machine Learning</h4>
+        <div class="resource-links">
+            <a href="https://h2o.ai/" target="_blank" class="resource-link">H2O.ai (ML open source)</a>
+            <a href="https://www.cs.waikato.ac.nz/ml/weka/" target="_blank" class="resource-link">WEKA (minería de datos)</a>
+            <a href="https://teachablemachine.withgoogle.com/" target="_blank" class="resource-link">Teachable Machine (Google)</a>
+            <a href="https://www.kaggle.com/learn" target="_blank" class="resource-link">Kaggle Learn (cursos ML)</a>
+            <a href="https://playground.tensorflow.org/" target="_blank" class="resource-link">TensorFlow Playground</a>
+            <a href="https://scikit-learn.org/" target="_blank" class="resource-link">Scikit-learn (Python)</a>
+            <a href="https://orange.biolab.si/" target="_blank" class="resource-link">Orange (ML visual)</a>
+            <a href="https://datos.gov.co/" target="_blank" class="resource-link">Datos Abiertos Colombia</a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== MODELO 8: PROGRAMACIÓN LINEAL ========== -->
+<section id="programacion">
+    <div class="section-header">
+        <div class="section-number">11</div>
+        <h2>Programación Lineal</h2>
+        <p class="section-sub">Optimización de la asignación de recursos policiales</p>
+    </div>
+
+    <div class="model-block accent-gold">
+        <h3>&#128202; Optimización con restricciones</h3>
+        <p class="model-subtitle">Encontrar la mejor asignación posible con recursos limitados</p>
+        <p>La programación lineal es una técnica matemática para encontrar el resultado óptimo (máximo o mínimo) en un modelo con restricciones lineales. En el ámbito policial, se usa para distribuir patrullas, asignar personal y optimizar rutas.</p>
+
+        <div class="formula-box">
+            Maximizar: Z = c₁x₁ + c₂x₂ + ... + cₙxₙ<br>
+            Sujeto a: a₁₁x₁ + a₁₂x₂ ≤ b₁ ; x₁, x₂ ≥ 0
+            <br><small style="color: var(--gris-medio);">Función objetivo sujeta a restricciones de recursos</small>
+        </div>
+
+        <div class="model-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Linear_Programming_Feasible_Region.svg" alt="Programación Lineal - Región factible">
+            <div class="caption">Región factible en programación lineal: el área sombreada representa todas las soluciones posibles; el óptimo se encuentra en un vértice. Fuente: Wikimedia Commons</div>
+        </div>
+
+        <details>
+            <summary>&#128161; Ejemplo: Distribución de patrullas por cuadrante</summary>
+            <div class="content">
+                <p><strong>Problema:</strong> Una estación tiene 20 patrullas para cubrir 5 cuadrantes. Cada cuadrante tiene diferente nivel de riesgo y requiere un mínimo de cobertura.</p>
+                <ul>
+                    <li>Cuadrante A (alto riesgo): mínimo 5 patrullas, cada una reduce criminalidad en 8%</li>
+                    <li>Cuadrante B (medio riesgo): mínimo 3 patrullas, cada una reduce criminalidad en 5%</li>
+                    <li>Cuadrante C (medio riesgo): mínimo 3 patrullas, cada una reduce en 6%</li>
+                    <li>Cuadrante D (bajo riesgo): mínimo 2 patrullas, cada una reduce en 3%</li>
+                    <li>Cuadrante E (bajo riesgo): mínimo 2 patrullas, cada una reduce en 2%</li>
+                </ul>
+                <p>La programación lineal encuentra la distribución óptima que maximiza la reducción total de criminalidad respetando los mínimos por cuadrante y el total de 20 patrullas disponibles.</p>
+            </div>
+        </details>
+
+        <div class="colombia-box">
+            <div class="label">Ejemplo numérico — Contexto policial colombiano</div>
+            <p>Una estación de Policía en Barranquilla tiene <strong>24 patrullas</strong> y <strong>4 cuadrantes</strong> para el turno nocturno. Se plantea:<br>
+            <strong style="font-family: 'JetBrains Mono', monospace;">Maximizar: Z = 8x₁ + 5x₂ + 6x₃ + 3x₄</strong> (reducción de delitos por patrulla)<br>
+            Restricciones: x₁ + x₂ + x₃ + x₄ ≤ 24; x₁ ≥ 6; x₂ ≥ 4; x₃ ≥ 4; x₄ ≥ 3<br>
+            <strong>Solución óptima:</strong> x₁=10, x₂=4, x₃=4, x₄=3 (sobran 3 → refuerzo a cuadrante 1)<br>
+            &bull; x₁=13, x₂=4, x₃=4, x₄=3 → <strong>Z = 104 + 20 + 24 + 9 = 157 puntos de reducción</strong><br>
+            &bull; Distribución equitativa (6 c/u): Z = 48+30+36+18 = 132 puntos<br>
+            La optimización logra un <strong>19% más de efectividad</strong> que la distribución equitativa.</p>
+        </div>
+
+        <h4>&#128279; Recursos interactivos</h4>
+        <div class="resource-links">
+            <a href="https://www.geogebra.org/classic" target="_blank" class="resource-link">GeoGebra (gráficos)</a>
+            <a href="https://www.desmos.com/calculator" target="_blank" class="resource-link">Desmos (calculadora)</a>
+            <a href="https://online-optimizer.appspot.com/" target="_blank" class="resource-link">LP Solver Online</a>
+            <a href="https://www.youtube.com/watch?v=Bzzqx1F23a8" target="_blank" class="resource-link">Video: Programación lineal</a>
+            <a href="https://phet.colorado.edu/es/simulations" target="_blank" class="resource-link">PhET: Simulaciones</a>
+            <a href="https://www.mathworks.com/products/matlab.html" target="_blank" class="resource-link">MATLAB (MathWorks)</a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== MODELO 9: TEORÍA DE JUEGOS ========== -->
+<section id="juegos">
+    <div class="section-header">
+        <div class="section-number">12</div>
+        <h2>Teoría de Juegos</h2>
+        <p class="section-sub">Estrategia policial y toma de decisiones en conflicto</p>
+    </div>
+
+    <div class="model-block accent-teal">
+        <h3>&#9823; Toma de decisiones estratégicas</h3>
+        <p class="model-subtitle">Modelar la interacción entre policía y delincuentes</p>
+        <p>La teoría de juegos estudia situaciones donde el resultado de las decisiones de un actor depende de las decisiones de otros. En seguridad, permite anticipar las respuestas de los delincuentes ante diferentes estrategias policiales y encontrar la estrategia óptima.</p>
+
+        <div class="model-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Prisoners_dilemma.svg" alt="Teoría de Juegos - Dilema del Prisionero">
+            <div class="caption">Matriz de pagos del Dilema del Prisionero: un modelo clásico de teoría de juegos aplicable a interrogatorios policiales. Fuente: Wikimedia Commons</div>
+        </div>
+
+        <h4>&#127919; Conceptos fundamentales</h4>
+        <div class="two-cols">
+            <div>
+                <ul>
+                    <li><strong>Jugadores:</strong> policía vs. delincuentes</li>
+                    <li><strong>Estrategias:</strong> opciones de acción de cada jugador</li>
+                    <li><strong>Pagos:</strong> resultados de cada combinación de estrategias</li>
+                    <li><strong>Equilibrio de Nash:</strong> ningún jugador puede mejorar cambiando solo su estrategia</li>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <li><strong>Juegos de suma cero:</strong> lo que gana uno, lo pierde el otro</li>
+                    <li><strong>Estrategias mixtas:</strong> aleatorizar las decisiones para no ser predecible</li>
+                    <li><strong>Juegos secuenciales:</strong> los jugadores deciden por turnos</li>
+                    <li><strong>Dilema del prisionero:</strong> cooperar vs. traicionar</li>
+                </ul>
+            </div>
+        </div>
+
+        <h4>&#128273; Aplicaciones policiales</h4>
+        <div class="card-grid">
+            <div class="card">
+                <h3>Negociación en secuestros</h3>
+                <p>Evaluar las posibles reacciones del criminal ante diferentes ofertas para maximizar la probabilidad de resolución pacífica.</p>
+            </div>
+            <div class="card">
+                <h3>Patrullaje impredecible</h3>
+                <p>Usar estrategias mixtas para que los delincuentes no puedan predecir las rutas de patrullaje.</p>
+            </div>
+            <div class="card">
+                <h3>Interdicción del narcotráfico</h3>
+                <p>Anticipar rutas de transporte de drogas y definir puntos de control óptimos.</p>
+            </div>
+        </div>
+
+        <details>
+            <summary>&#128161; Ejemplo: Dilema del prisionero en crimen organizado</summary>
+            <div class="content">
+                <p>Dos sospechosos son interrogados por separado. Cada uno puede <strong>cooperar</strong> (delatar al otro) o <strong>callar</strong>:</p>
+                <table class="resource-table" style="max-width: 500px;">
+                    <thead><tr><th></th><th>B Calla</th><th>B Delata</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>A Calla</strong></td><td>Ambos: 1 año</td><td>A: 10 años, B: libre</td></tr>
+                        <tr><td><strong>A Delata</strong></td><td>A: libre, B: 10 años</td><td>Ambos: 5 años</td></tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 0.8rem;">El equilibrio de Nash es que ambos delatan (ambos reciben 5 años), aunque cooperar mutuamente daría un mejor resultado para ambos (1 año). La policía explota este dilema en interrogatorios.</p>
+            </div>
+        </details>
+
+        <div class="colombia-box">
+            <div class="label">Ejemplo numérico — Contexto policial colombiano</div>
+            <p>En un corredor de narcotráfico en Nariño, la Policía tiene 2 rutas para montar retenes (Ruta A, Ruta B). Los narcos pueden usar 2 rutas de transporte (Ruta 1, Ruta 2). Matriz de pagos (kg incautados):<br>
+            <strong style="font-family: 'JetBrains Mono', monospace;">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Narco R1&nbsp;&nbsp;&nbsp;Narco R2<br>
+            Policía A:&nbsp;&nbsp;&nbsp;300 kg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50 kg<br>
+            Policía B:&nbsp;&nbsp;&nbsp;80 kg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;250 kg</strong><br>
+            &bull; <strong>Equilibrio de Nash:</strong> no hay estrategia pura dominante<br>
+            &bull; <strong>Estrategia mixta óptima:</strong> Policía debe elegir Ruta A con probabilidad 0.63 y Ruta B con 0.37<br>
+            &bull; <strong>Valor esperado:</strong> E = 0.63(300)(0.37) + ... ≈ <strong>155 kg promedio de incautación</strong><br>
+            Si la Policía siempre eligiera la misma ruta, los narcos ajustarían y la incautación caería a 50-80 kg.</p>
+        </div>
+
+        <h4>&#128279; Recursos interactivos</h4>
+        <div class="resource-links">
+            <a href="https://ncase.me/trust/" target="_blank" class="resource-link">La evolución de la confianza (interactivo)</a>
+            <a href="https://www.youtube.com/watch?v=MHS-htjGgSY" target="_blank" class="resource-link">Video: Teoría de juegos</a>
+            <a href="https://www.gametheory.net/" target="_blank" class="resource-link">GameTheory.net</a>
+            <a href="https://brilliant.org/wiki/game-theory/" target="_blank" class="resource-link">Brilliant: Game Theory</a>
+            <a href="https://phet.colorado.edu/es/simulations" target="_blank" class="resource-link">PhET: Simulaciones</a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== MODELO 10: DISTRIBUCIÓN DE POISSON ========== -->
+<section id="poisson" style="background: white; max-width: 100%; padding: 4rem 2rem;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <div class="section-header">
+            <div class="section-number">13</div>
+            <h2>Distribución de Poisson</h2>
+            <p class="section-sub">Modelar la frecuencia de eventos raros en intervalos de tiempo</p>
+        </div>
+
+        <div class="model-block">
+            <h3>&#127922; ¿Cuántos delitos ocurrirán?</h3>
+            <p class="model-subtitle">Predicción de la frecuencia de eventos en un periodo determinado</p>
+            <p>La distribución de Poisson modela la probabilidad de que ocurra un número determinado de eventos en un intervalo de tiempo fijo, cuando estos eventos ocurren de forma independiente y con una tasa promedio conocida.</p>
+
+            <div class="formula-box">
+                P(X = k) = (e<sup>-λ</sup> &times; λ<sup>k</sup>) / k!
+                <br><small style="color: var(--gris-medio);">λ = tasa promedio de eventos; k = número de eventos; e = 2.71828</small>
+            </div>
+
+            <div class="model-image">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/16/Poisson_pmf.svg" alt="Distribución de Poisson - Función de masa de probabilidad">
+                <div class="caption">Función de masa de probabilidad de la distribución de Poisson para diferentes valores de lambda. Fuente: Wikimedia Commons</div>
+            </div>
+
+            <div class="example-box">
+                <div class="label">Ejemplo aplicado</div>
+                <p>Si en un cuadrante de Bogotá ocurren en promedio 3 robos por noche (λ = 3), ¿cuál es la probabilidad de que ocurran 5 o más robos?<br>
+                P(X ≥ 5) = 1 - P(X ≤ 4) = 1 - [P(0) + P(1) + P(2) + P(3) + P(4)] ≈ 18.5%<br>
+                Esto permite justificar refuerzos cuando la probabilidad de desbordamiento es significativa.</p>
+            </div>
+
+            <h4>&#128279; Recursos</h4>
+            <div class="resource-links">
+                <a href="https://seeing-theory.brown.edu/probability-distributions/index.html" target="_blank" class="resource-link">Seeing Theory: Distribuciones</a>
+                <a href="https://www.geogebra.org/m/mehn8u8s" target="_blank" class="resource-link">GeoGebra: Poisson interactivo</a>
+                <a href="https://www.wolframalpha.com/input?i=poisson+distribution+lambda%3D3" target="_blank" class="resource-link">Wolfram: Calcular Poisson</a>
+                <a href="https://www.khanacademy.org/math/statistics-probability/random-variables-stats-library/poisson-distribution/v/poisson-process-1" target="_blank" class="resource-link">Khan Academy: Poisson</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== TABLA DE RECURSOS ========== -->
+<section id="recursos">
+    <div class="section-header">
+        <div class="section-number">14</div>
+        <h2>Recursos Web para Explorar y Practicar</h2>
+        <p class="section-sub">Herramientas gratuitas y recursos interactivos</p>
+    </div>
+
+    <h3 style="color: var(--azul-oscuro); margin-bottom: 1rem;">Herramientas de visualización y cálculo</h3>
+    <table class="resource-table">
+        <thead>
+            <tr><th>Modelo/Tema</th><th>Recurso</th><th>Enlace</th><th>Tipo</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Redes Bayesianas</td><td>Bayes Server</td><td><a href="https://www.bayesserver.com/" target="_blank">bayesserver.com</a></td><td><span class="tag tag-tool">Herramienta</span></td></tr>
+            <tr><td>Probabilidad visual</td><td>Seeing Theory (Brown)</td><td><a href="https://seeing-theory.brown.edu/" target="_blank">seeing-theory.brown.edu</a></td><td><span class="tag tag-interactive">Interactivo</span></td></tr>
+            <tr><td>Grafos</td><td>Graph Online</td><td><a href="https://graphonline.ru/es/" target="_blank">graphonline.ru/es</a></td><td><span class="tag tag-free">Gratuito</span></td></tr>
+            <tr><td>Análisis de redes</td><td>Gephi</td><td><a href="https://gephi.org/" target="_blank">gephi.org</a></td><td><span class="tag tag-tool">Herramienta</span></td></tr>
+            <tr><td>Regresión / Gráficos</td><td>GeoGebra</td><td><a href="https://www.geogebra.org/classic" target="_blank">geogebra.org/classic</a></td><td><span class="tag tag-interactive">Interactivo</span></td></tr>
+            <tr><td>Calculadora gráfica</td><td>Desmos</td><td><a href="https://www.desmos.com/calculator" target="_blank">desmos.com</a></td><td><span class="tag tag-free">Gratuito</span></td></tr>
+            <tr><td>Simulaciones físicas</td><td>PhET (Colorado)</td><td><a href="https://phet.colorado.edu/es/simulations" target="_blank">phet.colorado.edu/es</a></td><td><span class="tag tag-interactive">Interactivo</span></td></tr>
+            <tr><td>Cálculos</td><td>Wolfram Alpha</td><td><a href="https://www.wolframalpha.com/" target="_blank">wolframalpha.com</a></td><td><span class="tag tag-free">Gratuito</span></td></tr>
+            <tr><td>Cadenas de Markov</td><td>Setosa (visualización)</td><td><a href="https://setosa.io/markov/index.html" target="_blank">setosa.io/markov</a></td><td><span class="tag tag-interactive">Interactivo</span></td></tr>
+            <tr><td>Teoría de juegos</td><td>La evolución de la confianza</td><td><a href="https://ncase.me/trust/" target="_blank">ncase.me/trust</a></td><td><span class="tag tag-interactive">Interactivo</span></td></tr>
+            <tr><td>Programación lineal</td><td>LP Solver Online</td><td><a href="https://online-optimizer.appspot.com/" target="_blank">online-optimizer.appspot.com</a></td><td><span class="tag tag-tool">Herramienta</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3 style="color: var(--azul-oscuro); margin: 2rem 0 1rem;">Machine Learning y Datos</h3>
+    <table class="resource-table">
+        <thead>
+            <tr><th>Recurso</th><th>Descripción</th><th>Enlace</th><th>Tipo</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>H2O.ai</td><td>Plataforma de machine learning de código abierto</td><td><a href="https://h2o.ai/" target="_blank">h2o.ai</a></td><td><span class="tag tag-tool">Herramienta</span></td></tr>
+            <tr><td>WEKA</td><td>Software de minería de datos (Waikato)</td><td><a href="https://www.cs.waikato.ac.nz/ml/weka/" target="_blank">cs.waikato.ac.nz/ml/weka</a></td><td><span class="tag tag-free">Gratuito</span></td></tr>
+            <tr><td>Teachable Machine</td><td>Crear modelos ML sin código (Google)</td><td><a href="https://teachablemachine.withgoogle.com/" target="_blank">teachablemachine.withgoogle.com</a></td><td><span class="tag tag-interactive">Interactivo</span></td></tr>
+            <tr><td>TensorFlow Playground</td><td>Redes neuronales interactivas en el navegador</td><td><a href="https://playground.tensorflow.org/" target="_blank">playground.tensorflow.org</a></td><td><span class="tag tag-interactive">Interactivo</span></td></tr>
+            <tr><td>Orange</td><td>Machine learning visual con drag & drop</td><td><a href="https://orange.biolab.si/" target="_blank">orange.biolab.si</a></td><td><span class="tag tag-tool">Herramienta</span></td></tr>
+            <tr><td>Kaggle</td><td>Datasets reales y cursos de ML</td><td><a href="https://www.kaggle.com/" target="_blank">kaggle.com</a></td><td><span class="tag tag-dataset">Datos</span></td></tr>
+            <tr><td>Datos Abiertos Colombia</td><td>Datos gubernamentales colombianos</td><td><a href="https://datos.gov.co/" target="_blank">datos.gov.co</a></td><td><span class="tag tag-dataset">Datos</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3 style="color: var(--azul-oscuro); margin: 2rem 0 1rem;">Aprendizaje y referencia</h3>
+    <table class="resource-table">
+        <thead>
+            <tr><th>Recurso</th><th>Descripción</th><th>Enlace</th><th>Tipo</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Khan Academy</td><td>Cursos de matemáticas, probabilidad y estadística</td><td><a href="https://es.khanacademy.org/math/statistics-probability" target="_blank">khanacademy.org</a></td><td><span class="tag tag-free">Gratuito</span></td></tr>
+            <tr><td>Forecasting (Hyndman)</td><td>Libro online sobre series temporales y predicción</td><td><a href="https://otexts.com/fpp3/" target="_blank">otexts.com/fpp3</a></td><td><span class="tag tag-free">Gratuito</span></td></tr>
+            <tr><td>Brilliant</td><td>Cursos interactivos de matemáticas y lógica</td><td><a href="https://brilliant.org/" target="_blank">brilliant.org</a></td><td><span class="tag tag-interactive">Interactivo</span></td></tr>
+            <tr><td>Statista</td><td>Portal de estadísticas mundiales</td><td><a href="https://www.statista.com/" target="_blank">statista.com</a></td><td><span class="tag tag-dataset">Datos</span></td></tr>
+            <tr><td>3Blue1Brown</td><td>Videos de matemáticas con visualizaciones</td><td><a href="https://www.youtube.com/@3blue1brown" target="_blank">youtube.com/@3blue1brown</a></td><td><span class="tag tag-video">Video</span></td></tr>
+            <tr><td>VisuAlgo</td><td>Visualización de algoritmos y estructuras de datos</td><td><a href="https://visualgo.net/" target="_blank">visualgo.net</a></td><td><span class="tag tag-interactive">Interactivo</span></td></tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- ========== FORO ========== -->
+<section id="foro">
+    <div class="section-header">
+        <div class="section-number">15</div>
+        <h2>Actividad del Foro</h2>
+        <p class="section-sub">Participación en el foro de discusión</p>
+    </div>
+
+    <div class="forum-section">
+        <h3>Modelos matemáticos y su impacto en la gestión policial colombiana</h3>
+
+        <div class="forum-question">
+            <h4>Pregunta principal</h4>
+            <p>Seleccione <strong>uno</strong> de los modelos matemáticos estudiados en esta sesión y responda:</p>
+            <br>
+            <p><em>¿Cómo aplicaría usted este modelo para resolver un problema real de seguridad en su contexto local?</em></p>
+            <br>
+            <p>En su respuesta debe incluir:</p>
+            <ol>
+                <li><strong>El problema de seguridad identificado</strong> &mdash; describa una situación concreta de su entorno (barrio, ciudad, jurisdicción)</li>
+                <li><strong>El modelo matemático que utilizaría</strong> &mdash; explique por qué es el más adecuado (redes bayesianas, grafos, regresión, series temporales, Markov, Monte Carlo, ML, programación lineal, teoría de juegos o Poisson)</li>
+                <li><strong>Qué datos necesitaría recopilar</strong> &mdash; indique las fuentes de información (SIEDCO, denuncias, cámaras, etc.)</li>
+                <li><strong>Qué resultados esperaría obtener</strong> &mdash; ¿cómo mejoraría la situación concretamente?</li>
+            </ol>
+            <br>
+            <p>Apoye su respuesta con al menos un ejemplo o referencia de los casos colombianos vistos en la sesión.</p>
+        </div>
+
+        <div class="forum-requirements">
+            <div class="forum-req">&#9997; Mínimo 200 palabras</div>
+            <div class="forum-req">&#128172; Responder a al menos 1 compañero</div>
+            <div class="forum-req">&#128218; Incluir referencia o caso colombiano</div>
+            <div class="forum-req">&#128197; Fecha límite: 14 de mayo de 2026</div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== CONCLUSIONES ========== -->
+<section id="conclusiones">
+    <div class="section-header">
+        <div class="section-number">16</div>
+        <h2>Conclusiones</h2>
+    </div>
+
+    <ol class="steps-list" style="max-width: 900px; margin: 0 auto;">
+        <li>
+            <strong>Herramientas esenciales:</strong> Los modelos matemáticos son fundamentales para la gestión policial moderna, permitiendo pasar de decisiones intuitivas a decisiones basadas en evidencia cuantitativa.
+        </li>
+        <li>
+            <strong>Capacidad predictiva:</strong> La combinación de redes bayesianas, grafos, regresión, series temporales, cadenas de Markov, Monte Carlo, machine learning, programación lineal y teoría de juegos fortalece la capacidad de anticipar delitos.
+        </li>
+        <li>
+            <strong>Avances en Colombia:</strong> El país ha dado pasos significativos con herramientas como SIEDCO, mapas de calor, el modelo de cuadrantes y análisis predictivo en ciudades como Bogotá, Medellín, Cali y Barranquilla.
+        </li>
+        <li>
+            <strong>Tecnología accesible:</strong> Existen herramientas gratuitas y en línea que permiten explorar estos modelos sin necesidad de software especializado costoso.
+        </li>
+        <li>
+            <strong>Práctica constante:</strong> La clave del éxito es la práctica constante y la aplicación de estos conceptos en situaciones reales del contexto policial colombiano.
+        </li>
+    </ol>
+
+    <div class="model-block accent-gold" style="margin-top: 2rem; text-align: center;">
+        <p style="font-size: 1.1rem;"><strong>Recuerde:</strong> Participe en el foro de discusión respondiendo la pregunta planteada y retroalimentando a al menos un compañero.</p>
+        <p style="margin-top: 0.5rem; color: var(--gris-medio);">Acceda al foro desde la plataforma Moodle: <a href="https://educacion.policia.edu.co/dinae/course/view.php?id=27717" target="_blank" style="color: var(--azul-medio);">Matemática Aplicada a la Profesión</a></p>
+    </div>
+</section>
+
+<!-- ========== REFERENCIAS ========== -->
+<section id="referencias" style="background: white; max-width: 100%; padding: 4rem 2rem;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <div class="section-header">
+            <h2>Referencias Bibliográficas</h2>
+        </div>
+
+        <div style="max-width: 900px; margin: 0 auto; font-size: 0.9rem; color: var(--gris-medio);">
+            <p style="margin-bottom: 1rem; padding-left: 2rem; text-indent: -2rem;">Barco Rojas, C. A., Franci Raimundo Yaegashi, S. y Angelly Jimenez Agudelo, M. (2024). Aprendizaje basado en problemas para la enseñanza de matemáticas en administración pública. <em>Administración & Desarrollo</em>, 54(2), 1-25.</p>
+            <p style="margin-bottom: 1rem; padding-left: 2rem; text-indent: -2rem;">Méndez-Hincapié, N., Garzón-Barragán, I. y Castro-Moreno, J. A. (2022). Análisis del razonamiento probabilístico en futuros profesores de ciencias. <em>Investigações Em Ensino de Ciências</em>, 27(3), 270.</p>
+            <p style="margin-bottom: 1rem; padding-left: 2rem; text-indent: -2rem;">Morales Vallejo, P. (2011). <em>Estadística aplicada a las ciencias sociales</em> (3a ed.). Universidad Pontificia Comillas.</p>
+            <p style="margin-bottom: 1rem; padding-left: 2rem; text-indent: -2rem;">Nadia Ene, C. (2003). Modelos económico-matemáticos y simulaciones: dos pilares fundamentales de apoyo a la gestión y la adopción de decisiones en el sector público. <em>Gestión Y Análisis De Políticas Públicas</em>, (26-27), 103-119.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+    <p>Matemática Aplicada a la Profesión &bull; ESJIM &bull; Programa Administración Policial &bull; 2026</p>
+    <p style="margin-top: 0.5rem;"><a href="https://educacion.policia.edu.co/dinae/course/view.php?id=27717" target="_blank">Acceder a la plataforma Moodle</a></p>
+</footer>
+
+<script>
+    // Smooth scroll for nav links
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            document.querySelector('.nav-links').classList.remove('show');
+        });
+    });
+
+    // Active nav link on scroll
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('section, header');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            if (window.scrollY >= sectionTop) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
