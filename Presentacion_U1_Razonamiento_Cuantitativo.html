@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unidad 1 | Geometría y Bases de Álgebra — Razonamiento Cuantitativo I</title>
+
+<!-- MathJax -->
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    packages: {'[+]': ['ams']},
+    tags: 'none'
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+  startup: { typeset: true }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+
+<style>
+  :root {
+    --azul:    #1a3a5c;
+    --azul2:   #2563a8;
+    --verde:   #16a34a;
+    --naranja: #d97706;
+    --morado:  #7c3aed;
+    --teal:    #0d9488;
+    --gris:    #f1f5f9;
+    --texto:   #1e293b;
+    --borde:   #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--texto); background: #f8fafc; line-height: 1.7; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 999;
+    background: var(--azul); color: white;
+    display: flex; flex-wrap: wrap; gap: 4px;
+    padding: 8px 16px; box-shadow: 0 2px 8px rgba(0,0,0,.3);
+  }
+  nav a { color: white; text-decoration: none; font-size: 0.78rem; padding: 4px 10px; border-radius: 4px; white-space: nowrap; transition: background .2s; }
+  nav a:hover { background: var(--azul2); }
+  nav .brand { font-weight: bold; font-size: 0.85rem; margin-right: 8px; }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, var(--azul) 0%, #0f2847 50%, #1e3a5f 100%); color: white; text-align: center; padding: 60px 20px 50px; }
+  .hero .badge { display: inline-block; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3); padding: 4px 14px; border-radius: 20px; font-size: 0.82rem; margin-bottom: 18px; letter-spacing: 1px; }
+  .hero h1 { font-size: 2.4rem; margin-bottom: 12px; line-height: 1.2; }
+  .hero h2 { font-size: 1.3rem; font-weight: 400; opacity: .85; margin-bottom: 24px; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .hero-pills span { background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.25); padding: 5px 14px; border-radius: 20px; font-size: 0.82rem; }
+
+  /* RESULTADO */
+  .resultado-box { background: linear-gradient(135deg, #1e40af, #2563a8); color: white; padding: 28px 32px; text-align: center; }
+  .resultado-box h3 { font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; opacity: .8; margin-bottom: 10px; }
+  .resultado-box p { font-size: 1.1rem; max-width: 800px; margin: 0 auto; font-style: italic; }
+
+  /* INDICADORES */
+  .indicadores { display: flex; gap: 16px; padding: 24px 32px; flex-wrap: wrap; background: var(--gris); }
+  .indicador-card { flex: 1; min-width: 220px; background: white; border-radius: 10px; padding: 18px; border-top: 4px solid var(--borde); box-shadow: 0 2px 6px rgba(0,0,0,.06); }
+  .indicador-card.sup { border-color: var(--verde); }
+  .indicador-card.int { border-color: var(--azul2); }
+  .indicador-card.bas { border-color: var(--naranja); }
+  .indicador-card .nivel { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .indicador-card.sup .nivel { color: var(--verde); }
+  .indicador-card.int .nivel { color: var(--azul2); }
+  .indicador-card.bas .nivel { color: var(--naranja); }
+  .indicador-card p { font-size: 0.88rem; color: #475569; }
+
+  /* LAYOUT */
+  .section { padding: 48px 32px; }
+  .section:nth-child(even) { background: white; }
+
+  /* TEMA */
+  .tema-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 3px solid var(--borde); }
+  .tema-num { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 800; color: white; flex-shrink: 0; }
+  .tema-header h2 { font-size: 1.6rem; color: var(--azul); }
+  .tema-header p { color: #64748b; font-size: 0.9rem; }
+  .t1 .tema-num { background: var(--azul2); }
+  .t2 .tema-num { background: var(--verde); }
+  .t3 .tema-num { background: var(--naranja); }
+  .t4 .tema-num { background: var(--morado); }
+  .t5 .tema-num { background: var(--teal); }
+
+  /* IMAGEN */
+  .model-image { text-align: center; margin: 20px 0; background: var(--gris); border-radius: 10px; padding: 16px; }
+  .model-image img { max-width: 100%; max-height: 300px; border-radius: 6px; object-fit: contain; }
+  .caption { font-size: 0.78rem; color: #94a3b8; margin-top: 8px; font-style: italic; }
+
+  /* FORMULA BOX — dark code-like block */
+  .formula-box {
+    background: #0f172a; color: #e2e8f0;
+    border-radius: 10px; padding: 22px 26px; margin: 16px 0;
+    border-left: 4px solid var(--azul2);
+    overflow-x: auto;
+  }
+  .formula-box .formula-title {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
+    color: #64748b; margin-bottom: 14px; font-family: 'Segoe UI', Arial, sans-serif;
+  }
+  /* MathJax inside dark boxes */
+  .formula-box .MJX-TEX, .formula-box mjx-container { color: #e2e8f0 !important; }
+  .formula-box .math-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; flex-wrap: wrap; }
+  .formula-box .label { color: #60a5fa; font-size: 0.85rem; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 600; min-width: 180px; }
+  .formula-box .label-sm { color: #94a3b8; font-size: 0.78rem; font-family: 'Segoe UI', Arial, sans-serif; margin: 4px 0 4px 14px; }
+  .formula-box .sep { border-top: 1px solid #1e3a5f; margin: 12px 0; }
+
+  /* Para hacer que MathJax se vea blanco dentro de cajas oscuras */
+  .formula-box mjx-container svg { fill: #e2e8f0; }
+
+  /* EXAMPLE BOX */
+  .example-box { background: linear-gradient(135deg, #1e3a5f, #1a4a3a); border-radius: 10px; padding: 20px 24px; margin: 16px 0; color: white; border-left: 4px solid var(--verde); }
+  .example-box h4 { color: #86efac; font-size: 0.9rem; margin-bottom: 12px; }
+  .example-box p, .example-box li { font-size: 0.92rem; opacity: .9; }
+  .example-box ul, .example-box ol { padding-left: 20px; }
+  .example-box li { margin-bottom: 4px; }
+  .calc { background: rgba(255,255,255,.12); border-radius: 6px; padding: 8px 14px; margin: 8px 0; font-family: 'Courier New', monospace; font-size: 0.88rem; }
+  .example-box mjx-container { color: #e2f5e9 !important; }
+
+  /* POLICE BOX */
+  .police-box { background: linear-gradient(135deg, #1a1a2e, #16213e); border: 1px solid rgba(37,99,168,.4); border-radius: 10px; padding: 20px 24px; margin: 16px 0; color: white; border-left: 4px solid var(--azul2); }
+  .police-box h4 { color: #93c5fd; font-size: 0.9rem; margin-bottom: 10px; }
+  .police-box p, .police-box li { font-size: 0.9rem; opacity: .9; }
+  .police-box ul { padding-left: 20px; }
+  .police-box li { margin-bottom: 4px; }
+  .police-box mjx-container { color: #bfdbfe !important; }
+
+  /* TWO COLS */
+  .two-cols { display: flex; gap: 20px; flex-wrap: wrap; }
+  .two-cols > * { flex: 1; min-width: 260px; }
+
+  /* TABLA */
+  table.data-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+  table.data-table th { background: var(--azul); color: white; padding: 10px 14px; text-align: left; font-size: 0.82rem; }
+  table.data-table td { padding: 9px 14px; border-bottom: 1px solid var(--borde); background: white; color: var(--texto); }
+  table.data-table tr:last-child td { border-bottom: none; }
+  table.data-table tr:nth-child(even) td { background: var(--gris); color: var(--texto); }
+
+  /* STEPS */
+  .steps { counter-reset: step; padding: 0; list-style: none; }
+  .steps li { counter-increment: step; display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+  .steps li::before { content: counter(step); background: var(--azul2); color: white; min-width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; margin-top: 2px; flex-shrink: 0; }
+
+  /* COLLAPSIBLE */
+  details { margin: 12px 0; border: 1px solid var(--borde); border-radius: 8px; overflow: hidden; }
+  summary { background: var(--gris); padding: 12px 16px; cursor: pointer; font-weight: 600; font-size: 0.92rem; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  summary::after { content: '▸'; transition: transform .2s; }
+  details[open] summary::after { transform: rotate(90deg); }
+  details > *:not(summary) { padding: 16px; }
+
+  /* RESOURCES */
+  .resource-links { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+  .resource-links a { background: var(--azul2); color: white; padding: 7px 14px; border-radius: 20px; text-decoration: none; font-size: 0.82rem; transition: all .2s; }
+  .resource-links a:hover { background: var(--azul); transform: translateY(-1px); }
+
+  /* CARD GRID */
+  .card-grid { display: flex; flex-wrap: wrap; gap: 14px; margin: 16px 0; }
+  .card { flex: 1; min-width: 200px; background: white; border-radius: 10px; padding: 16px; border: 1px solid var(--borde); box-shadow: 0 2px 6px rgba(0,0,0,.05); text-align: center; }
+  .card .card-icon { font-size: 2rem; margin-bottom: 8px; }
+  .card h4 { font-size: 0.9rem; color: var(--azul); margin-bottom: 6px; }
+  .card p { font-size: 0.82rem; color: #64748b; }
+
+  /* DID YOU KNOW */
+  .did-you-know { background: linear-gradient(135deg, #fef3c7, #fde68a); border: 1px solid #f59e0b; border-radius: 10px; padding: 16px 20px; margin: 16px 0; display: flex; align-items: flex-start; gap: 12px; }
+  .did-you-know .icon { font-size: 1.5rem; flex-shrink: 0; }
+  .did-you-know p { font-size: 0.88rem; color: #78350f; }
+
+  /* FORO */
+  .forum-section { background: linear-gradient(135deg, #1e3a5f, #2563a8); color: white; padding: 40px 32px; text-align: center; }
+  .forum-section h2 { font-size: 1.6rem; margin-bottom: 12px; }
+  .forum-section p { font-size: 1rem; opacity: .85; max-width: 700px; margin: 0 auto 20px; }
+  .forum-question { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); border-radius: 10px; padding: 20px 28px; font-size: 1.05rem; font-style: italic; max-width: 750px; margin: 0 auto; }
+
+  /* FOOTER */
+  footer { background: var(--azul); color: rgba(255,255,255,.6); text-align: center; padding: 20px; font-size: 0.8rem; }
+
+  /* MathJax global sizing */
+  mjx-container { font-size: 1.05em !important; }
+
+  @media (max-width: 700px) {
+    .hero h1 { font-size: 1.6rem; }
+    .section { padding: 32px 16px; }
+    nav a { font-size: 0.72rem; padding: 3px 7px; }
+    .formula-box .label { min-width: 120px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="brand">📐 RC I — U1</span>
+  <a href="#tema1">Notación Científica</a>
+  <a href="#tema2">Operaciones</a>
+  <a href="#tema3">Fracciones y %</a>
+  <a href="#tema4">Función Lineal</a>
+  <a href="#tema5">Geometría</a>
+  <a href="#foro">Foro</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">ELECTIVA 1 · ESJIM · ADMINISTRACIÓN POLICIAL</div>
+  <h1>📐 Geometría y Bases de Álgebra</h1>
+  <h2>Unidad 1 — Razonamiento Cuantitativo I</h2>
+  <div class="hero-pills">
+    <span>📏 Notación Científica</span>
+    <span>➕ Operaciones Aritméticas</span>
+    <span>½ Fracciones y Porcentajes</span>
+    <span>📈 Función Lineal</span>
+    <span>🔷 Figuras Geométricas</span>
+  </div>
+</div>
+
+<!-- RESULTADO -->
+<div class="resultado-box">
+  <h3>🎯 Resultado de Aprendizaje</h3>
+  <p>Analiza problemas geométricos y algebraicos en contextos cotidianos o académicos para desarrollar habilidades analíticas y de razonamiento lógico que permitan <strong>interpretar y modelar situaciones reales</strong>.</p>
+</div>
+
+<!-- INDICADORES -->
+<div class="indicadores">
+  <div class="indicador-card sup">
+    <div class="nivel">⭐ Superior</div>
+    <p>Analiza problemas que <strong>combinan</strong> conceptos geométricos y algebraicos en contextos académicos y prácticos para tomar decisiones fundamentadas en datos cuantitativos.</p>
+  </div>
+  <div class="indicador-card int">
+    <div class="nivel">✅ Intermedio</div>
+    <p><strong>Aplica</strong> principios de geometría y álgebra para resolver problemas que involucren mediciones, proporciones o ecuaciones en escenarios académicos o de la vida diaria.</p>
+  </div>
+  <div class="indicador-card bas">
+    <div class="nivel">📌 Básico</div>
+    <p><strong>Identifica</strong> propiedades geométricas y algebraicas básicas en figuras y expresiones matemáticas presentadas en contextos cotidianos.</p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TEMA 1: NOTACIÓN CIENTÍFICA -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section t1" id="tema1">
+  <div class="tema-header">
+    <div class="tema-num">1</div>
+    <div>
+      <h2>Notación Científica</h2>
+      <p>Representar números muy grandes o muy pequeños de forma compacta y operativa</p>
+    </div>
+  </div>
+
+  <div class="model-image">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Scientific_notation.svg/500px-Scientific_notation.svg.png"
+         onerror="this.style.display='none'" alt="Notación científica">
+    <div class="caption">La notación científica permite expresar datos extremos con precisión — imprescindible en estadísticas poblacionales, presupuestos y distancias operativas.</div>
+  </div>
+
+  <p>La <strong>notación científica</strong> es una forma estandarizada de escribir números usando potencias de 10. Es especialmente útil cuando trabajamos con datos policiales que involucran grandes cantidades como presupuestos nacionales, registros del SIEDCO o distancias.</p>
+
+  <div class="formula-box">
+    <div class="formula-title">Forma general</div>
+    <div class="math-row">
+      <span class="label">Forma estándar:</span>
+      <span>\( N \times 10^n \)</span>
+    </div>
+    <div class="label-sm">donde \( 1 \leq N &lt; 10 \) (coeficiente) y \( n \in \mathbb{Z} \) (exponente entero)</div>
+    <div class="sep"></div>
+    <div class="math-row"><span class="label">Número grande:</span><span>\( 6{.}500{.}000 = 6{,}5 \times 10^6 \)</span></div>
+    <div class="math-row"><span class="label">Número pequeño:</span><span>\( 0{,}000045 = 4{,}5 \times 10^{-5} \)</span></div>
+    <div class="sep"></div>
+    <div class="math-row"><span class="label">Multiplicación:</span><span>\( (a \times 10^m)(b \times 10^n) = (a \cdot b) \times 10^{m+n} \)</span></div>
+    <div class="math-row"><span class="label">División:</span><span>\( \dfrac{a \times 10^m}{b \times 10^n} = \dfrac{a}{b} \times 10^{m-n} \)</span></div>
+  </div>
+
+  <div class="two-cols">
+    <div class="example-box">
+      <h4>📊 Ejemplos de conversión</h4>
+      <div class="calc">\( 6.500.000 = 6{,}5 \times 10^6 \)</div>
+      <div class="calc">\( 0{,}000045 = 4{,}5 \times 10^{-5} \)</div>
+      <div class="calc">\( (3 \times 10^4)(2 \times 10^3) = 6 \times 10^7 \)</div>
+      <div class="calc">\( \dfrac{8 \times 10^6}{4 \times 10^2} = 2 \times 10^4 \)</div>
+    </div>
+
+    <div class="police-box">
+      <h4>🚔 Ejemplo Policial — Policía Nacional 2023</h4>
+      <ul>
+        <li>Presupuesto: \( \$9{,}8 \times 10^{12} \) COP</li>
+        <li>Personal activo: \( 1{,}82 \times 10^5 \) uniformados</li>
+        <li>Llamadas al 123 en Bogotá: \( 4{,}2 \times 10^6 \)/año</li>
+        <li>Muestra ADN forense: \( 1 \times 10^{-6} \) gramos</li>
+      </ul>
+      <br>
+      <p><strong>¿Cuánto COP por uniformado?</strong></p>
+      <div class="calc">\( \dfrac{9{,}8 \times 10^{12}}{1{,}82 \times 10^5} \approx 5{,}38 \times 10^7 \text{ COP} \)</div>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <div class="icon">💡</div>
+    <p><strong>¿Sabías que?</strong> El SIEDCO procesa millones de registros delictivos al año. Expresar estas cifras en notación científica facilita su comparación y análisis estadístico entre regiones del país.</p>
+  </div>
+
+  <details>
+    <summary>📋 Reglas de operaciones con notación científica</summary>
+    <table class="data-table">
+      <tr><th>Operación</th><th>Regla</th><th>Ejemplo</th></tr>
+      <tr><td>Multiplicación</td><td>Multiplicar coeficientes, sumar exponentes</td><td>\((2\times10^3)(3\times10^2)=6\times10^5\)</td></tr>
+      <tr><td>División</td><td>Dividir coeficientes, restar exponentes</td><td>\(\frac{6\times10^8}{2\times10^3}=3\times10^5\)</td></tr>
+      <tr><td>Suma/Resta</td><td>Igualar exponentes, luego operar coeficientes</td><td>\(3\times10^4+2\times10^4=5\times10^4\)</td></tr>
+      <tr><td>Potencia</td><td>Elevar coeficiente, multiplicar exponente</td><td>\((2\times10^3)^2=4\times10^6\)</td></tr>
+    </table>
+  </details>
+
+  <div class="resource-links">
+    <a href="https://es.khanacademy.org/math/cc-eighth-grade-math/cc-8th-numbers-operations/cc-8th-scientific-notation/v/scientific-notation" target="_blank">🎥 Khan Academy — Notación Científica</a>
+    <a href="https://www.wolframalpha.com" target="_blank">🔢 Wolfram Alpha</a>
+    <a href="https://phet.colorado.edu/es/simulations/number-line-distance" target="_blank">🧪 PhET Simulaciones</a>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TEMA 2: OPERACIONES ARITMÉTICAS -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section t2" id="tema2">
+  <div class="tema-header">
+    <div class="tema-num">2</div>
+    <div>
+      <h2>Operaciones Aritméticas</h2>
+      <p>Propiedades fundamentales para el cálculo eficiente en contextos operativos</p>
+    </div>
+  </div>
+
+  <p>Las <strong>propiedades de las operaciones aritméticas</strong> permiten simplificar cálculos, verificar resultados y optimizar procesos. En el ámbito policial, se aplican constantemente para distribuir recursos, calcular presupuestos y analizar datos estadísticos.</p>
+
+  <div class="formula-box">
+    <div class="formula-title">Propiedades de la suma y la multiplicación</div>
+    <div class="math-row"><span class="label">Conmutativa:</span><span>\( a + b = b + a \qquad a \cdot b = b \cdot a \)</span></div>
+    <div class="math-row"><span class="label">Asociativa:</span><span>\( (a+b)+c = a+(b+c) \qquad (a \cdot b)\cdot c = a \cdot(b \cdot c) \)</span></div>
+    <div class="math-row"><span class="label">Distributiva:</span><span>\( a(b+c) = ab + ac \)</span></div>
+    <div class="math-row"><span class="label">Elemento neutro:</span><span>\( a + 0 = a \qquad a \cdot 1 = a \)</span></div>
+    <div class="math-row"><span class="label">Elemento inverso:</span><span>\( a + (-a) = 0 \qquad a \cdot \dfrac{1}{a} = 1 \quad (a \neq 0) \)</span></div>
+    <div class="sep"></div>
+    <div class="math-row"><span class="label">Orden (PEMDAS):</span><span>\( 3 + 4 \times (2^2 - 1) = 3 + 4 \times 3 = 15 \)</span></div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🔄</div>
+      <h4>Conmutativa</h4>
+      <p>\( a + b = b + a \)<br>\( a \cdot b = b \cdot a \)</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔗</div>
+      <h4>Asociativa</h4>
+      <p>\( (a+b)+c \)<br>\( = a+(b+c) \)</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📤</div>
+      <h4>Distributiva</h4>
+      <p>\( a(b+c) \)<br>\( = ab + ac \)</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">1️⃣</div>
+      <h4>Neutro</h4>
+      <p>\( a + 0 = a \)<br>\( a \times 1 = a \)</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">↩️</div>
+      <h4>Inverso</h4>
+      <p>\( a + (-a) = 0 \)<br>\( a \cdot \frac{1}{a} = 1 \)</p>
+    </div>
+  </div>
+
+  <div class="police-box">
+    <h4>🚔 Caso Policial — Distribución de recursos en Kennedy, Bogotá</h4>
+    <p>Para el operativo en Kennedy se dispone de 120 policías en 4 turnos, presupuesto de $480.000.000 COP para 6 días y 18 vehículos en 3 zonas.</p>
+    <br>
+    <div class="calc">\( \text{Agentes/turno} = \dfrac{120}{4} = 30 \text{ agentes} \)</div>
+    <div class="calc">\( \text{Presupuesto/día} = \dfrac{\$480{.}000{.}000}{6} = \$80{.}000{.}000 \)</div>
+    <div class="calc">\( \text{Costo/agente/día} = \dfrac{\$80{.}000{.}000}{30} = \$2{.}666{.}667 \)</div>
+    <div class="calc">\( \text{Vehículos/zona} = \dfrac{18}{3} = 6 \quad \Rightarrow \quad \text{total: } 3 \times (6 + 4) = 30 \text{ unidades} \)</div>
+  </div>
+
+  <details>
+    <summary>🧮 Ejercicio propuesto: Planificación de operativo</summary>
+    <div style="padding:16px;">
+      <p>La Policía de Medellín organiza un operativo con 150 agentes en 5 zonas y presupuesto de $750.000.000 COP. Cada zona requiere mínimo 8 vehículos.</p>
+      <ol class="steps">
+        <li>¿Cuántos agentes por zona? Aplica propiedad de división.</li>
+        <li>¿Cuál es el presupuesto por zona usando la propiedad asociativa?</li>
+        <li>Si se añaden 30 agentes más, ¿cuántos hay en total por zona?</li>
+        <li>Usando la propiedad distributiva: si cada zona tiene \( (8+2) \) vehículos, ¿cuántos en total?</li>
+      </ol>
+    </div>
+  </details>
+
+  <div class="resource-links">
+    <a href="https://es.khanacademy.org/math/pre-algebra/pre-algebra-arith-prop" target="_blank">🎥 Khan Academy — Propiedades</a>
+    <a href="https://www.geogebra.org/calculator" target="_blank">📊 GeoGebra Calculadora</a>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TEMA 3: FRACCIONES, RAZONES Y PORCENTAJES -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section t3" id="tema3">
+  <div class="tema-header">
+    <div class="tema-num">3</div>
+    <div>
+      <h2>Fracciones, Razones y Porcentajes</h2>
+      <p>Herramientas para expresar proporciones, comparar cantidades y calcular cambios relativos</p>
+    </div>
+  </div>
+
+  <div class="model-image">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Cake_fractions.jpg/400px-Cake_fractions.jpg"
+         onerror="this.style.display='none'" alt="Fracciones">
+    <div class="caption">Las fracciones y porcentajes permiten distribuir recursos de manera equitativa y comunicar resultados estadísticos con precisión.</div>
+  </div>
+
+  <!-- FRACCIONES -->
+  <h3 style="color:var(--naranja); margin: 16px 0 10px;">🔢 Fracciones</h3>
+
+  <div class="formula-box">
+    <div class="formula-title">Estructura y operaciones con fracciones</div>
+    <div class="math-row">
+      <span class="label">Fracción:</span>
+      <span>\( \dfrac{a}{b} \) donde \( a \) = numerador, \( b \) = denominador \( (b \neq 0) \)</span>
+    </div>
+    <div class="sep"></div>
+    <div class="math-row">
+      <span class="label">Suma/Resta:</span>
+      <span>\( \dfrac{a}{b} \pm \dfrac{c}{d} = \dfrac{ad \pm bc}{bd} \)</span>
+    </div>
+    <div class="math-row">
+      <span class="label">Multiplicación:</span>
+      <span>\( \dfrac{a}{b} \times \dfrac{c}{d} = \dfrac{a \cdot c}{b \cdot d} \)</span>
+    </div>
+    <div class="math-row">
+      <span class="label">División:</span>
+      <span>\( \dfrac{a}{b} \div \dfrac{c}{d} = \dfrac{a}{b} \times \dfrac{d}{c} = \dfrac{a \cdot d}{b \cdot c} \)</span>
+    </div>
+  </div>
+
+  <!-- RAZÓN Y PROPORCIÓN -->
+  <h3 style="color:var(--naranja); margin: 20px 0 10px;">⚖️ Razón y Proporción</h3>
+
+  <div class="formula-box">
+    <div class="formula-title">Definición y regla de tres</div>
+    <div class="math-row">
+      <span class="label">Razón:</span>
+      <span>\( a : b = \dfrac{a}{b} \)</span>
+    </div>
+    <div class="math-row">
+      <span class="label">Proporción:</span>
+      <span>\( \dfrac{a}{b} = \dfrac{c}{d} \iff a \cdot d = b \cdot c \)</span>
+    </div>
+    <div class="math-row">
+      <span class="label">Regla de tres:</span>
+      <span>\( \text{Si } a \to b \text{ entonces } x \to \dfrac{b \cdot x}{a} \)</span>
+    </div>
+  </div>
+
+  <!-- PORCENTAJES -->
+  <h3 style="color:var(--naranja); margin: 20px 0 10px;">📊 Porcentajes</h3>
+
+  <div class="formula-box">
+    <div class="formula-title">Conversiones y fórmulas clave</div>
+    <div class="math-row">
+      <span class="label">% a decimal:</span>
+      <span>\( 35\% = \dfrac{35}{100} = 0{,}35 \)</span>
+    </div>
+    <div class="math-row">
+      <span class="label">% de un número:</span>
+      <span>\( p\% \text{ de } N = \dfrac{p}{100} \times N \)</span>
+    </div>
+    <div class="math-row">
+      <span class="label">Variación %:</span>
+      <span>\( \Delta\% = \dfrac{V_f - V_i}{V_i} \times 100 \)</span>
+    </div>
+    <div class="math-row">
+      <span class="label">% sobre total:</span>
+      <span>\( p\% = \dfrac{\text{parte}}{\text{total}} \times 100 \)</span>
+    </div>
+  </div>
+
+  <div class="two-cols">
+    <div class="example-box">
+      <h4>📊 Cálculo con fracciones — Kennedy</h4>
+      <p>De 120 agentes disponibles, \( \frac{3}{8} \) están asignados a la Zona Norte.</p>
+      <div class="calc">\( \dfrac{3}{8} \times 120 = 45 \text{ agentes en Zona Norte} \)</div>
+      <p>Si se suman los de Zona Centro \( \left(\frac{1}{4}\right) \):</p>
+      <div class="calc">\( \dfrac{3}{8} + \dfrac{1}{4} = \dfrac{3}{8} + \dfrac{2}{8} = \dfrac{5}{8} \)</div>
+      <div class="calc">\( \dfrac{5}{8} \times 120 = 75 \text{ agentes en dos zonas} \)</div>
+    </div>
+
+    <div class="police-box">
+      <h4>🚔 Estadísticas de hurtos — Bogotá 2024</h4>
+      <ul>
+        <li>Total hurtos: <strong>48.600</strong> casos</li>
+        <li>Kennedy: 12.150 → \( \frac{12.150}{48.600} = 25\% \)</li>
+        <li>Vs 2023: 52.000 casos</li>
+      </ul>
+      <br>
+      <p><strong>Variación porcentual:</strong></p>
+      <div class="calc">\( \Delta\% = \dfrac{48.600 - 52.000}{52.000} \times 100 = -6{,}54\% \)</div>
+      <p><strong>Presupuesto para Kennedy (25%):</strong></p>
+      <div class="calc">\( \dfrac{25}{100} \times \$480{.}000{.}000 = \$120{.}000{.}000 \)</div>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <div class="icon">💡</div>
+    <p><strong>¿Sabías que?</strong> Medellín redujo su tasa de homicidios en más del <strong>95%</strong> entre 1991 y 2015: de 381 a menos de 20 homicidios por 100.000 habitantes. Este análisis usa variaciones porcentuales comparadas con tasas relativas.</p>
+  </div>
+
+  <details>
+    <summary>📋 Aplicaciones de porcentajes en contexto policial</summary>
+    <table class="data-table">
+      <tr><th>Aplicación</th><th>Fórmula</th><th>Ejemplo</th></tr>
+      <tr><td>Tasa de captura</td><td>\(\frac{\text{capturas}}{\text{delitos}} \times 100\)</td><td>\(\frac{85}{320} \times 100 = 26{,}6\%\)</td></tr>
+      <tr><td>Variación criminalidad</td><td>\(\frac{V_f - V_i}{V_i} \times 100\)</td><td>\(-6{,}54\%\) de hurtos</td></tr>
+      <tr><td>Distribución de recursos</td><td>\(\frac{\text{zona}}{\text{total}} \times \text{presupuesto}\)</td><td>25% → $120M para Kennedy</td></tr>
+      <tr><td>Tasa de respuesta</td><td>\(\frac{\text{atendidos}}{\text{llamadas}} \times 100\)</td><td>87% de llamadas atendidas</td></tr>
+    </table>
+  </details>
+
+  <div class="resource-links">
+    <a href="https://es.khanacademy.org/math/cc-sixth-grade-math/cc-6th-ratios-prop-topic" target="_blank">🎥 Khan Academy — Razones y %</a>
+    <a href="https://www.wolframalpha.com" target="_blank">🔢 Wolfram Alpha</a>
+    <a href="https://www.geogebra.org" target="_blank">📊 GeoGebra</a>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TEMA 4: FUNCIÓN LINEAL -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section t4" id="tema4">
+  <div class="tema-header">
+    <div class="tema-num">4</div>
+    <div>
+      <h2>Función Lineal</h2>
+      <p>Modelo matemático fundamental para representar relaciones de proporcionalidad y tendencias</p>
+    </div>
+  </div>
+
+  <div class="model-image">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Linear_regression.svg" alt="Función lineal">
+    <div class="caption">Una función lineal representa una relación directa entre dos variables. La línea de regresión permite predecir comportamientos futuros a partir de datos históricos. Fuente: Wikimedia Commons</div>
+  </div>
+
+  <p>Una <strong>función lineal</strong> establece una relación proporcional constante entre dos variables. Es el modelo más usado en análisis de costos, predicción de tendencias delictivas, reconstrucción de accidentes y planificación de recursos policiales.</p>
+
+  <div class="formula-box">
+    <div class="formula-title">Ecuación de la recta — Formas principales</div>
+    <div class="math-row">
+      <span class="label">Pendiente-intercepto:</span>
+      <span>\( y = mx + b \)</span>
+    </div>
+    <div class="label-sm">\( m \) = pendiente (tasa de cambio) &nbsp;|&nbsp; \( b \) = intercepto en \( y \)</div>
+    <div class="sep"></div>
+    <div class="math-row">
+      <span class="label">Punto-pendiente:</span>
+      <span>\( y - y_1 = m(x - x_1) \)</span>
+    </div>
+    <div class="math-row">
+      <span class="label">Pendiente:</span>
+      <span>\( m = \dfrac{y_2 - y_1}{x_2 - x_1} = \dfrac{\Delta y}{\Delta x} \)</span>
+    </div>
+    <div class="sep"></div>
+    <div class="math-row">
+      <span class="label">Función de costo:</span>
+      <span>\( C(x) = C_v \cdot x + C_f \)</span>
+    </div>
+    <div class="label-sm">\( C_v \) = costo variable por unidad &nbsp;|&nbsp; \( C_f \) = costo fijo</div>
+  </div>
+
+  <div class="two-cols">
+    <div class="example-box">
+      <h4>🚗 Accidente TransMilenio — Calle 80 con Carrera 90, Bogotá</h4>
+      <p>Bus biarticulado se desplaza por la Calle 80 (eje horizontal). Camioneta avanza por la Carrera 90 (eje vertical).</p>
+      <br>
+      <p><strong>Trayectoria del bus:</strong></p>
+      <div class="calc">\( f_{\text{bus}}(x) = 0 \quad \Rightarrow \quad y = 0 \)</div>
+      <p><strong>Trayectoria de la camioneta:</strong></p>
+      <div class="calc">\( f_{\text{cam}}(x) = \text{indefinida} \quad \Rightarrow \quad x = 0 \)</div>
+      <p><strong>Punto de impacto:</strong></p>
+      <div class="calc">\( (x, y) = (0,\, 0) \)</div>
+      <p><strong>Función de posición (velocidad 40 km/h):</strong></p>
+      <div class="calc">\( x(t) = 40t \quad\quad y(t) = -35t \)</div>
+    </div>
+
+    <div class="police-box">
+      <h4>🚔 Costos operativos 2022-2024</h4>
+      <table class="data-table" style="margin:0; font-size:0.82rem;">
+        <tr><th>Año (x)</th><th>Costo (billones COP)</th></tr>
+        <tr><td>2022 → x = 0</td><td>8,2</td></tr>
+        <tr><td>2023 → x = 1</td><td>9,0</td></tr>
+        <tr><td>2024 → x = 2</td><td>9,8</td></tr>
+      </table>
+      <br>
+      <p><strong>Pendiente:</strong></p>
+      <div class="calc">\( m = \dfrac{9{,}8 - 8{,}2}{2 - 0} = \dfrac{1{,}6}{2} = 0{,}8 \text{ billones/año} \)</div>
+      <p><strong>Ecuación:</strong></p>
+      <div class="calc">\( C(x) = 0{,}8x + 8{,}2 \)</div>
+      <p><strong>Proyección 2025:</strong></p>
+      <div class="calc">\( C(3) = 0{,}8(3) + 8{,}2 = 10{,}6 \text{ billones COP} \)</div>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <div class="icon">💡</div>
+    <p><strong>¿Sabías que?</strong> El modelo CompStat (adoptado en Colombia) usa funciones lineales y regresiones para trazar tendencias de criminalidad semana a semana. Esta herramienta permitió reducir el crimen en Nueva York un <strong>40%</strong> en los años 90.</p>
+  </div>
+
+  <details>
+    <summary>📊 Interpretación de la pendiente en contextos policiales</summary>
+    <table class="data-table">
+      <tr><th>Situación</th><th>Variable x</th><th>Variable y</th><th>Pendiente \(m\)</th></tr>
+      <tr><td>Costos operativos</td><td>Tiempo (años)</td><td>Costo (billones)</td><td>Incremento anual</td></tr>
+      <tr><td>Trayectoria vehículo</td><td>Tiempo (s)</td><td>Posición (m)</td><td>Velocidad (m/s)</td></tr>
+      <tr><td>Delitos vs agentes</td><td>N° de agentes</td><td>Delitos atendidos</td><td>Efectividad/agente</td></tr>
+      <tr><td>Llamadas al 123</td><td>Tiempo (horas)</td><td>Llamadas acumuladas</td><td>Tasa de llamadas/hora</td></tr>
+    </table>
+  </details>
+
+  <div class="resource-links">
+    <a href="https://es.khanacademy.org/math/algebra/x2f8bb11595b61c86:linear-equations-graphs" target="_blank">🎥 Khan Academy — Función Lineal</a>
+    <a href="https://www.geogebra.org/graphing" target="_blank">📊 GeoGebra Gráfica</a>
+    <a href="https://www.desmos.com/calculator" target="_blank">📈 Desmos Calculadora</a>
+    <a href="https://www.wolframalpha.com" target="_blank">🔢 Wolfram Alpha</a>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- TEMA 5: FIGURAS GEOMÉTRICAS -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section t5" id="tema5">
+  <div class="tema-header">
+    <div class="tema-num">5</div>
+    <div>
+      <h2>Figuras Geométricas</h2>
+      <p>Área, volumen y perímetro — medición y análisis de espacios operativos</p>
+    </div>
+  </div>
+
+  <div class="model-image">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Polyhedron_with_15_faces.png/320px-Polyhedron_with_15_faces.png"
+         onerror="this.style.display='none'" alt="Geometría">
+    <div class="caption">La geometría permite cuantificar el espacio físico: áreas de cuadrantes, perímetros de escenas del crimen y capacidad de instalaciones. Fuente: Wikimedia Commons</div>
+  </div>
+
+  <p>La geometría permite cuantificar y analizar el espacio físico. En el contexto policial, sus aplicaciones van desde calcular el área de cobertura de un cuadrante hasta estimar la capacidad de un depósito de evidencias o trazar perímetros de seguridad.</p>
+
+  <!-- FIGURAS PLANAS -->
+  <h3 style="color:var(--teal); margin: 20px 0 10px;">📐 Figuras Planas — Área y Perímetro</h3>
+
+  <div class="formula-box">
+    <div class="formula-title">Fórmulas esenciales</div>
+    <div class="math-row"><span class="label">Cuadrado:</span><span>\( A = l^2 \qquad P = 4l \)</span></div>
+    <div class="math-row"><span class="label">Rectángulo:</span><span>\( A = b \times h \qquad P = 2(b + h) \)</span></div>
+    <div class="math-row"><span class="label">Triángulo:</span><span>\( A = \dfrac{b \times h}{2} \qquad P = a + b + c \)</span></div>
+    <div class="math-row"><span class="label">Círculo:</span><span>\( A = \pi r^2 \qquad C = 2\pi r \)</span></div>
+    <div class="math-row"><span class="label">Trapecio:</span><span>\( A = \dfrac{(B + b) \times h}{2} \)</span></div>
+  </div>
+
+  <!-- SÓLIDOS -->
+  <h3 style="color:var(--teal); margin: 20px 0 10px;">📦 Cuerpos Sólidos — Volumen</h3>
+
+  <div class="formula-box">
+    <div class="formula-title">Volúmenes de cuerpos comunes</div>
+    <div class="math-row"><span class="label">Cubo:</span><span>\( V = l^3 \)</span></div>
+    <div class="math-row"><span class="label">Paralelepípedo:</span><span>\( V = l \times a \times h \)</span></div>
+    <div class="math-row"><span class="label">Cilindro:</span><span>\( V = \pi r^2 h \)</span></div>
+    <div class="math-row"><span class="label">Esfera:</span><span>\( V = \dfrac{4}{3} \pi r^3 \)</span></div>
+    <div class="math-row"><span class="label">Pirámide:</span><span>\( V = \dfrac{A_{\text{base}} \times h}{3} \)</span></div>
+    <div class="math-row"><span class="label">Cono:</span><span>\( V = \dfrac{1}{3} \pi r^2 h \)</span></div>
+  </div>
+
+  <div class="police-box">
+    <h4>🚔 Operativo en Kennedy — Cálculos geométricos reales</h4>
+    <p>La Localidad de Kennedy tiene aproximadamente 38,8 km². El operativo cubre 3 zonas:</p>
+    <br>
+    <table class="data-table" style="margin:0; font-size: 0.82rem;">
+      <tr><th>Zona</th><th>Figura</th><th>Dimensiones</th><th>Área</th><th>Perímetro</th></tr>
+      <tr><td>Norte (Américas)</td><td>Rectángulo</td><td>\(4{,}2 \times 3{,}1\) km</td><td>13,02 km²</td><td>14,6 km</td></tr>
+      <tr><td>Centro (Carvajal)</td><td>Trapecio</td><td>\(B=5,\; b=3,\; h=2{,}8\) km</td><td>11,2 km²</td><td>~14,2 km</td></tr>
+      <tr><td>Sur (Patio Bonito)</td><td>Triángulo</td><td>\(b=8,\; h=3{,}6\) km</td><td>14,4 km²</td><td>~17,1 km</td></tr>
+    </table>
+    <br>
+    <div class="calc">\( A_{\text{Norte}} = 4{,}2 \times 3{,}1 = 13{,}02 \text{ km}^2 \)</div>
+    <div class="calc">\( A_{\text{Centro}} = \dfrac{(5 + 3) \times 2{,}8}{2} = \dfrac{8 \times 2{,}8}{2} = 11{,}2 \text{ km}^2 \)</div>
+    <div class="calc">\( A_{\text{Sur}} = \dfrac{8 \times 3{,}6}{2} = 14{,}4 \text{ km}^2 \)</div>
+    <div class="calc">\( A_{\text{total}} = 13{,}02 + 11{,}2 + 14{,}4 = 38{,}62 \text{ km}^2 \approx 38{,}8 \text{ km}^2 \)</div>
+    <div class="calc">\( \text{Densidad policial} = \dfrac{30 \text{ agentes}}{38{,}62 \text{ km}^2} \approx 0{,}78 \text{ agentes/km}^2 \)</div>
+  </div>
+
+  <div class="example-box">
+    <h4>🏗️ Aplicación 3D — Bodega de evidencias</h4>
+    <p>Una bodega en la Estación Kennedy tiene forma de caja rectangular:</p>
+    <div class="calc">\( \text{Dimensiones: } 12 \text{ m} \times 8 \text{ m} \times 3{,}5 \text{ m} \)</div>
+    <div class="calc">\( V = 12 \times 8 \times 3{,}5 = 336 \text{ m}^3 \)</div>
+    <div class="calc">\( A_{\text{piso}} = 12 \times 8 = 96 \text{ m}^2 \)</div>
+    <div class="calc">\( \text{Estantes} = \dfrac{96 \text{ m}^2}{0{,}8 \text{ m}^2/\text{estante}} = 120 \text{ estantes} \)</div>
+  </div>
+
+  <div class="did-you-know">
+    <div class="icon">💡</div>
+    <p><strong>¿Sabías que?</strong> La perimetría de escenas del crimen es una técnica forense que usa geometría plana. Los investigadores establecen perímetros concéntricos — interno, medio y externo — para controlar el acceso y preservar la evidencia.</p>
+  </div>
+
+  <details>
+    <summary>📋 Tabla resumen de figuras y aplicaciones policiales</summary>
+    <table class="data-table">
+      <tr><th>Figura</th><th>Área / Volumen</th><th>Perímetro</th><th>Aplicación policial</th></tr>
+      <tr><td>Rectángulo</td><td>\(b \times h\)</td><td>\(2(b+h)\)</td><td>Cuadrantes rectangulares</td></tr>
+      <tr><td>Triángulo</td><td>\(\frac{b \times h}{2}\)</td><td>\(a+b+c\)</td><td>Zonas de cobertura irregular</td></tr>
+      <tr><td>Círculo</td><td>\(\pi r^2\)</td><td>\(2\pi r\)</td><td>Radio de acción desde un CAI</td></tr>
+      <tr><td>Caja rectangular</td><td>\(l \times a \times h\)</td><td>\(2(lb+lh+bh)\)</td><td>Bodegas de evidencias</td></tr>
+      <tr><td>Cilindro</td><td>\(\pi r^2 h\)</td><td>\(2\pi r(r+h)\)</td><td>Tanques de combustible</td></tr>
+      <tr><td>Esfera</td><td>\(\frac{4}{3}\pi r^3\)</td><td>\(4\pi r^2\)</td><td>Drones de vigilancia (alcance)</td></tr>
+    </table>
+  </details>
+
+  <div class="resource-links">
+    <a href="https://es.khanacademy.org/math/geometry" target="_blank">🎥 Khan Academy — Geometría</a>
+    <a href="https://www.geogebra.org/3d" target="_blank">📊 GeoGebra 3D</a>
+    <a href="https://phet.colorado.edu/es/simulations/area-builder" target="_blank">🧪 PhET Area Builder</a>
+    <a href="https://www.wolframalpha.com" target="_blank">🔢 Wolfram Alpha</a>
+  </div>
+</div>
+
+
+<!-- FORO -->
+<div class="forum-section" id="foro">
+  <h2>💬 Pregunta para el Foro</h2>
+  <p>Reflexiona y participa con tus compañeros de grupo:</p>
+  <div class="forum-question">
+    "Imagina que eres el comandante del operativo de seguridad en Kennedy. Selecciona <strong>al menos dos herramientas matemáticas</strong> de esta unidad — notación científica, porcentajes, función lineal o geometría — y describe cómo las aplicarías para tomar decisiones sobre distribución de personal, presupuesto o cobertura territorial. ¿Qué resultados esperarías y por qué?"
+  </div>
+  <br>
+  <p style="font-size:0.85rem; opacity:.7;">Recuerda citar fuentes en normas APA y argumentar tu respuesta con cálculos concretos.</p>
+</div>
+
+
+<!-- RECURSOS BIBLIOGRÁFICOS -->
+<div class="section" style="background: white;">
+  <h2 style="text-align:center; color: var(--azul); margin-bottom: 24px;">📚 Recursos Bibliográficos</h2>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">📖</div>
+      <h4>Matemática Elemental</h4>
+      <p>Para Estudiantes Universitarios — Base teórica de todos los temas de la unidad</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔢</div>
+      <h4>Razonamiento Cuantitativo, Lenguaje y Matemáticas</h4>
+      <p>Enfoque aplicado a contextos profesionales y toma de decisiones</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📐</div>
+      <h4>Geometría Analítica v.1</h4>
+      <p>Fundamentos de geometría plana y espacial con enfoque analítico</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌐</div>
+      <h4>Khan Academy</h4>
+      <p><a href="https://es.khanacademy.org" target="_blank" style="color:var(--azul2)">es.khanacademy.org</a> — Videos y ejercicios gratuitos en español</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📊</div>
+      <h4>GeoGebra</h4>
+      <p><a href="https://www.geogebra.org" target="_blank" style="color:var(--azul2)">geogebra.org</a> — Visualización interactiva de funciones y geometría</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔬</div>
+      <h4>Wolfram Alpha</h4>
+      <p><a href="https://www.wolframalpha.com" target="_blank" style="color:var(--azul2)">wolframalpha.com</a> — Motor de cálculo matemático avanzado</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>📐 Razonamiento Cuantitativo I — Unidad 1: Geometría y Bases de Álgebra</p>
+  <p style="margin-top:4px;">ESJIM · Administración Policial · Plataforma Educativa Policial</p>
+</footer>
+
+</body>
+</html>
