@@ -13,6 +13,9 @@
 | [`plan_clase_u2.html`](./plan_clase_u2.html) | Plan completo de la clase en HTML con gráficos SVG (árbol de problemas, grafo de redes, Poisson, costo-beneficio) |
 | [`plan_clase_u2.md`](./plan_clase_u2.md) | Versión Markdown del mismo plan |
 | [`plantilla_PL_patrullas.xlsx`](./plantilla_PL_patrullas.xlsx) | Plantilla Excel con el ejercicio de programación lineal listo para Solver |
+| [`guia_demuestro_u2.pdf`](./guia_demuestro_u2.pdf) | **Guía para estudiantes** con ejercicio resuelto, plantillas y rúbrica |
+| [`guia_demuestro_u2.tex`](./guia_demuestro_u2.tex) | Código fuente LaTeX de la guía (editable) |
+| [`escudo_esjim.jpg`](./escudo_esjim.jpg) | Escudo institucional usado en la presentación |
 
 ## Ver en línea
 

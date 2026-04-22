@@ -1,0 +1,584 @@
+\documentclass[11pt, a4paper]{article}
+
+% ==================== PAQUETES ====================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{array, booktabs, tabularx}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\usepackage{longtable}
+
+\usetikzlibrary{shapes, arrows, positioning, calc, trees, fit}
+\tcbuselibrary{skins, breakable}
+
+% ==================== COLORES ====================
+\definecolor{policiaAzul}{HTML}{0A3B66}
+\definecolor{policiaAzulClaro}{HTML}{1E5A8E}
+\definecolor{policiaDorado}{HTML}{C9A227}
+\definecolor{grisClaro}{HTML}{F4F6F8}
+\definecolor{grisBorde}{HTML}{DCE2E8}
+\definecolor{acentoSuave}{HTML}{EAF2FA}
+\definecolor{exitoVerde}{HTML}{1E7E34}
+\definecolor{exitoSuave}{HTML}{E9F7EF}
+\definecolor{alertaRojo}{HTML}{C0392B}
+\definecolor{alertaSuave}{HTML}{FDECEA}
+\definecolor{causa}{HTML}{A93226}
+\definecolor{consecuencia}{HTML}{7D3C98}
+
+% ==================== ESTILO ====================
+\hypersetup{
+  colorlinks=true,
+  linkcolor=policiaAzul,
+  urlcolor=policiaAzulClaro,
+  pdftitle={Guia Demuestro mi aprendizaje U2 - Matematica aplicada},
+  pdfauthor={Jose Javier Mercado Reyes - ESJIM}
+}
+
+\titleformat{\section}
+  {\Large\bfseries\color{policiaAzul}}
+  {\thesection.}{0.6em}{}
+  [\vspace{-0.6em}\color{policiaDorado}\hrule height 2pt]
+
+\titleformat{\subsection}
+  {\large\bfseries\color{policiaAzulClaro}}
+  {\thesubsection.}{0.5em}{}
+
+% Encabezado/pie
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\color{policiaAzul}\textbf{ESJIM} $\cdot$ Matem\'atica aplicada a la profesi\'on}
+\fancyhead[R]{\footnotesize\color{policiaAzul}U2 $\cdot$ Demuestro mi aprendizaje}
+\fancyfoot[C]{\footnotesize\color{policiaAzul}P\'agina \thepage\ de \pageref*{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{policiaDorado}\hrule width\headwidth height0.8pt}
+\usepackage{lastpage}
+
+% Cajas tem\'aticas
+\newtcolorbox{cajaInfo}[1][]{
+  colback=acentoSuave, colframe=policiaAzulClaro,
+  fonttitle=\bfseries\color{white}, title=#1,
+  arc=2mm, left=10pt, right=10pt, top=6pt, bottom=6pt,
+  breakable
+}
+\newtcolorbox{cajaExito}{
+  colback=exitoSuave, colframe=exitoVerde, coltitle=exitoVerde,
+  arc=2mm, left=10pt, right=10pt, top=6pt, bottom=6pt,
+  leftrule=4pt, rightrule=0pt, toprule=0pt, bottomrule=0pt,
+  breakable
+}
+\newtcolorbox{cajaAlerta}{
+  colback=alertaSuave, colframe=alertaRojo, coltitle=alertaRojo,
+  arc=2mm, left=10pt, right=10pt, top=6pt, bottom=6pt,
+  leftrule=4pt, rightrule=0pt, toprule=0pt, bottomrule=0pt,
+  breakable
+}
+\newtcolorbox{cajaPaso}[1][]{
+  colback=white, colframe=policiaDorado, coltitle=policiaAzul,
+  fonttitle=\bfseries, title=#1,
+  arc=2mm, left=10pt, right=10pt, top=6pt, bottom=6pt,
+  leftrule=4pt, rightrule=0.4pt, toprule=0.4pt, bottomrule=0.4pt,
+  breakable
+}
+
+% ==================== DOCUMENTO ====================
+\begin{document}
+
+% ---- PORTADA ----
+\begin{titlepage}
+\centering
+\vspace*{1.5cm}
+
+\begin{tcolorbox}[colback=policiaAzul, colframe=policiaDorado, boxrule=2pt, arc=4mm, left=20pt, right=20pt, top=20pt, bottom=20pt]
+\color{white}
+{\footnotesize\textbf{ESCUELA DE SUBOFICIALES Y NIVEL EJECUTIVO}}\\[2pt]
+{\footnotesize ``GONZALO JIM\'ENEZ DE QUESADA''}\\[10pt]
+\color{policiaDorado}
+\rule{0.4\textwidth}{0.6pt}\\[10pt]
+\color{white}
+{\LARGE\textbf{Gu\'ia de trabajo}}\\[6pt]
+{\Large \textit{Demuestro mi aprendizaje}}\\[10pt]
+\color{policiaDorado}
+{\large\textbf{Unidad 2}}\\[3pt]
+\color{white}
+{\large Operaciones B\'asicas para la Gesti\'on Efectiva}\\
+{\large en la Administraci\'on Policial}\\[14pt]
+\color{policiaDorado}\rule{0.4\textwidth}{0.6pt}\\[10pt]
+\color{white}
+{\normalsize Matem\'atica aplicada a la profesi\'on}
+\end{tcolorbox}
+
+\vspace{1.2cm}
+
+\begin{tabular}{@{}p{0.25\textwidth}p{0.65\textwidth}@{}}
+\textbf{\color{policiaAzul}Docente:} & Jos\'e Javier Mercado Reyes\\[5pt]
+\textbf{\color{policiaAzul}Asignatura:} & 338-ADMI-MATE-2 Matem\'atica aplicada a la profesi\'on\\[5pt]
+\textbf{\color{policiaAzul}Secciones:} & 008227 $\cdot$ 008228 $\cdot$ 008229 $\cdot$ 008230\\[5pt]
+\textbf{\color{policiaAzul}Unidad:} & 2 --- Operaciones B\'asicas para la Gesti\'on Efectiva\\[5pt]
+\textbf{\color{policiaAzul}Actividad:} & Demuestro mi aprendizaje\\[5pt]
+\textbf{\color{policiaAzul}Apertura:} & Lunes 16 de marzo de 2026, 00:01\\[5pt]
+\textbf{\color{policiaAzul}Cierre:} & Jueves 14 de mayo de 2026, 23:59\\[5pt]
+\textbf{\color{policiaAzul}Peso:} & 5.00 puntos (t\'ecnica sumativa de la unidad)
+\end{tabular}
+
+\vfill
+
+\begin{cajaInfo}[\textbf{Prop\'osito de esta gu\'ia}]
+Este documento contiene todo lo que usted necesita para desarrollar la actividad ``Demuestro mi aprendizaje'' de la Unidad 2. Incluye un \textbf{ejercicio resuelto de programaci\'on lineal paso a paso}, una \textbf{plantilla de \'arbol de problemas}, una \textbf{plantilla de an\'alisis costo-beneficio}, la r\'ubrica de evaluaci\'on y las referencias bibliogr\'aficas. Use el ejercicio de ejemplo como gu\'ia para construir su propio caso.
+\end{cajaInfo}
+
+\vspace{0.5cm}
+{\footnotesize \color{policiaAzul} Abril 2026}
+
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ==================== 1. OBJETIVO ====================
+\section{Objetivo y competencias}
+
+\subsection{Resultado de aprendizaje}
+\begin{cajaInfo}[\textbf{RA-U2}]
+Realiza c\'alculos y operaciones matem\'aticas fundamentales (porcentajes, proporciones, manejo de datos cuantitativos) en el contexto policial para tomar decisiones informadas que fortalezcan la eficiencia operativa en su labor profesional.
+\end{cajaInfo}
+
+\subsection{Competencias espec\'ificas}
+Al completar esta actividad el estudiante estar\'a en capacidad de:
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Estructurar} un problema real del servicio policial identificando con claridad sus causas y consecuencias.
+\item \textbf{Formular} una alternativa de soluci\'on con variables medibles.
+\item \textbf{Evaluar} la viabilidad de esa alternativa mediante an\'alisis costo-beneficio, ya sea con valores num\'ericos o con argumentaci\'on anal\'itica.
+\item \textbf{Justificar} una decisi\'on operativa de manera que pueda ser auditada por el mando.
+\end{itemize}
+
+% ==================== 2. COMPONENTES ====================
+\section{Componentes obligatorios de la entrega}
+
+La entrega debe contener como m\'inimo los dos elementos siguientes:
+
+\begin{cajaPaso}[\textbf{Componente 1 --- \'Arbol de problemas}]
+Represente gr\'aficamente una \textbf{situaci\'on cotidiana del servicio policial} (por ejemplo: distribuci\'on del combustible mensual, rotaci\'on de turnos, elecci\'on entre mantenimiento preventivo y correctivo, instalaci\'on de c\'amaras adicionales, etc.). El \'arbol debe mostrar:
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Problema central} (tronco): redactado en una frase clara, medible y ubicada en el tiempo y el territorio.
+\item \textbf{Causas} (ra\'ices): m\'inimo 3, m\'aximo 5. Clasif\'iquelas en estructurales, operativas, sociales o situacionales.
+\item \textbf{Consecuencias} (copa): m\'inimo 3, m\'aximo 5. Ord\'enelas de las m\'as inmediatas a las m\'as amplias.
+\end{itemize}
+\end{cajaPaso}
+
+\begin{cajaPaso}[\textbf{Componente 2 --- An\'alisis costo-beneficio}]
+Eval\'ue la viabilidad de una alternativa de soluci\'on al problema identificado. Puede elegir entre:
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{An\'alisis num\'erico}: tabla de costos (iniciales y recurrentes) y beneficios (monetarios y no monetarios), con c\'alculo de \textbf{B/C}, \textbf{VPN} o \textbf{TIR}.
+\item \textbf{An\'alisis anal\'itico}: argumentaci\'on en texto explicando por qu\'e los beneficios superan los costos, usando conceptos de la unidad y referenciando literatura.
+\end{itemize}
+\end{cajaPaso}
+
+\begin{cajaInfo}[\textbf{Formato de entrega}]
+Documento PDF de \textbf{2 a 5 p\'aginas}, con portada que incluya nombre completo, c\'edula y secci\'on. Fuente Arial o Times 11--12 pt. Sub\'alo a la plataforma Moodle antes de la fecha de cierre.
+\end{cajaInfo}
+
+\newpage
+
+% ==================== 3. EJERCICIO RESUELTO ====================
+\section{Ejercicio resuelto de programaci\'on lineal (ejemplo gu\'ia)}
+
+Este ejemplo no es parte de su entrega, pero le servir\'a de \textbf{modelo} para construir un an\'alisis similar en el desarrollo de su actividad. Lo vimos en la clase con un caso del Comando Suroccidente (Cali). Aqu\'i trabajamos un \textbf{caso distinto} para que pueda seguir la estructura.
+
+\subsection{Caso: Operativo de Fin de Semana en Pereira}
+
+\begin{cajaInfo}[\textbf{Situaci\'on planteada}]
+El Comandante del Distrito de Pereira debe planificar el \textbf{operativo del fin de semana}. Tiene disponibles \textbf{15 motos} y un presupuesto diario de \textbf{\$2.400.000} para asignarlas a tres sectores:
+
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Sector 1 --- Centro}: alta afluencia comercial, reportes de hurto a persona concentrados all\'i. Prioridad alta (peso 3), costo de operaci\'on por moto-d\'ia \$160.000, se requieren al menos 5 motos.
+\item \textbf{Sector 2 --- Cerritos}: sector residencial de crecimiento, riesgo moderado. Prioridad media (peso 2), costo \$150.000, m\'inimo 3 motos.
+\item \textbf{Sector 3 --- Circunvalar}: corredor vial importante, delitos de bajo impacto. Prioridad baja (peso 1), costo \$140.000, m\'inimo 2 motos.
+\end{itemize}
+
+\textbf{Pregunta:} \textit{\textquestiondown Cu\'antas motos asignar a cada sector para \textbf{maximizar la cobertura operativa ponderada}, respetando presupuesto y m\'inimos?}
+\end{cajaInfo}
+
+\subsection{Datos organizados}
+
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Sector} & \textbf{Peso prioridad} & \textbf{Costo moto-d\'ia} & \textbf{M\'inimo operativo} \\
+\midrule
+S1 Centro & 3 & \$160.000 & $\geq 5$ motos \\
+S2 Cerritos & 2 & \$150.000 & $\geq 3$ motos \\
+S3 Circunvalar & 1 & \$140.000 & $\geq 2$ motos \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Desarrollo paso a paso}
+
+\begin{cajaPaso}[\textbf{Paso 1 --- Definir las variables de decisi\'on}]
+Nombre lo que usted puede elegir:
+\begin{align*}
+x_1 &= \text{n\'umero de motos asignadas al Centro}\\
+x_2 &= \text{n\'umero de motos asignadas a Cerritos}\\
+x_3 &= \text{n\'umero de motos asignadas al Circunvalar}
+\end{align*}
+Las tres variables deben ser \textbf{enteros no negativos} (no existen medias motos).
+\end{cajaPaso}
+
+\begin{cajaPaso}[\textbf{Paso 2 --- Plantear la funci\'on objetivo}]
+Queremos \textbf{maximizar la cobertura ponderada}. Cada sector aporta seg\'un su peso:
+\begin{equation*}
+\boxed{\; Z = 3\,x_1 + 2\,x_2 + 1\,x_3 \;}
+\end{equation*}
+Una moto en el Centro aporta \textit{tres veces} lo que una moto en el Circunvalar, porque all\'i el riesgo es mayor.
+\end{cajaPaso}
+
+\begin{cajaPaso}[\textbf{Paso 3 --- Escribir las restricciones}]
+Cada l\'imite operativo se traduce en una desigualdad. Se escriben \textbf{una debajo de otra}, nunca separadas por comas:
+
+\textbf{Restricci\'on 1 --- Total de motos disponibles:}
+\begin{equation*}
+x_1 + x_2 + x_3 \leq 15
+\end{equation*}
+
+\textbf{Restricci\'on 2 --- Presupuesto diario:}
+\begin{equation*}
+160\,000\,x_1 + 150\,000\,x_2 + 140\,000\,x_3 \leq 2\,400\,000
+\end{equation*}
+
+\textbf{Restricciones 3--5 --- Demandas m\'inimas operativas:}
+\begin{align*}
+x_1 &\geq 5 \quad\text{(m\'inimo en Centro)}\\
+x_2 &\geq 3 \quad\text{(m\'inimo en Cerritos)}\\
+x_3 &\geq 2 \quad\text{(m\'inimo en Circunvalar)}
+\end{align*}
+
+\textbf{Restricci\'on 6 --- No-negatividad e integralidad:}
+\begin{equation*}
+x_1, x_2, x_3 \in \mathbb{Z}^{+} \cup \{0\}
+\end{equation*}
+\end{cajaPaso}
+
+\begin{cajaPaso}[\textbf{Paso 4 --- Consolidar el modelo}]
+Se re\'une todo en un sistema, que es lo que se introduce en Excel Solver:
+\begin{equation*}
+\begin{aligned}
+\text{Max}\quad Z &= 3\,x_1 + 2\,x_2 + 1\,x_3\\
+\text{s.\,a.}\quad
+x_1 + x_2 + x_3 &\leq 15\\
+160\,000\,x_1 + 150\,000\,x_2 + 140\,000\,x_3 &\leq 2\,400\,000\\
+x_1 &\geq 5\\
+x_2 &\geq 3\\
+x_3 &\geq 2\\
+x_1, x_2, x_3 &\in \mathbb{Z}_{\geq 0}
+\end{aligned}
+\end{equation*}
+\end{cajaPaso}
+
+\begin{cajaPaso}[\textbf{Paso 5 --- Resolver con Excel Solver}]
+En Excel: celdas para las variables, una celda con la funci\'on objetivo (uso de \texttt{=SUMAPRODUCTO}) y una por cada restricci\'on. Luego men\'u \textbf{Datos} $\rightarrow$ \textbf{Solver} $\rightarrow$ m\'etodo \textbf{Simplex LP} $\rightarrow$ \textbf{Resolver}. La soluci\'on \'optima es:
+\begin{align*}
+x_1 &= 9 \quad\text{motos en Centro}\\
+x_2 &= 3 \quad\text{motos en Cerritos}\\
+x_3 &= 3 \quad\text{motos en Circunvalar}\\
+Z &= 3(9) + 2(3) + 1(3) = 36 \quad\text{(cobertura ponderada m\'axima)}
+\end{align*}
+\end{cajaPaso}
+
+\begin{cajaPaso}[\textbf{Paso 6 --- Verificar y traducir a decisi\'on operativa}]
+Se verifica que \textit{todas} las restricciones se cumplen:
+\begin{align*}
+9 + 3 + 3 &= 15 \leq 15 \quad\checkmark \quad\text{(total de motos)}\\
+160\,000(9) + 150\,000(3) + 140\,000(3) &= 2\,310\,000 \leq 2\,400\,000 \quad\checkmark \quad\text{(margen \$90.000)}\\
+9 \geq 5,\; 3 \geq 3,\; 3 \geq 2 &\quad\checkmark \quad\text{(m\'inimos)}
+\end{align*}
+\begin{cajaExito}
+\textbf{Decisi\'on operativa:} asignar \textbf{9 motos al Centro, 3 a Cerritos y 3 al Circunvalar}. Queda un margen de \$90.000 para horas extra o imprevistos del turno. Si cambia la prioridad o el presupuesto, solo se actualizan los n\'umeros y se resuelve de nuevo; la estructura del modelo es la misma.
+\end{cajaExito}
+\end{cajaPaso}
+
+\begin{cajaAlerta}
+\textbf{Advertencia metodol\'ogica:} los pesos (3, 2, 1) y los m\'inimos operativos son decisiones del comandante, no son valores autom\'aticos. Deben estar \textbf{justificados} con datos (tasas delictivas, tiempo de respuesta hist\'orico, cifras del SIEDCO). Un modelo sin justificaci\'on de los par\'ametros no es defendible ante el mando.
+\end{cajaAlerta}
+
+\newpage
+
+% ==================== 4. PLANTILLA ARBOL ====================
+\section{Plantilla de \'arbol de problemas}
+
+A continuaci\'on se muestra un \'arbol de ejemplo (situaci\'on hipot\'etica: \textit{``Alto consumo de combustible en el parque automotor del distrito''}) y luego la plantilla en blanco para que usted la reemplace con su propio caso.
+
+\subsection{Ejemplo completo}
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=0.8cm,
+  consecuencia/.style={rectangle, rounded corners, fill=consecuencia!20, draw=consecuencia, thick, text width=3.2cm, align=center, font=\footnotesize, minimum height=0.9cm},
+  tronco/.style={rectangle, rounded corners, fill=policiaAzul, draw=policiaDorado, very thick, text width=10cm, align=center, font=\small\bfseries\color{white}, minimum height=1.4cm},
+  causa/.style={rectangle, rounded corners, fill=causa!20, draw=causa, thick, text width=3.2cm, align=center, font=\footnotesize, minimum height=0.9cm},
+  linea/.style={-, thick}
+]
+
+% Consecuencias
+\node[consecuencia] (c1) at (-5,4) {Mayor gasto\\presupuestal};
+\node[consecuencia] (c2) at (0,4) {Reducci\'on de\\horas de patrullaje};
+\node[consecuencia] (c3) at (5,4) {Desgaste acelerado\\del parque};
+
+% Etiqueta lateral consecuencias
+\node[rotate=90, anchor=east, font=\footnotesize\bfseries\color{consecuencia}] at (-8,4) {CONSECUENCIAS};
+
+% Problema central
+\node[tronco] at (0,1.5) {Alto consumo de combustible en el parque automotor del Distrito (incremento del 18\% en el \'ultimo trimestre)};
+
+% Etiqueta lateral problema
+\node[rotate=90, anchor=east, font=\footnotesize\bfseries\color{policiaAzul}] at (-8,1.5) {PROBLEMA};
+
+% Causas
+\node[causa] (a1) at (-5,-1) {Rutas no planificadas};
+\node[causa] (a2) at (0,-1) {Falta de\\mantenimiento preventivo};
+\node[causa] (a3) at (5,-1) {Conducci\'on\\inadecuada};
+
+% Etiqueta lateral causas
+\node[rotate=90, anchor=east, font=\footnotesize\bfseries\color{causa}] at (-8,-1) {CAUSAS};
+
+% Conexiones tronco-consecuencias
+\draw[linea, consecuencia] (c1.south) -- ++(0,-0.3) -| (-3,2.2);
+\draw[linea, consecuencia] (c2.south) -- (0,2.2);
+\draw[linea, consecuencia] (c3.south) -- ++(0,-0.3) -| (3,2.2);
+
+% Conexiones tronco-causas
+\draw[linea, causa] (-3,0.8) |- (a1.north);
+\draw[linea, causa] (0,0.8) -- (a2.north);
+\draw[linea, causa] (3,0.8) |- (a3.north);
+
+\end{tikzpicture}
+\end{center}
+
+\subsection{Plantilla en blanco}
+
+Use el siguiente esqueleto para armar el \'arbol con su caso. Pu\'edalo dibujar a mano, hacerlo en PowerPoint, Draw.io o directamente en LaTeX si conoce TikZ.
+
+\vspace{0.5cm}
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=0.8cm,
+  hueco/.style={rectangle, rounded corners, fill=grisClaro, draw=grisBorde, thick, text width=3.2cm, align=center, font=\footnotesize\color{gray}, minimum height=1.1cm},
+  troncoBlanco/.style={rectangle, rounded corners, fill=white, draw=policiaAzul, very thick, text width=10cm, align=center, font=\small\color{gray}, minimum height=1.6cm}
+]
+\node[hueco] (c1) at (-5,4) {[Consecuencia 1]};
+\node[hueco] (c2) at (0,4) {[Consecuencia 2]};
+\node[hueco] (c3) at (5,4) {[Consecuencia 3]};
+
+\node[troncoBlanco] at (0,1.5) {[Escriba aqu\'i el problema central, \\una frase clara, medible y ubicada en el tiempo y el territorio]};
+
+\node[hueco] (a1) at (-5,-1) {[Causa 1]};
+\node[hueco] (a2) at (0,-1) {[Causa 2]};
+\node[hueco] (a3) at (5,-1) {[Causa 3]};
+
+\draw[-, thick, gray] (c1.south) -- ++(0,-0.3) -| (-3,2.3);
+\draw[-, thick, gray] (c2.south) -- (0,2.3);
+\draw[-, thick, gray] (c3.south) -- ++(0,-0.3) -| (3,2.3);
+\draw[-, thick, gray] (-3,0.7) |- (a1.north);
+\draw[-, thick, gray] (0,0.7) -- (a2.north);
+\draw[-, thick, gray] (3,0.7) |- (a3.north);
+\end{tikzpicture}
+\end{center}
+
+\begin{cajaInfo}[\textbf{Consejo}]
+Empiece por el \textbf{problema central}. Una frase bien formulada responde tres preguntas: \textit{qu\'e ocurre}, \textit{d\'onde} y \textit{cu\'ando}. Evite frases como ``hay inseguridad''; prefiera ``incremento del 22\% de hurtos a persona en el cuadrante 3 entre enero y marzo de 2026''.
+\end{cajaInfo}
+
+\newpage
+
+% ==================== 5. COSTO-BENEFICIO ====================
+\section{Plantilla de an\'alisis costo-beneficio}
+
+\subsection{Fundamentos te\'oricos r\'apidos}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lXl@{}}
+\toprule
+\textbf{Indicador} & \textbf{\textquestiondown Qu\'e significa?} & \textbf{F\'ormula} \\
+\midrule
+\textbf{B/C} & Raz\'on beneficios/costos. Dice cu\'antos pesos de beneficio produce cada peso invertido. Es la forma m\'as intuitiva de presentar al mando. & $\dfrac{\sum B}{\sum C}$ \\[8pt]
+\textbf{VPN} & Valor Presente Neto. Suma de flujos netos descontados al presente. Dice cu\'anto vale la inversi\'on hoy. & $\displaystyle\sum_{t=0}^{n} \dfrac{B_t - C_t}{(1+i)^t}$ \\[10pt]
+\textbf{TIR} & Tasa Interna de Retorno. Rentabilidad anual impl\'icita del proyecto. Es la tasa que hace que el VPN sea cero. & $i^{*}$ tal que $VPN(i^{*})=0$ \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Criterios de decisi\'on:}
+\begin{itemize}[leftmargin=1.5em]
+\item B/C $> 1$, VPN $> 0$, TIR $>$ tasa referencia $\;\Rightarrow\;$ la inversi\'on es viable.
+\item B/C $= 1$, VPN $= 0$, TIR $=$ tasa referencia $\;\Rightarrow\;$ la inversi\'on es indiferente.
+\item En caso contrario, no es viable.
+\end{itemize}
+
+\subsection{Ejemplo num\'erico}
+
+\textbf{Caso:} compra de 5 radios de comunicaci\'on nuevos versus reparaci\'on de los 5 actuales.
+
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+\textbf{Concepto} & \textbf{Opci\'on A: comprar nuevos} & \textbf{Opci\'on B: reparar los actuales}\\
+\midrule
+Inversi\'on inicial & \$12.000.000 & \$3.000.000\\
+Costo operativo anual & \$600.000 & \$2.200.000 (mantenimientos recurrentes)\\
+Beneficios anuales & \$5.500.000 (menos fallas, mejor cobertura) & \$3.000.000\\
+Horizonte & 5 a\~nos & 2 a\~nos (vida \'util restante)\\
+Tasa descuento & 10\% & 10\%\\
+\midrule
+\textbf{VPN} & \textbf{+\$6.562.000} $\checkmark$ & \textbf{+\$388.000}\\
+\textbf{B/C} & \textbf{1,54} & \textbf{1,06}\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{cajaExito}
+\textbf{Decisi\'on:} la Opci\'on A domina en rentabilidad, aunque la inversi\'on inicial es mayor. Si el distrito cuenta con el capital para el desembolso inicial, es la opci\'on m\'as eficiente a mediano plazo.
+\end{cajaExito}
+
+\subsection{Plantilla en blanco para el estudiante}
+
+Complete con su propio caso. Puede hacer un an\'alisis \textbf{num\'erico} (llenando los valores) o \textbf{anal\'itico} (reemplazando los n\'umeros por argumentos textuales).
+
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+\textbf{Concepto} & \textbf{Alternativa A} & \textbf{Alternativa B / Status quo}\\
+\midrule
+Descripci\'on breve & \rule{0pt}{1.2em}\hrulefill & \rule{0pt}{1.2em}\hrulefill\\[6pt]
+Inversi\'on inicial & \hrulefill & \hrulefill\\[6pt]
+Costos recurrentes & \hrulefill & \hrulefill\\[6pt]
+Beneficios (monetarios) & \hrulefill & \hrulefill\\[6pt]
+Beneficios (no monetarios) & \hrulefill & \hrulefill\\[6pt]
+Horizonte (a\~nos) & \hrulefill & \hrulefill\\[6pt]
+Tasa descuento & \hrulefill & \hrulefill\\[6pt]
+\textbf{VPN / B/C / TIR} & \hrulefill & \hrulefill\\[6pt]
+\textbf{Decisi\'on justificada} & \multicolumn{2}{p{0.6\textwidth}}{\rule{0pt}{1.2em}\hrulefill}\\[6pt]
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{cajaInfo}[\textbf{Versi\'on anal\'itica sin n\'umeros}]
+Si no tiene cifras confiables, argumente en texto. Un an\'alisis anal\'itico v\'alido responde estas tres preguntas:
+\begin{enumerate}[leftmargin=1.5em]
+\item \textbf{\textquestiondown Qu\'e costos implica la alternativa?} (iniciales, recurrentes, ocultos, riesgos).
+\item \textbf{\textquestiondown Qu\'e beneficios genera?} (monetarios, operativos, humanos, institucionales).
+\item \textbf{\textquestiondown Por qu\'e los beneficios superan los costos?} (argumentos sustentados en la literatura o en experiencia documentada).
+\end{enumerate}
+Extensi\'on sugerida: 300--500 palabras.
+\end{cajaInfo}
+
+\newpage
+
+% ==================== 6. RUBRICA ====================
+\section{R\'ubrica de evaluaci\'on}
+
+La entrega se eval\'ua sobre \textbf{5,00 puntos} con los siguientes criterios:
+
+\begin{center}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}p{3.4cm}cXXXX@{}}
+\toprule
+\textbf{Criterio} & \textbf{Puntos} & \textbf{Excelente (1,0 / 0,8)} & \textbf{B\'asico (0,6 / 0,3)} & \textbf{No entrega (0)}\\
+\midrule
+1. An\'alisis del problema y \'arbol
+& 1,0
+& Identifica claramente el problema central, causas y consecuencias con argumentaci\'on s\'olida
+& Identifica el problema pero con an\'alisis superficial o incompleto
+& No entrega la actividad\\[6pt]
+2. Formulaci\'on matem\'atica (si aplica) o descriptiva clara
+& 1,0
+& Plantea correctamente la alternativa con c\'alculos o argumentos bien fundados
+& La formulaci\'on tiene errores conceptuales o matem\'aticos
+& No entrega la actividad\\[6pt]
+3. An\'alisis costo-beneficio
+& 1,0
+& Aplica correctamente el an\'alisis con datos o argumentos detallados
+& Presenta un an\'alisis superficial o con fallos metodol\'ogicos
+& No entrega la actividad\\[6pt]
+4. Conclusiones y justificaci\'on de la decisi\'on
+& 1,0
+& Justifica claramente la viabilidad de la alternativa
+& Justificaci\'on vaga o sin conexi\'on con los datos
+& No entrega la actividad\\[6pt]
+5. Presentaci\'on y estructura del informe
+& 1,0
+& Documento claro, bien estructurado, con gr\'aficos organizados
+& Estructura adecuada con detalles mejorables
+& No entrega la actividad\\
+\midrule
+\textbf{Total} & \textbf{5,0} & & & \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{cajaAlerta}
+\textbf{Importante:} la pol\'itica ESJIM fija un piso de \textbf{4,10} y un techo de \textbf{5,00} para las entregas evaluadas con IA. El docente conserva la potestad de ajuste seg\'un el contenido real del trabajo.
+\end{cajaAlerta}
+
+% ==================== 7. CRONOGRAMA ====================
+\section{Cronograma sugerido}
+
+\begin{center}
+\begin{tabular}{@{}lp{9cm}@{}}
+\toprule
+\textbf{Semana} & \textbf{Actividad recomendada}\\
+\midrule
+Semana 1 & Revisar la clase grabada y leer la bibliograf\'ia de la unidad.\\
+Semana 2 & Elegir la situaci\'on cotidiana del servicio que quiere analizar y hacer un borrador del \'arbol de problemas.\\
+Semana 3 & Construir las tablas de costos y beneficios; calcular B/C o VPN, o redactar el an\'alisis anal\'itico.\\
+Semana 4 & Redactar el informe final (2--5 p\'aginas), revisar con un compa\~nero y subir a Moodle antes del 14 de mayo, 23:59.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ==================== 8. RECURSOS ====================
+\section{Recursos y bibliograf\'ia}
+
+\subsection{Bibliograf\'ia b\'asica (obligatoria)}
+\begin{itemize}[leftmargin=1.5em]
+\item Pont\'on Cevallos, D. (2020). El aporte de Edwin Sutherland al an\'alisis del crimen econ\'omico global. \textit{URVIO: Revista Latinoamericana de Estudios de Seguridad}, 27, 112--124.
+\item Rohatgi, V. K., \& Saleh, A. K. E. (2000). \textit{An Introduction to Probability and Statistics}. John Wiley \& Sons.
+\item Villarreal Satama, F. L., Montenegro G\'alvez, D. I., \& N\'u\~nez Ribadeneira, J. E. (2021). Optimizaci\'on Matem\'atica como Herramienta para la toma de decisiones en la Empresa. \textit{Ingenio}, 4(1), 40--60.
+\end{itemize}
+
+\subsection{Bibliograf\'ia complementaria}
+\begin{itemize}[leftmargin=1.5em]
+\item Alvino Aldave, V. M., et al. (2024). Anticipando el Crimen: Modelos Matem\'aticos para la Proyecci\'on del Comportamiento Delincuencial en la Provincia de Huaura. \textit{TecnoHumanismo}, 4(3), 1--169.
+\item L\'opez, G. J., Coronel, E. L., \& R\'ios, M. E. (2012). Simulador de programaci\'on lineal 2D y 3D como recurso did\'actico. \textit{Revista Iberoamericana de Ciencias y Tecnolog\'ia}, 3(2), 123--135.
+\end{itemize}
+
+\subsection{Herramientas}
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Microsoft Excel} con complemento Solver (\textit{Datos} $\rightarrow$ \textit{Solver} $\rightarrow$ \textit{Simplex LP}).
+\item \textbf{Khan Academy}: secciones de probabilidad y optimizaci\'on.
+\item \textbf{GeoGebra} para representaci\'on gr\'afica de problemas de dos variables.
+\end{itemize}
+
+\subsection{Material de apoyo del docente}
+\begin{itemize}[leftmargin=1.5em]
+\item Presentaci\'on HTML: \url{https://jotaj1991.github.io/recursos-esjim/u2_plan_clase/plan_clase_u2.html}
+\item Plantilla Excel con el caso de Cali resuelto: \texttt{plantilla\_PL\_patrullas.xlsx}
+\item Bases de datos institucionales: BD1 Incidentes Bogot\'a, BD2 Gesti\'on Cuadrantes Colombia, BD3 Perfil Criminal y Reincidencia.
+\end{itemize}
+
+\vspace{1cm}
+
+\begin{center}
+\color{policiaAzul}\rule{0.6\textwidth}{0.6pt}\\[8pt]
+\footnotesize\textit{Cualquier duda sobre el desarrollo de la actividad, consulte al docente por el canal oficial de la plataforma Moodle.}
+\end{center}
+
+\end{document}
