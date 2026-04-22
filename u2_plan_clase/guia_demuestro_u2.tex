@@ -43,14 +43,18 @@
   pdfauthor={Jose Javier Mercado Reyes - ESJIM}
 }
 
-\titleformat{\section}
+\titleformat{\section}[hang]
   {\Large\bfseries\color{policiaAzul}}
   {\thesection.}{0.6em}{}
-  [\vspace{-0.6em}\color{policiaDorado}\hrule height 2pt]
+  [\vspace{4pt}{\color{policiaDorado}\titlerule[1.2pt]}]
 
-\titleformat{\subsection}
+\titlespacing*{\section}{0pt}{1.8em}{0.9em}
+
+\titleformat{\subsection}[hang]
   {\large\bfseries\color{policiaAzulClaro}}
   {\thesubsection.}{0.5em}{}
+
+\titlespacing*{\subsection}{0pt}{1.2em}{0.5em}
 
 % Encabezado/pie
 \pagestyle{fancy}
