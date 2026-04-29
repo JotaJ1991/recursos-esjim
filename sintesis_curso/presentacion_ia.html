@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inteligencia Artificial · Aplicada a la profesión policial · ESJIM</title>
+<style>
+:root{--azul:#0a3d6e;--azul2:#143c66;--dorado:#d4a23c;--dorado2:#b58323;--verde:#1f8a4d;--rojo:#c0392b;--violeta:#6b46c1;--crema:#f5efdc;--gris:#3a3a3a}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;color:#1c1c1c;background:#000;overflow:hidden}
+body{user-select:none}
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:3vw 5vw;opacity:0;transform:translateX(40px);transition:opacity .55s ease,transform .55s ease;pointer-events:none;background:#fff}
+.slide.active{opacity:1;transform:translateX(0);pointer-events:auto;z-index:2}
+.slide.prev{opacity:0;transform:translateX(-40px);z-index:1}
+.bg-deep{background:linear-gradient(135deg,#0a3d6e 0%,#143c66 60%,#1a3050 100%);color:#fff}
+.bg-cream{background:linear-gradient(180deg,#fcfaf3 0%,#f5efdc 100%)}
+.bg-azulclr{background:linear-gradient(135deg,#0a3d6e 0%,#1a5599 100%);color:#fff}
+.bg-tech{background:linear-gradient(135deg,#0a1929 0%,#1a3a5c 100%);color:#fff;position:relative;overflow:hidden}
+.bg-tech::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 25% 30%,rgba(212,162,60,.12) 0,transparent 35%),radial-gradient(circle at 75% 70%,rgba(107,70,193,.18) 0,transparent 35%);pointer-events:none}
+h1{font-size:clamp(2rem,4.5vw,4rem);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:.3em}
+h2{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:700;color:var(--azul);margin-bottom:.4em}
+.bg-deep h2,.bg-azulclr h2,.bg-tech h2{color:var(--dorado)}
+h3{font-size:clamp(1.1rem,1.7vw,1.5rem);font-weight:600;margin-bottom:.5em}
+p,li{font-size:clamp(.95rem,1.3vw,1.2rem);line-height:1.55}
+.lead{font-size:clamp(1.1rem,1.6vw,1.5rem);max-width:60ch;line-height:1.5;opacity:.92}
+.tagline{font-size:clamp(1rem,1.3vw,1.2rem);color:var(--dorado);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.8em}
+.page{position:absolute;bottom:20px;right:30px;font-size:.85rem;opacity:.45;z-index:5}
+.deck::after{content:'';position:absolute;bottom:0;left:0;height:5px;width:var(--progress,0%);background:linear-gradient(90deg,var(--dorado),#fff);transition:width .4s ease;z-index:6}
+.help{position:absolute;bottom:20px;left:30px;font-size:.8rem;opacity:.4;z-index:5}
+
+.hero{display:flex;flex-direction:column;align-items:center;gap:1.2rem;text-align:center;position:relative;z-index:1}
+.hero img{width:140px;filter:drop-shadow(0 5px 18px rgba(0,0,0,.4));border-radius:50%;background:rgba(255,255,255,.08);padding:8px}
+.hero h1{color:#fff}
+.hero h1 span{color:var(--dorado)}
+.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:1.2rem;margin-top:1.4rem}
+.hero .chip{padding:.55rem 1.2rem;background:rgba(255,255,255,.1);border:1px solid rgba(212,162,60,.4);border-radius:999px;font-size:.95rem;letter-spacing:.04em}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.4rem;max-width:1300px;width:100%}
+.card{background:#fff;border-radius:14px;padding:1.4rem;box-shadow:0 6px 20px rgba(0,0,0,.08);border-left:5px solid var(--dorado);transition:transform .25s}
+.card:hover{transform:translateY(-4px)}
+.card .icon{font-size:2.5rem;margin-bottom:.4rem;display:block}
+.card h4{font-size:1.1rem;color:var(--azul);margin-bottom:.4em;font-weight:700}
+.card p{font-size:.9rem;color:var(--gris);line-height:1.45}
+
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;width:100%;max-width:1300px}
+.tier{background:#fff;border-radius:16px;padding:1.6rem;box-shadow:0 8px 24px rgba(0,0,0,.1);text-align:center;border-top:6px solid var(--dorado);position:relative}
+.tier:nth-child(2){border-top-color:#1a5599}
+.tier:nth-child(3){border-top-color:var(--violeta)}
+.tier .big-icon{font-size:3rem;display:block;margin-bottom:.5em}
+.tier h4{color:var(--azul);font-size:1.3rem;margin-bottom:.4em}
+.tier p{font-size:.92rem;color:var(--gris);line-height:1.5}
+.tier .badge{margin-top:.7em;padding:.35em .8em;background:rgba(212,162,60,.15);border-radius:999px;display:inline-block;font-size:.78rem;color:var(--dorado2);font-weight:700}
+
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;width:100%;max-width:1200px}
+.col{background:#fff;border-radius:14px;padding:1.6rem;box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.col h4{color:var(--azul);font-size:1.4rem;margin-bottom:.6em;display:flex;align-items:center;gap:.5rem}
+.col ul{list-style:none;padding:0}
+.col li{padding:.45em 0;padding-left:1.4em;position:relative;font-size:.95rem;color:var(--gris)}
+.col li::before{content:'•';position:absolute;left:0;color:var(--dorado);font-weight:bold;font-size:1.4rem;line-height:1}
+
+.section-title{text-align:center;position:relative;z-index:1}
+.section-title .label{color:var(--dorado);font-size:1.2rem;letter-spacing:.4em;text-transform:uppercase;margin-bottom:1rem;font-weight:600}
+.section-title h1{font-size:clamp(2.5rem,5.5vw,5.5rem);line-height:1}
+.section-title hr{width:80px;height:4px;background:var(--dorado);border:none;margin:1.5rem auto;border-radius:2px}
+
+.svg-frame{background:#fff;border-radius:16px;padding:1.4rem;box-shadow:0 8px 24px rgba(0,0,0,.15);max-width:1000px;width:100%}
+.svg-frame svg{width:100%;height:auto}
+
+.quote{padding:1.6rem 2rem;background:rgba(212,162,60,.12);border-left:5px solid var(--dorado);border-radius:8px;max-width:900px;margin:1.2rem auto;font-style:italic;font-size:clamp(1rem,1.4vw,1.3rem);line-height:1.6}
+.quote::before{content:'\201C';font-size:3rem;float:left;line-height:.8;color:var(--dorado);margin-right:.3em;font-style:normal;font-family:Georgia,serif}
+
+.uses{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem;width:100%;max-width:1200px}
+.use{background:#fff;border-radius:14px;padding:1.4rem;box-shadow:0 5px 18px rgba(0,0,0,.1);display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start}
+.use .ico{font-size:2.5rem;background:linear-gradient(135deg,#0a3d6e,#1a5599);color:var(--dorado);width:60px;height:60px;border-radius:14px;display:grid;place-items:center}
+.use h4{color:var(--azul);font-size:1.15rem;margin-bottom:.3em}
+.use p{font-size:.88rem;color:var(--gris);line-height:1.5}
+
+.ethics{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;width:100%;max-width:1100px;margin-top:1rem}
+.eth{padding:1.4rem 1.6rem;background:rgba(255,255,255,.95);border-radius:12px;border-left:5px solid var(--rojo)}
+.eth.green{border-left-color:var(--verde)}
+.eth h4{color:var(--azul);font-size:1.15rem;margin-bottom:.5em;display:flex;align-items:center;gap:.5rem}
+.eth p{font-size:.92rem;color:var(--gris);line-height:1.5}
+
+.closing{text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.2rem;max-width:900px;position:relative;z-index:1}
+.closing h1{color:#fff;font-size:clamp(2.5rem,5vw,4.5rem)}
+.closing h1 .glow{color:var(--dorado);text-shadow:0 0 30px rgba(212,162,60,.5)}
+.closing p{color:rgba(255,255,255,.85);font-size:clamp(1rem,1.4vw,1.4rem);max-width:700px}
+
+@media (max-width:768px){.tiers,.compare,.uses,.ethics{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1 -->
+<section class="slide active bg-tech">
+  <div class="hero">
+    <img src="escudo_esjim.jpg" alt="ESJIM">
+    <div class="tagline">ESJIM · Tecnología en investigación criminal</div>
+    <h1>Inteligencia<br><span>Artificial</span></h1>
+    <p class="lead">Cuando las máquinas piensan al servicio del policía</p>
+    <div class="meta">
+      <span class="chip">🧠 Razonamiento</span>
+      <span class="chip">👁️ Visión</span>
+      <span class="chip">💬 Lenguaje</span>
+      <span class="chip">🤖 Autonomía</span>
+    </div>
+  </div>
+  <div class="page">1</div>
+</section>
+
+<!-- 2 ¿Qué es IA? + comparativa con ML -->
+<section class="slide bg-cream">
+  <h2 style="text-align:center">¿Qué es la Inteligencia Artificial?</h2>
+  <p class="lead" style="text-align:center;color:var(--gris);max-width:1000px;margin:.8rem 0 1.5rem">Es la disciplina que busca que las computadoras <strong>imiten capacidades humanas</strong>: percibir, razonar, aprender, decidir y comunicarse.</p>
+  <div class="compare">
+    <div class="col">
+      <h4>🤖 Inteligencia Artificial (IA)</h4>
+      <ul>
+        <li>Conjunto amplio de tecnologías (visión, voz, razonamiento, robótica)</li>
+        <li>Busca <strong>imitar la inteligencia humana</strong> en tareas concretas</li>
+        <li>Incluye sistemas expertos, búsqueda, planificación, NLP, robótica</li>
+        <li>Puede usar reglas explícitas <em>o</em> aprendizaje automático</li>
+      </ul>
+    </div>
+    <div class="col" style="border-top:5px solid #1a5599">
+      <h4>⚙️ Machine Learning (ML)</h4>
+      <ul>
+        <li>Subconjunto de la IA</li>
+        <li>Aprende patrones <strong>directamente de los datos</strong></li>
+        <li>No necesita reglas explícitas: extrae las reglas solo</li>
+        <li>Su éxito depende de la calidad y cantidad de datos</li>
+      </ul>
+    </div>
+  </div>
+  <p style="margin-top:1.4rem;text-align:center;color:var(--gris);font-style:italic">Toda IA moderna usa ML, pero no toda IA es ML — hay sistemas con razonamiento simbólico, búsqueda heurística o planificación lógica.</p>
+  <div class="page">2</div>
+</section>
+
+<!-- 3 Tipos de IA -->
+<section class="slide bg-cream">
+  <h2 style="text-align:center">Tres niveles de IA</h2>
+  <p style="text-align:center;color:var(--gris);max-width:900px;margin-bottom:.5rem">Una clasificación según la amplitud de sus capacidades</p>
+  <div class="tiers" style="margin-top:1rem">
+    <div class="tier">
+      <span class="big-icon">🎯</span>
+      <h4>IA Estrecha</h4>
+      <p>Diseñada para <strong>una tarea específica</strong>. Hoy es el 100% de los sistemas reales en operación.</p>
+      <div class="badge">Ej.: reconocimiento facial, traductores, asistentes</div>
+    </div>
+    <div class="tier">
+      <span class="big-icon">🌐</span>
+      <h4>IA General</h4>
+      <p>Capaz de aprender <strong>cualquier tarea intelectual</strong> que pueda hacer un humano. Aún en investigación.</p>
+      <div class="badge">Aún no existe en operación real</div>
+    </div>
+    <div class="tier">
+      <span class="big-icon">🚀</span>
+      <h4>Súper IA</h4>
+      <p>Hipotética inteligencia que <strong>supera al humano</strong> en todos los ámbitos. Todavía es ciencia ficción.</p>
+      <div class="badge">Debate ético y filosófico</div>
+    </div>
+  </div>
+  <div class="page">3</div>
+</section>
+
+<!-- 4 Componentes -->
+<section class="slide bg-cream">
+  <h2>Las cuatro capacidades centrales de la IA</h2>
+  <div class="cards" style="margin-top:1rem">
+    <div class="card">
+      <span class="icon">👁️</span>
+      <h4>Visión por computador</h4>
+      <p>Procesar imágenes y video: detectar caras, placas, comportamientos sospechosos, armas u objetos abandonados.</p>
+    </div>
+    <div class="card">
+      <span class="icon">💬</span>
+      <h4>Procesamiento de Lenguaje (NLP)</h4>
+      <p>Entender y generar texto/voz: transcribir denuncias, clasificar reportes, resumir expedientes.</p>
+    </div>
+    <div class="card">
+      <span class="icon">🧠</span>
+      <h4>Razonamiento y planificación</h4>
+      <p>Tomar decisiones lógicas: rutas óptimas de patrullaje, asignación de recursos, diagnóstico de redes criminales.</p>
+    </div>
+    <div class="card">
+      <span class="icon">🎓</span>
+      <h4>Aprendizaje (ML)</h4>
+      <p>Mejorar con la experiencia: ajustar predicciones según los nuevos casos que ocurren día a día.</p>
+    </div>
+  </div>
+  <div class="page">4</div>
+</section>
+
+<!-- 5 Sección aplicaciones -->
+<section class="slide bg-azulclr">
+  <div class="section-title">
+    <div class="label">Casos de uso</div>
+    <h1>IA <span style="color:var(--dorado)">en seguridad</span><br>ciudadana</h1>
+    <hr>
+    <p class="lead">Cuatro frentes donde la IA ya está transformando el servicio policial</p>
+  </div>
+  <div class="page">5</div>
+</section>
+
+<!-- 6 Aplicaciones grid -->
+<section class="slide bg-cream">
+  <h2 style="text-align:center">Aplicaciones concretas en la profesión policial</h2>
+  <div class="uses" style="margin-top:1rem">
+    <div class="use">
+      <div class="ico">📹</div>
+      <div>
+        <h4>Videovigilancia inteligente</h4>
+        <p>Cámaras que detectan automáticamente <strong>peleas, aglomeraciones, objetos abandonados</strong> o vehículos sospechosos en tiempo real.</p>
+      </div>
+    </div>
+    <div class="use">
+      <div class="ico">🚗</div>
+      <div>
+        <h4>Lectura de placas (LPR)</h4>
+        <p>Identificación instantánea de placas para <strong>verificar reportes de robo, multas o búsqueda activa</strong> de vehículos.</p>
+      </div>
+    </div>
+    <div class="use">
+      <div class="ico">🕸️</div>
+      <div>
+        <h4>Análisis de redes criminales</h4>
+        <p>Grafos que revelan los <strong>nodos clave</strong> de organizaciones delictivas: quién manda, quién comunica, quién financia.</p>
+      </div>
+    </div>
+    <div class="use">
+      <div class="ico">💬</div>
+      <div>
+        <h4>Chatbots y denuncias</h4>
+        <p>Asistentes virtuales 24/7 para <strong>recibir denuncias</strong>, orientar al ciudadano y enrutar casos al área correcta.</p>
+      </div>
+    </div>
+    <div class="use">
+      <div class="ico">📱</div>
+      <div>
+        <h4>Forense digital</h4>
+        <p>Análisis de teléfonos y computadores incautados: <strong>recuperación de evidencia</strong>, extracción de patrones de comunicación.</p>
+      </div>
+    </div>
+    <div class="use">
+      <div class="ico">🌐</div>
+      <div>
+        <h4>OSINT y redes sociales</h4>
+        <p>Monitoreo de fuentes abiertas para <strong>anticipar amenazas</strong>, identificar perfiles delictivos o detectar fake news.</p>
+      </div>
+    </div>
+  </div>
+  <div class="page">6</div>
+</section>
+
+<!-- 7 Reconocimiento facial - SVG ilustrativo -->
+<section class="slide bg-cream">
+  <h2>Aplicación destacada · Reconocimiento facial</h2>
+  <p style="color:var(--gris);max-width:1000px;text-align:center;margin-bottom:1rem">Una red neuronal extrae <strong>puntos clave</strong> del rostro y los compara contra una base de datos de personas requeridas.</p>
+  <div class="svg-frame">
+    <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
+      <!-- Imagen entrada -->
+      <rect x="20" y="40" width="180" height="200" rx="10" fill="#f5efdc" stroke="#0a3d6e" stroke-width="2"/>
+      <text x="110" y="65" text-anchor="middle" font-size="13" fill="#0a3d6e" font-weight="bold">CAPTURA</text>
+      <!-- Cara estilizada -->
+      <ellipse cx="110" cy="155" rx="50" ry="65" fill="#f5d7b8" stroke="#3a3a3a" stroke-width="1.5"/>
+      <circle cx="92" cy="140" r="4" fill="#3a3a3a"/>
+      <circle cx="128" cy="140" r="4" fill="#3a3a3a"/>
+      <path d="M 95 175 Q 110 185 125 175" stroke="#3a3a3a" stroke-width="2" fill="none"/>
+      <!-- Puntos clave -->
+      <g fill="#d4a23c">
+        <circle cx="92" cy="140" r="2.5"/><circle cx="128" cy="140" r="2.5"/>
+        <circle cx="80" cy="135" r="2"/><circle cx="140" cy="135" r="2"/>
+        <circle cx="110" cy="155" r="2"/><circle cx="100" cy="170" r="2"/><circle cx="120" cy="170" r="2"/>
+        <circle cx="95" cy="180" r="2"/><circle cx="125" cy="180" r="2"/><circle cx="110" cy="190" r="2"/>
+        <circle cx="80" cy="155" r="2"/><circle cx="140" cy="155" r="2"/>
+      </g>
+      <!-- Lineas conectando puntos -->
+      <g stroke="#d4a23c" stroke-width="0.5" opacity=".7" fill="none">
+        <path d="M 92 140 L 128 140 M 80 135 L 92 140 L 128 140 L 140 135 M 110 155 L 95 180 L 125 180 L 110 155 M 80 155 L 100 170 L 120 170 L 140 155"/>
+      </g>
+      <!-- Flecha 1 -->
+      <path d="M 200 140 L 270 140" stroke="#d4a23c" stroke-width="3" marker-end="url(#a2)"/>
+      <defs><marker id="a2" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><polygon points="0,0 10,5 0,10" fill="#d4a23c"/></marker></defs>
+      <!-- Red neuronal -->
+      <rect x="280" y="40" width="220" height="200" rx="12" fill="#0a3d6e"/>
+      <text x="390" y="65" text-anchor="middle" font-size="13" fill="#d4a23c" font-weight="bold">RED NEURONAL</text>
+      <!-- Nodos -->
+      <g fill="#d4a23c" stroke="#fff" stroke-width="0.5">
+        <circle cx="305" cy="100" r="8"/><circle cx="305" cy="140" r="8"/><circle cx="305" cy="180" r="8"/><circle cx="305" cy="220" r="8"/>
+        <circle cx="390" cy="90" r="8"/><circle cx="390" cy="125" r="8"/><circle cx="390" cy="160" r="8"/><circle cx="390" cy="195" r="8"/><circle cx="390" cy="230" r="8"/>
+        <circle cx="475" cy="120" r="8"/><circle cx="475" cy="160" r="8"/><circle cx="475" cy="200" r="8"/>
+      </g>
+      <!-- Conexiones -->
+      <g stroke="#fff" stroke-width="0.4" opacity=".4">
+        <line x1="305" y1="100" x2="390" y2="90"/><line x1="305" y1="100" x2="390" y2="125"/><line x1="305" y1="100" x2="390" y2="160"/>
+        <line x1="305" y1="140" x2="390" y2="125"/><line x1="305" y1="140" x2="390" y2="160"/><line x1="305" y1="140" x2="390" y2="195"/>
+        <line x1="305" y1="180" x2="390" y2="160"/><line x1="305" y1="180" x2="390" y2="195"/><line x1="305" y1="180" x2="390" y2="230"/>
+        <line x1="305" y1="220" x2="390" y2="195"/><line x1="305" y1="220" x2="390" y2="230"/>
+        <line x1="390" y1="90" x2="475" y2="120"/><line x1="390" y1="125" x2="475" y2="120"/><line x1="390" y1="125" x2="475" y2="160"/>
+        <line x1="390" y1="160" x2="475" y2="120"/><line x1="390" y1="160" x2="475" y2="160"/><line x1="390" y1="160" x2="475" y2="200"/>
+        <line x1="390" y1="195" x2="475" y2="160"/><line x1="390" y1="195" x2="475" y2="200"/><line x1="390" y1="230" x2="475" y2="200"/>
+      </g>
+      <!-- Flecha 2 -->
+      <path d="M 500 140 L 570 140" stroke="#d4a23c" stroke-width="3" marker-end="url(#a2)"/>
+      <!-- Resultado -->
+      <rect x="580" y="40" width="200" height="200" rx="10" fill="#fff" stroke="#1a5599" stroke-width="2"/>
+      <text x="680" y="65" text-anchor="middle" font-size="13" fill="#0a3d6e" font-weight="bold">COINCIDENCIA</text>
+      <text x="680" y="110" text-anchor="middle" font-size="50" fill="#1f8a4d">✓</text>
+      <text x="680" y="160" text-anchor="middle" font-size="13" fill="#3a3a3a" font-weight="bold">Match: 96.4%</text>
+      <text x="680" y="180" text-anchor="middle" font-size="11" fill="#3a3a3a">Persona requerida</text>
+      <text x="680" y="200" text-anchor="middle" font-size="11" fill="#3a3a3a">Orden de captura activa</text>
+      <text x="680" y="225" text-anchor="middle" font-size="10" fill="#c0392b" font-weight="bold">NOTIFICAR PATRULLA</text>
+    </svg>
+  </div>
+  <div class="page">7</div>
+</section>
+
+<!-- 8 Ética y limitaciones -->
+<section class="slide bg-cream">
+  <h2 style="text-align:center">Ética: el límite que la IA no puede cruzar</h2>
+  <p style="color:var(--gris);max-width:1000px;text-align:center;margin-bottom:.5rem">Como en cualquier herramienta, su uso responsable depende del operador.</p>
+  <div class="ethics">
+    <div class="eth">
+      <h4>⚠️ Sesgos algorítmicos</h4>
+      <p>Si los datos históricos reflejan prejuicios, la IA los <strong>amplifica</strong>. Un modelo entrenado solo con barrios populares verá delitos solo allí.</p>
+    </div>
+    <div class="eth">
+      <h4>🔒 Privacidad</h4>
+      <p>El reconocimiento masivo de rostros y voces choca con derechos fundamentales. Toda implementación debe seguir <strong>protocolos legales y judiciales</strong>.</p>
+    </div>
+    <div class="eth">
+      <h4>👤 Responsabilidad</h4>
+      <p>La máquina sugiere, <strong>el oficial decide</strong>. Nunca debe trasladarse al algoritmo la responsabilidad de una detención o uso de la fuerza.</p>
+    </div>
+    <div class="eth">
+      <h4>🔍 Transparencia</h4>
+      <p>Modelos "caja negra" sin explicabilidad pueden tomar decisiones que <strong>no se pueden auditar</strong>. Se debe exigir trazabilidad y rendición de cuentas.</p>
+    </div>
+  </div>
+  <div class="quote" style="margin-top:1.5rem;max-width:1000px">
+    "El uso ético de la IA en seguridad no es un freno: es la condición para que la tecnología <strong>fortalezca la legitimidad</strong> de la institución."
+  </div>
+  <div class="page">8</div>
+</section>
+
+<!-- 9 IA + comando policial -->
+<section class="slide bg-cream">
+  <h2 style="text-align:center">Buenas prácticas para integrar IA en el servicio</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;width:100%;max-width:1300px;margin-top:1rem">
+    <div class="eth green">
+      <h4>📚 Formación</h4>
+      <p>El oficial debe entender qué hace el modelo y cuáles son sus límites antes de actuar sobre sus salidas.</p>
+    </div>
+    <div class="eth green">
+      <h4>🛡️ Validación humana</h4>
+      <p>Toda decisión sensible (detención, allanamiento) requiere revisión humana, nunca automática.</p>
+    </div>
+    <div class="eth green">
+      <h4>🔄 Revisión continua</h4>
+      <p>Los modelos se degradan con el tiempo: deben re-evaluarse periódicamente con nuevos datos y casos.</p>
+    </div>
+    <div class="eth green">
+      <h4>📜 Marco legal claro</h4>
+      <p>Cada uso debe estar respaldado por normativa, protocolos institucionales y supervisión judicial.</p>
+    </div>
+  </div>
+  <div class="page">9</div>
+</section>
+
+<!-- 10 Cierre -->
+<section class="slide bg-tech">
+  <div class="closing">
+    <div class="tagline">El mensaje</div>
+    <h1>La IA es <span class="glow">una herramienta</span>;<br>el criterio<br><span class="glow">sigue siendo humano</span></h1>
+    <p>La inteligencia artificial extiende los sentidos, la memoria y la capacidad analítica del policía. Pero el juicio sobre <strong>cuándo, cómo y para qué</strong> usarla nace —y permanece— en la conciencia profesional del oficial.</p>
+    <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+      <span style="padding:.6rem 1.2rem;background:var(--dorado);color:#0a3d6e;border-radius:999px;font-weight:700">👁️ Percepción</span>
+      <span style="padding:.6rem 1rem;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px">+</span>
+      <span style="padding:.6rem 1.2rem;background:var(--dorado);color:#0a3d6e;border-radius:999px;font-weight:700">🧠 Análisis</span>
+      <span style="padding:.6rem 1rem;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px">+</span>
+      <span style="padding:.6rem 1.2rem;background:var(--dorado);color:#0a3d6e;border-radius:999px;font-weight:700">⚖️ Ética</span>
+      <span style="padding:.6rem 1rem;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px">=</span>
+      <span style="padding:.6rem 1.2rem;background:#d4a23c;color:#0a3d6e;border-radius:999px;font-weight:700">🚓 Policía aumentado</span>
+    </div>
+  </div>
+  <div class="page">10</div>
+</section>
+
+</div>
+
+<div class="help">← → para navegar · ESC para inicio</div>
+
+<script>
+const slides=document.querySelectorAll('.slide');let current=0;
+function show(i){slides.forEach((s,idx)=>{s.classList.remove('active','prev');if(idx===i)s.classList.add('active');else if(idx<i)s.classList.add('prev');});document.getElementById('deck').style.setProperty('--progress',((i+1)/slides.length*100)+'%');}
+function next(){if(current<slides.length-1){current++;show(current)}}
+function prev(){if(current>0){current--;show(current)}}
+document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();next()}else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();prev()}else if(e.key==='Escape'){current=0;show(0)}else if(e.key==='End'){current=slides.length-1;show(current)}});
+document.addEventListener('click',e=>{if(e.target.closest('a,button,.chip'))return;const w=window.innerWidth;if(e.clientX>w/2)next();else prev();});
+show(0);
+</script>
+</body>
+</html>

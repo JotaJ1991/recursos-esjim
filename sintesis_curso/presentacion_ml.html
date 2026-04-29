@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Machine Learning · Aplicado a la profesión policial · ESJIM</title>
+<style>
+:root{--azul:#0a3d6e;--azul2:#143c66;--dorado:#d4a23c;--dorado2:#b58323;--verde:#1f8a4d;--rojo:#c0392b;--crema:#f5efdc;--gris:#3a3a3a}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;color:#1c1c1c;background:#000;overflow:hidden}
+body{user-select:none}
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:3vw 5vw;opacity:0;transform:translateX(40px);transition:opacity .55s ease,transform .55s ease;pointer-events:none;background:#fff}
+.slide.active{opacity:1;transform:translateX(0);pointer-events:auto;z-index:2}
+.slide.prev{opacity:0;transform:translateX(-40px);z-index:1}
+.bg-deep{background:linear-gradient(135deg,#0a3d6e 0%,#143c66 60%,#1a3050 100%);color:#fff}
+.bg-cream{background:linear-gradient(180deg,#fcfaf3 0%,#f5efdc 100%)}
+.bg-azulclr{background:linear-gradient(135deg,#0a3d6e 0%,#1a5599 100%);color:#fff}
+.bg-tech{background:linear-gradient(135deg,#0a1929 0%,#1a3a5c 100%);color:#fff}
+.bg-tech::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%,rgba(212,162,60,.1) 0,transparent 40%),radial-gradient(circle at 80% 70%,rgba(26,85,153,.15) 0,transparent 40%);pointer-events:none}
+h1{font-size:clamp(2rem,4.5vw,4rem);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:.3em}
+h2{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:700;color:var(--azul);margin-bottom:.4em}
+.bg-deep h2,.bg-azulclr h2,.bg-tech h2{color:var(--dorado)}
+h3{font-size:clamp(1.1rem,1.7vw,1.5rem);font-weight:600;margin-bottom:.5em}
+p,li{font-size:clamp(.95rem,1.3vw,1.2rem);line-height:1.55}
+.lead{font-size:clamp(1.1rem,1.6vw,1.5rem);max-width:60ch;line-height:1.5;opacity:.92}
+.tagline{font-size:clamp(1rem,1.3vw,1.2rem);color:var(--dorado);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.8em}
+.page{position:absolute;bottom:20px;right:30px;font-size:.85rem;opacity:.45;z-index:5}
+.deck::after{content:'';position:absolute;bottom:0;left:0;height:5px;width:var(--progress,0%);background:linear-gradient(90deg,var(--dorado),#fff);transition:width .4s ease;z-index:6}
+.help{position:absolute;bottom:20px;left:30px;font-size:.8rem;opacity:.4;z-index:5}
+
+.hero{display:flex;flex-direction:column;align-items:center;gap:1.2rem;text-align:center;position:relative;z-index:1}
+.hero img{width:140px;filter:drop-shadow(0 5px 18px rgba(0,0,0,.4));border-radius:50%;background:rgba(255,255,255,.08);padding:8px}
+.hero h1{color:#fff}
+.hero h1 span{color:var(--dorado)}
+.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:1.2rem;margin-top:1.4rem}
+.hero .chip{padding:.55rem 1.2rem;background:rgba(255,255,255,.1);border:1px solid rgba(212,162,60,.4);border-radius:999px;font-size:.95rem;letter-spacing:.04em}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.4rem;max-width:1300px;width:100%}
+.card{background:#fff;border-radius:14px;padding:1.4rem;box-shadow:0 6px 20px rgba(0,0,0,.08);border-left:5px solid var(--dorado);transition:transform .25s}
+.card:hover{transform:translateY(-4px)}
+.card .icon{font-size:2.5rem;margin-bottom:.4rem;display:block}
+.card h4{font-size:1.1rem;color:var(--azul);margin-bottom:.4em;font-weight:700}
+.card p{font-size:.92rem;color:var(--gris);line-height:1.45}
+
+.types{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;width:100%;max-width:1300px}
+.type{background:#fff;border-radius:16px;padding:1.6rem;box-shadow:0 8px 24px rgba(0,0,0,.1);text-align:center;border-top:6px solid var(--dorado);position:relative}
+.type:nth-child(2){border-top-color:#1a5599}
+.type:nth-child(3){border-top-color:var(--verde)}
+.type .big-icon{font-size:3rem;display:block;margin-bottom:.5em}
+.type h4{color:var(--azul);font-size:1.3rem;margin-bottom:.4em}
+.type p{font-size:.9rem;color:var(--gris);line-height:1.5}
+.type .ex{margin-top:.8em;padding:.5em .8em;background:rgba(212,162,60,.12);border-radius:8px;font-size:.82rem;color:var(--dorado2);font-weight:600}
+
+.pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:.6rem;width:100%;max-width:1300px;margin:1rem 0;align-items:stretch}
+.pl-step{background:#fff;border-radius:12px;padding:1.2rem .8rem;text-align:center;box-shadow:0 5px 14px rgba(0,0,0,.1);position:relative}
+.pl-step::after{content:'→';position:absolute;right:-1rem;top:50%;transform:translateY(-50%);font-size:1.6rem;color:var(--dorado);font-weight:bold;z-index:5}
+.pl-step:last-child::after{display:none}
+.pl-step .ico{font-size:2rem;margin-bottom:.3em}
+.pl-step h5{color:var(--azul);font-size:.95rem;margin:.3em 0}
+.pl-step p{font-size:.78rem;color:var(--gris);line-height:1.3}
+
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;width:100%;max-width:1100px}
+.metric{background:rgba(255,255,255,.95);border-radius:14px;padding:1.4rem;text-align:center;border-top:5px solid var(--dorado)}
+.metric .v{font-size:2.5rem;color:var(--azul);font-weight:800;line-height:1}
+.metric .formula{font-family:'Courier New',monospace;font-size:.85rem;background:#0a3d6e;color:var(--dorado);padding:.3em .6em;border-radius:5px;display:inline-block;margin:.5em 0}
+.metric h4{color:var(--azul);font-size:1.2rem;margin-bottom:.3em}
+.metric p{font-size:.85rem;color:var(--gris);line-height:1.4}
+
+.section-title{text-align:center;position:relative;z-index:1}
+.section-title .label{color:var(--dorado);font-size:1.2rem;letter-spacing:.4em;text-transform:uppercase;margin-bottom:1rem;font-weight:600}
+.section-title h1{font-size:clamp(2.5rem,5.5vw,5.5rem);line-height:1}
+.section-title hr{width:80px;height:4px;background:var(--dorado);border:none;margin:1.5rem auto;border-radius:2px}
+
+.svg-frame{background:#fff;border-radius:16px;padding:1.4rem;box-shadow:0 8px 24px rgba(0,0,0,.15);max-width:900px;width:100%}
+.svg-frame svg{width:100%;height:auto}
+
+.quote{padding:1.6rem 2rem;background:rgba(212,162,60,.12);border-left:5px solid var(--dorado);border-radius:8px;max-width:900px;margin:1.2rem auto;font-style:italic;font-size:clamp(1rem,1.4vw,1.3rem);line-height:1.6}
+.quote::before{content:'\201C';font-size:3rem;float:left;line-height:.8;color:var(--dorado);margin-right:.3em;font-style:normal;font-family:Georgia,serif}
+
+.closing{text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.2rem;max-width:900px;position:relative;z-index:1}
+.closing h1{color:#fff;font-size:clamp(2.5rem,5vw,4.5rem)}
+.closing h1 .glow{color:var(--dorado);text-shadow:0 0 30px rgba(212,162,60,.5)}
+.closing p{color:rgba(255,255,255,.85);font-size:clamp(1rem,1.4vw,1.4rem);max-width:700px}
+
+@media (max-width:768px){.types,.pipeline,.metrics{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1 -->
+<section class="slide active bg-tech">
+  <div class="hero">
+    <img src="escudo_esjim.jpg" alt="ESJIM">
+    <div class="tagline">ESJIM · Tecnología en investigación criminal</div>
+    <h1><span>Machine</span><br>Learning</h1>
+    <p class="lead">Aprendizaje automático aplicado a la profesión policial</p>
+    <div class="meta">
+      <span class="chip">🤖 Algoritmos</span>
+      <span class="chip">📊 Datos masivos</span>
+      <span class="chip">🎯 Predicción</span>
+    </div>
+  </div>
+  <div class="page">1</div>
+</section>
+
+<!-- 2 ¿Qué es ML? -->
+<section class="slide bg-cream">
+  <h2 style="text-align:center">¿Qué es Machine Learning?</h2>
+  <p class="lead" style="text-align:center;color:var(--gris);max-width:900px;margin:1rem 0">Una rama de la inteligencia artificial que permite a las máquinas <strong>aprender patrones a partir de datos</strong>, sin necesidad de programar reglas explícitas.</p>
+  <div class="svg-frame" style="max-width:1000px;margin-top:1rem">
+    <svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="80" width="160" height="80" rx="10" fill="#fff" stroke="#0a3d6e" stroke-width="2"/>
+      <text x="100" y="110" text-anchor="middle" font-size="14" fill="#0a3d6e" font-weight="bold">DATOS HISTÓRICOS</text>
+      <text x="100" y="135" text-anchor="middle" font-size="11" fill="#3a3a3a">SIEDCO, capturas,</text>
+      <text x="100" y="150" text-anchor="middle" font-size="11" fill="#3a3a3a">cuadrantes, denuncias</text>
+      <path d="M 180 120 L 260 120" stroke="#d4a23c" stroke-width="3" marker-end="url(#a1)"/>
+      <defs><marker id="a1" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><polygon points="0,0 10,5 0,10" fill="#d4a23c"/></marker></defs>
+      <rect x="270" y="60" width="180" height="120" rx="14" fill="#0a3d6e"/>
+      <text x="360" y="95" text-anchor="middle" font-size="14" fill="#d4a23c" font-weight="bold">ALGORITMO ML</text>
+      <text x="360" y="125" text-anchor="middle" font-size="36" fill="#fff">⚙️</text>
+      <text x="360" y="160" text-anchor="middle" font-size="11" fill="#fff" opacity=".85">aprende patrones</text>
+      <path d="M 450 120 L 530 120" stroke="#d4a23c" stroke-width="3" marker-end="url(#a1)"/>
+      <rect x="540" y="60" width="240" height="120" rx="14" fill="#1a5599"/>
+      <text x="660" y="95" text-anchor="middle" font-size="14" fill="#d4a23c" font-weight="bold">PREDICCIÓN / DECISIÓN</text>
+      <text x="660" y="125" text-anchor="middle" font-size="13" fill="#fff">¿Dónde habrá hurtos?</text>
+      <text x="660" y="145" text-anchor="middle" font-size="13" fill="#fff">¿Quién es reincidente?</text>
+      <text x="660" y="165" text-anchor="middle" font-size="13" fill="#fff">¿Qué cuadrante priorizar?</text>
+      <text x="400" y="220" text-anchor="middle" font-size="13" fill="#0a3d6e" font-style="italic">El sistema aprende solo de la experiencia — como lo haría un investigador con años de oficio</text>
+    </svg>
+  </div>
+  <div class="page">2</div>
+</section>
+
+<!-- 3 Tipos -->
+<section class="slide bg-cream">
+  <h2 style="text-align:center">Tres formas de aprender</h2>
+  <p style="text-align:center;color:var(--gris);max-width:900px;margin-bottom:.5rem">Según cómo se entrene el modelo</p>
+  <div class="types" style="margin-top:1rem">
+    <div class="type">
+      <span class="big-icon">🎯</span>
+      <h4>Supervisado</h4>
+      <p>El modelo aprende con ejemplos <strong>etiquetados</strong>: ya sabemos la respuesta correcta y le enseñamos a reproducirla.</p>
+      <div class="ex">Ej.: clasificar si una llamada al 123 es urgente o no</div>
+    </div>
+    <div class="type">
+      <span class="big-icon">🔍</span>
+      <h4>No supervisado</h4>
+      <p>El modelo encuentra <strong>patrones ocultos</strong> en datos sin etiqueta. Agrupa, segmenta o detecta lo anómalo.</p>
+      <div class="ex">Ej.: identificar zonas calientes (clusters) en una ciudad</div>
+    </div>
+    <div class="type">
+      <span class="big-icon">🏆</span>
+      <h4>Por refuerzo</h4>
+      <p>El modelo <strong>aprende ensayando</strong>: recibe recompensa cuando acierta y castigo cuando falla.</p>
+      <div class="ex">Ej.: optimizar rutas de patrullaje en tiempo real</div>
+    </div>
+  </div>
+  <div class="page">3</div>
+</section>
+
+<!-- 4 Algoritmos clave -->
+<section class="slide bg-cream">
+  <h2>Algoritmos esenciales para el oficial</h2>
+  <div class="cards" style="margin-top:1rem">
+    <div class="card">
+      <span class="icon">📈</span>
+      <h4>Regresión lineal</h4>
+      <p>Predice un valor numérico continuo. Ej.: cantidad de hurtos esperados el próximo mes.</p>
+    </div>
+    <div class="card">
+      <span class="icon">🌳</span>
+      <h4>Árboles de decisión</h4>
+      <p>Reglas SI–ENTONCES en cascada. Útil para clasificar perfiles de riesgo de reincidencia.</p>
+    </div>
+    <div class="card">
+      <span class="icon">🎯</span>
+      <h4>K-Means (clusters)</h4>
+      <p>Agrupa datos similares. Identifica zonas calientes y patrones territoriales del delito.</p>
+    </div>
+    <div class="card">
+      <span class="icon">🧠</span>
+      <h4>Redes neuronales</h4>
+      <p>Inspiradas en el cerebro humano. Detectan patrones complejos en imágenes, texto o video.</p>
+    </div>
+    <div class="card">
+      <span class="icon">🌲</span>
+      <h4>Random Forest</h4>
+      <p>Combina muchos árboles para mejorar precisión. Robusto frente a datos ruidosos.</p>
+    </div>
+    <div class="card">
+      <span class="icon">📊</span>
+      <h4>SVM</h4>
+      <p>Clasifica trazando una frontera óptima entre categorías (delitos violentos vs. patrimoniales).</p>
+    </div>
+  </div>
+  <div class="page">4</div>
+</section>
+
+<!-- 5 Sección aplicaciones -->
+<section class="slide bg-azulclr">
+  <div class="section-title">
+    <div class="label">Casos de uso</div>
+    <h1>ML <span style="color:var(--dorado)">en el servicio</span></h1>
+    <hr>
+    <p class="lead">Cuatro escenarios donde la máquina apoya al policía</p>
+  </div>
+  <div class="page">5</div>
+</section>
+
+<!-- 6 Predicción -->
+<section class="slide bg-cream">
+  <h2>Aplicación 1 · Predicción de delitos (Predictive Policing)</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;width:100%;max-width:1300px;align-items:center">
+    <div>
+      <p style="font-size:1.1rem;line-height:1.6;color:var(--gris)">A partir del histórico SIEDCO, los modelos identifican <strong>cuándo y dónde</strong> es más probable que ocurra un delito.</p>
+      <ul style="margin-top:1rem;list-style:none;padding:0">
+        <li style="padding:.5em 0;border-bottom:1px solid rgba(0,0,0,.1)">📍 <strong>Mapas de calor</strong> por hora del día y día de la semana</li>
+        <li style="padding:.5em 0;border-bottom:1px solid rgba(0,0,0,.1)">⏰ <strong>Series temporales</strong> con efecto estacional</li>
+        <li style="padding:.5em 0;border-bottom:1px solid rgba(0,0,0,.1)">🎯 <strong>Focalización</strong> de patrullas en zonas con alta probabilidad</li>
+        <li style="padding:.5em 0">🌐 <strong>Casos reales:</strong> PredPol (EE. UU.), CrimeRadar (Río), HunchLab</li>
+      </ul>
+    </div>
+    <div class="svg-frame">
+      <svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="400" height="280" fill="#f5efdc"/>
+        <!-- Grid -->
+        <g stroke="#0a3d6e" stroke-width="0.5" opacity=".3">
+          <line x1="0" y1="70" x2="400" y2="70"/><line x1="0" y1="140" x2="400" y2="140"/><line x1="0" y1="210" x2="400" y2="210"/>
+          <line x1="100" y1="0" x2="100" y2="280"/><line x1="200" y1="0" x2="200" y2="280"/><line x1="300" y1="0" x2="300" y2="280"/>
+        </g>
+        <!-- Heat blobs -->
+        <circle cx="80" cy="200" r="40" fill="#c0392b" opacity=".7"/>
+        <circle cx="120" cy="170" r="30" fill="#e74c3c" opacity=".6"/>
+        <circle cx="280" cy="80" r="50" fill="#c0392b" opacity=".75"/>
+        <circle cx="220" cy="220" r="25" fill="#f39c12" opacity=".7"/>
+        <circle cx="340" cy="200" r="35" fill="#e67e22" opacity=".7"/>
+        <circle cx="160" cy="100" r="20" fill="#f1c40f" opacity=".6"/>
+        <!-- Labels -->
+        <text x="80" y="205" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">Kennedy</text>
+        <text x="280" y="85" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">Suba</text>
+        <text x="340" y="205" text-anchor="middle" font-size="10" fill="#fff" font-weight="bold">Fontibón</text>
+        <text x="200" y="20" text-anchor="middle" font-size="13" fill="#0a3d6e" font-weight="bold">Mapa de calor predictivo · Bogotá</text>
+        <text x="200" y="265" text-anchor="middle" font-size="10" fill="#3a3a3a">Hurtos predichos próximas 6 horas</text>
+      </svg>
+    </div>
+  </div>
+  <div class="page">6</div>
+</section>
+
+<!-- 7 Clusters -->
+<section class="slide bg-cream">
+  <h2>Aplicación 2 · Clustering de zonas calientes</h2>
+  <p style="color:var(--gris);max-width:1000px;text-align:center;margin-bottom:1rem"><strong>K-Means</strong> agrupa puntos del mapa con características similares (frecuencia, tipo de delito, hora) y revela <em>territorios funcionales del delito</em>.</p>
+  <div class="svg-frame" style="max-width:1000px">
+    <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
+      <!-- Antes -->
+      <rect x="20" y="20" width="340" height="240" rx="10" fill="#fcfaf3" stroke="#0a3d6e" stroke-width="2"/>
+      <text x="190" y="45" text-anchor="middle" font-size="14" fill="#0a3d6e" font-weight="bold">ANTES — Datos sin agrupar</text>
+      <g fill="#3a3a3a">
+        <circle cx="80" cy="100" r="4"/><circle cx="120" cy="80" r="4"/><circle cx="100" cy="120" r="4"/>
+        <circle cx="250" cy="160" r="4"/><circle cx="280" cy="180" r="4"/><circle cx="270" cy="200" r="4"/>
+        <circle cx="180" cy="220" r="4"/><circle cx="200" cy="240" r="4"/>
+        <circle cx="300" cy="100" r="4"/><circle cx="320" cy="80" r="4"/><circle cx="290" cy="60" r="4"/>
+        <circle cx="60" cy="200" r="4"/><circle cx="80" cy="220" r="4"/><circle cx="100" cy="180" r="4"/>
+      </g>
+      <!-- Despues -->
+      <rect x="440" y="20" width="340" height="240" rx="10" fill="#fcfaf3" stroke="#0a3d6e" stroke-width="2"/>
+      <text x="610" y="45" text-anchor="middle" font-size="14" fill="#0a3d6e" font-weight="bold">DESPUÉS — 4 clusters identificados</text>
+      <!-- Cluster 1 azul -->
+      <g fill="#1a5599">
+        <circle cx="500" cy="100" r="4"/><circle cx="540" cy="80" r="4"/><circle cx="520" cy="120" r="4"/>
+      </g>
+      <ellipse cx="520" cy="100" rx="40" ry="30" fill="none" stroke="#1a5599" stroke-width="2" stroke-dasharray="3,3"/>
+      <!-- Cluster 2 dorado -->
+      <g fill="#d4a23c">
+        <circle cx="670" cy="160" r="4"/><circle cx="700" cy="180" r="4"/><circle cx="690" cy="200" r="4"/>
+      </g>
+      <ellipse cx="690" cy="180" rx="35" ry="30" fill="none" stroke="#d4a23c" stroke-width="2" stroke-dasharray="3,3"/>
+      <!-- Cluster 3 verde -->
+      <g fill="#1f8a4d">
+        <circle cx="600" cy="220" r="4"/><circle cx="620" cy="240" r="4"/>
+      </g>
+      <ellipse cx="610" cy="230" rx="30" ry="22" fill="none" stroke="#1f8a4d" stroke-width="2" stroke-dasharray="3,3"/>
+      <!-- Cluster 4 rojo -->
+      <g fill="#c0392b">
+        <circle cx="720" cy="100" r="4"/><circle cx="740" cy="80" r="4"/><circle cx="710" cy="60" r="4"/>
+        <circle cx="480" cy="200" r="4"/><circle cx="500" cy="220" r="4"/><circle cx="520" cy="180" r="4"/>
+      </g>
+      <ellipse cx="725" cy="80" rx="30" ry="25" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="3,3"/>
+      <ellipse cx="500" cy="200" rx="35" ry="25" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="3,3"/>
+    </svg>
+  </div>
+  <p style="color:var(--gris);font-size:.95rem;margin-top:.6rem;text-align:center"><strong>Resultado:</strong> el mando puede asignar comandos especializados por cluster.</p>
+  <div class="page">7</div>
+</section>
+
+<!-- 8 Pipeline -->
+<section class="slide bg-cream">
+  <h2 style="text-align:center">El flujo de un proyecto de ML</h2>
+  <p style="color:var(--gris);max-width:900px;text-align:center;margin-bottom:1rem">Cinco etapas estándar de cualquier modelo predictivo</p>
+  <div class="pipeline">
+    <div class="pl-step"><div class="ico">📥</div><h5>1. Recolección</h5><p>SIEDCO, sensores, denuncias, cámaras</p></div>
+    <div class="pl-step"><div class="ico">🧹</div><h5>2. Limpieza</h5><p>Nulos, duplicados, normalización</p></div>
+    <div class="pl-step"><div class="ico">🎓</div><h5>3. Entrenamiento</h5><p>El modelo aprende del histórico</p></div>
+    <div class="pl-step"><div class="ico">✅</div><h5>4. Validación</h5><p>Pruebas con datos nuevos</p></div>
+    <div class="pl-step"><div class="ico">🚀</div><h5>5. Despliegue</h5><p>Predicciones en operación</p></div>
+  </div>
+  <div class="quote" style="margin-top:1.5rem">
+    "Un modelo no se evalúa por lo bien que recuerda el pasado, sino por lo bien que <strong>anticipa lo que aún no ha ocurrido</strong>."
+  </div>
+  <div class="page">8</div>
+</section>
+
+<!-- 9 Métricas -->
+<section class="slide bg-cream">
+  <h2>¿Cómo medir si un modelo funciona?</h2>
+  <p style="color:var(--gris);max-width:900px;text-align:center;margin-bottom:1rem">Tres métricas clave que el oficial debe conocer al revisar resultados de un sistema</p>
+  <div class="metrics">
+    <div class="metric">
+      <h4>🎯 Precisión</h4>
+      <span class="formula">VP / (VP + FP)</span>
+      <p>De los casos que el sistema marcó como positivos, ¿cuántos lo eran realmente? <strong>Alta precisión = pocas falsas alarmas.</strong></p>
+    </div>
+    <div class="metric">
+      <h4>📡 Recall</h4>
+      <span class="formula">VP / (VP + FN)</span>
+      <p>De todos los casos reales, ¿cuántos detectó el sistema? <strong>Alto recall = pocos casos pasan desapercibidos.</strong></p>
+    </div>
+    <div class="metric">
+      <h4>⚖️ F1 Score</h4>
+      <span class="formula">2 · (P·R)/(P+R)</span>
+      <p>Balance entre precisión y recall. La métrica preferida cuando se necesita equilibrio entre ambas.</p>
+    </div>
+  </div>
+  <p style="color:var(--gris);max-width:900px;text-align:center;margin-top:1.2rem;font-size:.95rem"><em>VP = verdaderos positivos · FP = falsos positivos · FN = falsos negativos</em></p>
+  <div class="page">9</div>
+</section>
+
+<!-- 10 Cierre -->
+<section class="slide bg-tech">
+  <div class="closing">
+    <div class="tagline">El mensaje</div>
+    <h1>El ML <span class="glow">no reemplaza</span><br>al policía:<br><span class="glow">lo potencia</span></h1>
+    <p>Un modelo aprende patrones que un humano nunca vería en millones de registros. La decisión final, la legitimidad y la ética siguen siendo del oficial. <strong>La máquina sugiere, el policía decide.</strong></p>
+    <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+      <span style="padding:.6rem 1.2rem;background:var(--dorado);color:#0a3d6e;border-radius:999px;font-weight:700">📊 Datos</span>
+      <span style="padding:.6rem 1rem;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px">→</span>
+      <span style="padding:.6rem 1.2rem;background:var(--dorado);color:#0a3d6e;border-radius:999px;font-weight:700">⚙️ Modelo</span>
+      <span style="padding:.6rem 1rem;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px">→</span>
+      <span style="padding:.6rem 1.2rem;background:var(--dorado);color:#0a3d6e;border-radius:999px;font-weight:700">🔮 Predicción</span>
+      <span style="padding:.6rem 1rem;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px">→</span>
+      <span style="padding:.6rem 1.2rem;background:var(--dorado);color:#0a3d6e;border-radius:999px;font-weight:700">🚓 Acción</span>
+    </div>
+  </div>
+  <div class="page">10</div>
+</section>
+
+</div>
+
+<div class="help">← → para navegar · ESC para inicio</div>
+
+<script>
+const slides=document.querySelectorAll('.slide');let current=0;
+function show(i){slides.forEach((s,idx)=>{s.classList.remove('active','prev');if(idx===i)s.classList.add('active');else if(idx<i)s.classList.add('prev');});document.getElementById('deck').style.setProperty('--progress',((i+1)/slides.length*100)+'%');}
+function next(){if(current<slides.length-1){current++;show(current)}}
+function prev(){if(current>0){current--;show(current)}}
+document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();next()}else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();prev()}else if(e.key==='Escape'){current=0;show(0)}else if(e.key==='End'){current=slides.length-1;show(current)}});
+document.addEventListener('click',e=>{if(e.target.closest('a,button,.chip'))return;const w=window.innerWidth;if(e.clientX>w/2)next();else prev();});
+show(0);
+</script>
+</body>
+</html>
