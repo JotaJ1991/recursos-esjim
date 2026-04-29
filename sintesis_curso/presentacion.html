@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Síntesis del curso · Matemática aplicada a la profesión · ESJIM</title>
+<style>
+:root{
+  --azul:#0a3d6e; --azul2:#143c66; --azul-hover:#1a5599;
+  --dorado:#d4a23c; --dorado2:#b58323;
+  --crema:#f5efdc; --gris:#3a3a3a; --bg:#0e1a2b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;color:#1c1c1c;background:#000;overflow:hidden}
+body{user-select:none}
+
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden}
+.slide{
+  position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:3vw 5vw;opacity:0;transform:translateX(40px);transition:opacity .55s ease,transform .55s ease;
+  pointer-events:none;background:#fff;
+}
+.slide.active{opacity:1;transform:translateX(0);pointer-events:auto;z-index:2}
+.slide.prev{opacity:0;transform:translateX(-40px);z-index:1}
+
+/* Slide variants */
+.bg-deep{background:linear-gradient(135deg,#0a3d6e 0%,#143c66 60%,#1a3050 100%);color:#fff}
+.bg-cream{background:linear-gradient(180deg,#fcfaf3 0%,#f5efdc 100%)}
+.bg-azulclr{background:linear-gradient(135deg,#0a3d6e 0%,#1a5599 100%);color:#fff}
+.bg-dorado{background:linear-gradient(135deg,#d4a23c 0%,#b58323 100%);color:#0a3d6e}
+
+h1{font-size:clamp(2rem,4.5vw,4rem);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:.3em}
+h2{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:700;color:var(--azul);margin-bottom:.4em}
+.bg-deep h2,.bg-azulclr h2{color:var(--dorado)}
+h3{font-size:clamp(1.1rem,1.7vw,1.5rem);font-weight:600;margin-bottom:.5em}
+p,li{font-size:clamp(.95rem,1.3vw,1.2rem);line-height:1.55}
+.lead{font-size:clamp(1.1rem,1.6vw,1.5rem);max-width:60ch;line-height:1.5;opacity:.92}
+.tagline{font-size:clamp(1rem,1.3vw,1.2rem);color:var(--dorado);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.8em}
+
+/* Page numbers + nav */
+.page{position:absolute;bottom:20px;right:30px;font-size:.85rem;opacity:.45;z-index:5}
+.deck::after{content:'';position:absolute;bottom:0;left:0;height:5px;width:var(--progress,0%);background:linear-gradient(90deg,var(--dorado),#fff);transition:width .4s ease;z-index:6}
+.help{position:absolute;bottom:20px;left:30px;font-size:.8rem;opacity:.4;z-index:5}
+
+/* Hero (slide 1) */
+.hero{display:flex;flex-direction:column;align-items:center;gap:1.5rem;text-align:center}
+.hero img{width:140px;filter:drop-shadow(0 5px 18px rgba(0,0,0,.4));border-radius:50%;background:rgba(255,255,255,.08);padding:8px}
+.hero h1{color:#fff}
+.hero h1 span{color:var(--dorado)}
+.hero .meta{display:flex;flex-wrap:wrap;justify-content:center;gap:1.2rem;margin-top:1.4rem}
+.hero .chip{padding:.55rem 1.2rem;background:rgba(255,255,255,.1);border:1px solid rgba(212,162,60,.4);border-radius:999px;font-size:.95rem;letter-spacing:.04em}
+
+/* Two pillars layout */
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:2.2rem;width:100%;max-width:1400px;margin-top:1rem}
+.pillar{background:#fff;border-radius:18px;padding:1.6rem;box-shadow:0 12px 40px rgba(0,0,0,.18);border-top:6px solid var(--dorado);position:relative}
+.pillar.left{border-top-color:var(--dorado)}
+.pillar.right{border-top-color:#1a5599}
+.pillar .num{position:absolute;top:-22px;left:1.4rem;width:46px;height:46px;border-radius:50%;background:var(--azul);color:#fff;font-weight:800;font-size:1.4rem;display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.pillar.right .num{background:#1a5599}
+.pillar h3{color:var(--azul);font-size:1.5rem;margin-top:.4em}
+.pillar ul{list-style:none;padding:0;margin-top:.8em}
+.pillar li{padding:.4em 0 .4em 1.6em;position:relative;font-size:1rem}
+.pillar li::before{content:'▸';position:absolute;left:0;color:var(--dorado);font-weight:bold}
+
+/* Concept cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.4rem;max-width:1300px;width:100%}
+.card{background:#fff;border-radius:14px;padding:1.4rem;box-shadow:0 6px 20px rgba(0,0,0,.08);border-left:5px solid var(--dorado);transition:transform .25s}
+.card:hover{transform:translateY(-4px)}
+.card .icon{font-size:2.5rem;margin-bottom:.4rem;display:block}
+.card h4{font-size:1.1rem;color:var(--azul);margin-bottom:.4em;font-weight:700}
+.card p{font-size:.9rem;color:var(--gris);line-height:1.45}
+
+/* Stats row */
+.stats{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}
+.stat{text-align:center;padding:1.2rem 1.6rem;background:rgba(255,255,255,.85);border-radius:14px;min-width:160px}
+.stat .num{font-size:clamp(2rem,4vw,3rem);font-weight:800;color:var(--azul);line-height:1}
+.stat .lbl{font-size:.85rem;color:var(--gris);margin-top:.4em;text-transform:uppercase;letter-spacing:.05em}
+
+/* Methodology row */
+.method{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;width:100%;max-width:1300px;margin-top:1.5rem}
+.step{background:#fff;border-radius:14px;padding:1.4rem 1rem;text-align:center;position:relative;box-shadow:0 5px 15px rgba(0,0,0,.1)}
+.step .step-num{position:absolute;top:-15px;left:50%;transform:translateX(-50%);width:32px;height:32px;border-radius:50%;background:var(--dorado);color:#0a3d6e;font-weight:800;display:grid;place-items:center;font-size:.95rem}
+.step h4{color:var(--azul);font-size:1rem;margin-top:.6em;margin-bottom:.4em;font-weight:700}
+.step p{font-size:.8rem;color:var(--gris);line-height:1.4}
+
+/* Toolkit grid */
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;max-width:1100px;width:100%}
+.tool{background:rgba(255,255,255,.9);padding:1rem;border-radius:12px;text-align:center;border:2px solid transparent;transition:all .25s}
+.tool:hover{border-color:var(--dorado);transform:scale(1.04)}
+.tool .ico{font-size:2rem;display:block;margin-bottom:.3em}
+.tool .name{font-size:.95rem;font-weight:600;color:var(--azul)}
+
+/* Closing slide */
+.closing{text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.2rem;max-width:900px}
+.closing h1{color:#fff;font-size:clamp(2.5rem,5vw,4.5rem)}
+.closing h1 .glow{color:var(--dorado);text-shadow:0 0 30px rgba(212,162,60,.5)}
+.closing p{color:rgba(255,255,255,.85);font-size:clamp(1rem,1.4vw,1.4rem);max-width:700px}
+
+/* Quote callout */
+.quote{padding:1.8rem 2rem;background:rgba(212,162,60,.12);border-left:5px solid var(--dorado);border-radius:8px;max-width:900px;margin:1.2rem auto;font-style:italic;font-size:clamp(1rem,1.4vw,1.3rem);line-height:1.6}
+.quote::before{content:'\201C';font-size:3rem;float:left;line-height:.8;color:var(--dorado);margin-right:.3em;font-style:normal;font-family:Georgia,serif}
+
+/* PL example svg container */
+.svg-frame{background:#fff;border-radius:16px;padding:1.4rem;box-shadow:0 8px 24px rgba(0,0,0,.15);max-width:900px;width:100%}
+.svg-frame svg{width:100%;height:auto}
+
+/* Section title slide */
+.section-title{text-align:center}
+.section-title .label{color:var(--dorado);font-size:1.2rem;letter-spacing:.4em;text-transform:uppercase;margin-bottom:1rem;font-weight:600}
+.section-title h1{font-size:clamp(2.5rem,5.5vw,5.5rem);line-height:1}
+.section-title hr{width:80px;height:4px;background:var(--dorado);border:none;margin:1.5rem auto;border-radius:2px}
+
+/* Indicators table */
+.indicators{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;max-width:1100px;width:100%;margin-top:1rem}
+.ind{background:rgba(255,255,255,.95);border-radius:14px;padding:1.4rem;border-top:5px solid var(--dorado)}
+.ind .formula{font-family:'Courier New',monospace;background:#0a3d6e;color:var(--dorado);padding:.5em .8em;border-radius:6px;display:inline-block;margin:.6em 0;font-weight:bold}
+.ind h4{color:var(--azul);font-size:1.4rem;margin-bottom:.3em}
+.ind p{font-size:.88rem;color:var(--gris);line-height:1.4}
+
+@media (max-width:768px){
+  .pillars{grid-template-columns:1fr}
+  .method{grid-template-columns:1fr 1fr}
+  .indicators{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1. PORTADA -->
+<section class="slide active bg-deep">
+  <div class="hero">
+    <img src="escudo_esjim.jpg" alt="ESJIM">
+    <div class="tagline">ESJIM · Suboficiales y Nivel Ejecutivo</div>
+    <h1>Matemática aplicada<br><span>a la profesión</span></h1>
+    <p class="lead">Síntesis del curso 338-ADMI-MATE-2</p>
+    <div class="meta">
+      <span class="chip">📊 Análisis cuantitativo</span>
+      <span class="chip">📈 Toma de decisiones</span>
+      <span class="chip">🚓 Gestión policial</span>
+    </div>
+    <p style="margin-top:1.5rem;opacity:.7;font-size:.9rem">Docente: José Javier Mercado Reyes · Co-docentes: Yenifer · Cristian</p>
+  </div>
+  <div class="page">1</div>
+</section>
+
+<!-- 2. ¿POR QUÉ? -->
+<section class="slide bg-cream">
+  <div class="tagline" style="color:var(--dorado2)">El corazón del curso</div>
+  <h1 style="color:var(--azul);max-width:900px;text-align:center">Las matemáticas son <em style="color:var(--dorado2)">la mejor brújula</em> para decidir en el servicio policial</h1>
+  <div class="quote" style="margin-top:1.5rem">
+    Un comandante moderno no decide por intuición: decide con <strong>datos, modelos y números</strong>. Cada patrulla, cada operativo y cada peso del presupuesto cuentan.
+  </div>
+  <div class="page">2</div>
+</section>
+
+<!-- 3. MAPA DEL CURSO -->
+<section class="slide bg-cream">
+  <h2 style="text-align:center">Mapa del curso · Dos unidades, un mismo norte</h2>
+  <p style="text-align:center;max-width:800px;color:var(--gris);margin-bottom:1rem">Del análisis de los datos al diseño de operaciones eficientes.</p>
+  <div class="pillars">
+    <div class="pillar left">
+      <div class="num">1</div>
+      <h3>Análisis Cuantitativo en la Investigación Criminal</h3>
+      <ul>
+        <li>Bases de datos institucionales (BD1 Bogotá, BD2 Cuadrantes, BD3 Reincidencia)</li>
+        <li>Distribución de Poisson y modelos probabilísticos</li>
+        <li>Estadística descriptiva: media, desviación, proporciones</li>
+        <li>Programación lineal aplicada al delito</li>
+        <li>K-Means, Pareto, regresión y Markov</li>
+      </ul>
+    </div>
+    <div class="pillar right">
+      <div class="num">2</div>
+      <h3>Operaciones Básicas para la Gestión Efectiva</h3>
+      <ul>
+        <li>Análisis de redes criminales (grafos)</li>
+        <li>Programación lineal para asignación de patrullas</li>
+        <li>Modelos matemáticos en criminología</li>
+        <li>Evaluación de estrategias de intervención</li>
+        <li>Análisis costo-beneficio (B/C, VPN, TIR)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="page">3</div>
+</section>
+
+<!-- 4. SECTION U1 -->
+<section class="slide bg-azulclr">
+  <div class="section-title">
+    <div class="label">Unidad 1</div>
+    <h1>Investigar con<br><span style="color:var(--dorado)">los números</span></h1>
+    <hr>
+    <p class="lead">Datos institucionales como insumo de la decisión operativa</p>
+  </div>
+  <div class="page">4</div>
+</section>
+
+<!-- 5. U1 — BD + MODELOS -->
+<section class="slide bg-cream">
+  <h2>U1 · Datos + Modelos = Inteligencia operativa</h2>
+  <div class="cards" style="margin-top:1rem">
+    <div class="card">
+      <span class="icon">🗺️</span>
+      <h4>BD1 — Incidentes Bogotá</h4>
+      <p>Kennedy, Fontibón, Suba, Ciudad Bolívar y Rafael Uribe Uribe. Indicadores SIEDCO 12.49 y 18.80 por 100 mil habitantes.</p>
+    </div>
+    <div class="card">
+      <span class="icon">📍</span>
+      <h4>BD2 — Gestión de Cuadrantes</h4>
+      <p>Medellín y Barranquilla. Variable <code>policias_asignados</code> y demanda de servicio por sector.</p>
+    </div>
+    <div class="card">
+      <span class="icon">🔁</span>
+      <h4>BD3 — Reincidencia</h4>
+      <p>Edad de captura, transiciones de Markov y patrones de comportamiento delincuencial.</p>
+    </div>
+    <div class="card">
+      <span class="icon">📊</span>
+      <h4>Poisson</h4>
+      <p>Frecuencia de eventos raros: hurtos por hora, llamadas al 123, capturas mensuales.</p>
+    </div>
+    <div class="card">
+      <span class="icon">🎯</span>
+      <h4>K-Means y Pareto</h4>
+      <p>Clusters de zonas calientes y la regla 80/20 para focalizar recursos.</p>
+    </div>
+    <div class="card">
+      <span class="icon">📐</span>
+      <h4>Regresión</h4>
+      <p>Modelos predictivos para anticipar dinámicas delincuenciales.</p>
+    </div>
+  </div>
+  <div class="page">5</div>
+</section>
+
+<!-- 6. SECTION U2 -->
+<section class="slide bg-azulclr">
+  <div class="section-title">
+    <div class="label">Unidad 2</div>
+    <h1>Operar con<br><span style="color:var(--dorado)">eficiencia</span></h1>
+    <hr>
+    <p class="lead">De la matemática a la planificación policial efectiva</p>
+  </div>
+  <div class="page">6</div>
+</section>
+
+<!-- 7. U2 — PROGRAMACIÓN LINEAL -->
+<section class="slide bg-cream">
+  <h2>U2 · Programación lineal en patrullaje</h2>
+  <p style="text-align:center;color:var(--gris);max-width:900px;margin-bottom:1rem">¿Cómo asignar las patrullas para <strong>maximizar la cobertura</strong> con un presupuesto limitado?</p>
+  <div class="svg-frame">
+    <svg viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gradAzul" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1a5599"/><stop offset="100%" stop-color="#0a3d6e"/>
+        </linearGradient>
+      </defs>
+      <!-- Variables -->
+      <rect x="20" y="30" width="220" height="80" rx="10" fill="#fff" stroke="#d4a23c" stroke-width="2"/>
+      <text x="130" y="58" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#0a3d6e" font-weight="bold">VARIABLES DE DECISIÓN</text>
+      <text x="130" y="80" text-anchor="middle" font-family="monospace" font-size="13" fill="#3a3a3a">x₁ = patrullas en sector A</text>
+      <text x="130" y="98" text-anchor="middle" font-family="monospace" font-size="13" fill="#3a3a3a">x₂ = patrullas en sector B</text>
+      <!-- FO -->
+      <rect x="280" y="30" width="240" height="80" rx="10" fill="url(#gradAzul)"/>
+      <text x="400" y="58" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#d4a23c" font-weight="bold">FUNCIÓN OBJETIVO</text>
+      <text x="400" y="82" text-anchor="middle" font-family="monospace" font-size="14" fill="#fff">Max Z = 8x₁ + 6x₂</text>
+      <text x="400" y="100" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#fff" opacity="0.85">(cobertura por turno)</text>
+      <!-- Restricciones -->
+      <rect x="560" y="30" width="220" height="80" rx="10" fill="#fff" stroke="#d4a23c" stroke-width="2"/>
+      <text x="670" y="58" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#0a3d6e" font-weight="bold">RESTRICCIONES</text>
+      <text x="670" y="78" text-anchor="middle" font-family="monospace" font-size="11" fill="#3a3a3a">2x₁ + x₂ ≤ 10 (presupuesto)</text>
+      <text x="670" y="94" text-anchor="middle" font-family="monospace" font-size="11" fill="#3a3a3a">x₁ + 3x₂ ≤ 12 (personal)</text>
+      <!-- Arrow + result -->
+      <path d="M 400 130 L 400 175" stroke="#d4a23c" stroke-width="3" fill="none" marker-end="url(#arr)"/>
+      <defs><marker id="arr" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><polygon points="0,0 10,5 0,10" fill="#d4a23c"/></marker></defs>
+      <!-- Solver -->
+      <rect x="200" y="180" width="400" height="120" rx="14" fill="#0a3d6e"/>
+      <text x="400" y="210" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#d4a23c" font-weight="bold">📊 EXCEL SOLVER</text>
+      <text x="400" y="240" text-anchor="middle" font-family="monospace" font-size="22" fill="#fff" font-weight="bold">x₁ = 3 · x₂ = 4</text>
+      <text x="400" y="270" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#fff" opacity=".95">Máxima cobertura: <tspan font-weight="bold" fill="#d4a23c">Z = 48</tspan> incidentes/turno</text>
+      <text x="400" y="290" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#fff" opacity=".7">Solución óptima al problema de asignación</text>
+    </svg>
+  </div>
+  <div class="page">7</div>
+</section>
+
+<!-- 8. U2 — COSTO-BENEFICIO -->
+<section class="slide bg-cream">
+  <h2>U2 · Tres indicadores para evaluar viabilidad</h2>
+  <p style="color:var(--gris);max-width:900px;text-align:center;margin-bottom:.6rem">Toda inversión policial debe pasar por tres preguntas clave</p>
+  <div class="indicators">
+    <div class="ind">
+      <h4>📈 B/C</h4>
+      <span class="formula">B/C = Beneficios / Costos</span>
+      <p><strong>Si B/C > 1</strong>, los beneficios superan los costos. Un B/C = 1,5 significa que por cada peso invertido se obtienen 1,5 pesos de beneficio social.</p>
+    </div>
+    <div class="ind">
+      <h4>💰 VPN</h4>
+      <span class="formula">VPN = Σ Flujo / (1+r)ⁿ − I₀</span>
+      <p><strong>Valor Presente Neto:</strong> trae al hoy los beneficios futuros descontando una tasa <em>r</em>. Si VPN > 0, el proyecto crea valor.</p>
+    </div>
+    <div class="ind">
+      <h4>⚡ TIR</h4>
+      <span class="formula">TIR : VPN(r*) = 0</span>
+      <p><strong>Tasa Interna de Retorno:</strong> el rendimiento del proyecto. Si TIR &gt; tasa de descuento → conviene invertir.</p>
+    </div>
+  </div>
+  <div class="quote" style="max-width:900px;margin-top:1.5rem">
+    Caso integrador: Patrulla Inteligente Rafael Uribe Uribe. <strong>B/C = 2,3 · VPN = $145M · TIR = 28%</strong>. Conclusión: viable.
+  </div>
+  <div class="page">8</div>
+</section>
+
+<!-- 9. METODOLOGÍA 4D -->
+<section class="slide bg-cream">
+  <h2>Metodología · 4 momentos en cada unidad</h2>
+  <p style="text-align:center;color:var(--gris);max-width:900px">Una secuencia que conecta teoría, práctica e investigación.</p>
+  <div class="method">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h4>Aprendo<br>haciendo</h4>
+      <p>Sesión colaborativa con experto. Aplicación guiada en escenario real.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h4>Profundizo</h4>
+      <p>Lectura de autores y foro de discusión con preguntas movilizadoras.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h4>Demuestro mi<br>aprendizaje</h4>
+      <p>Informe técnico con análisis cuantitativo aplicado a un caso policial.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h4>Pongo en<br>práctica</h4>
+      <p>Actividades H5P y autoevaluación para consolidar el conocimiento.</p>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="num">4</div><div class="lbl">Secciones</div></div>
+    <div class="stat"><div class="num">2</div><div class="lbl">Unidades</div></div>
+    <div class="stat"><div class="num">10</div><div class="lbl">Actividades por unidad</div></div>
+    <div class="stat"><div class="num">3</div><div class="lbl">Bases de datos institucionales</div></div>
+  </div>
+  <div class="page">9</div>
+</section>
+
+<!-- 10. HERRAMIENTAS -->
+<section class="slide bg-cream">
+  <h2>Caja de herramientas</h2>
+  <p style="text-align:center;color:var(--gris);max-width:800px;margin-bottom:1rem">Software accesible que multiplica la capacidad de análisis del policía moderno.</p>
+  <div class="tools">
+    <div class="tool"><span class="ico">📊</span><div class="name">Microsoft Excel + Solver</div></div>
+    <div class="tool"><span class="ico">🧮</span><div class="name">MATLAB</div></div>
+    <div class="tool"><span class="ico">🎓</span><div class="name">Khan Academy</div></div>
+    <div class="tool"><span class="ico">📚</span><div class="name">Plataforma Moodle</div></div>
+    <div class="tool"><span class="ico">🌳</span><div class="name">Árbol de problemas</div></div>
+    <div class="tool"><span class="ico">🕸️</span><div class="name">Análisis de redes / grafos</div></div>
+  </div>
+  <div class="quote" style="margin-top:2rem">
+    "El estudiante <strong>realiza cálculos y operaciones matemáticas fundamentales</strong> en el contexto policial para tomar <strong>decisiones informadas</strong> que fortalezcan la eficiencia operativa."
+    <div style="text-align:right;font-style:normal;font-size:.85rem;margin-top:.5em;opacity:.7">— Resultado de aprendizaje del curso</div>
+  </div>
+  <div class="page">10</div>
+</section>
+
+<!-- 11. CIERRE -->
+<section class="slide bg-deep">
+  <div class="closing">
+    <div class="tagline">El mensaje del curso</div>
+    <h1>Decidir <span class="glow">con datos</span><br>servir <span class="glow">con eficiencia</span></h1>
+    <p>Un policía con dominio matemático <strong>focaliza recursos</strong>, <strong>anticipa el delito</strong> y <strong>justifica con números</strong> cada operativo. Esa es la diferencia entre administrar y transformar.</p>
+    <div style="margin-top:2rem;display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center">
+      <span class="chip" style="padding:.6rem 1.4rem;background:var(--dorado);color:#0a3d6e;border-radius:999px;font-weight:700">📊 Datos</span>
+      <span class="chip" style="padding:.6rem 1.4rem;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px">→</span>
+      <span class="chip" style="padding:.6rem 1.4rem;background:var(--dorado);color:#0a3d6e;border-radius:999px;font-weight:700">📐 Modelos</span>
+      <span class="chip" style="padding:.6rem 1.4rem;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px">→</span>
+      <span class="chip" style="padding:.6rem 1.4rem;background:var(--dorado);color:#0a3d6e;border-radius:999px;font-weight:700">🎯 Decisiones</span>
+    </div>
+    <p style="margin-top:3rem;font-size:.9rem;opacity:.6">Curso 338-ADMI-MATE-2 · Escuela de Investigación Criminal "Manuela Beltrán" · 2026</p>
+  </div>
+  <div class="page">11</div>
+</section>
+
+</div>
+
+<div class="help">← → para navegar · ESC para inicio</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let current = 0;
+function show(i){
+  slides.forEach((s,idx)=>{
+    s.classList.remove('active','prev');
+    if (idx===i) s.classList.add('active');
+    else if (idx<i) s.classList.add('prev');
+  });
+  document.getElementById('deck').style.setProperty('--progress', ((i+1)/slides.length*100)+'%');
+}
+function next(){ if(current<slides.length-1){current++;show(current)} }
+function prev(){ if(current>0){current--;show(current)} }
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();next()}
+  else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();prev()}
+  else if(e.key==='Escape'){current=0;show(0)}
+  else if(e.key==='End'){current=slides.length-1;show(current)}
+});
+document.addEventListener('click',e=>{
+  if(e.target.closest('a,button,.chip'))return;
+  const w=window.innerWidth;
+  if(e.clientX>w/2)next(); else prev();
+});
+show(0);
+</script>
+</body>
+</html>
