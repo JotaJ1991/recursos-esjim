@@ -1,0 +1,1679 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Presentacion del curso Matematica aplicada a la profesion - ESJIM, Administracion Policial Virtual, periodo 2026-II.">
+<style>*{margin:0}</style>
+</head>
+<body>
+<title>Matemática aplicada a la profesión — Presentación del curso 2026-II</title>
+
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --ground:#F0F2ED;
+  --surface:#FFFFFF;
+  --surface-2:#E7EAE2;
+  --surface-3:#DDE2D7;
+  --ink:#101711;
+  --ink-2:#4A554C;
+  --ink-3:#6E7A70;
+  --line:#D2D8CD;
+  --line-fuerte:#B9C2B4;
+  --verde:#1E5B3B;
+  --verde-alto:#2E7D51;
+  --verde-suave:#DCE9DF;
+  --ambar:#9E6A1F;
+  --ambar-suave:#F2E6CF;
+  --azul:#26637F;
+  --azul-suave:#D8E6EC;
+  --rojo:#9C382C;
+  --sombra:0 1px 2px rgba(16,23,17,.06), 0 8px 24px -12px rgba(16,23,17,.18);
+  --sombra-alta:0 2px 4px rgba(16,23,17,.08), 0 20px 48px -20px rgba(16,23,17,.30);
+
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+
+  --fs-display:clamp(2.5rem,6.2vw,4.7rem);
+  --fs-h2:clamp(1.75rem,3.4vw,2.7rem);
+  --fs-h3:clamp(1.1rem,1.7vw,1.35rem);
+  --fs-body:clamp(1rem,1.05vw,1.075rem);
+  --fs-small:.875rem;
+  --fs-micro:.72rem;
+
+  --rail:250px;
+  --maxw:1120px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --ground:#0C110E;
+    --surface:#131A15;
+    --surface-2:#1A231C;
+    --surface-3:#222D24;
+    --ink:#E9EEE8;
+    --ink-2:#A3AFA4;
+    --ink-3:#7D8A7F;
+    --line:#2A342C;
+    --line-fuerte:#3A473C;
+    --verde:#5FC48C;
+    --verde-alto:#8ADCAC;
+    --verde-suave:#172A1E;
+    --ambar:#E0A94A;
+    --ambar-suave:#2C2417;
+    --azul:#71B6D8;
+    --azul-suave:#152730;
+    --rojo:#E28273;
+    --sombra:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+    --sombra-alta:0 2px 4px rgba(0,0,0,.5), 0 20px 48px -20px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C110E; --surface:#131A15; --surface-2:#1A231C; --surface-3:#222D24;
+  --ink:#E9EEE8; --ink-2:#A3AFA4; --ink-3:#7D8A7F; --line:#2A342C; --line-fuerte:#3A473C;
+  --verde:#5FC48C; --verde-alto:#8ADCAC; --verde-suave:#172A1E;
+  --ambar:#E0A94A; --ambar-suave:#2C2417; --azul:#71B6D8; --azul-suave:#152730; --rojo:#E28273;
+  --sombra:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  --sombra-alta:0 2px 4px rgba(0,0,0,.5), 0 20px 48px -20px rgba(0,0,0,.8);
+}
+:root[data-theme="light"]{
+  --ground:#F0F2ED; --surface:#FFFFFF; --surface-2:#E7EAE2; --surface-3:#DDE2D7;
+  --ink:#101711; --ink-2:#4A554C; --ink-3:#6E7A70; --line:#D2D8CD; --line-fuerte:#B9C2B4;
+  --verde:#1E5B3B; --verde-alto:#2E7D51; --verde-suave:#DCE9DF;
+  --ambar:#9E6A1F; --ambar-suave:#F2E6CF; --azul:#26637F; --azul-suave:#D8E6EC; --rojo:#9C382C;
+  --sombra:0 1px 2px rgba(16,23,17,.06), 0 8px 24px -12px rgba(16,23,17,.18);
+  --sombra-alta:0 2px 4px rgba(16,23,17,.08), 0 20px 48px -20px rgba(16,23,17,.30);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:var(--sans);font-size:var(--fs-body);line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+:focus-visible{outline:2px solid var(--verde-alto);outline-offset:3px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
+
+/* ============================================================
+   ESTRUCTURA / RIEL
+   ============================================================ */
+#app{display:flex;min-height:100vh}
+
+#riel{
+  position:fixed;inset:0 auto 0 0;width:var(--rail);z-index:40;
+  background:var(--surface);border-right:1px solid var(--line);
+  display:flex;flex-direction:column;padding:22px 0 14px;
+}
+.marca{padding:0 22px 16px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.marca .esc{
+  display:flex;align-items:center;gap:9px;
+  font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+.marca .esc svg{flex:0 0 auto}
+.marca h1{
+  font-family:var(--serif);font-size:1.02rem;line-height:1.25;margin:9px 0 0;
+  font-weight:600;letter-spacing:-.01em;text-wrap:balance;
+}
+.marca .per{font-family:var(--mono);font-size:var(--fs-micro);color:var(--verde);margin-top:5px;letter-spacing:.08em}
+
+nav#indice{flex:1;overflow-y:auto;padding:0 12px}
+nav#indice ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px}
+nav#indice a{
+  display:grid;grid-template-columns:26px 1fr;align-items:baseline;gap:8px;
+  padding:7px 10px;border-radius:6px;text-decoration:none;color:var(--ink-2);
+  font-size:.82rem;line-height:1.35;transition:background .18s,color .18s;
+}
+nav#indice a .n{font-family:var(--mono);font-size:var(--fs-micro);color:var(--ink-3);letter-spacing:.04em}
+nav#indice a:hover{background:var(--surface-2);color:var(--ink)}
+nav#indice a[aria-current="true"]{background:var(--verde-suave);color:var(--verde);font-weight:600}
+nav#indice a[aria-current="true"] .n{color:var(--verde)}
+.sep-riel{
+  font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);padding:14px 10px 5px;
+}
+.pie-riel{padding:12px 22px 0;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.barra-prog{height:3px;background:var(--surface-3);border-radius:2px;overflow:hidden;flex:1}
+.barra-prog i{display:block;height:100%;width:0;background:var(--verde);transition:width .2s}
+button.icono{
+  appearance:none;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);
+  width:30px;height:30px;border-radius:7px;cursor:pointer;display:grid;place-items:center;
+  transition:background .18s,color .18s,border-color .18s;flex:0 0 auto;
+}
+button.icono:hover{background:var(--verde-suave);color:var(--verde);border-color:var(--verde)}
+
+main{margin-left:var(--rail);flex:1;min-width:0;height:100vh;overflow-y:auto;scroll-snap-type:y proximity}
+section.lam{
+  min-height:100vh;scroll-snap-align:start;
+  padding:clamp(40px,6vh,76px) clamp(22px,4.5vw,64px);
+  display:flex;flex-direction:column;justify-content:center;
+  border-bottom:1px solid var(--line);
+}
+.contenido{width:100%;max-width:var(--maxw);margin:0 auto}
+
+/* móvil */
+#abrir-menu{display:none}
+@media (max-width:900px){
+  :root{--rail:0px}
+  #riel{
+    transform:translateX(-100%);transition:transform .25s ease;width:270px;inset:0 auto 0 0;
+    box-shadow:var(--sombra-alta);
+  }
+  #riel.abierto{transform:translateX(0)}
+  main{margin-left:0;height:auto;overflow:visible;scroll-snap-type:none}
+  section.lam{min-height:auto;padding:52px 20px}
+  #abrir-menu{
+    display:flex;align-items:center;gap:8px;position:fixed;top:12px;right:12px;z-index:50;
+    background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:8px 12px;
+    font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-2);cursor:pointer;box-shadow:var(--sombra);
+  }
+}
+
+/* ============================================================
+   TIPOGRAFÍA / PIEZAS COMUNES
+   ============================================================ */
+.rotulo{
+  font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.18em;text-transform:uppercase;
+  color:var(--verde);display:flex;align-items:center;gap:10px;margin-bottom:16px;
+}
+.rotulo::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,var(--line-fuerte),transparent)}
+h2.tit{
+  font-family:var(--serif);font-size:var(--fs-h2);line-height:1.1;letter-spacing:-.02em;
+  margin:0 0 .5em;font-weight:600;text-wrap:balance;
+}
+h3{font-family:var(--sans);font-size:var(--fs-h3);line-height:1.3;margin:0 0 .4em;font-weight:650;letter-spacing:-.01em}
+p{margin:0 0 1em;max-width:66ch}
+p.entrada{font-size:1.12em;color:var(--ink-2);max-width:62ch}
+strong{font-weight:650;color:var(--ink)}
+a{color:var(--verde);text-underline-offset:3px;text-decoration-thickness:1px}
+.dato{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+.tarjeta{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;
+  box-shadow:var(--sombra);
+}
+.rejilla{display:grid;gap:16px}
+.r2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.r3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.r4{grid-template-columns:repeat(auto-fit,minmax(178px,1fr))}
+
+.chip{
+  display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:999px;
+  border:1px solid var(--line-fuerte);background:var(--surface);
+  font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);
+}
+.chip.v{border-color:var(--verde);color:var(--verde);background:var(--verde-suave)}
+.chip.a{border-color:var(--ambar);color:var(--ambar);background:var(--ambar-suave)}
+.chip.z{border-color:var(--azul);color:var(--azul);background:var(--azul-suave)}
+
+.desplaza{overflow-x:auto}
+
+/* ============================================================
+   LÁMINA 1 — PORTADA
+   ============================================================ */
+#portada{position:relative;overflow:hidden;justify-content:center;border-bottom:none}
+#red-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+@media (prefers-color-scheme:dark){#red-canvas{opacity:.62}}
+#portada .contenido{position:relative;z-index:2}
+.velo{
+  position:absolute;inset:0;z-index:1;
+  background:radial-gradient(120% 80% at 12% 42%, var(--ground) 26%, transparent 78%);
+}
+.eyebrow-p{
+  font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:22px;
+}
+h1.portada{
+  font-family:var(--serif);font-size:var(--fs-display);line-height:.98;letter-spacing:-.035em;
+  font-weight:600;margin:0 0 22px;max-width:15ch;text-wrap:balance;
+}
+h1.portada em{font-style:italic;color:var(--verde)}
+.sub-portada{font-size:1.16rem;color:var(--ink-2);max-width:52ch;margin-bottom:30px}
+.fichas{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:34px}
+.ficha{
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:11px 15px;min-width:104px;box-shadow:var(--sombra);
+}
+.ficha b{display:block;font-family:var(--mono);font-size:1.42rem;line-height:1;color:var(--verde);font-variant-numeric:tabular-nums}
+.ficha span{display:block;font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:6px}
+.pista{
+  display:inline-flex;align-items:center;gap:9px;font-size:var(--fs-small);color:var(--ink-3);
+}
+.pista kbd{
+  font-family:var(--mono);font-size:var(--fs-micro);background:var(--surface-2);border:1px solid var(--line-fuerte);
+  border-bottom-width:2px;border-radius:5px;padding:2px 6px;color:var(--ink-2);
+}
+
+/* ============================================================
+   LÁMINA DOCENTE
+   ============================================================ */
+.docente{display:grid;grid-template-columns:280px 1fr;gap:38px;align-items:start;margin-top:26px}
+@media (max-width:860px){.docente{grid-template-columns:1fr;gap:26px}}
+.perfil{display:flex;flex-direction:column;gap:16px}
+.retrato{position:relative;width:200px;max-width:100%}
+.retrato img{
+  width:200px;height:200px;border-radius:50%;object-fit:cover;display:block;
+  border:3px solid var(--surface);box-shadow:var(--sombra-alta);
+}
+.retrato::after{
+  content:"";position:absolute;inset:-9px;border-radius:50%;
+  border:1px solid var(--verde);opacity:.45;pointer-events:none;
+}
+.perfil .nombre{font-family:var(--serif);font-size:1.55rem;line-height:1.15;letter-spacing:-.02em;margin:0;font-weight:600}
+.perfil .cargo{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.14em;text-transform:uppercase;color:var(--verde);margin-top:6px}
+.contacto{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.contacto li{display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:start;font-size:.9rem;color:var(--ink-2)}
+.contacto .ic{color:var(--verde);display:grid;place-items:center;padding-top:1px}
+.contacto a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--line-fuerte)}
+.contacto a:hover{color:var(--verde);border-color:var(--verde)}
+.credenciales{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px}
+.credenciales h3{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.16em;text-transform:uppercase;color:var(--verde);font-weight:500;margin-bottom:14px}
+.hoja{list-style:none;margin:0;padding:0;display:grid;gap:13px}
+.hoja li{padding-left:17px;position:relative;font-size:.93rem;line-height:1.45}
+.hoja li::before{
+  content:"";position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;
+  background:var(--surface);border:1.5px solid var(--verde);
+}
+.hoja li.actual::before{background:var(--verde)}
+.hoja li b{display:block;font-weight:600}
+.hoja li span{color:var(--ink-3);font-size:.86rem}
+
+/* ============================================================
+   COMPETENCIAS / RPA
+   ============================================================ */
+.rpa{border-left:3px solid var(--verde);padding-left:16px}
+.rpa .k{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.14em;color:var(--verde);display:block;margin-bottom:6px}
+.rpa p{margin:0;font-size:.96rem;color:var(--ink-2)}
+
+/* ============================================================
+   MAPA DE SUBTEMAS
+   ============================================================ */
+.mapa{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:820px){.mapa{grid-template-columns:1fr}}
+.columna-u{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--sombra)}
+.cab-u{padding:16px 18px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.cab-u .u{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.16em;text-transform:uppercase;color:var(--verde)}
+.cab-u h3{margin:6px 0 0;font-size:1.02rem}
+.lista-sub{list-style:none;margin:0;padding:8px}
+.lista-sub li{margin:0}
+.bot-sub{
+  width:100%;text-align:left;appearance:none;background:transparent;border:1px solid transparent;
+  border-radius:8px;padding:10px 11px;cursor:pointer;color:var(--ink);font:inherit;font-size:.9rem;
+  display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:11px;
+  transition:background .16s,border-color .16s;
+}
+.bot-sub:hover{background:var(--surface-2)}
+.bot-sub[aria-expanded="true"]{background:var(--verde-suave);border-color:var(--verde)}
+.bot-sub .ic{color:var(--verde);display:grid;place-items:center}
+.bot-sub .hrs{font-family:var(--mono);font-size:var(--fs-micro);color:var(--ink-3);font-variant-numeric:tabular-nums}
+.detalle-sub{
+  margin-top:12px;background:var(--surface);border:1px solid var(--verde);border-radius:12px;
+  padding:20px;box-shadow:var(--sombra-alta);
+}
+.detalle-sub .enc{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
+.detalle-sub .enc .ic{color:var(--verde);flex:0 0 auto;margin-top:2px}
+.detalle-sub h3{margin:0}
+.detalle-sub .meta{font-family:var(--mono);font-size:var(--fs-micro);color:var(--ink-3);letter-spacing:.06em;margin-top:4px}
+.detalle-sub p{margin:0 0 12px}
+.repartos{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ============================================================
+   GRÁFICO DE HORAS
+   ============================================================ */
+.panel-grafico{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;box-shadow:var(--sombra)}
+.conmutador{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:3px;gap:3px;margin-bottom:18px}
+.conmutador button{
+  appearance:none;border:0;background:transparent;color:var(--ink-2);cursor:pointer;
+  font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.1em;text-transform:uppercase;
+  padding:7px 13px;border-radius:6px;transition:background .18s,color .18s;
+}
+.conmutador button[aria-pressed="true"]{background:var(--verde);color:var(--surface)}
+:root[data-theme="dark"] .conmutador button[aria-pressed="true"],
+.conmutador button[aria-pressed="true"]{color:var(--ground)}
+.leyenda{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:var(--fs-small);color:var(--ink-2)}
+.leyenda i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:7px;vertical-align:-1px}
+.barra-fila{display:grid;grid-template-columns:minmax(120px,1.2fr) 1fr 62px;align-items:center;gap:14px;padding:7px 0}
+.barra-fila .nom{font-size:.87rem;line-height:1.3;color:var(--ink-2)}
+.pista-barra{height:22px;background:var(--surface-2);border-radius:5px;overflow:hidden;display:flex}
+.pista-barra span{display:block;height:100%;transition:width .6s cubic-bezier(.2,.7,.3,1)}
+.pista-barra .td{background:var(--verde)}
+.pista-barra .ti{background:var(--azul);opacity:.72}
+.barra-fila .tot{font-family:var(--mono);font-size:.82rem;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+
+/* ============================================================
+   NIVELES (escalera)
+   ============================================================ */
+.escalera{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:760px){.escalera{grid-template-columns:1fr}}
+.peldano{
+  appearance:none;text-align:left;font:inherit;cursor:pointer;
+  background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:16px;
+  transition:border-color .18s,transform .18s,box-shadow .18s;color:var(--ink);
+}
+.peldano:hover{transform:translateY(-2px);box-shadow:var(--sombra)}
+.peldano[aria-pressed="true"]{border-color:var(--verde);box-shadow:var(--sombra-alta)}
+.peldano .nv{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+.peldano[aria-pressed="true"] .nv{color:var(--verde)}
+.peldano .marcas{display:flex;gap:4px;margin:10px 0 0}
+.peldano .marcas i{height:5px;flex:1;border-radius:3px;background:var(--surface-3)}
+.peldano .marcas i.on{background:var(--verde)}
+.texto-nivel{margin-top:14px;background:var(--surface-2);border-radius:11px;padding:18px;border:1px solid var(--line)}
+.texto-nivel p{margin:0;color:var(--ink-2)}
+
+/* ============================================================
+   LABORATORIOS INTERACTIVOS
+   ============================================================ */
+.lab{
+  background:var(--surface);border:1px solid var(--line-fuerte);border-radius:14px;
+  overflow:hidden;box-shadow:var(--sombra-alta);
+}
+.lab-cab{
+  padding:14px 20px;border-bottom:1px solid var(--line);background:var(--surface-2);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
+.lab-cab .t{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.16em;text-transform:uppercase;color:var(--verde)}
+.lab-cuerpo{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0}
+@media (max-width:880px){.lab-cuerpo{grid-template-columns:1fr}}
+.lab-vista{padding:20px;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.lab-mandos{padding:20px;border-left:1px solid var(--line);background:var(--surface-2);display:flex;flex-direction:column;gap:16px}
+@media (max-width:880px){.lab-mandos{border-left:0;border-top:1px solid var(--line)}}
+
+.mando label{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:var(--fs-small);color:var(--ink-2);margin-bottom:7px}
+.mando label b{font-family:var(--mono);color:var(--ink);font-variant-numeric:tabular-nums;font-weight:600}
+input[type=range]{
+  width:100%;appearance:none;background:transparent;cursor:pointer;height:20px;margin:0;
+}
+input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--surface-3);border-radius:3px}
+input[type=range]::-moz-range-track{height:4px;background:var(--surface-3);border-radius:3px}
+input[type=range]::-webkit-slider-thumb{
+  appearance:none;width:16px;height:16px;border-radius:50%;background:var(--verde);
+  border:2px solid var(--surface);margin-top:-6px;box-shadow:var(--sombra);
+}
+input[type=range]::-moz-range-thumb{
+  width:16px;height:16px;border-radius:50%;background:var(--verde);border:2px solid var(--surface);box-shadow:var(--sombra);
+}
+.salida{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px}
+.salida .lin{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:4px 0;font-size:var(--fs-small);color:var(--ink-2)}
+.salida .lin b{font-family:var(--mono);color:var(--ink);font-variant-numeric:tabular-nums;font-size:.95rem}
+.salida .lin b.dest{color:var(--verde);font-size:1.16rem}
+.nota-lab{font-size:var(--fs-small);color:var(--ink-3);margin:0}
+svg.plot{width:100%;height:auto;display:block;overflow:hidden}
+svg text{font-family:var(--mono);fill:var(--ink-3)}
+
+/* matriz de juego */
+.matriz{border-collapse:separate;border-spacing:5px;width:100%;font-size:.9rem}
+.matriz th{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:500;padding:4px}
+.matriz td{
+  background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:14px 10px;text-align:center;
+  transition:background .25s,border-color .25s;
+}
+.matriz td.acierto{background:var(--verde-suave);border-color:var(--verde)}
+.matriz td .v{display:block;font-family:var(--mono);font-size:1.22rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.matriz td.acierto .v{color:var(--verde);font-weight:600}
+.matriz td .e{display:block;font-size:var(--fs-micro);color:var(--ink-3);margin-top:4px}
+.mezcla{display:flex;height:34px;border-radius:8px;overflow:hidden;border:1px solid var(--line);margin-top:6px}
+.mezcla span{
+  display:grid;place-items:center;font-family:var(--mono);font-size:var(--fs-micro);color:var(--surface);
+  transition:width .4s cubic-bezier(.2,.7,.3,1);white-space:nowrap;overflow:hidden;
+}
+.mezcla .a{background:var(--verde)}
+.mezcla .b{background:var(--azul)}
+:root[data-theme="dark"] .mezcla span{color:var(--ground)}
+@media (prefers-color-scheme:dark){.mezcla span{color:var(--ground)}}
+:root[data-theme="light"] .mezcla span{color:#fff}
+
+/* ============================================================
+   RUTA DE EVALUACIÓN
+   ============================================================ */
+.ruta{position:relative;padding-left:26px}
+.ruta::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:var(--line-fuerte)}
+.hito{position:relative;padding:0 0 22px}
+.hito::before{
+  content:"";position:absolute;left:-24px;top:7px;width:11px;height:11px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--verde);
+}
+.hito h3{margin-bottom:3px;font-size:1rem}
+.hito p{margin:0;font-size:.92rem;color:var(--ink-2)}
+.hito .et{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.12em;text-transform:uppercase;color:var(--ambar);display:block;margin-bottom:3px}
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+.quiz{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--sombra)}
+.pregunta{border-top:1px solid var(--line);padding-top:18px;margin-top:18px}
+.pregunta:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.pregunta .q{font-weight:600;margin-bottom:12px;display:flex;gap:11px}
+.pregunta .q .num{font-family:var(--mono);font-size:var(--fs-micro);color:var(--verde);flex:0 0 auto;padding-top:4px;letter-spacing:.08em}
+.ops{display:grid;gap:7px}
+.op{
+  appearance:none;text-align:left;font:inherit;font-size:.92rem;cursor:pointer;color:var(--ink);
+  background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:11px 14px;
+  transition:background .16s,border-color .16s;display:flex;align-items:center;gap:11px;
+}
+.op:hover:not(:disabled){border-color:var(--verde);background:var(--verde-suave)}
+.op:disabled{cursor:default}
+.op .mk{
+  width:19px;height:19px;border-radius:50%;border:1.5px solid var(--line-fuerte);flex:0 0 auto;
+  display:grid;place-items:center;font-family:var(--mono);font-size:.62rem;color:var(--ink-3);
+}
+.op.bien{border-color:var(--verde);background:var(--verde-suave)}
+.op.bien .mk{border-color:var(--verde);background:var(--verde);color:var(--surface)}
+:root[data-theme="dark"] .op.bien .mk{color:var(--ground)}
+.op.mal{border-color:var(--rojo);background:color-mix(in srgb,var(--rojo) 12%,var(--surface))}
+.op.mal .mk{border-color:var(--rojo);color:var(--rojo)}
+.explica{
+  margin-top:11px;font-size:.88rem;color:var(--ink-2);background:var(--ambar-suave);
+  border-left:3px solid var(--ambar);border-radius:0 8px 8px 0;padding:11px 14px;display:none;
+}
+.explica.ver{display:block}
+.marcador{
+  margin-top:20px;padding-top:18px;border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.marcador .pt{font-family:var(--mono);font-size:1.5rem;color:var(--verde);font-variant-numeric:tabular-nums}
+
+/* ============================================================
+   RECURSOS
+   ============================================================ */
+.recurso{
+  display:flex;gap:13px;align-items:flex-start;text-decoration:none;color:inherit;
+  background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:15px;
+  transition:border-color .18s,transform .18s,box-shadow .18s;
+}
+.recurso:hover{border-color:var(--verde);transform:translateY(-2px);box-shadow:var(--sombra)}
+.recurso .ic{color:var(--verde);flex:0 0 auto;margin-top:2px}
+.recurso b{display:block;font-size:.95rem;margin-bottom:2px}
+.recurso span{display:block;font-size:var(--fs-small);color:var(--ink-3);line-height:1.4}
+.bib{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.bib li{font-size:.88rem;color:var(--ink-2);padding-left:15px;border-left:2px solid var(--line-fuerte);line-height:1.55}
+.bib li a{word-break:break-word}
+
+/* ============================================================
+   CIERRE
+   ============================================================ */
+.cierre-cita{
+  font-family:var(--serif);font-size:clamp(1.4rem,2.8vw,2.15rem);line-height:1.28;letter-spacing:-.015em;
+  max-width:20ch;margin:0 0 26px;text-wrap:balance;
+}
+.cierre-cita em{font-style:italic;color:var(--verde)}
+.pie-doc{border-top:1px solid var(--line);padding-top:20px;margin-top:26px;font-size:var(--fs-small);color:var(--ink-3)}
+
+.revela{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
+.revela.visible{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.revela{opacity:1;transform:none}}
+</style>
+
+<button id="abrir-menu" aria-expanded="false" aria-controls="riel">Índice</button>
+
+<div id="app">
+
+  <aside id="riel">
+    <div class="marca">
+      <div class="esc">
+        <svg width="16" height="18" viewBox="0 0 16 18" fill="none" aria-hidden="true">
+          <path d="M8 1 1 4v6c0 4 3 6.5 7 7 4-.5 7-3 7-7V4L8 1Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+          <path d="M5 9l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        ESJIM · DINAE
+      </div>
+      <h1>Matemática aplicada a la profesión</h1>
+      <div class="per">ADMINISTRACIÓN POLICIAL VIRTUAL · 2026-II</div>
+    </div>
+    <nav id="indice" aria-label="Índice de la presentación">
+      <ol id="lista-indice"></ol>
+    </nav>
+    <div class="pie-riel">
+      <div class="barra-prog" role="progressbar" aria-label="Avance de la presentación" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="prog"></i></div>
+      <button class="icono" id="tema" aria-label="Cambiar entre tema claro y oscuro" title="Cambiar tema">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="8" cy="8" r="3.4" stroke="currentColor" stroke-width="1.3"/>
+          <path d="M8 .8v2M8 13.2v2M.8 8h2M13.2 8h2M2.9 2.9l1.4 1.4M11.7 11.7l1.4 1.4M13.1 2.9l-1.4 1.4M4.3 11.7l-1.4 1.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </aside>
+
+  <main id="deck">
+
+    <!-- ================= 1. PORTADA ================= -->
+    <section class="lam" id="portada" data-tit="Portada">
+      <canvas id="red-canvas" aria-hidden="true"></canvas>
+      <div class="velo" aria-hidden="true"></div>
+      <div class="contenido">
+        <div class="eyebrow-p">Dirección de Educación Policial · Facultad de Estudios para el Desarrollo de la Profesión Policial</div>
+        <h1 class="portada">La matemática que <em>decide</em> el servicio</h1>
+        <p class="sub-portada">
+          Dos unidades para convertir datos delictivos en decisiones defendibles: modelar, optimizar
+          y sustentar con cifras la distribución de los recursos de la Policía Nacional.
+        </p>
+        <div class="fichas">
+          <div class="ficha"><b>96</b><span>Horas totales</span></div>
+          <div class="ficha"><b>32</b><span>Trabajo directo</span></div>
+          <div class="ficha"><b>64</b><span>Independiente</span></div>
+          <div class="ficha"><b>2</b><span>Créditos</span></div>
+          <div class="ficha"><b>12</b><span>Subtemas</span></div>
+        </div>
+        <div class="pista">
+          <kbd>↓</kbd> o <kbd>→</kbd> para avanzar · usa el índice para saltar de lámina
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 2. TU DOCENTE ================= -->
+    <section class="lam" data-tit="Tu docente">
+      <div class="contenido">
+        <div class="rotulo">Quién acompaña el curso</div>
+        <h2 class="tit">Tu docente</h2>
+        <div class="docente">
+          <div class="perfil">
+            <div class="retrato">
+              <img src="data:image/jpeg;base64,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" alt="Retrato de José Javier Mercado Reyes, docente de la asignatura" width="200" height="200">
+            </div>
+            <div>
+              <p class="nombre" style="max-width:none">José Javier Mercado Reyes</p>
+              <div class="cargo">Magíster · Tutor de la asignatura</div>
+            </div>
+            <ul class="contacto">
+              <li>
+                <span class="ic"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="2.5" y="4.5" width="15" height="11" rx="1.8" stroke="currentColor" stroke-width="1.5"/><path d="m3 6 7 4.6L17 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                <a href="mailto:josejaviermerey@gmail.com">josejaviermerey@gmail.com</a>
+              </li>
+              <li>
+                <span class="ic"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5.4 3.2 7 3l1.6 3.4-1.5 1.3c.6 1.6 2.1 3.1 3.7 3.7l1.3-1.5L15.5 11l-.2 1.6c-.2 1-1.1 1.7-2.1 1.6C8.6 13.8 5 10.2 4.5 5.3c-.1-1 .6-1.9 1.6-2.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+                <a href="tel:+573106803980">310 680 3980</a>
+              </li>
+              <li>
+                <span class="ic"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.5"/><path d="M10 5.6V10l3 1.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                <span>Atención de lunes a sábado, <strong>14:00 a 20:00</strong></span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="credenciales">
+            <div>
+              <h3>Formación académica</h3>
+              <ul class="hoja">
+                <li class="actual"><b>Candidato a Doctor en Tecnología Educativa</b><span>Universidad Da Vinci · México</span></li>
+                <li><b>Magíster en Estadística Aplicada</b><span>Universidad del Norte</span></li>
+                <li><b>Ingeniero Industrial</b><span>Universidad de la Costa</span></li>
+                <li><b>Especialista en Gerencia de Proyectos</b><span>Universidad de la Costa</span></li>
+                <li><b>Especialista en Estudios Pedagógicos</b><span>Formación docente</span></li>
+              </ul>
+            </div>
+            <div>
+              <h3>Experiencia docente</h3>
+              <ul class="hoja">
+                <li class="actual"><b>Docente de Estadística y Matemática</b><span>ESJIM · modalidad virtual</span></li>
+                <li><b>Tutor de Matemáticas</b><span>Universidad de la Costa</span></li>
+                <li><b>Docente de Matemáticas</b><span>Secretaría de Educación del Atlántico</span></li>
+              </ul>
+              <p style="font-size:.9rem;color:var(--ink-2);margin:20px 0 0">
+                La combinación de ingeniería industrial y estadística aplicada es exactamente lo que
+                verás en las dos unidades: optimizar recursos con restricciones reales y sustentar
+                cada decisión con datos.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 3. DE QUÉ SE TRATA ================= -->
+    <section class="lam" data-tit="De qué se trata">
+      <div class="contenido">
+        <div class="rotulo">Identificación de la asignatura</div>
+        <h2 class="tit">Fundamentación cuantitativa para administrar el servicio de Policía</h2>
+        <p class="entrada">
+          La asignatura pertenece al campo de <strong>Fundamentación</strong>, área de administración o gestión
+          del servicio de Policía, en el segundo periodo académico del pregrado virtual. Su apuesta es simple
+          de enunciar y exigente de lograr: que ninguna decisión sobre personal, presupuesto o cobertura
+          se tome «a ojo» cuando existen datos para sustentarla.
+        </p>
+
+        <div class="rejilla r2" style="margin-top:26px">
+          <div class="tarjeta">
+            <h3>Competencias del meso currículo</h3>
+            <p style="font-size:.94rem;color:var(--ink-2)">
+              Planifica estrategias integrales de gestión de seguridad pública y privada para la prevención
+              y solución de problemas relacionados con la seguridad y la convivencia de los territorios.
+            </p>
+            <p style="font-size:.94rem;color:var(--ink-2);margin:0">
+              Aplica los principios de la administración pública para las decisiones éticas en la distribución
+              de recursos, en el diseño de estrategias de seguridad acordes al contexto regional.
+            </p>
+          </div>
+          <div class="tarjeta" style="display:flex;flex-direction:column;gap:18px">
+            <div class="rpa">
+              <span class="k">RPA 1</span>
+              <p>Aplica herramientas analíticas y cuantitativas mediante ejercicios prácticos que aseguran una
+              rendición de cuentas transparente y efectiva, alineada con los principios contables y económicos
+              del contexto policial.</p>
+            </div>
+            <div class="rpa">
+              <span class="k">RPA 2</span>
+              <p>Conceptualiza los fundamentos teóricos y las habilidades de investigación mediante la formulación
+              y presentación de proyectos, para la toma de decisiones asertivas y la comprensión de las dinámicas
+              operativas dentro y fuera de la Institución.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:20px">
+          <span class="chip">Nivel · Pregrado</span>
+          <span class="chip">Campo · Fundamentación</span>
+          <span class="chip">Periodo · 2</span>
+          <span class="chip v">Modalidad · Virtual</span>
+          <span class="chip a">Vinculada a retos internacionales</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 3. MAPA DEL CURSO ================= -->
+    <section class="lam" data-tit="Mapa del curso">
+      <div class="contenido">
+        <div class="rotulo">Recorrido · 12 subtemas</div>
+        <h2 class="tit">Del modelo al presupuesto</h2>
+        <p class="entrada">
+          La Unidad 1 enseña a <strong>describir y predecir</strong> el fenómeno delictivo. La Unidad 2 usa esa
+          descripción para <strong>asignar recursos y justificar el gasto</strong>. Toca cualquier subtema para ver
+          de qué trata y cuántas horas exige.
+        </p>
+        <div class="mapa" id="mapa" style="margin-top:22px"></div>
+        <div id="detalle-sub" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ================= 4. HORAS ================= -->
+    <section class="lam" data-tit="Reparto de horas">
+      <div class="contenido">
+        <div class="rotulo">96 horas · 32 directas + 64 independientes</div>
+        <h2 class="tit">Dónde se va el tiempo</h2>
+        <p class="entrada">
+          Dos de cada tres horas son trabajo independiente. El acompañamiento sincrónico se concentra en los
+          subtemas que más se atascan: optimización, redes criminales y programación lineal.
+        </p>
+        <div class="panel-grafico" style="margin-top:22px">
+          <div class="conmutador" role="group" aria-label="Elegir unidad">
+            <button type="button" data-u="1" aria-pressed="true">Unidad 1</button>
+            <button type="button" data-u="2" aria-pressed="false">Unidad 2</button>
+          </div>
+          <div id="grafico-horas"></div>
+          <div class="leyenda">
+            <span><i style="background:var(--verde)"></i>Trabajo directo</span>
+            <span><i style="background:var(--azul);opacity:.72"></i>Trabajo independiente</span>
+            <span class="dato" id="resumen-horas" style="color:var(--ink-3)"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 5. UNIDAD 1 ================= -->
+    <section class="lam" data-tit="Unidad 1">
+      <div class="contenido">
+        <div class="rotulo">Unidad 1 · 48 horas</div>
+        <h2 class="tit">Modelos matemáticos para una gestión policial eficiente</h2>
+        <p class="entrada">
+          <strong>Resultado previsto:</strong> aplicar modelos ligados al análisis estadístico, la optimización y la
+          representación gráfica de datos en el contexto policial, para mejorar la planificación, la distribución
+          de recursos y la resolución de problemas operativos de manera efectiva y fundamentada.
+        </p>
+        <h3 style="margin-top:26px">¿En qué nivel quieres cerrar la unidad?</h3>
+        <div class="escalera" id="escalera-u1"></div>
+        <div class="texto-nivel" id="texto-u1" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ================= 6. LAB TEORÍA DE JUEGOS ================= -->
+    <section class="lam" data-tit="Lab · Teoría de juegos">
+      <div class="contenido">
+        <div class="rotulo">Laboratorio 1 · Subtema 6 de la Unidad 1</div>
+        <h2 class="tit">¿Dónde patrullar si el delincuente también piensa?</h2>
+        <p class="entrada">
+          Dos zonas, una patrulla, un adversario que observa. Si patrullas siempre la zona de mayor valor, el
+          delincuente se muda a la otra. El equilibrio no es una zona: es una <strong>proporción</strong>. Mueve el valor
+          protegido de cada zona y observa cómo cambia el reparto óptimo del patrullaje.
+        </p>
+        <div class="lab" style="margin-top:22px">
+          <div class="lab-cab">
+            <span class="t">Simulador de asignación de patrullaje</span>
+            <span class="chip z">Equilibrio en estrategias mixtas</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <div class="desplaza">
+                <table class="matriz">
+                  <caption class="rotulo" style="margin-bottom:10px">Valor protegido por la Policía (millones evitados)</caption>
+                  <thead>
+                    <tr><th></th><th scope="col">Delito en zona A</th><th scope="col">Delito en zona B</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row" style="text-align:left">Patrulla en A</th>
+                      <td id="c-aa" class="acierto"><span class="v" id="v-aa">10</span><span class="e">Delito impedido</span></td>
+                      <td id="c-ab"><span class="v">0</span><span class="e">Delito consumado</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row" style="text-align:left">Patrulla en B</th>
+                      <td id="c-ba"><span class="v">0</span><span class="e">Delito consumado</span></td>
+                      <td id="c-bb" class="acierto"><span class="v" id="v-bb">6</span><span class="e">Delito impedido</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div style="margin-top:18px">
+                <div class="rotulo" style="margin-bottom:0">Reparto óptimo del turno</div>
+                <div class="mezcla" id="mezcla">
+                  <span class="a" id="mez-a">Zona A 63%</span>
+                  <span class="b" id="mez-b">Zona B 38%</span>
+                </div>
+                <p class="nota-lab" style="margin-top:10px">
+                  De cada 8 turnos, <b class="dato" id="turnos-a">5</b> en la zona A y
+                  <b class="dato" id="turnos-b">3</b> en la zona B.
+                </p>
+              </div>
+            </div>
+            <div class="lab-mandos">
+              <div class="mando">
+                <label for="vA">Valor protegido zona A <b><span id="vA-out">10</span> M</b></label>
+                <input type="range" id="vA" min="1" max="20" step="1" value="10">
+              </div>
+              <div class="mando">
+                <label for="vB">Valor protegido zona B <b><span id="vB-out">6</span> M</b></label>
+                <input type="range" id="vB" min="1" max="20" step="1" value="6">
+              </div>
+              <div class="salida">
+                <div class="lin"><span>Turnos en zona A</span><b class="dest" id="pA">62,5 %</b></div>
+                <div class="lin"><span>Turnos en zona B</span><b id="pB">37,5 %</b></div>
+                <div class="lin"><span>Pérdida esperada</span><b id="perdida">3,75 M</b></div>
+              </div>
+              <p class="nota-lab">
+                Regla que sale del modelo: patrulla cada zona en proporción a su valor,
+                <span class="dato">p<sub>A</sub> = v<sub>A</sub> / (v<sub>A</sub>+v<sub>B</sub>)</span>.
+                Cualquier desviación es explotable por el adversario.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 7. UNIDAD 2 ================= -->
+    <section class="lam" data-tit="Unidad 2">
+      <div class="contenido">
+        <div class="rotulo">Unidad 2 · 48 horas</div>
+        <h2 class="tit">Operaciones básicas para la gestión efectiva en la administración policial</h2>
+        <p class="entrada">
+          <strong>Resultado previsto:</strong> realizar cálculos y operaciones matemáticas fundamentales —porcentajes,
+          proporciones y manejo de datos cuantitativos— en el contexto policial, para tomar decisiones informadas
+          que fortalezcan la eficiencia operativa en la labor profesional.
+        </p>
+        <h3 style="margin-top:26px">Los tres niveles de desempeño</h3>
+        <div class="escalera" id="escalera-u2"></div>
+        <div class="texto-nivel" id="texto-u2" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ================= 8. LAB PROGRAMACIÓN LINEAL ================= -->
+    <section class="lam" data-tit="Lab · Programación lineal">
+      <div class="contenido">
+        <div class="rotulo">Laboratorio 2 · Subtema 2 de la Unidad 2</div>
+        <h2 class="tit">El presupuesto dibuja una región; el óptimo vive en una esquina</h2>
+        <p class="entrada">
+          Tienes que repartir el mes entre <strong>patrullas móviles</strong> y <strong>puestos fijos tipo CAI</strong>.
+          Cada opción consume presupuesto y personal, y cada una cubre distinto. Mueve los recursos disponibles y
+          mira cómo la región factible cambia de forma —y cómo el óptimo salta de un vértice a otro.
+        </p>
+        <div class="lab" style="margin-top:22px">
+          <div class="lab-cab">
+            <span class="t">Simulador de optimización de recursos</span>
+            <span class="chip v" id="chip-vertice">Óptimo en vértice</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <svg class="plot" id="plot-pl" viewBox="0 0 520 400" role="img"
+                   aria-label="Región factible del problema de programación lineal con la solución óptima marcada"></svg>
+            </div>
+            <div class="lab-mandos">
+              <div class="mando">
+                <label for="pres">Presupuesto mensual <b><span id="pres-out">120</span> M</b></label>
+                <input type="range" id="pres" min="30" max="260" step="5" value="120">
+              </div>
+              <div class="mando">
+                <label for="pers">Uniformados disponibles <b><span id="pers-out">90</span></b></label>
+                <input type="range" id="pers" min="20" max="220" step="2" value="90">
+              </div>
+              <div class="salida">
+                <div class="lin"><span>Patrullas móviles</span><b id="sol-x">—</b></div>
+                <div class="lin"><span>Puestos fijos (CAI)</span><b id="sol-y">—</b></div>
+                <div class="lin"><span>Cobertura máxima</span><b class="dest" id="sol-z">—</b></div>
+                <div class="lin"><span>Recurso que limita</span><b id="sol-cuello" style="font-size:.78rem">—</b></div>
+              </div>
+              <p class="nota-lab">
+                Maximizar <span class="dato">Z = 12x + 10y</span> sujeto a
+                <span class="dato">9x + 4y ≤ B</span> (presupuesto),
+                <span class="dato">4x + 9y ≤ P</span> (personal),
+                <span class="dato">x, y ≥ 0</span>. La patrulla móvil cuesta más dinero;
+                el CAI consume más personal por sus tres turnos.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 9. LAB COSTO-BENEFICIO ================= -->
+    <section class="lam" data-tit="Lab · Costo-beneficio">
+      <div class="contenido">
+        <div class="rotulo">Laboratorio 3 · Subtema 5 de la Unidad 2</div>
+        <h2 class="tit">¿La cámara se paga sola?</h2>
+        <p class="entrada">
+          Un proyecto de videovigilancia se defiende ante el ordenador del gasto con dos cifras: la relación
+          <strong>beneficio/costo</strong> y el <strong>valor presente neto</strong>. Ajusta la inversión, los delitos que
+          evitas y la tasa de descuento; el veredicto cambia en vivo.
+        </p>
+        <div class="lab" style="margin-top:22px">
+          <div class="lab-cab">
+            <span class="t">Evaluación financiera de una intervención</span>
+            <span class="chip" id="veredicto">Calculando…</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <svg class="plot" id="plot-cb" viewBox="0 0 520 300" role="img"
+                   aria-label="Flujo de caja acumulado descontado del proyecto de videovigilancia"></svg>
+            </div>
+            <div class="lab-mandos">
+              <div class="mando">
+                <label for="inv">Inversión inicial <b><span id="inv-out">400</span> M</b></label>
+                <input type="range" id="inv" min="50" max="1200" step="10" value="400">
+              </div>
+              <div class="mando">
+                <label for="oper">Operación anual <b><span id="oper-out">60</span> M</b></label>
+                <input type="range" id="oper" min="0" max="300" step="5" value="60">
+              </div>
+              <div class="mando">
+                <label for="del">Delitos evitados / año <b><span id="del-out">70</span></b></label>
+                <input type="range" id="del" min="0" max="300" step="5" value="70">
+              </div>
+              <div class="mando">
+                <label for="tasa">Tasa de descuento <b><span id="tasa-out">9</span> %</b></label>
+                <input type="range" id="tasa" min="0" max="20" step="1" value="9">
+              </div>
+              <div class="salida">
+                <div class="lin"><span>Relación B/C</span><b class="dest" id="bc">—</b></div>
+                <div class="lin"><span>Valor presente neto</span><b id="vpn">—</b></div>
+                <div class="lin"><span>Recuperación</span><b id="payback">—</b></div>
+              </div>
+              <p class="nota-lab">
+                Horizonte de 5 años; costo social estimado por delito: <span class="dato">2,4 M</span>.
+                Se aprueba cuando <span class="dato">B/C &gt; 1</span> y <span class="dato">VPN &gt; 0</span>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 10. EVALUACIÓN ================= -->
+    <section class="lam" data-tit="Cómo se evalúa">
+      <div class="contenido">
+        <div class="rotulo">Estrategias de enseñanza y evaluación</div>
+        <h2 class="tit">Se evalúa lo que se hace, no lo que se recita</h2>
+        <p class="entrada">
+          El microcurrículo define <strong>aprendizaje basado en problemas</strong> y <strong>aprendizaje basado en
+          proyectos</strong> como estrategias de enseñanza. La evaluación, en consecuencia, se apoya en productos:
+          casos, simulaciones y proyectos, no en preguntas de memoria.
+        </p>
+
+        <div class="rejilla r2" style="margin-top:24px">
+          <div class="tarjeta">
+            <span class="chip a" style="margin-bottom:12px">EE1</span>
+            <h3>Proyectos y casos</h3>
+            <p style="font-size:.93rem;color:var(--ink-2);margin:0">
+              Proyectos o trabajos individuales o grupales, evaluación basada en casos, y autoevaluación
+              con autorreflexión sobre el propio desempeño.
+            </p>
+          </div>
+          <div class="tarjeta">
+            <span class="chip z" style="margin-bottom:12px">EE2</span>
+            <h3>Simulaciones y habilidades prácticas</h3>
+            <p style="font-size:.93rem;color:var(--ink-2);margin:0">
+              Simulaciones, proyectos de investigación o resolución de problemas, y evaluación directa de
+              habilidades prácticas sobre datos reales o simulados.
+            </p>
+          </div>
+        </div>
+
+        <h3 style="margin-top:30px">Ruta de cada unidad en el aula virtual</h3>
+        <div class="ruta" style="margin-top:14px">
+          <div class="hito">
+            <span class="et">Paso 1 · Conozco</span>
+            <h3>Lección y ejemplificación</h3>
+            <p>Fundamentos del subtema y un cuestionario de calibración. Autocorregidos por la plataforma.</p>
+          </div>
+          <div class="hito">
+            <span class="et">Paso 2 · Aprendo haciendo</span>
+            <h3>Sesión en línea con tutor y experto</h3>
+            <p>Exposición, preguntas, trabajo grupal y plenaria. Se entrega un informe corto de la sesión.</p>
+          </div>
+          <div class="hito">
+            <span class="et">Paso 3 · Profundizo</span>
+            <h3>Lectura, foro y discusión con pares</h3>
+            <p>Respuesta argumentada a las preguntas movilizadoras y al menos dos comentarios reflexivos a compañeros.</p>
+          </div>
+          <div class="hito">
+            <span class="et">Paso 4 · Demuestro</span>
+            <h3>Informe técnico con datos propios</h3>
+            <p>Producto integrador de la unidad: formulación matemática, análisis y conclusiones sustentadas en cifras.
+               Se califica con rúbrica analítica publicada desde el primer día.</p>
+          </div>
+          <div class="hito" style="padding-bottom:0">
+            <span class="et">Paso 5 · Evalúo</span>
+            <h3>Cierre y autorreflexión</h3>
+            <p>Cuestionario final de la unidad y balance del propio aprendizaje frente a los tres niveles de desempeño.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 11. QUIZ ================= -->
+    <section class="lam" data-tit="Reto de entrada">
+      <div class="contenido">
+        <div class="rotulo">Autodiagnóstico · 4 preguntas</div>
+        <h2 class="tit">Antes de empezar, mide dónde estás</h2>
+        <p class="entrada">
+          Ninguna respuesta se registra ni afecta tu nota. Sirve para que identifiques qué subtema vas a tener
+          que trabajar con más calma.
+        </p>
+        <div class="quiz" id="quiz" style="margin-top:22px"></div>
+      </div>
+    </section>
+
+    <!-- ================= 12. RECURSOS ================= -->
+    <section class="lam" data-tit="Recursos y bibliografía">
+      <div class="contenido">
+        <div class="rotulo">Herramientas y fuentes del microcurrículo</div>
+        <h2 class="tit">Con qué vas a trabajar</h2>
+        <p class="entrada">
+          Todas las herramientas son gratuitas o están disponibles institucionalmente. Los enlaces abren en una
+          pestaña nueva.
+        </p>
+        <div class="rejilla r3" id="recursos" style="margin-top:22px"></div>
+
+        <div class="rejilla r2" style="margin-top:30px">
+          <div>
+            <h3>Bibliografía · Unidad 1</h3>
+            <ul class="bib">
+              <li>Méndez-Hincapié, N., Garzón-Barragán, I., &amp; Castro-Moreno, J. A. (2022). Análisis del razonamiento probabilístico en futuros profesores de ciencias. <em>Investigações em Ensino de Ciências, 27</em>(3), 270. <a href="https://doi.org/10.22600/1518-8795.ienci2022v27n3p254" target="_blank" rel="noopener noreferrer">doi.org/10.22600/1518-8795</a></li>
+              <li>Morales Vallejo, P. (2011). <em>Estadística aplicada a las ciencias sociales</em> (Vol. 3). Universidad Pontificia Comillas.</li>
+              <li>Barco Rojas, C. A., Franci Raimundo Yaegashi, S., &amp; Angelly Jimenez Agudelo, M. (2024). Aprendizaje basado en problemas para la enseñanza de matemáticas en administración pública. <em>Administración &amp; Desarrollo, 54</em>(2), 1–25. <a href="https://dialnet.unirioja.es/descarga/articulo/9880743.pdf" target="_blank" rel="noopener noreferrer">Descargar PDF</a></li>
+              <li>Nadia Ene, C. (2003). Modelos económico-matemáticos y simulaciones. <em>Gestión y Análisis de Políticas Públicas</em>, (26-27), 103–119. <a href="https://revistasonline.inap.es/index.php/GAPP/article/view/351/351" target="_blank" rel="noopener noreferrer">Leer en INAP</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Bibliografía · Unidad 2</h3>
+            <ul class="bib">
+              <li>Pontón Cevallos, D. (2020). El aporte de Edwin Sutherland al análisis del crimen económico global. <em>URVIO, 27</em>, 112–124. <a href="https://doi.org/10.17141/urvio.27.2020.4266" target="_blank" rel="noopener noreferrer">doi.org/10.17141/urvio</a></li>
+              <li>Villarreal Satama, F. L., Montenegro Gálvez, D. I., &amp; Núñez Ribadeneira, J. E. (2021). Optimización matemática como herramienta para la toma de decisiones en la empresa. <em>Ingenio, 4</em>(1), 40–60. <a href="https://doi.org/10.29166/ingenio.v4i1.2738" target="_blank" rel="noopener noreferrer">doi.org/10.29166/ingenio</a></li>
+              <li>Rohatgi, V. K., &amp; Saleh, A. K. E. (2000). <em>An introduction to probability and statistics</em>. John Wiley &amp; Sons.</li>
+              <li>Alvino Aldave, V. M., et al. (2024). Anticipando el crimen: modelos matemáticos para la proyección del comportamiento delincuencial en la provincia de Huaura. <em>TecnoHumanismo, 4</em>(3). <a href="https://dialnet.unirioja.es/descarga/articulo/9854198.pdf" target="_blank" rel="noopener noreferrer">Descargar PDF</a></li>
+              <li>López, G. J., Coronel, E. L., &amp; Ríos, M. E. (2012). Simulador de programación lineal 2D y 3D como recurso didáctico. <em>Revista Iberoamericana de Ciencias y Tecnología, 3</em>(2), 123–135.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 13. CIERRE ================= -->
+    <section class="lam" data-tit="Cierre" style="border-bottom:none">
+      <div class="contenido">
+        <div class="rotulo">Acuerdo de trabajo</div>
+        <p class="cierre-cita">
+          Una decisión policial sustentada en cifras <em>se puede defender</em>. Una corazonada, no.
+        </p>
+        <div class="rejilla r3" style="margin-top:10px">
+          <div class="tarjeta">
+            <h3>Entrega a tiempo</h3>
+            <p style="font-size:.92rem;color:var(--ink-2);margin:0">Las rúbricas están publicadas desde el primer día:
+            se sabe de antemano qué se pide y cuánto vale cada criterio.</p>
+          </div>
+          <div class="tarjeta">
+            <h3>Datos propios</h3>
+            <p style="font-size:.92rem;color:var(--ink-2);margin:0">Trabaja con cifras de tu unidad o de tu territorio.
+            El caso genérico se nota y se califica como lo que es.</p>
+          </div>
+          <div class="tarjeta">
+            <h3>Pregunta temprano</h3>
+            <p style="font-size:.92rem;color:var(--ink-2);margin:0">El foro de dudas se responde dentro de las 48 horas.
+            Una duda de la semana 1 resuelta ahorra la semana 6 completa.</p>
+          </div>
+        </div>
+        <div class="pie-doc">
+          Presentación del curso · Matemática aplicada a la profesión · Administración Policial Virtual ·
+          Periodo académico 2 · 2026-II. Elaborada a partir del microcurrículo institucional vigente
+          (Esquema para diseñar contenidos programáticos, DINAE).
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   DATOS
+   ============================================================ */
+var ICONOS = {
+  modelo:'<path d="M3 17V7m0 10h14M3 7l5 5 3-3 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
+  sim:'<rect x="2.5" y="4" width="15" height="11" rx="1.6" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M6 17h8M10 15v2M6 8h3M6 11h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+  barras:'<path d="M3 17h14M5.5 17V9M10 17V5m4.5 12v-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+  opt:'<path d="M3 16h14M3 16 8 8l3 3 6-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="8" cy="8" r="1.6" fill="currentColor"/>',
+  prob:'<circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M10 2.8v7.2l5 3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+  juego:'<rect x="2.5" y="2.5" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="10.5" y="10.5" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="6" cy="6" r="1.2" fill="currentColor"/><circle cx="14" cy="14" r="1.2" fill="currentColor"/>',
+  red:'<circle cx="4" cy="5" r="1.9" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="16" cy="6" r="1.9" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="10" cy="12" r="1.9" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="5" cy="16" r="1.9" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="m5.4 6.3 3.3 4.2m5.6-2.9-2.7 2.9M9.2 13.6 6.3 15" stroke="currentColor" stroke-width="1.3"/>',
+  pl:'<path d="M3 17V3m0 14h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3 12h6l5-6" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M3 17V12h6l5-6h3" stroke="currentColor" stroke-width="0" fill="currentColor" opacity=".18"/><circle cx="9" cy="12" r="1.7" fill="currentColor"/>',
+  crimi:'<path d="M10 2.5 3.5 5.2v5.1c0 3.6 2.7 5.9 6.5 6.7 3.8-.8 6.5-3.1 6.5-6.7V5.2L10 2.5Z" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M10 8v3.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="13.4" r=".9" fill="currentColor"/>',
+  interv:'<circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="10" cy="10" r="3.4" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="10" cy="10" r=".9" fill="currentColor"/>',
+  costo:'<path d="M3 15.5c2.5 0 3.5-9 7-9s4.5 5.5 7 5.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M3 17.5h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="6.5" r="1.5" fill="currentColor"/>',
+  caso:'<rect x="3" y="5.5" width="14" height="11" rx="1.6" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M7.5 5.5V4a1.5 1.5 0 0 1 1.5-1.5h2A1.5 1.5 0 0 1 12.5 4v1.5M3 10h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'
+};
+
+var UNIDADES = [
+  {
+    n:1, horas:48,
+    titulo:'Modelos Matemáticos para una Gestión Policial Eficiente',
+    subtemas:[
+      {ic:'modelo', nom:'Modelos Matemáticos en Investigación Criminal', h:10, td:3, ti:7,
+       txt:'Construcción de modelos que explican patrones delictivos en un territorio a partir de datos reales. Es el subtema que fija el lenguaje del curso: variable, parámetro, supuesto y margen de error.'},
+      {ic:'sim', nom:'Simulación de Escenarios Criminales', h:8, td:3, ti:5,
+       txt:'Simulación virtual con datos reales para anticipar cómo evoluciona el delito ante distintas condiciones. Permite ensayar decisiones sin costo operacional.'},
+      {ic:'barras', nom:'Estadísticas delictivas', h:6, td:2, ti:4,
+       txt:'Lectura crítica de las cifras institucionales: tasas, variaciones, comparaciones entre periodos y las trampas más comunes al interpretarlas.'},
+      {ic:'opt', nom:'Optimización de Recursos Policiales', h:10, td:4, ti:6,
+       txt:'Investigación operacional aplicada a la asignación de personal y medios logísticos, considerando escenarios y restricciones. Es el subtema con más acompañamiento directo de la unidad.'},
+      {ic:'prob', nom:'Cálculos Probabilísticos en la Toma de Decisiones', h:8, td:2, ti:6,
+       txt:'Ejercicio de decisión sobre situaciones delictivas donde se evalúa riesgo con probabilidades y se decide en tiempo real, con la información incompleta que se tiene en la calle.'},
+      {ic:'juego', nom:'Teoría de Juegos Aplicada a la Estrategia Policial', h:6, td:2, ti:4,
+       txt:'Decisiones frente a un adversario que también decide. Introduce el equilibrio y la idea de que la mejor estrategia puede ser deliberadamente impredecible.'}
+    ],
+    niveles:{
+      basico:'Reconoce los conceptos básicos de modelos matemáticos, análisis estadístico y representación gráfica de datos mediante la resolución de ejercicios simples aplicados al contexto policial, para comprender su utilidad en la planificación y distribución de recursos.',
+      inter:'Aplica modelos matemáticos relacionados con análisis estadístico, optimización y representación gráfica de datos en casos prácticos que simulan problemas operativos reales en el ámbito policial, para proponer soluciones fundamentadas y mejorar la toma de decisiones operativas.',
+      superior:'Analiza la efectividad de modelos matemáticos en el análisis estadístico, la optimización y la representación gráfica de datos considerando escenarios complejos y datos reales del contexto policial, para diseñar estrategias que mejoren la planificación, la distribución de recursos y la resolución de problemas operativos de manera fundamentada.'
+    }
+  },
+  {
+    n:2, horas:48,
+    titulo:'Operaciones Básicas para la Gestión Efectiva en la Administración Policial',
+    subtemas:[
+      {ic:'red', nom:'Análisis de Redes Criminales', h:10, td:3, ti:7,
+       txt:'Herramientas de visualización de redes para construir y analizar estructuras a partir de datos reales o simulados: patrones de asociación, zonas de alta actividad y actores clave, con propuestas de intervención para debilitar la red.'},
+      {ic:'pl', nom:'Programación Lineal aplicada al análisis de redes criminales', h:10, td:3, ti:7,
+       txt:'Simulador virtual de programación lineal para la planificación operativa: asignar recursos, minimizar costos y maximizar la eficiencia bajo restricciones reales de presupuesto y personal.'},
+      {ic:'crimi', nom:'Modelos Matemáticos en Criminología', h:10, td:3, ti:7,
+       txt:'Modelos que la criminología usa para proyectar el comportamiento delincuencial, con sus alcances y sus límites éticos al aplicarlos sobre poblaciones reales.'},
+      {ic:'interv', nom:'Evaluación de Estrategias de Intervención', h:5, td:2, ti:3,
+       txt:'Estudio de caso virtual sobre una ciudad ficticia con alta criminalidad: se comparan estrategias usando datos de arrestos, intervenciones y cambios en las tasas para determinar cuál fue más eficaz.'},
+      {ic:'costo', nom:'Análisis Costo-Beneficio en Operaciones Policiales', h:5, td:2, ti:3,
+       txt:'Evaluación del impacto financiero de una nueva tecnología de vigilancia: se comparan los costos de implementación con los beneficios esperados en reducción de delitos.'},
+      {ic:'caso', nom:'Estudios de Caso en Toma de Decisiones Policiales', h:8, td:3, ti:5,
+       txt:'Casos virtuales basados en situaciones reales donde se aplican técnicas matemáticas para resolver problemas operativos y administrativos, tomando decisiones y analizando sus consecuencias.'}
+    ],
+    niveles:{
+      basico:'Identifica los conceptos y procedimientos necesarios para realizar análisis de los datos cuantitativos mediante ejercicios guiados y ejemplos relacionados con situaciones comunes en el contexto policial, para comprender su relevancia en la toma de decisiones informadas.',
+      inter:'Aplica herramientas matemáticas en el análisis de datos cuantitativos en la resolución de problemas prácticos asociados a la planificación y distribución de recursos policiales, para mejorar la eficiencia operativa y la efectividad en la gestión profesional.',
+      superior:'Analiza el impacto de las estrategias y la pertinencia del uso de herramientas de análisis matemático en casos complejos y escenarios operativos reales del ámbito policial, para optimizar la toma de decisiones estratégicas y fortalecer la eficiencia operativa en su labor profesional.'
+    }
+  }
+];
+
+var RECURSOS = [
+  {ic:'sim', nom:'PhET Interactive Simulations', d:'Simulaciones de la Universidad de Colorado para probabilidad y estadística.', url:'https://phet.colorado.edu/es/simulations/filter?type=html'},
+  {ic:'barras', nom:'Khan Academy · Matemáticas', d:'Repaso guiado de porcentajes, proporciones y estadística descriptiva.', url:'https://es.khanacademy.org/math'},
+  {ic:'opt', nom:'Wolfram Alpha', d:'Resolución simbólica y verificación de cálculos y sistemas de ecuaciones.', url:'https://www.wolframalpha.com/'},
+  {ic:'modelo', nom:'Microsoft Excel', d:'Solver para programación lineal, tablas dinámicas y gráficos del informe.', url:'https://www.microsoft.com/es-es/microsoft-365/excel'},
+  {ic:'pl', nom:'MATLAB', d:'Modelado numérico y optimización para quienes quieran ir al nivel superior.', url:'https://matlab.mathworks.com/'},
+  {ic:'red', nom:'h2o.ai', d:'Plataforma de aprendizaje automático para el análisis de patrones delictivos.', url:'https://h2o.ai/es'}
+];
+
+var QUIZ = [
+  {
+    q:'Los hurtos de una estación pasaron de 120 a 150 casos en un mes. ¿Cuál es la variación porcentual?',
+    ops:['+20 %','+25 %','+30 %','+150 %'], ok:1,
+    exp:'La variación se calcula sobre el valor inicial: (150 − 120) / 120 = 0,25, es decir +25 %. Dividir sobre el valor final (20 %) es el error más frecuente al reportar cifras delictivas.'
+  },
+  {
+    q:'En un problema de programación lineal con dos variables y restricciones lineales, ¿dónde se encuentra siempre la solución óptima?',
+    ops:['En el centro de la región factible','En un vértice de la región factible','Donde las dos restricciones valen cero','Depende de la tasa de descuento'], ok:1,
+    exp:'El teorema fundamental de la programación lineal garantiza que, si existe óptimo, al menos un vértice de la región factible lo alcanza. Por eso basta evaluar las esquinas y no infinitos puntos interiores.'
+  },
+  {
+    q:'Un proyecto de vigilancia tiene relación beneficio/costo de 0,85 y VPN negativo. ¿Qué se concluye?',
+    ops:['Es viable porque genera beneficios sociales','No es viable: cada peso invertido devuelve menos de un peso','Es viable si se amplía el horizonte a 20 años','Falta información sobre el número de cámaras'], ok:1,
+    exp:'Una relación B/C menor que 1 significa que el valor presente de los beneficios no alcanza a cubrir el de los costos. Con VPN negativo, el proyecto destruye valor en el horizonte evaluado; alargarlo sin justificación técnica es maquillar la cifra.'
+  },
+  {
+    q:'En el análisis de una red criminal, un nodo con alta intermediación (betweenness) es aquel que…',
+    ops:['Tiene más contactos directos que ningún otro','Conecta subgrupos que de otro modo quedarían aislados','Aparece más veces en los informes de policía','Tiene los antecedentes más graves'], ok:1,
+    exp:'La intermediación mide cuántos caminos cortos de la red pasan por ese nodo. Un actor con pocos contactos puede ser crítico si es el único puente entre dos células: capturarlo fragmenta la estructura más que capturar al de más contactos.'
+  }
+];
+
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+function el(t,c,h){var e=document.createElement(t); if(c)e.className=c; if(h!==undefined)e.innerHTML=h; return e;}
+function icono(k,tam){return '<svg width="'+(tam||18)+'" height="'+(tam||18)+'" viewBox="0 0 20 20" fill="none" aria-hidden="true">'+(ICONOS[k]||'')+'</svg>';}
+function num(v,d){return v.toLocaleString('es-CO',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});}
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+
+/* ============================================================
+   ÍNDICE + NAVEGACIÓN
+   ============================================================ */
+var laminas = Array.prototype.slice.call(document.querySelectorAll('section.lam'));
+var listaIdx = document.getElementById('lista-indice');
+var enlaces = [];
+
+laminas.forEach(function(s,i){
+  if(!s.id) s.id = 'lam-'+i;
+  if(s.dataset.tit==='Mapa del curso') listaIdx.appendChild(el('li','', '<div class="sep-riel">Contenido</div>'));
+  if(s.dataset.tit==='Cómo se evalúa') listaIdx.appendChild(el('li','', '<div class="sep-riel">Cierre</div>'));
+  var li = el('li');
+  var a = el('a','', '<span class="n">'+String(i+1).padStart(2,'0')+'</span><span>'+s.dataset.tit+'</span>');
+  a.href = '#'+s.id;
+  li.appendChild(a); listaIdx.appendChild(li); enlaces.push(a);
+});
+
+var actual = 0;
+var obs = new IntersectionObserver(function(ents){
+  ents.forEach(function(e){
+    if(e.isIntersecting){
+      var i = laminas.indexOf(e.target);
+      if(i<0) return;
+      actual = i;
+      enlaces.forEach(function(a,j){ a.setAttribute('aria-current', j===i ? 'true':'false'); });
+      var pct = Math.round((i)/(laminas.length-1)*100);
+      document.getElementById('prog').style.width = pct+'%';
+      document.querySelector('.barra-prog').setAttribute('aria-valuenow', pct);
+    }
+  });
+},{rootMargin:'-45% 0px -45% 0px', threshold:0});
+laminas.forEach(function(s){ obs.observe(s); });
+
+document.addEventListener('keydown', function(e){
+  if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+  var d = 0;
+  if(e.key==='ArrowRight'||e.key==='PageDown') d = 1;
+  else if(e.key==='ArrowLeft'||e.key==='PageUp') d = -1;
+  else return;
+  e.preventDefault();
+  var i = Math.max(0, Math.min(laminas.length-1, actual+d));
+  laminas[i].scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+var riel = document.getElementById('riel'), btnMenu = document.getElementById('abrir-menu');
+btnMenu.addEventListener('click', function(){
+  var ab = riel.classList.toggle('abierto');
+  btnMenu.setAttribute('aria-expanded', ab?'true':'false');
+});
+listaIdx.addEventListener('click', function(){ riel.classList.remove('abierto'); btnMenu.setAttribute('aria-expanded','false'); });
+
+/* tema */
+var btnTema = document.getElementById('tema');
+btnTema.addEventListener('click', function(){
+  var raiz = document.documentElement;
+  var oscuroAhora = raiz.getAttribute('data-theme')
+    ? raiz.getAttribute('data-theme')==='dark'
+    : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  raiz.setAttribute('data-theme', oscuroAhora ? 'light':'dark');
+  pintarRed(true); dibujarPL(); dibujarCB();
+});
+
+/* revelado */
+var obsRev = new IntersectionObserver(function(ents){
+  ents.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); obsRev.unobserve(e.target); } });
+},{threshold:.12});
+document.querySelectorAll('.contenido > *').forEach(function(n,i){
+  if(n.closest('#portada')) return;
+  n.classList.add('revela'); n.style.transitionDelay = Math.min(i*45,240)+'ms'; obsRev.observe(n);
+});
+
+/* ============================================================
+   PORTADA — RED CRIMINAL ANIMADA
+   ============================================================ */
+var cv = document.getElementById('red-canvas'), ctx = cv.getContext('2d');
+var nodos = [], W=0, H=0, dpr = Math.min(window.devicePixelRatio||1, 2);
+var reduc = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function iniciarRed(){
+  var r = cv.getBoundingClientRect();
+  W = r.width; H = r.height;
+  cv.width = W*dpr; cv.height = H*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  var n = Math.round(Math.max(26, Math.min(58, W*H/16000)));
+  nodos = [];
+  for(var i=0;i<n;i++){
+    nodos.push({
+      x:Math.random()*W, y:Math.random()*H,
+      vx:(Math.random()-.5)*.22, vy:(Math.random()-.5)*.22,
+      r: Math.random()<.14 ? 4.2 : (Math.random()<.4 ? 2.6 : 1.8)
+    });
+  }
+}
+function pintarRed(soloUna){
+  if(!W) return;
+  var cVerde = css('--verde'), cAzul = css('--azul');
+  ctx.clearRect(0,0,W,H);
+  for(var i=0;i<nodos.length;i++){
+    for(var j=i+1;j<nodos.length;j++){
+      var dx=nodos[i].x-nodos[j].x, dy=nodos[i].y-nodos[j].y;
+      var d2=dx*dx+dy*dy, lim=145*145;
+      if(d2<lim){
+        var al=(1-d2/lim)*.42;
+        ctx.strokeStyle=cAzul; ctx.globalAlpha=al; ctx.lineWidth=.7;
+        ctx.beginPath(); ctx.moveTo(nodos[i].x,nodos[i].y); ctx.lineTo(nodos[j].x,nodos[j].y); ctx.stroke();
+      }
+    }
+  }
+  ctx.globalAlpha=1;
+  nodos.forEach(function(p){
+    ctx.fillStyle = p.r>3 ? cVerde : cAzul;
+    ctx.globalAlpha = p.r>3 ? .85 : .5;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.2832); ctx.fill();
+  });
+  ctx.globalAlpha=1;
+  if(soloUna) return;
+}
+function animarRed(){
+  nodos.forEach(function(p){
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0||p.x>W) p.vx*=-1;
+    if(p.y<0||p.y>H) p.vy*=-1;
+  });
+  pintarRed();
+  requestAnimationFrame(animarRed);
+}
+iniciarRed();
+if(reduc){ pintarRed(true); } else { animarRed(); }
+var tRes;
+window.addEventListener('resize', function(){
+  clearTimeout(tRes);
+  tRes = setTimeout(function(){ iniciarRed(); pintarRed(true); dibujarPL(); dibujarCB(); }, 160);
+});
+
+/* ============================================================
+   MAPA DE SUBTEMAS
+   ============================================================ */
+var mapa = document.getElementById('mapa'), detalle = document.getElementById('detalle-sub');
+UNIDADES.forEach(function(u){
+  var col = el('div','columna-u');
+  col.appendChild(el('div','cab-u','<div class="u">Unidad '+u.n+' · '+u.horas+' horas</div><h3>'+u.titulo+'</h3>'));
+  var ul = el('ul','lista-sub');
+  u.subtemas.forEach(function(s,i){
+    var li = el('li');
+    var b = el('button','bot-sub','<span class="ic">'+icono(s.ic)+'</span><span>'+s.nom+'</span><span class="hrs">'+s.h+' h</span>');
+    b.type='button'; b.setAttribute('aria-expanded','false');
+    b.addEventListener('click', function(){
+      var abierto = b.getAttribute('aria-expanded')==='true';
+      document.querySelectorAll('.bot-sub').forEach(function(o){o.setAttribute('aria-expanded','false');});
+      if(abierto){ detalle.innerHTML=''; return; }
+      b.setAttribute('aria-expanded','true');
+      detalle.innerHTML =
+        '<div class="detalle-sub">'+
+          '<div class="enc"><span class="ic">'+icono(s.ic,26)+'</span><div>'+
+            '<h3>'+s.nom+'</h3>'+
+            '<div class="meta">UNIDAD '+u.n+' · SUBTEMA '+(i+1)+' DE 6</div>'+
+          '</div></div>'+
+          '<p>'+s.txt+'</p>'+
+          '<div class="repartos">'+
+            '<span class="chip v">'+s.h+' horas estimadas</span>'+
+            '<span class="chip">'+s.td+' h trabajo directo</span>'+
+            '<span class="chip z">'+s.ti+' h independiente</span>'+
+          '</div>'+
+        '</div>';
+    });
+    li.appendChild(b); ul.appendChild(li);
+  });
+  col.appendChild(ul); mapa.appendChild(col);
+});
+
+/* ============================================================
+   GRÁFICO DE HORAS
+   ============================================================ */
+var contGraf = document.getElementById('grafico-horas');
+var resumenH = document.getElementById('resumen-horas');
+function pintarHoras(nu){
+  var u = UNIDADES[nu-1];
+  contGraf.innerHTML = '';
+  var max = Math.max.apply(null, u.subtemas.map(function(s){return s.h;}));
+  var std=0, sti=0;
+  u.subtemas.forEach(function(s,i){
+    std+=s.td; sti+=s.ti;
+    var f = el('div','barra-fila');
+    f.innerHTML =
+      '<div class="nom">'+s.nom+'</div>'+
+      '<div class="pista-barra"><span class="td" style="width:0"></span><span class="ti" style="width:0"></span></div>'+
+      '<div class="tot">'+s.h+' h</div>';
+    contGraf.appendChild(f);
+    var td = f.querySelector('.td'), ti = f.querySelector('.ti');
+    setTimeout(function(){
+      td.style.width = (s.td/max*100)+'%';
+      ti.style.width = (s.ti/max*100)+'%';
+    }, 40+i*55);
+  });
+  resumenH.textContent = 'Unidad '+nu+': '+std+' h directas · '+sti+' h independientes · '+u.horas+' h en total';
+}
+document.querySelectorAll('.conmutador button').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('.conmutador button').forEach(function(o){o.setAttribute('aria-pressed','false');});
+    b.setAttribute('aria-pressed','true');
+    pintarHoras(parseInt(b.dataset.u,10));
+  });
+});
+pintarHoras(1);
+
+/* ============================================================
+   ESCALERA DE NIVELES
+   ============================================================ */
+function montarEscalera(idCont, idTexto, niveles){
+  var cont = document.getElementById(idCont), txt = document.getElementById(idTexto);
+  var defs = [
+    {k:'basico', et:'Básico', n:1, res:'Reconoce e identifica'},
+    {k:'inter', et:'Intermedio', n:2, res:'Aplica en casos prácticos'},
+    {k:'superior', et:'Superior', n:3, res:'Analiza y diseña estrategias'}
+  ];
+  defs.forEach(function(d){
+    var b = el('button','peldano');
+    b.type='button'; b.setAttribute('aria-pressed', d.k==='inter'?'true':'false');
+    var marcas='';
+    for(var i=1;i<=3;i++) marcas += '<i class="'+(i<=d.n?'on':'')+'"></i>';
+    b.innerHTML = '<span class="nv">'+d.et+'</span><h3 style="margin:6px 0 0;font-size:1rem">'+d.res+'</h3><div class="marcas">'+marcas+'</div>';
+    b.addEventListener('click', function(){
+      cont.querySelectorAll('.peldano').forEach(function(o){o.setAttribute('aria-pressed','false');});
+      b.setAttribute('aria-pressed','true');
+      txt.innerHTML = '<p>'+niveles[d.k]+'</p>';
+    });
+    cont.appendChild(b);
+  });
+  txt.innerHTML = '<p>'+niveles.inter+'</p>';
+}
+montarEscalera('escalera-u1','texto-u1',UNIDADES[0].niveles);
+montarEscalera('escalera-u2','texto-u2',UNIDADES[1].niveles);
+
+/* ============================================================
+   LAB 1 — TEORÍA DE JUEGOS
+   ============================================================ */
+var iA = document.getElementById('vA'), iB = document.getElementById('vB');
+function calcJuego(){
+  var vA = +iA.value, vB = +iB.value;
+  var pA = vA/(vA+vB), pB = 1-pA;
+  document.getElementById('vA-out').textContent = vA;
+  document.getElementById('vB-out').textContent = vB;
+  document.getElementById('v-aa').textContent = vA;
+  document.getElementById('v-bb').textContent = vB;
+  document.getElementById('pA').textContent = num(pA*100,1)+' %';
+  document.getElementById('pB').textContent = num(pB*100,1)+' %';
+  /* pérdida esperada en equilibrio = vA*vB/(vA+vB) */
+  document.getElementById('perdida').textContent = num(vA*vB/(vA+vB),2)+' M';
+  var ma = document.getElementById('mez-a'), mb = document.getElementById('mez-b');
+  ma.style.width = (pA*100)+'%'; mb.style.width = (pB*100)+'%';
+  ma.textContent = pA>=.18 ? 'Zona A '+num(pA*100,0)+'%' : '';
+  mb.textContent = pB>=.18 ? 'Zona B '+num(pB*100,0)+'%' : '';
+  document.getElementById('turnos-a').textContent = Math.round(pA*8);
+  document.getElementById('turnos-b').textContent = 8-Math.round(pA*8);
+}
+iA.addEventListener('input', calcJuego); iB.addEventListener('input', calcJuego);
+calcJuego();
+
+/* ============================================================
+   LAB 2 — PROGRAMACIÓN LINEAL
+   ============================================================ */
+var C1=9, C2=4, P1=4, P2=9, Z1=12, Z2=10;  /* costo, personal, cobertura */
+function escala(v){
+  if(v<=12) return Math.ceil(v/2)*2;
+  if(v<=60) return Math.ceil(v/5)*5;
+  return Math.ceil(v/10)*10;
+}
+function paso(m){ return m<=12 ? 2 : (m<=60 ? 5 : 10); }
+var svgPL = document.getElementById('plot-pl');
+var iPres = document.getElementById('pres'), iPers = document.getElementById('pers');
+
+function resolverPL(B,P){
+  var cands = [[0,0]];
+  var xTope = Math.min(B/C1, P/P1);
+  var yTope = Math.min(B/C2, P/P2);
+  cands.push([xTope,0]); cands.push([0,yTope]);
+  var det = C1*P2 - C2*P1;
+  if(Math.abs(det) > 1e-9){
+    var xi = (B*P2 - C2*P)/det, yi = (C1*P - B*P1)/det;
+    if(xi>=-1e-9 && yi>=-1e-9) cands.push([xi,yi]);
+  }
+  var fact = cands.filter(function(c){
+    return c[0]>=-1e-9 && c[1]>=-1e-9 && C1*c[0]+C2*c[1] <= B+1e-6 && P1*c[0]+P2*c[1] <= P+1e-6;
+  });
+  var mejor = fact[0], zm = -1;
+  fact.forEach(function(c){ var z = Z1*c[0]+Z2*c[1]; if(z>zm){zm=z; mejor=c;} });
+  return {vert:fact, opt:mejor, z:zm, xTope:xTope, yTope:yTope};
+}
+function dibujarPL(){
+  var B = +iPres.value, P = +iPers.value;
+  document.getElementById('pres-out').textContent = B;
+  document.getElementById('pers-out').textContent = P;
+  var r = resolverPL(B,P);
+
+  var W=520,H=400, ml=52, mb=48, mt=34, mr=26;
+  var xMax = Math.max(4, escala(Math.max(B/C1, P/P1)*1.14));
+  var yMax = Math.max(4, escala(Math.max(B/C2, P/P2)*1.14));
+  var px = paso(xMax), py = paso(yMax);
+  function X(v){ return ml + v/xMax*(W-ml-mr); }
+  function Y(v){ return H-mb - v/yMax*(H-mb-mt); }
+
+  var cLinea = css('--line'), cInk3 = css('--ink-3'), cVerde = css('--verde'),
+      cAzul = css('--azul'), cAmbar = css('--ambar'), cSup = css('--surface');
+
+  var s = '';
+  /* rejilla */
+  for(var gx=0; gx<=xMax+1e-9; gx+=px){
+    s += '<line x1="'+X(gx)+'" y1="'+Y(0)+'" x2="'+X(gx)+'" y2="'+Y(yMax)+'" stroke="'+cLinea+'" stroke-width="1"/>';
+    s += '<text x="'+X(gx)+'" y="'+(Y(0)+17)+'" font-size="10" text-anchor="middle">'+gx+'</text>';
+  }
+  for(var gy=0; gy<=yMax+1e-9; gy+=py){
+    s += '<line x1="'+X(0)+'" y1="'+Y(gy)+'" x2="'+X(xMax)+'" y2="'+Y(gy)+'" stroke="'+cLinea+'" stroke-width="1"/>';
+    s += '<text x="'+(X(0)-9)+'" y="'+(Y(gy)+3.5)+'" font-size="10" text-anchor="end">'+gy+'</text>';
+  }
+  /* región factible */
+  if(r.vert.length>2){
+    var cx=0, cy=0;
+    r.vert.forEach(function(v){cx+=v[0];cy+=v[1];});
+    cx/=r.vert.length; cy/=r.vert.length;
+    var orden = r.vert.slice().sort(function(a,b){
+      return Math.atan2(a[1]-cy,a[0]-cx) - Math.atan2(b[1]-cy,b[0]-cx);
+    });
+    s += '<polygon points="'+orden.map(function(v){return X(v[0])+','+Y(v[1]);}).join(' ')+
+         '" fill="'+cVerde+'" fill-opacity=".14" stroke="'+cVerde+'" stroke-width="1.4" stroke-opacity=".5"/>';
+  }
+  /* restricciones */
+  function recta(a,b,c,color,rot,frac){
+    /* la recta ax+by=c cortada contra la ventana [0,xMax]x[0,yMax] */
+    var x0 = 0, y0 = c/b;
+    if(y0 > yMax){ y0 = yMax; x0 = (c-b*yMax)/a; }
+    var x1 = c/a, y1 = 0;
+    if(x1 > xMax){ x1 = xMax; y1 = (c-a*xMax)/b; }
+    s += '<line x1="'+X(x0)+'" y1="'+Y(y0)+'" x2="'+X(x1)+'" y2="'+Y(y1)+
+         '" stroke="'+color+'" stroke-width="2" stroke-linecap="round"/>';
+    var lx = x0 + (x1-x0)*frac, ly = (c-a*lx)/b;
+    s += '<text x="'+X(lx)+'" y="'+(Y(ly)-8)+'" font-size="10" fill="'+color+'" text-anchor="middle">'+rot+'</text>';
+  }
+  recta(C1,C2,B,cAzul,'Presupuesto',0.32);
+  recta(P1,P2,P,cAmbar,'Personal',0.86);
+  /* ejes */
+  s += '<line x1="'+X(0)+'" y1="'+Y(0)+'" x2="'+X(xMax)+'" y2="'+Y(0)+'" stroke="'+cInk3+'" stroke-width="1.4"/>';
+  s += '<line x1="'+X(0)+'" y1="'+Y(0)+'" x2="'+X(0)+'" y2="'+Y(yMax)+'" stroke="'+cInk3+'" stroke-width="1.4"/>';
+  s += '<text x="'+X(xMax)+'" y="'+(Y(0)+36)+'" font-size="10" text-anchor="end">x · patrullas móviles</text>';
+  s += '<text x="'+(X(0)-42)+'" y="20" font-size="10" text-anchor="start">y · puestos fijos (CAI)</text>';
+  /* óptimo */
+  if(r.opt){
+    var ox=X(r.opt[0]), oy=Y(r.opt[1]);
+    /* recta isobeneficio Z1x + Z2y = z, recortada a la ventana */
+    var ax=0, ay=r.z/Z2;
+    if(ay>yMax){ ay=yMax; ax=(r.z-Z2*yMax)/Z1; }
+    var bx=r.z/Z1, by=0;
+    if(bx>xMax){ bx=xMax; by=(r.z-Z1*xMax)/Z2; }
+    s += '<line x1="'+X(ax)+'" y1="'+Y(ay)+'" x2="'+X(bx)+'" y2="'+Y(by)+
+         '" stroke="'+cVerde+'" stroke-width="1.6" stroke-dasharray="5 4" opacity=".7"/>';
+    s += '<circle cx="'+ox+'" cy="'+oy+'" r="12" fill="'+cVerde+'" opacity=".16"/>';
+    s += '<circle cx="'+ox+'" cy="'+oy+'" r="5.5" fill="'+cVerde+'" stroke="'+cSup+'" stroke-width="2"/>';
+    var derecha = ox > W*0.66;
+    s += '<text x="'+(derecha?ox-14:ox+14)+'" y="'+(oy-10)+'" font-size="11" fill="'+cVerde+
+         '" font-weight="600" text-anchor="'+(derecha?'end':'start')+'">('+
+         num(r.opt[0],1)+' ; '+num(r.opt[1],1)+')</text>';
+  }
+  svgPL.innerHTML = s;
+
+  document.getElementById('sol-x').textContent = num(r.opt[0],1);
+  document.getElementById('sol-y').textContent = num(r.opt[1],1);
+  document.getElementById('sol-z').textContent = num(r.z,1)+' u';
+  var usoB = (C1*r.opt[0]+C2*r.opt[1])/B, usoP = (P1*r.opt[0]+P2*r.opt[1])/P;
+  var cuello;
+  if(usoB>.995 && usoP>.995) cuello = 'Ambos, a tope';
+  else if(usoB>usoP) cuello = 'Presupuesto ('+num(usoB*100,0)+' %)';
+  else cuello = 'Personal ('+num(usoP*100,0)+' %)';
+  document.getElementById('sol-cuello').textContent = cuello;
+  var esq = (r.opt[0]>1e-6 && r.opt[1]>1e-6) ? 'Óptimo en vértice interior' : 'Óptimo sobre un eje';
+  document.getElementById('chip-vertice').textContent = esq;
+}
+iPres.addEventListener('input', dibujarPL);
+iPers.addEventListener('input', dibujarPL);
+dibujarPL();
+
+/* ============================================================
+   LAB 3 — COSTO-BENEFICIO
+   ============================================================ */
+var CS = 2.4, ANIOS = 5;
+var iInv=document.getElementById('inv'), iOper=document.getElementById('oper'),
+    iDel=document.getElementById('del'), iTasa=document.getElementById('tasa');
+var svgCB = document.getElementById('plot-cb');
+
+function dibujarCB(){
+  var I=+iInv.value, Co=+iOper.value, D=+iDel.value, r=+iTasa.value/100;
+  document.getElementById('inv-out').textContent = I;
+  document.getElementById('oper-out').textContent = Co;
+  document.getElementById('del-out').textContent = D;
+  document.getElementById('tasa-out').textContent = +iTasa.value;
+
+  var vpBen=0, vpCos=I, acum=[-I], saldo=-I, payback=null;
+  for(var t=1;t<=ANIOS;t++){
+    var f = Math.pow(1+r,t);
+    var ben = D*CS/f, cos = Co/f;
+    vpBen += ben; vpCos += cos;
+    saldo += ben-cos; acum.push(saldo);
+    if(payback===null && saldo>=0) payback = t;
+  }
+  var bc = vpCos>0 ? vpBen/vpCos : 0;
+  var vpn = vpBen - vpCos;
+
+  document.getElementById('bc').textContent = num(bc,2);
+  document.getElementById('vpn').textContent = (vpn>=0?'+':'−')+num(Math.abs(vpn),1)+' M';
+  document.getElementById('payback').textContent = payback ? ('año '+payback) : 'no recupera en 5 años';
+  var ver = document.getElementById('veredicto');
+  var viable = bc>1 && vpn>0;
+  ver.textContent = viable ? 'Proyecto viable' : 'Proyecto no viable';
+  ver.className = 'chip ' + (viable ? 'v':'a');
+
+  /* gráfico de flujo acumulado */
+  var W=520,H=300, ml=58, mb=38, mt=20, mr=18;
+  var maxA = Math.max.apply(null, acum), minA = Math.min.apply(null, acum);
+  var span0 = Math.max(maxA,0) - Math.min(minA,0) || 1;
+  var pasos = [5,10,20,25,50,100,200,250,500,1000,2000];
+  var stp = pasos.find(function(p){ return p >= span0/4; }) || 2000;
+  var bot = Math.floor(Math.min(minA,0)/stp)*stp;
+  var top = Math.ceil(Math.max(maxA,0)/stp)*stp;
+  if(top===bot) top = bot + stp;
+  var span = top-bot;
+  function X(i){ return ml + i/ANIOS*(W-ml-mr); }
+  function Y(v){ return mt + (top-v)/span*(H-mt-mb); }
+
+  var cLinea=css('--line'), cVerde=css('--verde'), cRojo=css('--rojo'),
+      cInk3=css('--ink-3'), cSup=css('--surface'), cInk2=css('--ink-2');
+  var s='';
+  for(var v=bot; v<=top+1e-9; v+=stp){
+    s += '<line x1="'+ml+'" y1="'+Y(v)+'" x2="'+(W-mr)+'" y2="'+Y(v)+'" stroke="'+cLinea+'" stroke-width="1"/>';
+    s += '<text x="'+(ml-9)+'" y="'+(Y(v)+3.5)+'" font-size="10" text-anchor="end">'+num(v,0)+'</text>';
+  }
+  s += '<line x1="'+ml+'" y1="'+Y(0)+'" x2="'+(W-mr)+'" y2="'+Y(0)+'" stroke="'+cInk3+'" stroke-width="1.5"/>';
+  s += '<text x="'+(ml+7)+'" y="'+(Y(0)-7)+'" font-size="10" text-anchor="start">punto de equilibrio</text>';
+
+  var pts = acum.map(function(v,i){ return X(i)+','+Y(v); }).join(' ');
+  s += '<polygon points="'+X(0)+','+Y(0)+' '+pts+' '+X(ANIOS)+','+Y(0)+'" fill="'+cInk3+'" fill-opacity=".10"/>';
+  if(payback){
+    s += '<line x1="'+X(payback)+'" y1="'+mt+'" x2="'+X(payback)+'" y2="'+(H-mb)+
+         '" stroke="'+cVerde+'" stroke-width="1.2" stroke-dasharray="4 4" opacity=".6"/>';
+  }
+  s += '<polyline points="'+pts+'" fill="none" stroke="'+(vpn>=0?cVerde:cRojo)+'" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>';
+  acum.forEach(function(v,i){
+    s += '<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="'+(i===ANIOS?5:3.4)+'" fill="'+(v>=0?cVerde:cRojo)+'" stroke="'+cSup+'" stroke-width="1.6"/>';
+    s += '<text x="'+X(i)+'" y="'+(H-mb+18)+'" font-size="10" text-anchor="middle">'+(i===0?'hoy':'a'+i)+'</text>';
+  });
+  s += '<text x="'+X(ANIOS)+'" y="'+(Y(acum[ANIOS])-13)+'" font-size="11" text-anchor="end" fill="'+(vpn>=0?cVerde:cRojo)+'" font-weight="600">'+
+       (vpn>=0?'+':'−')+num(Math.abs(vpn),0)+' M</text>';
+  s += '<text x="'+ml+'" y="'+13+'" font-size="10">Flujo acumulado descontado (millones)</text>';
+  svgCB.innerHTML = s;
+}
+[iInv,iOper,iDel,iTasa].forEach(function(i){ i.addEventListener('input', dibujarCB); });
+dibujarCB();
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+var contQuiz = document.getElementById('quiz'), aciertos = 0, respondidas = 0;
+QUIZ.forEach(function(p,i){
+  var d = el('div','pregunta');
+  var ops = '<div class="ops">' + p.ops.map(function(o,j){
+    return '<button type="button" class="op" data-i="'+i+'" data-j="'+j+'">'+
+           '<span class="mk">'+String.fromCharCode(65+j)+'</span><span>'+o+'</span></button>';
+  }).join('') + '</div>';
+  d.innerHTML = '<div class="q"><span class="num">'+String(i+1).padStart(2,'0')+'</span><span>'+p.q+'</span></div>'+
+                ops + '<div class="explica" id="exp-'+i+'">'+p.exp+'</div>';
+  contQuiz.appendChild(d);
+});
+var marcador = el('div','marcador','<div><b class="pt" id="pt">0 / 4</b><div style="font-size:var(--fs-small);color:var(--ink-3)">respuestas correctas</div></div><div style="font-size:var(--fs-small);color:var(--ink-2);max-width:38ch" id="msg-quiz">Responde para ver la explicación de cada caso.</div>');
+contQuiz.appendChild(marcador);
+
+contQuiz.addEventListener('click', function(e){
+  var b = e.target.closest('.op');
+  if(!b || b.disabled) return;
+  var i = +b.dataset.i, j = +b.dataset.j, p = QUIZ[i];
+  var grupo = b.parentNode.querySelectorAll('.op');
+  grupo.forEach(function(o){
+    o.disabled = true;
+    var k = +o.dataset.j;
+    if(k===p.ok) o.classList.add('bien');
+    else if(k===j) o.classList.add('mal');
+  });
+  document.getElementById('exp-'+i).classList.add('ver');
+  respondidas++;
+  if(j===p.ok) aciertos++;
+  document.getElementById('pt').textContent = aciertos+' / 4';
+  if(respondidas===QUIZ.length){
+    var m = document.getElementById('msg-quiz');
+    if(aciertos===4) m.textContent = 'Base sólida. Aprovecha el curso para llevarla al nivel superior: analizar y diseñar, no solo aplicar.';
+    else if(aciertos>=2) m.textContent = 'Punto de partida razonable. Revisa con calma los subtemas donde fallaste antes de la primera entrega.';
+    else m.textContent = 'Sin problema: el curso empieza en el nivel básico. Usa Khan Academy en la primera semana y pregunta temprano en el foro.';
+  }
+});
+
+})();
+</script>
+
+</body>
+</html>
