@@ -319,8 +319,8 @@ svg text{font-family:var(--mono);fill:var(--ink-3)}
 .pasos li::before{content:counter(p);font-family:var(--mono);font-size:var(--fs-micro);color:var(--verde);
   background:var(--verde-suave);border:1px solid var(--verde);border-radius:50%;width:26px;height:26px;
   display:grid;place-items:center;margin-top:1px}
-.pasos li b{display:block;margin-bottom:2px}
-.pasos li span{color:var(--ink-2);font-size:.93rem}
+.pasos li b{display:block;margin-bottom:2px;grid-column:2}
+.pasos li span{color:var(--ink-2);font-size:.93rem;grid-column:2}
 .cierre-cita{font-family:var(--serif);font-size:clamp(1.35rem,2.7vw,2.05rem);line-height:1.28;
   letter-spacing:-.015em;max-width:22ch;margin:0 0 24px;text-wrap:balance}
 .cierre-cita em{font-style:italic;color:var(--verde)}
@@ -1218,15 +1218,16 @@ svg text{font-family:var(--mono);fill:var(--ink-3)}
         <h2 class="tit">Su tarea: un problema real de su jurisdicción</h2>
         <div class="frase">
           <span class="et">La pregunta</span>
-          <p>Escoja <strong>uno</strong> de los modelos de hoy y explique cómo lo usaría para resolver
-             un problema de seguridad concreto de su territorio.</p>
+          <p>Escoja <strong>uno solo</strong> de los modelos —de la sesión o del banco de casos—
+             y explique cómo lo usaría para resolver un problema de seguridad concreto
+             de su territorio.</p>
         </div>
         <div class="rejilla r2">
           <div>
             <h3>Los cuatro puntos que debe traer su respuesta</h3>
             <ol class="pasos" style="margin-top:14px">
               <li><b>El problema</b><span>Una situación concreta de su barrio, ciudad o jurisdicción. Nada genérico.</span></li>
-              <li><b>El modelo y por qué ese</b><span>Cualquiera de los doce: Bayes, redes, series, simulación, Poisson, optimización, juegos, colas, localización, clasificación, Markov, Benford o tasas. Justifique la elección.</span></li>
+              <li><b>El modelo y por qué ese</b><span>Cualquiera de los trece. De la sesión: Bayes, redes, series, simulación, Poisson, optimización o juegos. Del banco: colas, localización, clasificación, Markov, Benford o tasas. Justifique por qué ese y no otro.</span></li>
               <li><b>Los datos que necesitaría</b><span>De dónde saldrían: SIEDCO, denuncias, cámaras, registros del cuadrante.</span></li>
               <li><b>Qué esperaría lograr</b><span>En qué mejoraría la situación, de forma medible.</span></li>
             </ol>
@@ -1242,12 +1243,45 @@ svg text{font-family:var(--mono);fill:var(--ink-3)}
               </ul>
             </div>
             <div class="aviso" style="margin-top:14px">
-              <b>El error que más cuesta puntos.</b> Responder en general («la estadística ayuda a la Policía»)
-              en vez de aterrizar en un caso propio con cifras. La rúbrica premia lo concreto.
+              <b>El error que más cuesta puntos.</b> Responder en general («la estadística ayuda a la
+              Policía») en vez de aterrizar en un caso propio. El indicador de nivel intermedio pide
+              aplicar el modelo <b>en un caso práctico</b>: sin caso concreto, la respuesta se queda
+              en el nivel básico por buena que esté redactada.
             </div>
             <p style="margin-top:16px">
               <a href="https://educacion.policia.edu.co/dinae/my/courses.php" target="_blank" rel="noopener noreferrer">
                 Entrar al aula virtual en Moodle →</a>
+            </p>
+          </div>
+        </div>
+
+        <h3 style="margin-top:32px">Cómo se ve cada nivel en su respuesta</h3>
+        <p style="font-size:.95rem;color:var(--ink-2);max-width:62ch">
+          Son los mismos tres indicadores de la Unidad 1, traducidos a lo que se espera leer en el foro.
+        </p>
+        <div class="rejilla r3" style="margin-top:14px">
+          <div class="tarjeta">
+            <span class="chip">Básico</span>
+            <h3 style="margin-top:12px;font-size:1rem">Nombra el modelo</h3>
+            <p style="font-size:.9rem;color:var(--ink-2);margin:0">
+              Explica correctamente de qué trata el modelo y para qué sirve, pero el problema
+              queda enunciado en general, sin territorio ni cifras.
+            </p>
+          </div>
+          <div class="tarjeta" style="border-color:var(--ambar)">
+            <span class="chip a">Intermedio</span>
+            <h3 style="margin-top:12px;font-size:1rem">Lo aplica a un caso</h3>
+            <p style="font-size:.9rem;color:var(--ink-2);margin:0">
+              Aterriza el modelo en una situación real de su jurisdicción, dice qué datos usaría
+              y propone una solución fundamentada. <strong>Aquí empieza a contar de verdad.</strong>
+            </p>
+          </div>
+          <div class="tarjeta" style="border-color:var(--verde)">
+            <span class="chip v">Superior</span>
+            <h3 style="margin-top:12px;font-size:1rem">Compara y decide</h3>
+            <p style="font-size:.9rem;color:var(--ink-2);margin:0">
+              Usa datos reales, contrasta su propuesta con lo que se hace hoy y sustenta con cifras
+              por qué la suya es mejor. Reconoce además una limitación de su modelo.
             </p>
           </div>
         </div>
