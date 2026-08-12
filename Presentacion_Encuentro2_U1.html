@@ -1,0 +1,1631 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Encuentro 2 - Modelos matematicos en la investigacion criminal. Unidad 1, Aprendo Haciendo. Matematica aplicada a la profesion, ESJIM.">
+<style>*{margin:0}</style>
+</head>
+<body>
+<title>Encuentro 2 · Modelos matemáticos en la investigación criminal — ESJIM</title>
+
+<style>
+/* ============================================================
+   TOKENS — misma identidad que la presentación del curso
+   ============================================================ */
+:root{
+  --ground:#F0F2ED; --surface:#FFFFFF; --surface-2:#E7EAE2; --surface-3:#DDE2D7;
+  --ink:#101711; --ink-2:#4A554C; --ink-3:#6E7A70;
+  --line:#D2D8CD; --line-fuerte:#B9C2B4;
+  --verde:#1E5B3B; --verde-alto:#2E7D51; --verde-suave:#DCE9DF;
+  --ambar:#9E6A1F; --ambar-suave:#F2E6CF;
+  --azul:#26637F; --azul-suave:#D8E6EC;
+  --rojo:#9C382C; --rojo-suave:#F3DFDB;
+  --morado:#5B4B7A; --morado-suave:#E4DFEC;
+  --sombra:0 1px 2px rgba(16,23,17,.06), 0 8px 24px -12px rgba(16,23,17,.18);
+  --sombra-alta:0 2px 4px rgba(16,23,17,.08), 0 20px 48px -20px rgba(16,23,17,.30);
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  --fs-display:clamp(2.3rem,5.6vw,4.2rem);
+  --fs-h2:clamp(1.7rem,3.2vw,2.6rem);
+  --fs-h3:clamp(1.05rem,1.6vw,1.3rem);
+  --fs-body:clamp(1rem,1.05vw,1.075rem);
+  --fs-small:.875rem; --fs-micro:.72rem;
+  --rail:250px; --maxw:1120px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --ground:#0C110E; --surface:#131A15; --surface-2:#1A231C; --surface-3:#222D24;
+    --ink:#E9EEE8; --ink-2:#A3AFA4; --ink-3:#7D8A7F; --line:#2A342C; --line-fuerte:#3A473C;
+    --verde:#5FC48C; --verde-alto:#8ADCAC; --verde-suave:#172A1E;
+    --ambar:#E0A94A; --ambar-suave:#2C2417; --azul:#71B6D8; --azul-suave:#152730;
+    --rojo:#E28273; --rojo-suave:#2E1C18; --morado:#AC99D4; --morado-suave:#211C2E;
+    --sombra:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+    --sombra-alta:0 2px 4px rgba(0,0,0,.5), 0 20px 48px -20px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C110E; --surface:#131A15; --surface-2:#1A231C; --surface-3:#222D24;
+  --ink:#E9EEE8; --ink-2:#A3AFA4; --ink-3:#7D8A7F; --line:#2A342C; --line-fuerte:#3A473C;
+  --verde:#5FC48C; --verde-alto:#8ADCAC; --verde-suave:#172A1E;
+  --ambar:#E0A94A; --ambar-suave:#2C2417; --azul:#71B6D8; --azul-suave:#152730;
+  --rojo:#E28273; --rojo-suave:#2E1C18; --morado:#AC99D4; --morado-suave:#211C2E;
+  --sombra:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  --sombra-alta:0 2px 4px rgba(0,0,0,.5), 0 20px 48px -20px rgba(0,0,0,.8);
+}
+:root[data-theme="light"]{
+  --ground:#F0F2ED; --surface:#FFFFFF; --surface-2:#E7EAE2; --surface-3:#DDE2D7;
+  --ink:#101711; --ink-2:#4A554C; --ink-3:#6E7A70; --line:#D2D8CD; --line-fuerte:#B9C2B4;
+  --verde:#1E5B3B; --verde-alto:#2E7D51; --verde-suave:#DCE9DF;
+  --ambar:#9E6A1F; --ambar-suave:#F2E6CF; --azul:#26637F; --azul-suave:#D8E6EC;
+  --rojo:#9C382C; --rojo-suave:#F3DFDB; --morado:#5B4B7A; --morado-suave:#E4DFEC;
+  --sombra:0 1px 2px rgba(16,23,17,.06), 0 8px 24px -12px rgba(16,23,17,.18);
+  --sombra-alta:0 2px 4px rgba(16,23,17,.08), 0 20px 48px -20px rgba(16,23,17,.30);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+  font-size:var(--fs-body);line-height:1.6;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--verde-alto);outline-offset:3px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
+
+/* ============================================================
+   ESTRUCTURA
+   ============================================================ */
+#app{display:flex;min-height:100vh}
+#riel{position:fixed;inset:0 auto 0 0;width:var(--rail);z-index:40;background:var(--surface);
+  border-right:1px solid var(--line);display:flex;flex-direction:column;padding:22px 0 14px}
+.marca{padding:0 22px 16px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.marca .esc{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:var(--fs-micro);
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.marca h1{font-family:var(--serif);font-size:1rem;line-height:1.25;margin:9px 0 0;font-weight:600;
+  letter-spacing:-.01em;text-wrap:balance}
+.marca .per{font-family:var(--mono);font-size:var(--fs-micro);color:var(--verde);margin-top:5px;letter-spacing:.08em}
+nav#indice{flex:1;overflow-y:auto;padding:0 12px}
+nav#indice ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px}
+nav#indice a{display:grid;grid-template-columns:26px 1fr;align-items:baseline;gap:8px;padding:7px 10px;
+  border-radius:6px;text-decoration:none;color:var(--ink-2);font-size:.82rem;line-height:1.35;
+  transition:background .18s,color .18s}
+nav#indice a .n{font-family:var(--mono);font-size:var(--fs-micro);color:var(--ink-3)}
+nav#indice a:hover{background:var(--surface-2);color:var(--ink)}
+nav#indice a[aria-current="true"]{background:var(--verde-suave);color:var(--verde);font-weight:600}
+nav#indice a[aria-current="true"] .n{color:var(--verde)}
+.sep-riel{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);padding:14px 10px 5px}
+.pie-riel{padding:12px 22px 0;border-top:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.barra-prog{height:3px;background:var(--surface-3);border-radius:2px;overflow:hidden;flex:1}
+.barra-prog i{display:block;height:100%;width:0;background:var(--verde);transition:width .2s}
+button.icono{appearance:none;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);
+  width:30px;height:30px;border-radius:7px;cursor:pointer;display:grid;place-items:center;
+  transition:background .18s,color .18s,border-color .18s;flex:0 0 auto}
+button.icono:hover{background:var(--verde-suave);color:var(--verde);border-color:var(--verde)}
+main{margin-left:var(--rail);flex:1;min-width:0;height:100vh;overflow-y:auto;scroll-snap-type:y proximity}
+section.lam{min-height:100vh;scroll-snap-align:start;padding:clamp(38px,5.5vh,70px) clamp(22px,4.5vw,64px);
+  display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid var(--line)}
+.contenido{width:100%;max-width:var(--maxw);margin:0 auto}
+#abrir-menu{display:none}
+@media (max-width:900px){
+  :root{--rail:0px}
+  #riel{transform:translateX(-100%);transition:transform .25s ease;width:270px;box-shadow:var(--sombra-alta)}
+  #riel.abierto{transform:translateX(0)}
+  main{margin-left:0;height:auto;overflow:visible;scroll-snap-type:none}
+  section.lam{min-height:auto;padding:48px 20px}
+  #abrir-menu{display:flex;align-items:center;gap:8px;position:fixed;top:12px;right:12px;z-index:50;
+    background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:8px 12px;
+    font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-2);cursor:pointer;box-shadow:var(--sombra)}
+}
+
+/* ============================================================
+   TIPOGRAFÍA COMÚN
+   ============================================================ */
+.rotulo{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.18em;text-transform:uppercase;
+  color:var(--verde);display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.rotulo::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,var(--line-fuerte),transparent)}
+h2.tit{font-family:var(--serif);font-size:var(--fs-h2);line-height:1.1;letter-spacing:-.02em;
+  margin:0 0 .45em;font-weight:600;text-wrap:balance}
+h3{font-family:var(--sans);font-size:var(--fs-h3);line-height:1.3;margin:0 0 .4em;font-weight:650;letter-spacing:-.01em}
+p{margin:0 0 1em;max-width:66ch}
+p.entrada{font-size:1.1em;color:var(--ink-2);max-width:62ch}
+strong{font-weight:650;color:var(--ink)}
+a{color:var(--verde);text-underline-offset:3px}
+.dato{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tarjeta{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;box-shadow:var(--sombra)}
+.rejilla{display:grid;gap:16px}
+.r2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.r3{grid-template-columns:repeat(auto-fit,minmax(228px,1fr))}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:999px;
+  border:1px solid var(--line-fuerte);background:var(--surface);font-family:var(--mono);
+  font-size:var(--fs-micro);letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2)}
+.chip.v{border-color:var(--verde);color:var(--verde);background:var(--verde-suave)}
+.chip.a{border-color:var(--ambar);color:var(--ambar);background:var(--ambar-suave)}
+.chip.z{border-color:var(--azul);color:var(--azul);background:var(--azul-suave)}
+.chip.m{border-color:var(--morado);color:var(--morado);background:var(--morado-suave)}
+.desplaza{overflow-x:auto}
+
+/* «En una frase» — glosa en lenguaje llano */
+.frase{
+  display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;
+  background:var(--verde-suave);border-left:3px solid var(--verde);border-radius:0 12px 12px 0;
+  padding:16px 20px;margin:0 0 24px;
+}
+.frase .et{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--verde);white-space:nowrap;padding-top:4px}
+.frase p{margin:0;font-size:1.08rem;color:var(--ink);max-width:58ch}
+
+/* ============================================================
+   PORTADA
+   ============================================================ */
+#portada{position:relative;overflow:hidden;border-bottom:none}
+#red-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+@media (prefers-color-scheme:dark){#red-canvas{opacity:.62}}
+.velo{position:absolute;inset:0;z-index:1;
+  background:radial-gradient(120% 82% at 10% 45%, var(--ground) 24%, transparent 76%)}
+#portada .contenido{position:relative;z-index:2}
+.eyebrow-p{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:20px}
+h1.portada{font-family:var(--serif);font-size:var(--fs-display);line-height:.99;letter-spacing:-.035em;
+  font-weight:600;margin:0 0 20px;max-width:16ch;text-wrap:balance}
+h1.portada em{font-style:italic;color:var(--verde)}
+.sub-portada{font-size:1.14rem;color:var(--ink-2);max-width:52ch;margin-bottom:28px}
+.firma{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.firma img{width:62px;height:62px;border-radius:50%;object-fit:cover;border:2px solid var(--surface);
+  box-shadow:var(--sombra)}
+.firma .n{font-weight:650;font-size:.98rem;line-height:1.2}
+.firma .r{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--verde);margin-top:4px}
+.pista{display:inline-flex;align-items:center;gap:9px;font-size:var(--fs-small);color:var(--ink-3)}
+.pista kbd{font-family:var(--mono);font-size:var(--fs-micro);background:var(--surface-2);
+  border:1px solid var(--line-fuerte);border-bottom-width:2px;border-radius:5px;padding:2px 6px;color:var(--ink-2)}
+
+/* ============================================================
+   AGENDA — línea de tiempo de 60 minutos
+   ============================================================ */
+.reloj{display:flex;height:44px;border-radius:10px;overflow:hidden;border:1px solid var(--line);
+  box-shadow:var(--sombra);margin-bottom:18px}
+.reloj button{appearance:none;border:0;border-right:1px solid var(--surface);cursor:pointer;
+  font-family:var(--mono);font-size:var(--fs-micro);color:var(--surface);transition:filter .18s;
+  padding:0 4px;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.reloj button:last-child{border-right:0}
+.reloj button:hover,.reloj button[aria-pressed="true"]{filter:brightness(1.18)}
+.reloj button[aria-pressed="true"]{box-shadow:inset 0 -3px 0 var(--ink)}
+:root[data-theme="dark"] .reloj button{color:var(--ground)}
+@media (prefers-color-scheme:dark){.reloj button{color:var(--ground)}}
+:root[data-theme="light"] .reloj button{color:#fff}
+.bloque-detalle{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;
+  box-shadow:var(--sombra);min-height:118px}
+.bloque-detalle .cab{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.bloque-detalle h3{margin:0}
+.bloque-detalle p{margin:0;color:var(--ink-2);font-size:.95rem}
+
+/* ============================================================
+   LABORATORIOS
+   ============================================================ */
+.lab{background:var(--surface);border:1px solid var(--line-fuerte);border-radius:14px;overflow:hidden;
+  box-shadow:var(--sombra-alta)}
+.lab-cab{padding:13px 20px;border-bottom:1px solid var(--line);background:var(--surface-2);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.lab-cab .t{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.16em;text-transform:uppercase;color:var(--verde)}
+.lab-cuerpo{display:grid;grid-template-columns:minmax(0,1fr) 300px}
+@media (max-width:880px){.lab-cuerpo{grid-template-columns:1fr}}
+.lab-vista{padding:20px;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.lab-mandos{padding:20px;border-left:1px solid var(--line);background:var(--surface-2);
+  display:flex;flex-direction:column;gap:15px}
+@media (max-width:880px){.lab-mandos{border-left:0;border-top:1px solid var(--line)}}
+.mando label{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  font-size:var(--fs-small);color:var(--ink-2);margin-bottom:6px}
+.mando label b{font-family:var(--mono);color:var(--ink);font-variant-numeric:tabular-nums;font-weight:600}
+input[type=range]{width:100%;appearance:none;background:transparent;cursor:pointer;height:20px;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--surface-3);border-radius:3px}
+input[type=range]::-moz-range-track{height:4px;background:var(--surface-3);border-radius:3px}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:16px;height:16px;border-radius:50%;
+  background:var(--verde);border:2px solid var(--surface);margin-top:-6px;box-shadow:var(--sombra)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--verde);
+  border:2px solid var(--surface);box-shadow:var(--sombra)}
+.salida{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px}
+.salida .lin{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:4px 0;
+  font-size:var(--fs-small);color:var(--ink-2)}
+.salida .lin b{font-family:var(--mono);color:var(--ink);font-variant-numeric:tabular-nums;font-size:.95rem}
+.salida .lin b.dest{color:var(--verde);font-size:1.2rem}
+.nota-lab{font-size:var(--fs-small);color:var(--ink-3);margin:0}
+svg.plot{width:100%;height:auto;display:block;overflow:hidden}
+svg text{font-family:var(--mono);fill:var(--ink-3)}
+.boton{appearance:none;font:inherit;font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.12em;
+  text-transform:uppercase;cursor:pointer;background:var(--verde);color:var(--surface);border:0;
+  border-radius:8px;padding:11px 16px;transition:filter .18s}
+:root[data-theme="dark"] .boton{color:var(--ground)}
+@media (prefers-color-scheme:dark){.boton{color:var(--ground)}}
+:root[data-theme="light"] .boton{color:#fff}
+.boton:hover{filter:brightness(1.12)}
+.boton.sec{background:var(--surface);color:var(--ink-2);border:1px solid var(--line-fuerte)}
+.boton:disabled{opacity:.5;cursor:default}
+
+/* rejilla de 100 casos (frecuencias naturales) */
+.cien{display:grid;grid-template-columns:repeat(20,1fr);gap:3px;max-width:520px}
+@media (max-width:620px){.cien{grid-template-columns:repeat(10,1fr)}}
+.cien i{aspect-ratio:1;border-radius:2px;background:var(--surface-3);transition:background .35s}
+.cien i.noche{background:var(--azul);opacity:.55}
+.cien i.moto{background:var(--verde);opacity:1}
+.leyenda{display:flex;gap:16px;flex-wrap:wrap;font-size:var(--fs-small);color:var(--ink-2)}
+.leyenda i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:7px;vertical-align:-1px}
+
+/* grafo */
+.grafo-info{display:flex;gap:10px;flex-wrap:wrap}
+.pastilla{background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:9px 13px;flex:1;min-width:104px}
+.pastilla b{display:block;font-family:var(--mono);font-size:1.25rem;color:var(--verde);font-variant-numeric:tabular-nums}
+.pastilla span{display:block;font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+.nodo{cursor:pointer}
+.nodo circle{transition:r .2s,fill .2s,opacity .2s}
+
+/* cuadrantes */
+.cuadrantes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:620px){.cuadrantes{grid-template-columns:repeat(2,1fr)}}
+.cuad{background:var(--surface-2);border:1px solid var(--line);border-radius:11px;padding:13px;
+  transition:border-color .2s,background .2s}
+.cuad.opt{border-color:var(--verde);background:var(--verde-suave)}
+.cuad .nom{font-size:.86rem;font-weight:600;margin-bottom:3px}
+.cuad .dem{font-family:var(--mono);font-size:var(--fs-micro);color:var(--ink-3);margin-bottom:9px}
+.cuad .fila{display:flex;align-items:center;gap:8px}
+.cuad .fila button{appearance:none;width:26px;height:26px;border-radius:7px;border:1px solid var(--line-fuerte);
+  background:var(--surface);color:var(--ink-2);cursor:pointer;font-size:1rem;line-height:1;display:grid;place-items:center}
+.cuad .fila button:hover:not(:disabled){border-color:var(--verde);color:var(--verde)}
+.cuad .fila button:disabled{opacity:.35;cursor:default}
+.cuad .fila .n{font-family:var(--mono);font-size:1.1rem;font-variant-numeric:tabular-nums;
+  min-width:20px;text-align:center;font-weight:600}
+
+/* matriz de juego */
+.matriz{border-collapse:separate;border-spacing:5px;width:100%;font-size:.9rem}
+.matriz th{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:500;padding:4px}
+.matriz td{background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:13px 10px;
+  text-align:center;transition:background .25s,border-color .25s}
+.matriz td.acierto{background:var(--verde-suave);border-color:var(--verde)}
+.matriz td .v{display:block;font-family:var(--mono);font-size:1.2rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.matriz td.acierto .v{color:var(--verde);font-weight:600}
+.matriz td .e{display:block;font-size:var(--fs-micro);color:var(--ink-3);margin-top:4px}
+.mezcla{display:flex;height:32px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.mezcla span{display:grid;place-items:center;font-family:var(--mono);font-size:var(--fs-micro);
+  transition:width .4s cubic-bezier(.2,.7,.3,1);white-space:nowrap;overflow:hidden}
+.mezcla .a{background:var(--verde)}
+.mezcla .b{background:var(--azul)}
+:root[data-theme="dark"] .mezcla span{color:var(--ground)}
+@media (prefers-color-scheme:dark){.mezcla span{color:var(--ground)}}
+:root[data-theme="light"] .mezcla span{color:#fff}
+
+/* ============================================================
+   RECURSOS
+   ============================================================ */
+.recurso{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:inherit;
+  background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px;
+  transition:border-color .18s,transform .18s,box-shadow .18s}
+.recurso:hover{border-color:var(--verde);transform:translateY(-2px);box-shadow:var(--sombra)}
+.recurso .ic{color:var(--verde);flex:0 0 auto;margin-top:2px}
+.recurso b{display:block;font-size:.93rem;margin-bottom:2px}
+.recurso span{display:block;font-size:var(--fs-small);color:var(--ink-3);line-height:1.4}
+.grupo-rec{margin-bottom:26px}
+.grupo-rec > h3{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:var(--fs-micro);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--verde);font-weight:500;margin-bottom:13px}
+
+/* ============================================================
+   FORO / CIERRE
+   ============================================================ */
+.pasos{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:p}
+.pasos li{display:grid;grid-template-columns:30px 1fr;gap:14px;align-items:start;counter-increment:p}
+.pasos li::before{content:counter(p);font-family:var(--mono);font-size:var(--fs-micro);color:var(--verde);
+  background:var(--verde-suave);border:1px solid var(--verde);border-radius:50%;width:26px;height:26px;
+  display:grid;place-items:center;margin-top:1px}
+.pasos li b{display:block;margin-bottom:2px}
+.pasos li span{color:var(--ink-2);font-size:.93rem}
+.cierre-cita{font-family:var(--serif);font-size:clamp(1.35rem,2.7vw,2.05rem);line-height:1.28;
+  letter-spacing:-.015em;max-width:22ch;margin:0 0 24px;text-wrap:balance}
+.cierre-cita em{font-style:italic;color:var(--verde)}
+.pie-doc{border-top:1px solid var(--line);padding-top:18px;margin-top:24px;font-size:var(--fs-small);color:var(--ink-3)}
+.aviso{background:var(--ambar-suave);border-left:3px solid var(--ambar);border-radius:0 10px 10px 0;
+  padding:15px 18px;font-size:.93rem;color:var(--ink-2)}
+.aviso b{color:var(--ink)}
+.revela{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
+.revela.visible{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.revela{opacity:1;transform:none}}
+</style>
+
+<button id="abrir-menu" aria-expanded="false" aria-controls="riel">Índice</button>
+
+<div id="app">
+  <aside id="riel">
+    <div class="marca">
+      <div class="esc">
+        <svg width="16" height="18" viewBox="0 0 16 18" fill="none" aria-hidden="true">
+          <path d="M8 1 1 4v6c0 4 3 6.5 7 7 4-.5 7-3 7-7V4L8 1Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+          <path d="M5 9l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        ESJIM · ENCUENTRO 2
+      </div>
+      <h1>Modelos matemáticos en la investigación criminal</h1>
+      <div class="per">UNIDAD 1 · APRENDO HACIENDO · 60 MIN</div>
+    </div>
+    <nav id="indice" aria-label="Índice de la sesión"><ol id="lista-indice"></ol></nav>
+    <div class="pie-riel">
+      <div class="barra-prog" role="progressbar" aria-label="Avance de la sesión" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="prog"></i></div>
+      <button class="icono" id="tema" aria-label="Cambiar entre tema claro y oscuro" title="Cambiar tema">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="8" cy="8" r="3.4" stroke="currentColor" stroke-width="1.3"/>
+          <path d="M8 .8v2M8 13.2v2M.8 8h2M13.2 8h2M2.9 2.9l1.4 1.4M11.7 11.7l1.4 1.4M13.1 2.9l-1.4 1.4M4.3 11.7l-1.4 1.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </aside>
+
+  <main id="deck">
+
+    <!-- 1 · PORTADA -->
+    <section class="lam" id="portada" data-tit="Portada">
+      <canvas id="red-canvas" aria-hidden="true"></canvas>
+      <div class="velo" aria-hidden="true"></div>
+      <div class="contenido">
+        <div class="eyebrow-p">Unidad 1 · Aprendo haciendo · Sesión en línea</div>
+        <h1 class="portada">Seis formas de <em>anticiparse</em> al delito</h1>
+        <p class="sub-portada">
+          Una hora para ver, con ejemplos colombianos, cómo las matemáticas convierten
+          los datos de la calle en decisiones que se pueden defender ante un superior.
+        </p>
+        <div class="firma">
+          <img src="data:image/jpeg;base64,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" alt="Retrato de José Javier Mercado Reyes" width="62" height="62">
+          <div>
+            <div class="n">José Javier Mercado Reyes</div>
+            <div class="r">Tutor de la asignatura</div>
+          </div>
+        </div>
+        <div class="pista"><kbd>↓</kbd> o <kbd>→</kbd> para avanzar · todo lo que veas se puede tocar</div>
+      </div>
+    </section>
+
+    <!-- 2 · A DÓNDE VAMOS -->
+    <section class="lam" data-tit="A dónde vamos">
+      <div class="contenido">
+        <div class="rotulo">Objetivo del encuentro</div>
+        <h2 class="tit">Al terminar la hora, usted podrá nombrar el modelo que sirve para cada problema</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>No vamos a volverlo matemático. Vamos a que reconozca <strong>qué herramienta pedir</strong>
+             cuando tenga un problema de seguridad sobre la mesa.</p>
+        </div>
+        <div class="rejilla r3">
+          <div class="tarjeta">
+            <span class="chip">Nivel básico</span>
+            <h3 style="margin-top:12px">Reconocer</h3>
+            <p style="font-size:.93rem;color:var(--ink-2);margin:0">
+              Identificar de qué trata cada modelo y en qué situación policial se usa.
+              Es la meta mínima de hoy.</p>
+          </div>
+          <div class="tarjeta">
+            <span class="chip a">Nivel intermedio</span>
+            <h3 style="margin-top:12px">Aplicar</h3>
+            <p style="font-size:.93rem;color:var(--ink-2);margin:0">
+              Resolver un caso práctico con el modelo correcto y sustentar el resultado con cifras.
+              Es lo que pide el foro.</p>
+          </div>
+          <div class="tarjeta">
+            <span class="chip v">Nivel superior</span>
+            <h3 style="margin-top:12px">Analizar</h3>
+            <p style="font-size:.93rem;color:var(--ink-2);margin:0">
+              Comparar estrategias con datos reales de su jurisdicción y proponer una decisión
+              mejor que la actual. Es la meta del Demuestro.</p>
+          </div>
+        </div>
+        <div class="aviso" style="margin-top:22px">
+          <b>Una advertencia honesta.</b> Ninguno de estos modelos adivina el futuro.
+          Lo que hacen es <b>ordenar la incertidumbre</b>: en vez de decir «creo que por ahí va a pasar algo»,
+          permiten decir «en esa zona, a esa hora, la probabilidad es del 70 %, y por eso mando la patrulla allá».
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · AGENDA -->
+    <section class="lam" data-tit="Agenda de la hora">
+      <div class="contenido">
+        <div class="rotulo">Cómo se reparte la hora</div>
+        <h2 class="tit">60 minutos, seis subtemas de la Unidad 1</h2>
+        <p class="entrada">Cada bloque de la barra es proporcional a su duración real. Tóquelo para ver qué pasa en ese tramo.</p>
+        <div class="reloj" id="reloj" role="group" aria-label="Agenda de la sesión"></div>
+        <div class="bloque-detalle" id="bloque-detalle" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- 4 · POR QUÉ -->
+    <section class="lam" data-tit="Por qué importa">
+      <div class="contenido">
+        <div class="rotulo">Contexto</div>
+        <h2 class="tit">Lo que cambia cuando se decide con datos</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>Un operativo bien fundamentado <strong>se defiende solo</strong>: hay una cifra detrás de cada decisión.</p>
+        </div>
+        <div class="rejilla r3">
+          <div class="tarjeta">
+            <h3>Ver el patrón</h3>
+            <p style="font-size:.93rem;color:var(--ink-2);margin:0">
+              Dónde, cuándo y cómo se repite el delito. Lo que a simple vista parece azar,
+              en la tabla suele tener horario y esquina.</p>
+          </div>
+          <div class="tarjeta">
+            <h3>Repartir bien</h3>
+            <p style="font-size:.93rem;color:var(--ink-2);margin:0">
+              Patrullas, personal y equipos donde más rinden, no donde más se reclama.</p>
+          </div>
+          <div class="tarjeta">
+            <h3>Sustentar</h3>
+            <p style="font-size:.93rem;color:var(--ink-2);margin:0">
+              Ante el comandante, la alcaldía o la comunidad: números en vez de intuición.</p>
+          </div>
+        </div>
+        <div class="rejilla r3" style="margin-top:16px">
+          <div class="tarjeta" style="text-align:center">
+            <div class="dato" style="font-size:2.2rem;color:var(--verde);line-height:1">−30 %</div>
+            <p style="font-size:.88rem;color:var(--ink-2);margin:8px 0 0">Homicidios en Medellín con análisis de datos</p>
+          </div>
+          <div class="tarjeta" style="text-align:center">
+            <div class="dato" style="font-size:2.2rem;color:var(--verde);line-height:1">−25 %</div>
+            <p style="font-size:.88rem;color:var(--ink-2);margin:8px 0 0">Tiempo de respuesta en Bogotá con georreferenciación</p>
+          </div>
+          <div class="tarjeta" style="text-align:center">
+            <div class="dato" style="font-size:2.2rem;color:var(--verde);line-height:1">−20 %</div>
+            <p style="font-size:.88rem;color:var(--ink-2);margin:8px 0 0">Hurtos con el modelo de cuadrantes</p>
+          </div>
+        </div>
+        <p class="nota-lab" style="margin-top:14px">
+          Cifras de referencia citadas habitualmente en la literatura sobre analítica criminal en Colombia.
+          Para el foro, verifique el dato en la fuente oficial antes de citarlo.
+        </p>
+      </div>
+    </section>
+
+    <!-- 5 · BAYES -->
+    <section class="lam" data-tit="Probabilidad que se actualiza">
+      <div class="contenido">
+        <div class="rotulo">Subtema 1 · Modelos en investigación criminal</div>
+        <h2 class="tit">Cada dato nuevo cambia la probabilidad</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>Si sabe <strong>algo más</strong> sobre el caso, la probabilidad ya no es la misma.
+             Eso es todo lo que dice el teorema de Bayes.</p>
+        </div>
+        <p class="entrada">
+          Olvídese de la fórmula. Piense en <strong>100 robos</strong> de su jurisdicción y cuéntelos.
+          Mueva las barras y vea cómo cambia la respuesta.
+        </p>
+        <div class="lab">
+          <div class="lab-cab">
+            <span class="t">De 100 robos en el cuadrante</span>
+            <span class="chip z">Caso: Cúcuta, cuadrante 14</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <div class="cien" id="cien" aria-hidden="true"></div>
+              <div class="leyenda">
+                <span><i style="background:var(--surface-3)"></i>De día</span>
+                <span><i style="background:var(--azul);opacity:.55"></i>De noche, sin moto</span>
+                <span><i style="background:var(--verde)"></i>De noche, con moto</span>
+              </div>
+              <p style="margin:0;font-size:.95rem;color:var(--ink-2)" id="bayes-relato"></p>
+            </div>
+            <div class="lab-mandos">
+              <div class="mando">
+                <label for="pn">Robos de noche <b><span id="pn-out">70</span> de 100</b></label>
+                <input type="range" id="pn" min="5" max="95" step="5" value="70">
+              </div>
+              <div class="mando">
+                <label for="pm">De esos, con moto <b><span id="pm-out">75</span> %</b></label>
+                <input type="range" id="pm" min="5" max="95" step="5" value="75">
+              </div>
+              <div class="salida">
+                <div class="lin"><span>Le reportan un robo nocturno</span></div>
+                <div class="lin"><span>Probabilidad de que sea con moto</span><b class="dest" id="post">—</b></div>
+                <div class="lin"><span>Si no supiera la hora</span><b id="prior">—</b></div>
+              </div>
+              <p class="nota-lab">
+                Saber la hora <strong>cambia la apuesta</strong>. Ese salto entre las dos cifras
+                es exactamente lo que aporta la probabilidad condicional a una investigación.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · GRAFOS -->
+    <section class="lam" data-tit="Redes: a quién capturar">
+      <div class="contenido">
+        <div class="rotulo">Subtema 1 · Modelos en investigación criminal</div>
+        <h2 class="tit">En una banda, el más conectado no siempre es el más importante</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>El que <strong>une dos grupos</strong> vale más que el que tiene muchos amigos dentro del mismo grupo.
+             Capturarlo parte la red en pedazos.</p>
+        </div>
+        <p class="entrada">
+          Compare dos capturas. Primero <strong>el Mono</strong>, el cabecilla: tiene 3 contactos y
+          la red aguanta. Después <strong>el Puente</strong>: también tiene 3 contactos, pero al
+          capturarlo la estructura se parte en dos.
+        </p>
+        <div class="lab">
+          <div class="lab-cab">
+            <span class="t">Red criminal simulada · 11 integrantes</span>
+            <span class="chip" id="chip-red">Red completa</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <svg class="plot" id="grafo" viewBox="0 0 520 340" role="img"
+                   aria-label="Diagrama de una red criminal simulada con once integrantes"></svg>
+            </div>
+            <div class="lab-mandos">
+              <div>
+                <h3 style="font-size:1rem;margin-bottom:4px" id="nodo-nom">Seleccione un integrante</h3>
+                <p class="nota-lab" id="nodo-rol">Toque un círculo del diagrama.</p>
+              </div>
+              <div class="grafo-info">
+                <div class="pastilla"><b id="nodo-grado">—</b><span>Contactos</span></div>
+                <div class="pastilla"><b id="nodo-puente">—</b><span>Puentes</span></div>
+              </div>
+              <div class="salida">
+                <div class="lin"><span>Si lo capturan, la red queda en</span><b class="dest" id="nodo-frag">—</b></div>
+                <div class="lin"><span>Integrantes aislados</span><b id="nodo-aislados">—</b></div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="boton" id="btn-capturar" disabled>Capturar</button>
+                <button class="boton sec" id="btn-restaurar">Restaurar red</button>
+              </div>
+              <p class="nota-lab">
+                «Puentes» cuenta en cuántas rutas cortas entre otros dos integrantes aparece esta persona.
+                Es la medida que en el curso llamamos <strong>intermediación</strong>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 · ESTADÍSTICAS DELICTIVAS -->
+    <section class="lam" data-tit="Leer la serie del delito">
+      <div class="contenido">
+        <div class="rotulo">Subtema 3 · Estadísticas delictivas</div>
+        <h2 class="tit">Tres cosas viven dentro de una cifra mensual</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>Una serie de delitos es <strong>tendencia + temporada + ruido</strong>.
+             Confundir el ruido con una tendencia es el error más caro que se comete en un informe.</p>
+        </div>
+        <p class="entrada">
+          Encienda las capas una por una sobre 24 meses de hurtos de un distrito.
+        </p>
+        <div class="lab">
+          <div class="lab-cab">
+            <span class="t">Hurtos mensuales · distrito simulado</span>
+            <span class="chip a" id="chip-serie">Solo los datos</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <svg class="plot" id="serie" viewBox="0 0 560 320" role="img"
+                   aria-label="Serie mensual de hurtos con capas de tendencia, estacionalidad y pronóstico"></svg>
+            </div>
+            <div class="lab-mandos">
+              <div style="display:flex;flex-direction:column;gap:9px">
+                <button class="boton sec" data-capa="datos" aria-pressed="true" style="text-align:left">1 · Los datos crudos</button>
+                <button class="boton sec" data-capa="tend" aria-pressed="false" style="text-align:left">2 · La tendencia</button>
+                <button class="boton sec" data-capa="est" aria-pressed="false" style="text-align:left">3 · La temporada</button>
+                <button class="boton sec" data-capa="pred" aria-pressed="false" style="text-align:left">4 · El pronóstico</button>
+              </div>
+              <div class="salida">
+                <div class="lin"><span>Cambio mensual promedio</span><b id="ser-pend">—</b></div>
+                <div class="lin"><span>Mes más crítico</span><b id="ser-pico">—</b></div>
+                <div class="lin"><span>Esperado en 6 meses</span><b class="dest" id="ser-pred">—</b></div>
+              </div>
+              <p class="nota-lab" id="ser-nota">
+                Toque los botones en orden. Cada capa explica una parte de lo que ve.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 · MONTE CARLO -->
+    <section class="lam" data-tit="Simular antes de decidir">
+      <div class="contenido">
+        <div class="rotulo">Subtema 2 · Simulación de escenarios criminales</div>
+        <h2 class="tit">Si no puede ensayar el operativo, simúlelo mil veces</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>Repetir un escenario miles de veces en el computador cuesta <strong>cero</strong>,
+             y le dice qué tan seguido saldría bien en la realidad.</p>
+        </div>
+        <p class="entrada">
+          Pregunta concreta: <strong>¿en cuántos casos la patrulla llega en menos de 8 minutos?</strong>
+          Cada llamado suma tres tiempos que varían: recibir, salir y desplazarse.
+        </p>
+        <div class="lab">
+          <div class="lab-cab">
+            <span class="t">Simulación de tiempos de respuesta</span>
+            <span class="chip m" id="chip-mc">Sin simular</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <svg class="plot" id="hist" viewBox="0 0 560 300" role="img"
+                   aria-label="Histograma de tiempos de respuesta simulados"></svg>
+            </div>
+            <div class="lab-mandos">
+              <div class="mando">
+                <label for="mc-dist">Distancia media al lugar <b><span id="mc-dist-out">3,0</span> km</b></label>
+                <input type="range" id="mc-dist" min="10" max="90" step="5" value="30">
+              </div>
+              <div class="mando">
+                <label for="mc-traf">Congestión de la vía <b><span id="mc-traf-out">media</span></b></label>
+                <input type="range" id="mc-traf" min="1" max="5" step="1" value="3">
+              </div>
+              <div class="salida">
+                <div class="lin"><span>Llegadas en menos de 8 min</span><b class="dest" id="mc-p8">—</b></div>
+                <div class="lin"><span>Tiempo típico</span><b id="mc-med">—</b></div>
+                <div class="lin"><span>1 de cada 20 casos tarda más de</span><b id="mc-p95">—</b></div>
+              </div>
+              <button class="boton" id="btn-mc">Simular 1.000 llamados</button>
+              <p class="nota-lab">
+                El promedio solo cuenta la mitad de la historia. Lo que compromete al servicio
+                es <strong>la cola</strong>: ese 5 % de casos que se demoran mucho más.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 · POISSON -->
+    <section class="lam" data-tit="¿Cuántos delitos esta noche?">
+      <div class="contenido">
+        <div class="rotulo">Subtema 5 · Cálculos probabilísticos para decidir</div>
+        <h2 class="tit">Con un promedio basta para saber qué tan mala puede ser la noche</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>Si en promedio ocurren 4 hurtos por noche, eso <strong>no</strong> significa que siempre sean 4.
+             La distribución de Poisson le dice qué tan probable es cada número.</p>
+        </div>
+        <p class="entrada">
+          Ajuste el promedio de su cuadrante y pregunte: ¿qué tan probable es que esta noche se desborde?
+        </p>
+        <div class="lab">
+          <div class="lab-cab">
+            <span class="t">Distribución de sucesos por noche</span>
+            <span class="chip z">Modelo de Poisson</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <svg class="plot" id="poisson" viewBox="0 0 560 300" role="img"
+                   aria-label="Distribución de probabilidad del número de delitos por noche"></svg>
+            </div>
+            <div class="lab-mandos">
+              <div class="mando">
+                <label for="lam">Promedio por noche <b><span id="lam-out">4,0</span></b></label>
+                <input type="range" id="lam" min="5" max="120" step="5" value="40">
+              </div>
+              <div class="mando">
+                <label for="umbral">Me desborda a partir de <b><span id="umbral-out">7</span></b></label>
+                <input type="range" id="umbral" min="1" max="20" step="1" value="7">
+              </div>
+              <div class="salida">
+                <div class="lin"><span>Probabilidad de desbordarse</span><b class="dest" id="p-desb">—</b></div>
+                <div class="lin"><span>Noches así al mes</span><b id="p-mes">—</b></div>
+                <div class="lin"><span>Noche más frecuente</span><b id="p-moda">—</b></div>
+              </div>
+              <p class="nota-lab">
+                Con esto se sustenta un refuerzo: <span id="p-frase">…</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 · OPTIMIZACIÓN -->
+    <section class="lam" data-tit="Repartir las patrullas">
+      <div class="contenido">
+        <div class="rotulo">Subtema 4 · Optimización de recursos policiales</div>
+        <h2 class="tit">Diez patrullas, seis cuadrantes, una sola forma óptima de repartirlas</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>La primera patrulla en un cuadrante rinde muchísimo; la cuarta, muy poco.
+             Repartir bien es <strong>parar a tiempo</strong> en cada zona.</p>
+        </div>
+        <p class="entrada">
+          Reparta las 10 patrullas como lo haría hoy. Después compare con el reparto óptimo.
+        </p>
+        <div class="lab">
+          <div class="lab-cab">
+            <span class="t">Asignación por cuadrantes</span>
+            <span class="chip" id="chip-cuad">Le quedan 10 patrullas</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <div class="cuadrantes" id="cuadrantes"></div>
+            </div>
+            <div class="lab-mandos">
+              <div class="salida">
+                <div class="lin"><span>Su cobertura</span><b class="dest" id="cob-usuario">0</b></div>
+                <div class="lin"><span>Cobertura óptima</span><b id="cob-optima">—</b></div>
+                <div class="lin"><span>Diferencia</span><b id="cob-dif">—</b></div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="boton" id="btn-optimo">Comparar con el óptimo</button>
+                <button class="boton sec" id="btn-reset-cuad">Empezar de nuevo</button>
+              </div>
+              <p class="nota-lab" id="nota-cuad">
+                El cuadrante con más delitos no siempre se lleva más patrullas: llega un punto
+                en que <strong>una patrulla más ahí rinde menos</strong> que en la zona vecina.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 · TEORÍA DE JUEGOS -->
+    <section class="lam" data-tit="Cuando el otro también piensa">
+      <div class="contenido">
+        <div class="rotulo">Subtema 6 · Teoría de juegos</div>
+        <h2 class="tit">Si su patrullaje es predecible, ya perdió</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>Frente a alguien que lo observa, la mejor estrategia no es una zona:
+             es una <strong>proporción</strong> que él no pueda anticipar.</p>
+        </div>
+        <div class="lab">
+          <div class="lab-cab">
+            <span class="t">Dos zonas, una patrulla, un adversario que observa</span>
+            <span class="chip v">Estrategia mixta</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <div class="desplaza">
+                <table class="matriz">
+                  <thead><tr><th></th><th scope="col">Delito en zona A</th><th scope="col">Delito en zona B</th></tr></thead>
+                  <tbody>
+                    <tr><th scope="row" style="text-align:left">Patrulla en A</th>
+                      <td class="acierto"><span class="v" id="v-aa">10</span><span class="e">Lo impide</span></td>
+                      <td><span class="v">0</span><span class="e">Se consuma</span></td></tr>
+                    <tr><th scope="row" style="text-align:left">Patrulla en B</th>
+                      <td><span class="v">0</span><span class="e">Se consuma</span></td>
+                      <td class="acierto"><span class="v" id="v-bb">6</span><span class="e">Lo impide</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div>
+                <div class="rotulo" style="margin-bottom:8px">Cómo repartir el turno</div>
+                <div class="mezcla" id="mezcla">
+                  <span class="a" id="mez-a">Zona A 63%</span>
+                  <span class="b" id="mez-b">Zona B 38%</span>
+                </div>
+                <p class="nota-lab" style="margin-top:9px">
+                  De cada 8 turnos: <b class="dato" id="turnos-a">5</b> en la zona A,
+                  <b class="dato" id="turnos-b">3</b> en la B. Sin orden fijo.
+                </p>
+              </div>
+            </div>
+            <div class="lab-mandos">
+              <div class="mando">
+                <label for="vA">Lo que protege la zona A <b><span id="vA-out">10</span></b></label>
+                <input type="range" id="vA" min="1" max="20" step="1" value="10">
+              </div>
+              <div class="mando">
+                <label for="vB">Lo que protege la zona B <b><span id="vB-out">6</span></b></label>
+                <input type="range" id="vB" min="1" max="20" step="1" value="6">
+              </div>
+              <div class="salida">
+                <div class="lin"><span>Turnos en A</span><b class="dest" id="pA">—</b></div>
+                <div class="lin"><span>Turnos en B</span><b id="pB">—</b></div>
+              </div>
+              <p class="nota-lab">
+                Si cubre siempre la zona de mayor valor, el delincuente simplemente se muda a la otra.
+                Por eso el reparto es <strong>proporcional al valor</strong>, no del 100 % a la más importante.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 · IA -->
+    <section class="lam" data-tit="Hasta dónde llega la IA">
+      <div class="contenido">
+        <div class="rotulo">Alcance · No es materia evaluable de esta unidad</div>
+        <h2 class="tit">Qué hace la inteligencia artificial que estos modelos no hacen</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>La IA hace lo mismo que vimos hoy, pero <strong>con muchísimos más datos</strong>
+             y encontrando sola las relaciones. No entiende el contexto: eso sigue siendo trabajo suyo.</p>
+        </div>
+        <div class="rejilla r2">
+          <div class="tarjeta">
+            <h3>Lo que sí aporta</h3>
+            <ul style="margin:10px 0 0;padding-left:18px;color:var(--ink-2);font-size:.94rem;line-height:1.75">
+              <li>Agrupar miles de casos y descubrir modus operandi que nadie había separado</li>
+              <li>Leer denuncias escritas y clasificarlas automáticamente</li>
+              <li>Estimar zonas de riesgo cruzando decenas de variables a la vez</li>
+              <li>Detectar transacciones atípicas en lavado de activos</li>
+            </ul>
+          </div>
+          <div class="tarjeta" style="border-color:var(--ambar)">
+            <h3>Lo que hay que vigilar</h3>
+            <ul style="margin:10px 0 0;padding-left:18px;color:var(--ink-2);font-size:.94rem;line-height:1.75">
+              <li><strong>Sesgo:</strong> si patrullamos más un barrio, habrá más registros allí, y el modelo pedirá patrullar más ese barrio. Se retroalimenta solo.</li>
+              <li><strong>Caja negra:</strong> un resultado que no se puede explicar no se puede sustentar ante un juez.</li>
+              <li><strong>Dato sucio:</strong> el subregistro de denuncias entra al modelo tal cual.</li>
+              <li><strong>Decisión humana:</strong> ninguna herramienta reemplaza el criterio del policía en la calle.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="aviso" style="margin-top:20px">
+          <b>Sobre PredPol.</b> Es el ejemplo que siempre se cita, con reducciones reportadas de hasta 20 % en
+          algunos delitos. También es el ejemplo que más críticas ha recibido por sesgo territorial y varios
+          departamentos lo abandonaron. <b>Cítelo en el foro con las dos caras</b>: eso es análisis, no propaganda.
+        </div>
+      </div>
+    </section>
+
+    <!-- 13 · RECURSOS -->
+    <section class="lam" data-tit="Para seguir explorando">
+      <div class="contenido">
+        <div class="rotulo">Recursos · Todos gratuitos y en el navegador</div>
+        <h2 class="tit">Para seguir jugando después de la sesión</h2>
+        <p class="entrada">
+          Escogí pocos y buenos. Si solo va a abrir uno, que sea <strong>Seeing Theory</strong>:
+          explica probabilidad moviendo cosas con el mouse, sin una sola fórmula.
+        </p>
+        <div id="recursos"></div>
+      </div>
+    </section>
+
+    <!-- 14 · FORO -->
+    <section class="lam" data-tit="La actividad del foro">
+      <div class="contenido">
+        <div class="rotulo">Después del encuentro</div>
+        <h2 class="tit">Su tarea: un problema real de su jurisdicción</h2>
+        <div class="frase">
+          <span class="et">La pregunta</span>
+          <p>Escoja <strong>uno</strong> de los modelos de hoy y explique cómo lo usaría para resolver
+             un problema de seguridad concreto de su territorio.</p>
+        </div>
+        <div class="rejilla r2">
+          <div>
+            <h3>Los cuatro puntos que debe traer su respuesta</h3>
+            <ol class="pasos" style="margin-top:14px">
+              <li><b>El problema</b><span>Una situación concreta de su barrio, ciudad o jurisdicción. Nada genérico.</span></li>
+              <li><b>El modelo y por qué ese</b><span>Bayes, redes, series, simulación, Poisson, optimización o juegos. Justifique la elección.</span></li>
+              <li><b>Los datos que necesitaría</b><span>De dónde saldrían: SIEDCO, denuncias, cámaras, registros del cuadrante.</span></li>
+              <li><b>Qué esperaría lograr</b><span>En qué mejoraría la situación, de forma medible.</span></li>
+            </ol>
+          </div>
+          <div>
+            <div class="tarjeta">
+              <h3>Requisitos de entrega</h3>
+              <ul style="margin:12px 0 0;padding-left:18px;color:var(--ink-2);font-size:.94rem;line-height:1.85">
+                <li>Mínimo <strong>200 palabras</strong></li>
+                <li>Responder a <strong>al menos un compañero</strong>, con argumento, no con «buen aporte»</li>
+                <li>Incluir <strong>una referencia o un caso colombiano</strong></li>
+                <li>Fecha límite: <strong>la del cronograma del aula</strong></li>
+              </ul>
+            </div>
+            <div class="aviso" style="margin-top:14px">
+              <b>El error que más cuesta puntos.</b> Responder en general («la estadística ayuda a la Policía»)
+              en vez de aterrizar en un caso propio con cifras. La rúbrica premia lo concreto.
+            </div>
+            <p style="margin-top:16px">
+              <a href="https://educacion.policia.edu.co/dinae/my/courses.php" target="_blank" rel="noopener noreferrer">
+                Entrar al aula virtual en Moodle →</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 15 · CIERRE -->
+    <section class="lam" data-tit="Cierre" style="border-bottom:none">
+      <div class="contenido">
+        <div class="rotulo">Lo que se lleva de la hora</div>
+        <p class="cierre-cita">
+          Ninguno de estos modelos decide por usted. Todos <em>hacen visible</em> lo que estaba decidiendo a ciegas.
+        </p>
+        <div class="rejilla r3">
+          <div class="tarjeta">
+            <h3>Un problema, un modelo</h3>
+            <p style="font-size:.92rem;color:var(--ink-2);margin:0">
+              ¿Actualizar una sospecha? Bayes. ¿A quién capturar? Redes. ¿Cuántos habrá? Poisson.
+              ¿Dónde poner las patrullas? Optimización.</p>
+          </div>
+          <div class="tarjeta">
+            <h3>El dato manda</h3>
+            <p style="font-size:.92rem;color:var(--ink-2);margin:0">
+              Un modelo alimentado con datos malos produce decisiones malas, con más autoridad
+              y por eso más peligrosas.</p>
+          </div>
+          <div class="tarjeta">
+            <h3>Practicar es el atajo</h3>
+            <p style="font-size:.92rem;color:var(--ink-2);margin:0">
+              Media hora en Seeing Theory enseña más probabilidad que leer tres capítulos.
+              Empiece por ahí esta semana.</p>
+          </div>
+        </div>
+        <div class="pie-doc">
+          Encuentro 2 · Unidad 1, Aprendo haciendo · Matemática aplicada a la profesión ·
+          Administración Policial Virtual · ESJIM. José Javier Mercado Reyes.
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+"use strict";
+function el(t,c,h){var e=document.createElement(t); if(c)e.className=c; if(h!==undefined)e.innerHTML=h; return e;}
+function num(v,d){return v.toLocaleString('es-CO',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});}
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+
+/* ============================================================
+   ÍNDICE Y NAVEGACIÓN
+   ============================================================ */
+var laminas = Array.prototype.slice.call(document.querySelectorAll('section.lam'));
+var listaIdx = document.getElementById('lista-indice'), enlaces = [];
+laminas.forEach(function(s,i){
+  if(!s.id) s.id='lam-'+i;
+  if(s.dataset.tit==='Probabilidad que se actualiza')
+    listaIdx.appendChild(el('li','','<div class="sep-riel">Los seis modelos</div>'));
+  if(s.dataset.tit==='Hasta dónde llega la IA')
+    listaIdx.appendChild(el('li','','<div class="sep-riel">Cierre</div>'));
+  var li=el('li'), a=el('a','','<span class="n">'+String(i+1).padStart(2,'0')+'</span><span>'+s.dataset.tit+'</span>');
+  a.href='#'+s.id; li.appendChild(a); listaIdx.appendChild(li); enlaces.push(a);
+});
+var actual=0;
+var obs=new IntersectionObserver(function(ents){
+  ents.forEach(function(e){
+    if(!e.isIntersecting) return;
+    var i=laminas.indexOf(e.target); if(i<0) return;
+    actual=i;
+    enlaces.forEach(function(a,j){a.setAttribute('aria-current', j===i?'true':'false');});
+    var pct=Math.round(i/(laminas.length-1)*100);
+    document.getElementById('prog').style.width=pct+'%';
+    document.querySelector('.barra-prog').setAttribute('aria-valuenow',pct);
+  });
+},{rootMargin:'-45% 0px -45% 0px',threshold:0});
+laminas.forEach(function(s){obs.observe(s);});
+
+document.addEventListener('keydown',function(e){
+  if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+  var d=0;
+  if(e.key==='ArrowRight'||e.key==='PageDown') d=1;
+  else if(e.key==='ArrowLeft'||e.key==='PageUp') d=-1;
+  else return;
+  e.preventDefault();
+  laminas[Math.max(0,Math.min(laminas.length-1,actual+d))].scrollIntoView({behavior:'smooth',block:'start'});
+});
+var riel=document.getElementById('riel'), btnMenu=document.getElementById('abrir-menu');
+btnMenu.addEventListener('click',function(){
+  var ab=riel.classList.toggle('abierto'); btnMenu.setAttribute('aria-expanded',ab?'true':'false');
+});
+listaIdx.addEventListener('click',function(){riel.classList.remove('abierto');btnMenu.setAttribute('aria-expanded','false');});
+document.getElementById('tema').addEventListener('click',function(){
+  var r=document.documentElement;
+  var oscuro = r.getAttribute('data-theme') ? r.getAttribute('data-theme')==='dark'
+              : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  r.setAttribute('data-theme', oscuro?'light':'dark');
+  pintarRed(true); dibujarGrafo(); dibujarSerie(); dibujarHist(); dibujarPoisson();
+});
+var obsRev=new IntersectionObserver(function(ents){
+  ents.forEach(function(e){ if(e.isIntersecting){e.target.classList.add('visible'); obsRev.unobserve(e.target);} });
+},{threshold:.1});
+document.querySelectorAll('.contenido > *').forEach(function(n,i){
+  if(n.closest('#portada')) return;
+  n.classList.add('revela'); n.style.transitionDelay=Math.min(i*45,220)+'ms'; obsRev.observe(n);
+});
+
+/* ============================================================
+   PORTADA · RED ANIMADA
+   ============================================================ */
+var cv=document.getElementById('red-canvas'), ctx=cv.getContext('2d');
+var nodos=[], W=0,H=0, dpr=Math.min(window.devicePixelRatio||1,2);
+var reduc=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function iniciarRed(){
+  var r=cv.getBoundingClientRect(); W=r.width; H=r.height;
+  cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+  var n=Math.round(Math.max(24,Math.min(54,W*H/17000)));
+  nodos=[];
+  for(var i=0;i<n;i++) nodos.push({x:Math.random()*W,y:Math.random()*H,
+    vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,r:Math.random()<.15?4.2:(Math.random()<.4?2.6:1.8)});
+}
+function pintarRed(){
+  if(!W) return;
+  var cVerde=css('--verde'), cAzul=css('--azul');
+  ctx.clearRect(0,0,W,H);
+  for(var i=0;i<nodos.length;i++) for(var j=i+1;j<nodos.length;j++){
+    var dx=nodos[i].x-nodos[j].x, dy=nodos[i].y-nodos[j].y, d2=dx*dx+dy*dy, lim=145*145;
+    if(d2<lim){
+      ctx.strokeStyle=cAzul; ctx.globalAlpha=(1-d2/lim)*.4; ctx.lineWidth=.7;
+      ctx.beginPath(); ctx.moveTo(nodos[i].x,nodos[i].y); ctx.lineTo(nodos[j].x,nodos[j].y); ctx.stroke();
+    }
+  }
+  nodos.forEach(function(p){
+    ctx.fillStyle=p.r>3?cVerde:cAzul; ctx.globalAlpha=p.r>3?.85:.5;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.2832); ctx.fill();
+  });
+  ctx.globalAlpha=1;
+}
+function animarRed(){
+  nodos.forEach(function(p){
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0||p.x>W) p.vx*=-1;
+    if(p.y<0||p.y>H) p.vy*=-1;
+  });
+  pintarRed(); requestAnimationFrame(animarRed);
+}
+iniciarRed(); if(reduc) pintarRed(); else animarRed();
+var tRes; window.addEventListener('resize',function(){
+  clearTimeout(tRes);
+  tRes=setTimeout(function(){iniciarRed();pintarRed();dibujarGrafo();dibujarSerie();dibujarHist();dibujarPoisson();},170);
+});
+
+/* ============================================================
+   AGENDA
+   ============================================================ */
+var AGENDA=[
+  {min:5, k:'Contexto', t:'Por qué las matemáticas deciden', c:'--ink-3', d:'Tres cosas que cambian cuando se decide con datos, y las cifras de Medellín, Bogotá y el modelo de cuadrantes.'},
+  {min:10,k:'Redes', t:'Investigación criminal: probabilidad y redes', c:'--verde', d:'Subtema 1. Cómo un dato nuevo cambia la sospecha, y por qué el integrante más conectado de una banda no es siempre el más valioso.'},
+  {min:8, k:'Series', t:'Estadísticas delictivas', c:'--azul', d:'Subtema 3. Separar tendencia, temporada y ruido dentro de una serie mensual de hurtos.'},
+  {min:8, k:'Simular', t:'Simulación de escenarios', c:'--morado', d:'Subtema 2. Repetir mil veces un operativo en el computador para saber qué tan seguido saldría bien.'},
+  {min:8, k:'Probabilidad', t:'Cálculos probabilísticos', c:'--azul', d:'Subtema 5. Con solo el promedio de delitos por noche, estimar qué tan probable es que la noche se desborde.'},
+  {min:8, k:'Patrullas', t:'Optimización de recursos', c:'--verde', d:'Subtema 4. Repartir diez patrullas entre seis cuadrantes y comparar su reparto con el óptimo.'},
+  {min:6, k:'Juegos', t:'Teoría de juegos', c:'--ambar', d:'Subtema 6. Qué hacer cuando el adversario también observa y decide.'},
+  {min:4, k:'IA', t:'Hasta dónde llega la IA', c:'--rojo', d:'Alcance, no materia evaluable: qué agrega la inteligencia artificial y qué riesgos trae.'},
+  {min:3, k:'Foro', t:'Foro y cierre', c:'--ink-3', d:'La consigna del foro, los cuatro puntos que debe traer su respuesta y los recursos para practicar.'}
+];
+var reloj=document.getElementById('reloj'), detBloq=document.getElementById('bloque-detalle');
+function verBloque(i){
+  var b=AGENDA[i];
+  reloj.querySelectorAll('button').forEach(function(o,j){o.setAttribute('aria-pressed',j===i?'true':'false');});
+  var ini=AGENDA.slice(0,i).reduce(function(a,x){return a+x.min;},0);
+  detBloq.innerHTML='<div class="cab"><span class="chip v">min '+ini+'–'+(ini+b.min)+'</span>'+
+    '<h3>'+b.t+'</h3></div><p>'+b.d+'</p>';
+}
+AGENDA.forEach(function(b,i){
+  var bt=el('button','', b.min>=6 ? b.k : b.min+'′');
+  bt.type='button'; bt.style.flex=b.min; bt.style.background='var('+b.c+')';
+  bt.title=b.min+' min · '+b.t;
+  bt.setAttribute('aria-pressed', i===0?'true':'false');
+  bt.addEventListener('click',function(){verBloque(i);});
+  reloj.appendChild(bt);
+});
+verBloque(0);
+
+/* ============================================================
+   BAYES · 100 CASOS
+   ============================================================ */
+var cien=document.getElementById('cien');
+for(var i=0;i<100;i++) cien.appendChild(el('i'));
+var celdas=cien.querySelectorAll('i');
+var iPn=document.getElementById('pn'), iPm=document.getElementById('pm');
+function calcBayes(){
+  var noche=+iPn.value, pm=+iPm.value;
+  var conMoto=Math.round(noche*pm/100);
+  document.getElementById('pn-out').textContent=noche;
+  document.getElementById('pm-out').textContent=pm;
+  celdas.forEach(function(c,k){
+    c.className = k<conMoto ? 'moto' : (k<noche ? 'noche' : '');
+  });
+  var post = noche>0 ? conMoto/noche : 0;
+  document.getElementById('post').textContent=num(post*100,1)+' %';
+  document.getElementById('prior').textContent=num(conMoto,0)+' %';
+  document.getElementById('bayes-relato').innerHTML=
+    'De 100 robos, <b class="dato">'+noche+'</b> ocurren de noche. De esos, <b class="dato">'+conMoto+
+    '</b> son con motocicleta. Si le reportan un robo nocturno, usted ya no está mirando los 100 casos: '+
+    'solo mira esos <b class="dato">'+noche+'</b>. Ahí está el cambio.';
+}
+iPn.addEventListener('input',calcBayes); iPm.addEventListener('input',calcBayes);
+calcBayes();
+
+/* ============================================================
+   GRAFO · RED CRIMINAL
+   ============================================================ */
+var GN=[
+  {id:0,n:'Alias «el Mono»',r:'Cabecilla célula norte',x:90,y:70},
+  {id:1,n:'Alias «Pipe»',r:'Distribución norte',x:60,y:170},
+  {id:2,n:'Alias «Tuti»',r:'Vigilancia norte',x:140,y:230},
+  {id:3,n:'Alias «Nena»',r:'Finanzas norte',x:175,y:110},
+  {id:4,n:'Alias «el Puente»',r:'Enlace entre células',x:260,y:160},
+  {id:5,n:'Alias «Caro»',r:'Cabecilla célula sur',x:365,y:80},
+  {id:6,n:'Alias «Tico»',r:'Distribución sur',x:430,y:165},
+  {id:7,n:'Alias «Rulo»',r:'Vigilancia sur',x:355,y:235},
+  {id:8,n:'Alias «Mona»',r:'Finanzas sur',x:455,y:70},
+  {id:9,n:'Alias «Kiko»',r:'Menudeo sur',x:440,y:265},
+  {id:10,n:'Alias «Sombra»',r:'Proveedor externo',x:255,y:290}
+];
+var GE=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3],[3,4],[4,5],[4,10],[5,6],[5,7],[5,8],[6,7],[6,8],[6,9],[7,9],[9,10]];
+var svgG=document.getElementById('grafo');
+var capturados=[], selec=null;
+
+function vecinos(excl){
+  var m={}; GN.forEach(function(n){ if(excl.indexOf(n.id)<0) m[n.id]=[]; });
+  GE.forEach(function(e){
+    if(excl.indexOf(e[0])>=0||excl.indexOf(e[1])>=0) return;
+    m[e[0]].push(e[1]); m[e[1]].push(e[0]);
+  });
+  return m;
+}
+function componentes(excl){
+  var m=vecinos(excl), vistos={}, comps=[];
+  Object.keys(m).forEach(function(k){
+    k=+k; if(vistos[k]) return;
+    var cola=[k], comp=[]; vistos[k]=1;
+    while(cola.length){
+      var u=cola.shift(); comp.push(u);
+      m[u].forEach(function(v){ if(!vistos[v]){vistos[v]=1; cola.push(v);} });
+    }
+    comps.push(comp);
+  });
+  return comps;
+}
+function puentes(id){
+  /* en cuántas rutas más cortas entre otros dos aparece este integrante */
+  var m=vecinos([]), ids=GN.map(function(n){return n.id;}), total=0;
+  ids.forEach(function(s){
+    if(s===id) return;
+    /* BFS desde s contando caminos mínimos */
+    var dist={}, cnt={}; dist[s]=0; cnt[s]=1;
+    var cola=[s], orden=[];
+    while(cola.length){
+      var u=cola.shift(); orden.push(u);
+      m[u].forEach(function(v){
+        if(dist[v]===undefined){dist[v]=dist[u]+1; cnt[v]=0; cola.push(v);}
+        if(dist[v]===dist[u]+1) cnt[v]+=cnt[u];
+      });
+    }
+    /* caminos que pasan por id */
+    var distId={}, cntId={}; distId[id]=0; cntId[id]=1;
+    var cola2=[id];
+    while(cola2.length){
+      var u2=cola2.shift();
+      m[u2].forEach(function(v){
+        if(distId[v]===undefined){distId[v]=distId[u2]+1; cntId[v]=0; cola2.push(v);}
+        if(distId[v]===distId[u2]+1) cntId[v]+=cntId[u2];
+      });
+    }
+    ids.forEach(function(t){
+      if(t===id||t===s||t<=s) return;
+      if(dist[t]===undefined) return;
+      if(distId[s]!==undefined && distId[t]!==undefined && distId[s]+distId[t]===dist[t]){
+        total += (cntId[s]*cntId[t])/cnt[t];
+      }
+    });
+  });
+  return Math.round(total);
+}
+function dibujarGrafo(){
+  var cLin=css('--line-fuerte'), cVerde=css('--verde'), cAzul=css('--azul'),
+      cRojo=css('--rojo'), cSup=css('--surface'), cInk3=css('--ink-3');
+  var comps=componentes(capturados);
+  var mapaComp={}; comps.forEach(function(c,i){ c.forEach(function(u){ mapaComp[u]=i; }); });
+  var paleta=[cVerde,cAzul,css('--morado'),css('--ambar')];
+  var s='';
+  GE.forEach(function(e){
+    var muerto = capturados.indexOf(e[0])>=0 || capturados.indexOf(e[1])>=0;
+    var a=GN[e[0]], b=GN[e[1]];
+    s+='<line x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'" stroke="'+(muerto?cRojo:cLin)+
+       '" stroke-width="'+(muerto?1:1.6)+'" opacity="'+(muerto?.28:.75)+'"'+(muerto?' stroke-dasharray="3 4"':'')+'/>';
+  });
+  GN.forEach(function(n){
+    var cap=capturados.indexOf(n.id)>=0;
+    var color = cap ? cRojo : (comps.length>1 ? paleta[mapaComp[n.id]%paleta.length] : cVerde);
+    var r = selec===n.id ? 15 : 11;
+    s+='<g class="nodo" data-id="'+n.id+'" role="button" tabindex="0" aria-label="'+n.n+', '+n.r+'">';
+    if(selec===n.id) s+='<circle cx="'+n.x+'" cy="'+n.y+'" r="21" fill="'+color+'" opacity=".16"/>';
+    s+='<circle cx="'+n.x+'" cy="'+n.y+'" r="'+r+'" fill="'+(cap?cSup:color)+'" stroke="'+color+
+       '" stroke-width="2.2" opacity="'+(cap?.55:1)+'"/>';
+    if(cap) s+='<path d="M'+(n.x-5)+' '+(n.y-5)+'l10 10M'+(n.x+5)+' '+(n.y-5)+'l-10 10" stroke="'+cRojo+'" stroke-width="2" stroke-linecap="round"/>';
+    s+='<text x="'+n.x+'" y="'+(n.y+26)+'" font-size="9" text-anchor="middle" fill="'+cInk3+'">'+
+       n.n.replace('Alias ','').replace(/[«»]/g,'')+'</text></g>';
+  });
+  svgG.innerHTML=s;
+  document.getElementById('chip-red').textContent =
+    capturados.length===0 ? 'Red completa' :
+    (comps.length>1 ? 'Red partida en '+comps.length+' pedazos' : capturados.length+' capturado(s), red aún unida');
+}
+svgG.addEventListener('click',function(e){
+  var g=e.target.closest('.nodo'); if(!g) return; seleccionar(+g.dataset.id);
+});
+svgG.addEventListener('keydown',function(e){
+  var g=e.target.closest('.nodo');
+  if(g && (e.key==='Enter'||e.key===' ')){ e.preventDefault(); seleccionar(+g.dataset.id); }
+});
+function seleccionar(id){
+  selec=id;
+  var n=GN[id];
+  document.getElementById('nodo-nom').textContent=n.n;
+  document.getElementById('nodo-rol').textContent=n.r;
+  var m=vecinos([]);
+  document.getElementById('nodo-grado').textContent=m[id].length;
+  document.getElementById('nodo-puente').textContent=puentes(id);
+  var comps=componentes(capturados.indexOf(id)>=0?capturados:capturados.concat([id]));
+  document.getElementById('nodo-frag').textContent=comps.length+(comps.length===1?' pedazo':' pedazos');
+  document.getElementById('nodo-aislados').textContent=comps.filter(function(c){return c.length===1;}).length;
+  var btn=document.getElementById('btn-capturar');
+  btn.disabled=false;
+  btn.textContent = capturados.indexOf(id)>=0 ? 'Liberar' : 'Capturar';
+  dibujarGrafo();
+}
+document.getElementById('btn-capturar').addEventListener('click',function(){
+  if(selec===null) return;
+  var k=capturados.indexOf(selec);
+  if(k>=0) capturados.splice(k,1); else capturados.push(selec);
+  seleccionar(selec);
+});
+document.getElementById('btn-restaurar').addEventListener('click',function(){
+  capturados=[]; selec=null;
+  document.getElementById('nodo-nom').textContent='Seleccione un integrante';
+  document.getElementById('nodo-rol').textContent='Toque un círculo del diagrama.';
+  ['nodo-grado','nodo-puente','nodo-frag','nodo-aislados'].forEach(function(x){document.getElementById(x).textContent='—';});
+  document.getElementById('btn-capturar').disabled=true;
+  document.getElementById('btn-capturar').textContent='Capturar';
+  dibujarGrafo();
+});
+dibujarGrafo();
+
+/* ============================================================
+   SERIE TEMPORAL
+   ============================================================ */
+var MESES=['E','F','M','A','M','J','J','A','S','O','N','D'];
+function lcg(seed){ return function(){ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; }; }
+var rnd=lcg(20261);
+var SERIE=[], BASE=52, PEND=0.9;
+for(var t=0;t<24;t++){
+  var est=8*Math.sin((t+1)/12*2*Math.PI - 1.1);      /* temporada anual */
+  var ruido=(rnd()-.5)*9;
+  SERIE.push(Math.max(5, BASE + PEND*t + est + ruido));
+}
+var capas={datos:true,tend:false,est:false,pred:false};
+var svgS=document.getElementById('serie');
+function dibujarSerie(){
+  var W=560,H=320, ml=44, mb=40, mt=22, mr=18, N=24, FUT=6;
+  var todos=SERIE.concat([BASE+PEND*29+8]);
+  var maxV=Math.ceil(Math.max.apply(null,todos)/10)*10+10, minV=0;
+  function X(i){ return ml + i/(N+FUT-1)*(W-ml-mr); }
+  function Y(v){ return H-mb - (v-minV)/(maxV-minV)*(H-mb-mt); }
+  var cLin=css('--line'), cInk3=css('--ink-3'), cVerde=css('--verde'),
+      cAzul=css('--azul'), cAmbar=css('--ambar'), cSup=css('--surface');
+  var s='';
+  for(var g=0; g<=maxV; g+=20){
+    s+='<line x1="'+ml+'" y1="'+Y(g)+'" x2="'+(W-mr)+'" y2="'+Y(g)+'" stroke="'+cLin+'" stroke-width="1"/>';
+    s+='<text x="'+(ml-8)+'" y="'+(Y(g)+3.5)+'" font-size="9" text-anchor="end">'+g+'</text>';
+  }
+  for(var i=0;i<N+FUT;i+=3)
+    s+='<text x="'+X(i)+'" y="'+(H-mb+16)+'" font-size="9" text-anchor="middle">'+MESES[i%12]+'</text>';
+  /* zona de pronóstico */
+  if(capas.pred)
+    s+='<rect x="'+X(N-1)+'" y="'+mt+'" width="'+(X(N+FUT-1)-X(N-1))+'" height="'+(H-mb-mt)+
+       '" fill="'+cVerde+'" opacity=".07"/>';
+  /* tendencia */
+  if(capas.tend||capas.pred){
+    var y0=BASE, y1=BASE+PEND*(N-1);
+    s+='<line x1="'+X(0)+'" y1="'+Y(y0)+'" x2="'+X(N-1)+'" y2="'+Y(y1)+
+       '" stroke="'+cAmbar+'" stroke-width="2.2" stroke-linecap="round"/>';
+    s+='<text x="'+X(3)+'" y="'+(Y(BASE+PEND*3)-9)+'" font-size="10" fill="'+cAmbar+'">tendencia</text>';
+  }
+  /* estacionalidad */
+  if(capas.est){
+    var pe='';
+    for(var k=0;k<N;k++) pe+=X(k)+','+Y(BASE+PEND*k+8*Math.sin((k+1)/12*2*Math.PI-1.1))+' ';
+    s+='<polyline points="'+pe+'" fill="none" stroke="'+cAzul+'" stroke-width="2" stroke-dasharray="5 4"/>';
+    s+='<text x="'+X(13)+'" y="'+(Y(BASE+PEND*13+8)-9)+'" font-size="10" fill="'+cAzul+'">+ temporada</text>';
+  }
+  /* pronóstico */
+  if(capas.pred){
+    var pp='';
+    for(var f=N-1;f<N+FUT;f++) pp+=X(f)+','+Y(BASE+PEND*f+8*Math.sin((f+1)/12*2*Math.PI-1.1))+' ';
+    s+='<polyline points="'+pp+'" fill="none" stroke="'+cVerde+'" stroke-width="2.6" stroke-dasharray="6 4"/>';
+    var vf=BASE+PEND*(N+FUT-1)+8*Math.sin((N+FUT)/12*2*Math.PI-1.1);
+    s+='<circle cx="'+X(N+FUT-1)+'" cy="'+Y(vf)+'" r="5" fill="'+cVerde+'" stroke="'+cSup+'" stroke-width="2"/>';
+    s+='<text x="'+X(N+FUT-1)+'" y="'+(Y(vf)-13)+'" font-size="10" text-anchor="end" fill="'+cVerde+'" font-weight="600">'+num(vf,0)+'</text>';
+  }
+  /* datos */
+  var pd='';
+  SERIE.forEach(function(v,i){ pd+=X(i)+','+Y(v)+' '; });
+  s+='<polyline points="'+pd+'" fill="none" stroke="'+cInk3+'" stroke-width="1.6" opacity="'+(capas.tend||capas.est||capas.pred?.5:1)+'"/>';
+  SERIE.forEach(function(v,i){
+    s+='<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="2.8" fill="'+cInk3+'" opacity="'+(capas.tend||capas.est||capas.pred?.5:1)+'"/>';
+  });
+  svgS.innerHTML=s;
+}
+document.querySelectorAll('[data-capa]').forEach(function(b){
+  b.addEventListener('click',function(){
+    var k=b.dataset.capa;
+    capas[k]=!capas[k];
+    b.setAttribute('aria-pressed',capas[k]?'true':'false');
+    b.style.background = capas[k] ? 'var(--verde-suave)' : '';
+    b.style.borderColor = capas[k] ? 'var(--verde)' : '';
+    b.style.color = capas[k] ? 'var(--verde)' : '';
+    var chip=document.getElementById('chip-serie');
+    chip.textContent = capas.pred?'Con pronóstico': capas.est?'Con temporada': capas.tend?'Con tendencia':'Solo los datos';
+    var nota=document.getElementById('ser-nota');
+    if(k==='tend'&&capas.tend) nota.textContent='La línea ámbar es la dirección de fondo: hacia dónde va el delito si nada cambia.';
+    else if(k==='est'&&capas.est) nota.textContent='La curva azul agrega la temporada: hay meses que siempre suben, como diciembre.';
+    else if(k==='pred'&&capas.pred) nota.textContent='El pronóstico es tendencia + temporada proyectadas. El ruido no se puede predecir, y por eso nunca da exacto.';
+    else nota.textContent='Toque los botones en orden. Cada capa explica una parte de lo que ve.';
+    dibujarSerie();
+  });
+});
+document.getElementById('ser-pend').textContent='+'+num(PEND,1)+' hurtos/mes';
+document.getElementById('ser-pico').textContent='diciembre';
+document.getElementById('ser-pred').textContent=num(BASE+PEND*29+8*Math.sin(30/12*2*Math.PI-1.1),0)+' hurtos';
+dibujarSerie();
+
+/* ============================================================
+   MONTE CARLO
+   ============================================================ */
+var iDist=document.getElementById('mc-dist'), iTraf=document.getElementById('mc-traf');
+var TRAF=['muy baja','baja','media','alta','muy alta'];
+var muestras=[], svgH=document.getElementById('hist');
+function normal(){ /* Box-Muller */
+  var u=Math.random()||1e-9, v=Math.random()||1e-9;
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+}
+function simular(){
+  var dist=+iDist.value/10, traf=+iTraf.value;
+  var vel=50-5*traf;                         /* km/h efectivos */
+  muestras=[];
+  for(var i=0;i<1000;i++){
+    var recibir=Math.max(.2, .9+.4*normal());          /* min */
+    var alistar=Math.max(.3, 1.4+.6*normal());
+    var viaje=Math.max(.5, dist/vel*60*(1+.22*normal()));
+    muestras.push(recibir+alistar+viaje);
+  }
+  muestras.sort(function(a,b){return a-b;});
+  var bajo8=muestras.filter(function(x){return x<8;}).length/10;
+  document.getElementById('mc-p8').textContent=num(bajo8,1)+' %';
+  document.getElementById('mc-med').textContent=num(muestras[499],1)+' min';
+  document.getElementById('mc-p95').textContent=num(muestras[949],1)+' min';
+  document.getElementById('chip-mc').textContent='1.000 llamados simulados';
+  dibujarHist();
+}
+function dibujarHist(){
+  var W=560,H=300, ml=44, mb=42, mt=24, mr=18;
+  var cLin=css('--line'), cInk3=css('--ink-3'), cVerde=css('--verde'), cRojo=css('--rojo'), cSup=css('--surface');
+  if(!muestras.length){
+    svgH.innerHTML='<text x="'+(W/2)+'" y="'+(H/2)+'" font-size="13" text-anchor="middle" fill="'+cInk3+
+      '">Toque «Simular 1.000 llamados»</text>';
+    return;
+  }
+  var min=0, max=Math.ceil(muestras[muestras.length-1]);
+  var NB=26, ancho=(max-min)/NB, bins=new Array(NB).fill(0);
+  muestras.forEach(function(v){ var b=Math.min(NB-1,Math.floor((v-min)/ancho)); bins[b]++; });
+  var maxB=Math.max.apply(null,bins);
+  function X(v){ return ml + (v-min)/(max-min)*(W-ml-mr); }
+  function Y(c){ return H-mb - c/maxB*(H-mb-mt); }
+  var s='';
+  for(var g=0;g<=maxB;g+=Math.max(1,Math.round(maxB/4))){
+    s+='<line x1="'+ml+'" y1="'+Y(g)+'" x2="'+(W-mr)+'" y2="'+Y(g)+'" stroke="'+cLin+'" stroke-width="1"/>';
+    s+='<text x="'+(ml-8)+'" y="'+(Y(g)+3.5)+'" font-size="9" text-anchor="end">'+g+'</text>';
+  }
+  bins.forEach(function(c,i){
+    var x0=X(min+i*ancho), x1=X(min+(i+1)*ancho);
+    var dentro = (min+(i+.5)*ancho) < 8;
+    s+='<rect x="'+(x0+1)+'" y="'+Y(c)+'" width="'+Math.max(1,x1-x0-2)+'" height="'+(Y(0)-Y(c))+
+       '" fill="'+(dentro?cVerde:cRojo)+'" opacity="'+(dentro?.85:.55)+'" rx="1.5"/>';
+  });
+  s+='<line x1="'+X(8)+'" y1="'+mt+'" x2="'+X(8)+'" y2="'+(H-mb)+'" stroke="'+cInk3+'" stroke-width="1.6" stroke-dasharray="5 4"/>';
+  s+='<text x="'+(X(8)+7)+'" y="'+(mt+11)+'" font-size="10" fill="'+cInk3+'">meta: 8 min</text>';
+  for(var v=0;v<=max;v+=Math.max(1,Math.round(max/8)))
+    s+='<text x="'+X(v)+'" y="'+(H-mb+16)+'" font-size="9" text-anchor="middle">'+v+'</text>';
+  s+='<text x="'+(W-mr)+'" y="'+(H-6)+'" font-size="9" text-anchor="end">minutos hasta llegar</text>';
+  svgH.innerHTML=s;
+}
+document.getElementById('btn-mc').addEventListener('click',simular);
+[iDist,iTraf].forEach(function(x){ x.addEventListener('input',function(){
+  document.getElementById('mc-dist-out').textContent=num(+iDist.value/10,1);
+  document.getElementById('mc-traf-out').textContent=TRAF[+iTraf.value-1];
+  if(muestras.length) simular();
+});});
+dibujarHist();
+
+/* ============================================================
+   POISSON
+   ============================================================ */
+var iLam=document.getElementById('lam'), iUmb=document.getElementById('umbral');
+var svgP=document.getElementById('poisson');
+function poisson(k,l){
+  var lg=-l + k*Math.log(l);
+  for(var i=2;i<=k;i++) lg-=Math.log(i);
+  return Math.exp(lg);
+}
+function dibujarPoisson(){
+  var l=+iLam.value/10, u=+iUmb.value;
+  document.getElementById('lam-out').textContent=num(l,1);
+  document.getElementById('umbral-out').textContent=u;
+  var K=Math.max(14, Math.ceil(l+4*Math.sqrt(l))+1);
+  var ps=[]; for(var k=0;k<=K;k++) ps.push(poisson(k,l));
+  var maxP=Math.max.apply(null,ps);
+  var acum=0; for(var k2=u;k2<=K;k2++) acum+=ps[k2];
+  var moda=ps.indexOf(maxP);
+  document.getElementById('p-desb').textContent=num(acum*100,1)+' %';
+  document.getElementById('p-mes').textContent=num(acum*30,1)+' de 30';
+  document.getElementById('p-moda').textContent=moda+(moda===1?' delito':' delitos');
+  var cada = acum>0 ? Math.round(1/acum) : 0;
+  document.getElementById('p-frase').innerHTML = acum<0.005
+    ? '«con este promedio, desbordarse es tan raro que no justifica pedir refuerzo».'
+    : '«una de cada <b class="dato">'+cada+'</b> noches supera la capacidad del cuadrante, y por eso pido un turno adicional».';
+
+  var W=560,H=300, ml=44, mb=40, mt=22, mr=18;
+  var cLin=css('--line'), cInk3=css('--ink-3'), cVerde=css('--verde'), cAmbar=css('--ambar');
+  function X(k){ return ml + k/(K+1)*(W-ml-mr); }
+  var bw=(W-ml-mr)/(K+1)*0.78;
+  function Y(p){ return H-mb - p/maxP*(H-mb-mt); }
+  var s='';
+  for(var g=0;g<=4;g++){
+    var pv=maxP*g/4;
+    s+='<line x1="'+ml+'" y1="'+Y(pv)+'" x2="'+(W-mr)+'" y2="'+Y(pv)+'" stroke="'+cLin+'" stroke-width="1"/>';
+    s+='<text x="'+(ml-8)+'" y="'+(Y(pv)+3.5)+'" font-size="9" text-anchor="end">'+num(pv*100,0)+'%</text>';
+  }
+  ps.forEach(function(p,k){
+    var alto=Y(0)-Y(p);
+    s+='<rect x="'+(X(k)-bw/2+bw/2)+'" y="'+Y(p)+'" width="'+bw+'" height="'+alto+'" rx="2" fill="'+
+       (k>=u?cAmbar:cVerde)+'" opacity="'+(k>=u?.9:.75)+'"/>';
+    if(k%2===0||K<=16) s+='<text x="'+(X(k)+bw/2)+'" y="'+(H-mb+15)+'" font-size="9" text-anchor="middle">'+k+'</text>';
+  });
+  s+='<line x1="'+(X(u)+bw/2-bw/2-2)+'" y1="'+mt+'" x2="'+(X(u)+bw/2-bw/2-2)+'" y2="'+(H-mb)+
+     '" stroke="'+cAmbar+'" stroke-width="1.6" stroke-dasharray="5 4"/>';
+  s+='<text x="'+(X(u)+bw/2+4)+'" y="'+(mt+11)+'" font-size="10" fill="'+cAmbar+'">desde aquí me desborda</text>';
+  s+='<text x="'+(W-mr)+'" y="'+(H-6)+'" font-size="9" text-anchor="end">delitos en la noche</text>';
+  svgP.innerHTML=s;
+}
+[iLam,iUmb].forEach(function(x){x.addEventListener('input',dibujarPoisson);});
+dibujarPoisson();
+
+/* ============================================================
+   CUADRANTES
+   ============================================================ */
+var CUAD=[
+  {n:'C-01 Centro',d:180},{n:'C-02 Mercado',d:140},{n:'C-03 Terminal',d:110},
+  {n:'C-04 Residencial',d:70},{n:'C-05 Industrial',d:55},{n:'C-06 Periferia',d:40}
+];
+var TOTALP=10, asign=CUAD.map(function(){return 0;}), verOpt=false;
+function cobertura(a){
+  /* rendimiento decreciente: cada patrulla adicional cubre menos */
+  return CUAD.reduce(function(s,c,i){ return s + c.d*(1-Math.pow(0.62,a[i])); },0);
+}
+function optimo(){
+  var a=CUAD.map(function(){return 0;});
+  for(var p=0;p<TOTALP;p++){
+    var mejor=0, ganMax=-1;
+    CUAD.forEach(function(c,i){
+      var gan=c.d*(Math.pow(0.62,a[i])-Math.pow(0.62,a[i]+1));
+      if(gan>ganMax){ganMax=gan;mejor=i;}
+    });
+    a[mejor]++;
+  }
+  return a;
+}
+var OPT=optimo(), COPT=cobertura(OPT);
+var contC=document.getElementById('cuadrantes');
+function pintarCuad(){
+  var usadas=asign.reduce(function(a,b){return a+b;},0);
+  contC.innerHTML='';
+  CUAD.forEach(function(c,i){
+    var d=el('div','cuad'+(verOpt&&asign[i]===OPT[i]?' opt':''));
+    d.innerHTML='<div class="nom">'+c.n+'</div><div class="dem">'+c.d+' delitos/mes'+
+      (verOpt?' · óptimo: '+OPT[i]:'')+'</div>'+
+      '<div class="fila"><button type="button" data-i="'+i+'" data-d="-1" aria-label="Quitar patrulla en '+c.n+'"'+
+      (asign[i]<=0?' disabled':'')+'>−</button>'+
+      '<span class="n">'+asign[i]+'</span>'+
+      '<button type="button" data-i="'+i+'" data-d="1" aria-label="Agregar patrulla en '+c.n+'"'+
+      (usadas>=TOTALP?' disabled':'')+'>+</button></div>';
+    contC.appendChild(d);
+  });
+  var cu=cobertura(asign);
+  document.getElementById('cob-usuario').textContent=num(cu,0);
+  document.getElementById('cob-optima').textContent=verOpt?num(COPT,0):'—';
+  var dif=COPT-cu;
+  document.getElementById('cob-dif').textContent =
+    !verOpt ? '—' : (dif<0.5 ? 'ninguna, es el óptimo' : num(dif,0)+' delitos menos');
+  document.getElementById('chip-cuad').textContent =
+    usadas<TOTALP ? 'Le quedan '+(TOTALP-usadas)+' patrullas' : 'Las 10 asignadas';
+}
+contC.addEventListener('click',function(e){
+  var b=e.target.closest('button'); if(!b||b.disabled) return;
+  var i=+b.dataset.i, d=+b.dataset.d;
+  var usadas=asign.reduce(function(a,x){return a+x;},0);
+  if(d>0 && usadas>=TOTALP) return;
+  if(d<0 && asign[i]<=0) return;
+  asign[i]+=d; pintarCuad();
+});
+document.getElementById('btn-optimo').addEventListener('click',function(){
+  verOpt=true; pintarCuad();
+  document.getElementById('nota-cuad').innerHTML=
+    'El óptimo <strong>no</strong> pone las 10 en el centro. Reparte hasta que la siguiente patrulla '+
+    'rinda igual en todas partes: ese es el punto donde ya no se puede mejorar. '+
+    'Los cuadrantes en verde son los que usted acertó.';
+});
+document.getElementById('btn-reset-cuad').addEventListener('click',function(){
+  verOpt=false; asign=CUAD.map(function(){return 0;}); pintarCuad();
+});
+pintarCuad();
+
+/* ============================================================
+   TEORÍA DE JUEGOS
+   ============================================================ */
+var iA=document.getElementById('vA'), iB=document.getElementById('vB');
+function calcJuego(){
+  var vA=+iA.value, vB=+iB.value, pA=vA/(vA+vB), pB=1-pA;
+  document.getElementById('vA-out').textContent=vA;
+  document.getElementById('vB-out').textContent=vB;
+  document.getElementById('v-aa').textContent=vA;
+  document.getElementById('v-bb').textContent=vB;
+  document.getElementById('pA').textContent=num(pA*100,1)+' %';
+  document.getElementById('pB').textContent=num(pB*100,1)+' %';
+  var ma=document.getElementById('mez-a'), mb=document.getElementById('mez-b');
+  ma.style.width=(pA*100)+'%'; mb.style.width=(pB*100)+'%';
+  ma.textContent = pA>=.2 ? 'Zona A '+num(pA*100,0)+'%' : '';
+  mb.textContent = pB>=.2 ? 'Zona B '+num(pB*100,0)+'%' : '';
+  document.getElementById('turnos-a').textContent=Math.round(pA*8);
+  document.getElementById('turnos-b').textContent=8-Math.round(pA*8);
+}
+iA.addEventListener('input',calcJuego); iB.addEventListener('input',calcJuego);
+calcJuego();
+
+/* ============================================================
+   RECURSOS
+   ============================================================ */
+var REC=[
+  {g:'Para entender viendo', ic:'ojo', items:[
+    {n:'Seeing Theory', u:'https://seeing-theory.brown.edu/', d:'Probabilidad y estadística explicadas moviendo cosas. Empiece aquí.'},
+    {n:'Bayes visualizado — Khan Academy', u:'https://www.khanacademy.org/math/statistics-probability/probability-library/conditional-probability-independence/v/bayes-theorem-visualized', d:'El teorema de hoy, en video y en español.'},
+    {n:'3Blue1Brown', u:'https://www.youtube.com/@3blue1brown', d:'Los mejores videos de matemáticas que existen. Active los subtítulos.'},
+    {n:'Cadenas de Markov — Setosa', u:'https://setosa.io/markov/index.html', d:'Vea cómo un sistema salta entre estados, con la bolita moviéndose.'}
+  ]},
+  {g:'Para jugar y probar', ic:'mano', items:[
+    {n:'PhET · Plinko', u:'https://phet.colorado.edu/es/simulations/plinko-probability', d:'Simulación de azar: así se forma una distribución.'},
+    {n:'PhET · Ajuste de curvas', u:'https://phet.colorado.edu/es/simulations/curve-fitting', d:'Arrastre puntos y vea la recta de regresión moverse.'},
+    {n:'Graph Online', u:'https://graphonline.ru/es/', d:'Dibuje una red criminal y calcule sus métricas, sin instalar nada.'},
+    {n:'Optimizador en línea', u:'https://online-optimizer.appspot.com/', d:'Resuelva un problema de asignación de recursos en el navegador.'},
+    {n:'GeoGebra Clásico', u:'https://www.geogebra.org/classic', d:'Gráficas, estadística y geometría en una sola herramienta.'},
+    {n:'Desmos', u:'https://www.desmos.com/calculator', d:'La calculadora gráfica más simple de usar.'}
+  ]},
+  {g:'Para trabajar con datos reales', ic:'datos', items:[
+    {n:'Datos Abiertos Colombia', u:'https://datos.gov.co/', d:'Cifras oficiales para sustentar su aporte en el foro.'},
+    {n:'Wolfram Alpha', u:'https://www.wolframalpha.com/', d:'Escriba la pregunta en lenguaje normal y le devuelve el cálculo.'},
+    {n:'Kaggle', u:'https://www.kaggle.com/datasets', d:'Miles de conjuntos de datos para practicar, muchos de criminalidad.'}
+  ]}
+];
+var ICO={
+  ojo:'<circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M1.8 10S4.7 4.6 10 4.6 18.2 10 18.2 10 15.3 15.4 10 15.4 1.8 10 1.8 10Z" stroke="currentColor" stroke-width="1.5" fill="none"/>',
+  mano:'<path d="M7 9V4.6a1.4 1.4 0 0 1 2.8 0V9m0-1.2a1.4 1.4 0 0 1 2.8 0V9m0-.8a1.4 1.4 0 0 1 2.8 0v4.2c0 2.6-2 4.6-4.6 4.6h-1c-2 0-3.2-1-4.2-2.6L4 12.4a1.4 1.4 0 0 1 2.2-1.7L7 11.6" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/>',
+  datos:'<path d="M3 16.5h14M5.5 16.5V8m4.5 8.5V4.5m4.5 12v-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'
+};
+var contR=document.getElementById('recursos');
+REC.forEach(function(gr){
+  var d=el('div','grupo-rec');
+  d.innerHTML='<h3><svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">'+ICO[gr.ic]+'</svg>'+gr.g+'</h3>';
+  var rej=el('div','rejilla r3');
+  gr.items.forEach(function(it){
+    var a=el('a','recurso');
+    a.href=it.u; a.target='_blank'; a.rel='noopener noreferrer';
+    a.innerHTML='<span class="ic"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden="true">'+
+      '<path d="M11 3h6v6M17 3l-8 8M15 12v4.5a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 2 16.5v-10A1.5 1.5 0 0 1 3.5 5H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'+
+      '<span><b>'+it.n+'</b><span>'+it.d+'</span></span>';
+    rej.appendChild(a);
+  });
+  d.appendChild(rej); contR.appendChild(d);
+});
+
+})();
+</script>
+
+</body>
+</html>
