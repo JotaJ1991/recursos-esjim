@@ -835,6 +835,331 @@ svg text{font-family:var(--mono);fill:var(--ink-3)}
       </div>
     </section>
 
+    <!-- BANCO DE CASOS · PORTADA -->
+    <section class="lam" data-tit="Seis modelos más">
+      <div class="contenido">
+        <div class="rotulo">Banco de casos · Fuera de los 60 minutos</div>
+        <h2 class="tit">Seis modelos más, por si ninguno de los anteriores le sirve</h2>
+        <div class="frase">
+          <span class="et">Para qué</span>
+          <p>El foro pide que escoja <strong>un</strong> modelo. Estos seis amplían el menú,
+             y varios se ajustan mejor a problemas administrativos que los de la hora.</p>
+        </div>
+        <p class="entrada">
+          No los vamos a ver en la sesión: quedan aquí para que los explore por su cuenta.
+          Cada uno tiene su simulador. Toque el que le suene al problema que tiene en mente.
+        </p>
+        <div class="rejilla r3" id="menu-banco"></div>
+      </div>
+    </section>
+
+    <!-- CASO A · TEORÍA DE COLAS -->
+    <section class="lam" data-tit="La línea 123">
+      <div class="contenido">
+        <div class="rotulo">Caso 1 · Teoría de colas · Optimización de recursos</div>
+        <h2 class="tit">Un operador más puede valer más que diez patrullas</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>Cuando un servicio trabaja cerca del tope, la espera <strong>no crece poco a poco:
+             se dispara</strong>. Y basta una persona más para desplomarla.</p>
+        </div>
+        <p class="entrada">
+          Mueva el número de operadores de la línea de emergencia y mire el salto.
+          Es el efecto más contraintuitivo de toda la administración de servicios.
+        </p>
+        <div class="lab">
+          <div class="lab-cab">
+            <span class="t">Central de emergencias · espera en línea</span>
+            <span class="chip" id="chip-cola">—</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <svg class="plot" id="cola" viewBox="0 0 560 300" role="img"
+                   aria-label="Espera media según el número de operadores en la central"></svg>
+            </div>
+            <div class="lab-mandos">
+              <div class="mando">
+                <label for="q-lam">Llamadas por hora <b><span id="q-lam-out">90</span></b></label>
+                <input type="range" id="q-lam" min="20" max="220" step="5" value="90">
+              </div>
+              <div class="mando">
+                <label for="q-t">Duración de cada llamada <b><span id="q-t-out">3,0</span> min</b></label>
+                <input type="range" id="q-t" min="10" max="80" step="5" value="30">
+              </div>
+              <div class="mando">
+                <label for="q-c">Operadores en turno <b><span id="q-c-out">6</span></b></label>
+                <input type="range" id="q-c" min="1" max="14" step="1" value="6">
+              </div>
+              <div class="salida">
+                <div class="lin"><span>Espera media</span><b class="dest" id="q-wq">—</b></div>
+                <div class="lin"><span>Probabilidad de esperar</span><b id="q-pw">—</b></div>
+                <div class="lin"><span>Ocupación de los operadores</span><b id="q-rho">—</b></div>
+                <div class="lin"><span>Con un operador más</span><b id="q-mas">—</b></div>
+              </div>
+              <p class="nota-lab">
+                Con la ocupación por encima del 90 % el sistema se vuelve inmanejable:
+                una llamada larga arrastra a todas las que siguen. Por eso las centrales
+                se dimensionan para trabajar al <strong>70–80 %</strong>, nunca al tope.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASO B · LOCALIZACIÓN -->
+    <section class="lam" data-tit="Dónde poner el CAI">
+      <div class="contenido">
+        <div class="rotulo">Caso 2 · Problema de localización · Optimización</div>
+        <h2 class="tit">El centro del mapa casi nunca es el mejor sitio</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>La mejor ubicación no es la del medio: es la que <strong>minimiza la distancia
+             total</strong> a los sitios donde de verdad ocurren los hechos.</p>
+        </div>
+        <p class="entrada">
+          Cada punto es un incidente del último semestre. Toque el mapa para proponer
+          dónde ubicaría el CAI, y después compare con el punto óptimo.
+        </p>
+        <div class="lab">
+          <div class="lab-cab">
+            <span class="t">Ubicación de un nuevo CAI · 24 incidentes</span>
+            <span class="chip" id="chip-cai">Toque el mapa</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <svg class="plot" id="mapa-cai" viewBox="0 0 520 340" role="img"
+                   aria-label="Mapa de incidentes con la ubicación propuesta del CAI"
+                   style="cursor:crosshair"></svg>
+            </div>
+            <div class="lab-mandos">
+              <div class="salida">
+                <div class="lin"><span>Distancia media desde su punto</span><b class="dest" id="cai-user">—</b></div>
+                <div class="lin"><span>Distancia media óptima</span><b id="cai-opt">—</b></div>
+                <div class="lin"><span>Recorrido de más al año</span><b id="cai-dif">—</b></div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="boton" id="btn-cai-opt">Ver el punto óptimo</button>
+                <button class="boton sec" id="btn-cai-reset">Borrar</button>
+              </div>
+              <p class="nota-lab">
+                El cálculo se llama <strong>mediana geométrica</strong> y se resuelve repitiendo
+                una fórmula hasta que el punto deja de moverse. Con 24 incidentes toma milésimas
+                de segundo; con 24.000 también.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASO C · FALSOS POSITIVOS -->
+    <section class="lam" data-tit="El costo de equivocarse">
+      <div class="contenido">
+        <div class="rotulo">Caso 3 · Regresión logística y clasificación · Cálculos probabilísticos</div>
+        <h2 class="tit">Su modelo señala a 100 personas. ¿Cuántas de verdad lo son?</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>Cuando lo que busca es <strong>poco frecuente</strong>, hasta un modelo muy bueno
+             produce muchísimos señalados inocentes. La aritmética no perdona.</p>
+        </div>
+        <p class="entrada">
+          Un modelo de riesgo asigna un puntaje a cada persona. Usted decide desde qué puntaje
+          se le hace seguimiento. Mueva ese umbral y vea el precio de cada decisión.
+        </p>
+        <div class="lab">
+          <div class="lab-cab">
+            <span class="t">Modelo de riesgo · 1.000 casos</span>
+            <span class="chip" id="chip-fp">—</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <svg class="plot" id="dist-riesgo" viewBox="0 0 560 250" role="img"
+                   aria-label="Distribución de puntajes de riesgo con el umbral de decisión"></svg>
+              <div class="rejilla" style="grid-template-columns:1fr 1fr;gap:9px">
+                <div class="pastilla" style="border-color:var(--verde)">
+                  <b id="m-vp">—</b><span>Acertó: sí reincidió</span></div>
+                <div class="pastilla" style="border-color:var(--rojo)">
+                  <b id="m-fp" style="color:var(--rojo)">—</b><span>Señaló de más</span></div>
+                <div class="pastilla" style="border-color:var(--ambar)">
+                  <b id="m-fn" style="color:var(--ambar)">—</b><span>Se le escapó</span></div>
+                <div class="pastilla">
+                  <b id="m-vn" style="color:var(--ink-2)">—</b><span>Bien descartado</span></div>
+              </div>
+            </div>
+            <div class="lab-mandos">
+              <div class="mando">
+                <label for="fp-umbral">Umbral de seguimiento <b><span id="fp-umbral-out">55</span></b></label>
+                <input type="range" id="fp-umbral" min="20" max="85" step="1" value="55">
+              </div>
+              <div class="mando">
+                <label for="fp-prev">De cada 100, reinciden <b><span id="fp-prev-out">20</span></b></label>
+                <input type="range" id="fp-prev" min="2" max="50" step="1" value="20">
+              </div>
+              <div class="salida">
+                <div class="lin"><span>De los señalados, aciertan</span><b class="dest" id="fp-prec">—</b></div>
+                <div class="lin"><span>De los que reinciden, detecta</span><b id="fp-sens">—</b></div>
+              </div>
+              <p class="nota-lab" id="fp-nota">
+                Baje el umbral y detectará a casi todos… señalando a media ciudad.
+                Súbalo y señalará a pocos… dejando pasar a la mayoría. <strong>No existe
+                el umbral que gane las dos cosas</strong>: hay que elegir cuál error duele menos.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASO D · MARKOV -->
+    <section class="lam" data-tit="Reincidencia año a año">
+      <div class="contenido">
+        <div class="rotulo">Caso 4 · Cadenas de Markov · Simulación de escenarios</div>
+        <h2 class="tit">Hacia dónde tiende una población, año tras año</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>Si conoce las probabilidades de <strong>pasar de un estado a otro</strong>,
+             puede proyectar en qué termina la población dentro de diez años.</p>
+        </div>
+        <p class="entrada">
+          Tres situaciones posibles para quien sale de reclusión. Mueva las dos probabilidades
+          que sí se pueden intervenir con política pública y vea cómo cambia el largo plazo.
+        </p>
+        <div class="lab">
+          <div class="lab-cab">
+            <span class="t">Proyección a 12 años · 1.000 personas que recuperan la libertad</span>
+            <span class="chip" id="chip-markov">—</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <svg class="plot" id="markov" viewBox="0 0 560 300" role="img"
+                   aria-label="Evolución de la población entre los tres estados a lo largo de doce años"></svg>
+              <div class="leyenda">
+                <span><i style="background:var(--verde)"></i>En libertad, sin reincidir</span>
+                <span><i style="background:var(--ambar)"></i>Reincidencia activa</span>
+                <span><i style="background:var(--rojo)"></i>Privados de la libertad</span>
+              </div>
+            </div>
+            <div class="lab-mandos">
+              <div class="mando">
+                <label for="mk-rein">Reinciden cada año <b><span id="mk-rein-out">12</span> %</b></label>
+                <input type="range" id="mk-rein" min="2" max="40" step="1" value="12">
+              </div>
+              <div class="mando">
+                <label for="mk-prog">Salen del ciclo con programas <b><span id="mk-prog-out">15</span> %</b></label>
+                <input type="range" id="mk-prog" min="2" max="45" step="1" value="15">
+              </div>
+              <div class="salida">
+                <div class="lin"><span>Sin reincidir al año 12</span><b class="dest" id="mk-a">—</b></div>
+                <div class="lin"><span>En reincidencia al año 12</span><b id="mk-b">—</b></div>
+                <div class="lin"><span>Privados al año 12</span><b id="mk-c">—</b></div>
+              </div>
+              <p class="nota-lab">
+                Subir un poco la salida del ciclo cambia el largo plazo mucho más que
+                endurecer la captura. El modelo permite <strong>comparar políticas antes
+                de aplicarlas</strong>.
+              </p>
+              <div class="aviso" style="font-size:.84rem;padding:12px 14px">
+                <b>Su limitación, que también hay que saber.</b> La cadena supone que el riesgo
+                de reincidir es <b>igual todos los años</b>. En la realidad baja mucho después
+                del tercero. Por eso este modelo sirve para comparar escenarios, no para
+                pronosticar cifras exactas.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASO E · BENFORD -->
+    <section class="lam" data-tit="Detectar cifras inventadas">
+      <div class="contenido">
+        <div class="rotulo">Caso 5 · Ley de Benford · Crimen económico</div>
+        <h2 class="tit">Los números inventados se delatan solos</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>En las cifras reales, el <strong>1</strong> aparece como primer dígito en el 30 %
+             de los casos. Quien inventa cifras reparte los dígitos parejo, y ahí se nota.</p>
+        </div>
+        <p class="entrada">
+          Compare tres conjuntos de registros contables. La línea verde es lo que debería
+          verse si las cifras son legítimas.
+        </p>
+        <div class="lab">
+          <div class="lab-cab">
+            <span class="t">Primer dígito de 800 registros</span>
+            <span class="chip" id="chip-benford">—</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <svg class="plot" id="benford" viewBox="0 0 560 290" role="img"
+                   aria-label="Frecuencia del primer dígito comparada con la ley de Benford"></svg>
+            </div>
+            <div class="lab-mandos">
+              <div style="display:flex;flex-direction:column;gap:9px">
+                <button class="boton sec" data-ben="0" style="text-align:left">Contabilidad legítima</button>
+                <button class="boton sec" data-ben="1" style="text-align:left">Cifras inventadas</button>
+                <button class="boton sec" data-ben="2" style="text-align:left">Depósitos fraccionados</button>
+              </div>
+              <div class="salida">
+                <div class="lin"><span>Desviación respecto a Benford</span><b class="dest" id="ben-dev">—</b></div>
+                <div class="lin"><span>Veredicto</span><b id="ben-ver" style="font-size:.8rem">—</b></div>
+              </div>
+              <p class="nota-lab" id="ben-nota">
+                Cómo leer la desviación: <strong>bajo 10 %</strong> es lo normal en datos
+                legítimos (siempre hay algo de azar); <strong>sobre 20 %</strong> amerita revisar.
+                Es la técnica que usan las unidades de análisis financiero para escoger
+                <strong>qué auditar primero</strong>. No prueba el fraude: dice dónde mirar.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASO F · TASAS -->
+    <section class="lam" data-tit="Comparar municipios">
+      <div class="contenido">
+        <div class="rotulo">Caso 6 · Tasas y proporciones · Estadísticas delictivas</div>
+        <h2 class="tit">El municipio con más delitos puede ser el más seguro</h2>
+        <div class="frase">
+          <span class="et">En una frase</span>
+          <p>Comparar cifras <strong>absolutas</strong> entre poblaciones de distinto tamaño
+             es el error más común de un informe policial. La tasa lo corrige.</p>
+        </div>
+        <p class="entrada">
+          El mismo trimestre, los mismos tres municipios. Cambie la forma de medir
+          y observe cómo se voltea completamente el orden.
+        </p>
+        <div class="lab">
+          <div class="lab-cab">
+            <span class="t">Hurtos del trimestre · tres municipios del Atlántico</span>
+            <span class="chip" id="chip-tasa">Cifras absolutas</span>
+          </div>
+          <div class="lab-cuerpo">
+            <div class="lab-vista">
+              <svg class="plot" id="tasas" viewBox="0 0 560 260" role="img"
+                   aria-label="Comparación de hurtos por municipio en cifras absolutas y por tasa"></svg>
+            </div>
+            <div class="lab-mandos">
+              <div class="conmutador-t" style="display:flex;flex-direction:column;gap:9px">
+                <button class="boton sec" data-modo="abs" style="text-align:left">Cifras absolutas</button>
+                <button class="boton sec" data-modo="tasa" style="text-align:left">Tasa por 100.000 habitantes</button>
+              </div>
+              <div class="salida">
+                <div class="lin"><span>Primer lugar</span><b class="dest" id="t-primero">—</b></div>
+                <div class="lin"><span>Último lugar</span><b id="t-ultimo">—</b></div>
+              </div>
+              <p class="nota-lab" id="t-nota">
+                Barranquilla tiene más hurtos que Puerto Colombia, pero también tiene
+                veinte veces más habitantes. Sin la tasa, la comparación no significa nada.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- 12 · IA -->
     <section class="lam" data-tit="Hasta dónde llega la IA">
       <div class="contenido">
@@ -901,7 +1226,7 @@ svg text{font-family:var(--mono);fill:var(--ink-3)}
             <h3>Los cuatro puntos que debe traer su respuesta</h3>
             <ol class="pasos" style="margin-top:14px">
               <li><b>El problema</b><span>Una situación concreta de su barrio, ciudad o jurisdicción. Nada genérico.</span></li>
-              <li><b>El modelo y por qué ese</b><span>Bayes, redes, series, simulación, Poisson, optimización o juegos. Justifique la elección.</span></li>
+              <li><b>El modelo y por qué ese</b><span>Cualquiera de los doce: Bayes, redes, series, simulación, Poisson, optimización, juegos, colas, localización, clasificación, Markov, Benford o tasas. Justifique la elección.</span></li>
               <li><b>Los datos que necesitaría</b><span>De dónde saldrían: SIEDCO, denuncias, cámaras, registros del cuadrante.</span></li>
               <li><b>Qué esperaría lograr</b><span>En qué mejoraría la situación, de forma medible.</span></li>
             </ol>
@@ -982,6 +1307,8 @@ laminas.forEach(function(s,i){
   if(!s.id) s.id='lam-'+i;
   if(s.dataset.tit==='Probabilidad que se actualiza')
     listaIdx.appendChild(el('li','','<div class="sep-riel">Los seis modelos</div>'));
+  if(s.dataset.tit==='Seis modelos más')
+    listaIdx.appendChild(el('li','','<div class="sep-riel">Banco de casos</div>'));
   if(s.dataset.tit==='Hasta dónde llega la IA')
     listaIdx.appendChild(el('li','','<div class="sep-riel">Cierre</div>'));
   var li=el('li'), a=el('a','','<span class="n">'+String(i+1).padStart(2,'0')+'</span><span>'+s.dataset.tit+'</span>');
@@ -1021,6 +1348,7 @@ document.getElementById('tema').addEventListener('click',function(){
               : window.matchMedia('(prefers-color-scheme: dark)').matches;
   r.setAttribute('data-theme', oscuro?'light':'dark');
   pintarRed(true); dibujarGrafo(); dibujarSerie(); dibujarHist(); dibujarPoisson();
+  dibujarCola(); dibujarCai(); dibujarFP(); dibujarMarkov(); dibujarBenford(); dibujarTasas();
 });
 var obsRev=new IntersectionObserver(function(ents){
   ents.forEach(function(e){ if(e.isIntersecting){e.target.classList.add('visible'); obsRev.unobserve(e.target);} });
@@ -1578,6 +1906,408 @@ function calcJuego(){
 }
 iA.addEventListener('input',calcJuego); iB.addEventListener('input',calcJuego);
 calcJuego();
+
+/* ============================================================
+   BANCO DE CASOS · MENÚ
+   ============================================================ */
+var BANCO=[
+  {t:'La línea 123', m:'Teoría de colas', d:'Cuántos operadores hacen falta para que nadie espere.'},
+  {t:'Dónde poner el CAI', m:'Localización óptima', d:'El punto que minimiza la distancia a todos los incidentes.'},
+  {t:'El costo de equivocarse', m:'Clasificación y falsos positivos', d:'Por qué señalar a inocentes es inevitable.'},
+  {t:'Reincidencia año a año', m:'Cadenas de Markov', d:'Proyectar a doce años el efecto de una política.'},
+  {t:'Detectar cifras inventadas', m:'Ley de Benford', d:'Escoger qué contabilidad auditar primero.'},
+  {t:'Comparar municipios', m:'Tasas y proporciones', d:'Por qué la cifra absoluta engaña.'}
+];
+var menuB=document.getElementById('menu-banco');
+BANCO.forEach(function(b){
+  var sec=[].find.call(document.querySelectorAll('section.lam'),function(s){return s.dataset.tit===b.t;});
+  var a=el('a','recurso');
+  a.href='#'+(sec?sec.id:'');
+  a.innerHTML='<span class="ic"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden="true">'+
+    '<path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'+
+    '<span><b>'+b.t+'</b><span style="color:var(--verde);font-family:var(--mono);font-size:.68rem;'+
+    'letter-spacing:.08em;text-transform:uppercase;display:block;margin:3px 0 4px">'+b.m+'</span>'+
+    '<span>'+b.d+'</span></span>';
+  menuB.appendChild(a);
+});
+
+/* ============================================================
+   CASO 1 · TEORÍA DE COLAS (Erlang C)
+   ============================================================ */
+var qL=document.getElementById('q-lam'), qT=document.getElementById('q-t'), qC=document.getElementById('q-c');
+var svgQ=document.getElementById('cola');
+function erlangC(lam,mu,c){
+  var a=lam/mu, rho=a/c;
+  if(rho>=1) return {rho:rho, pw:1, wq:Infinity};
+  var suma=0, term=1;
+  for(var k=0;k<c;k++){ if(k>0) term*=a/k; suma+=term; }
+  var ultimo=term*(a/c);            /* a^c / c! */
+  var pw = (ultimo/(1-rho)) / (suma + ultimo/(1-rho));
+  var wq = pw/(c*mu-lam);           /* horas */
+  return {rho:rho, pw:pw, wq:wq};
+}
+function fmtEspera(h){
+  if(!isFinite(h)) return 'sin control';
+  var s=h*3600;
+  return s<90 ? num(s,0)+' s' : num(s/60,1)+' min';
+}
+function dibujarCola(){
+  var lam=+qL.value, tmin=+qT.value/10, c=+qC.value, mu=60/tmin;
+  document.getElementById('q-lam-out').textContent=lam;
+  document.getElementById('q-t-out').textContent=num(tmin,1);
+  document.getElementById('q-c-out').textContent=c;
+  var r=erlangC(lam,mu,c), rMas=erlangC(lam,mu,c+1);
+  document.getElementById('q-wq').textContent=fmtEspera(r.wq);
+  document.getElementById('q-pw').textContent=isFinite(r.wq)?num(r.pw*100,0)+' %':'100 %';
+  document.getElementById('q-rho').textContent=num(Math.min(r.rho,1.5)*100,0)+' %';
+  document.getElementById('q-mas').textContent=fmtEspera(rMas.wq);
+  var chip=document.getElementById('chip-cola');
+  chip.textContent = r.rho>=1 ? 'Sistema colapsado' : (r.rho>0.9?'Al límite':(r.rho>0.75?'Ajustado':'Holgado'));
+  chip.className = 'chip '+(r.rho>0.9?'a':'v');
+
+  var W=560,H=300, ml=52, mb=42, mt=24, mr=18, CM=14;
+  var vals=[];
+  for(var k=1;k<=CM;k++){ var e=erlangC(lam,mu,k); vals.push(isFinite(e.wq)?e.wq*3600:null); }
+  var finitos=vals.filter(function(v){return v!==null;});
+  var maxV=finitos.length?Math.min(Math.max.apply(null,finitos),600):60;
+  maxV=Math.max(maxV,30);
+  function X(k){ return ml + (k-1)/(CM-1)*(W-ml-mr); }
+  function Y(v){ return H-mb - Math.min(v,maxV)/maxV*(H-mb-mt); }
+  var cLin=css('--line'), cInk3=css('--ink-3'), cVerde=css('--verde'), cRojo=css('--rojo');
+  var s='', bw=(W-ml-mr)/(CM-1)*0.62;
+  for(var g=0;g<=4;g++){
+    var v=maxV*g/4;
+    s+='<line x1="'+ml+'" y1="'+Y(v)+'" x2="'+(W-mr)+'" y2="'+Y(v)+'" stroke="'+cLin+'" stroke-width="1"/>';
+    s+='<text x="'+(ml-8)+'" y="'+(Y(v)+3.5)+'" font-size="9" text-anchor="end">'+num(v,0)+'s</text>';
+  }
+  vals.forEach(function(v,i){
+    var k=i+1, x=X(k)-bw/2;
+    if(v===null){
+      s+='<rect x="'+x+'" y="'+mt+'" width="'+bw+'" height="'+(H-mb-mt)+'" rx="2" fill="'+cRojo+'" opacity=".26"/>';
+      s+='<text x="'+X(k)+'" y="'+(mt+14)+'" font-size="10" text-anchor="middle" fill="'+cRojo+'">✕</text>';
+    } else {
+      var sel = k===c;
+      s+='<rect x="'+x+'" y="'+Y(v)+'" width="'+bw+'" height="'+(Y(0)-Y(v))+'" rx="2" fill="'+
+         (sel?cVerde:cInk3)+'" opacity="'+(sel?1:.35)+'"/>';
+      if(sel) s+='<text x="'+X(k)+'" y="'+(Y(v)-8)+'" font-size="11" text-anchor="middle" fill="'+cVerde+
+         '" font-weight="600">'+fmtEspera(v/3600)+'</text>';
+    }
+    s+='<text x="'+X(k)+'" y="'+(H-mb+16)+'" font-size="9" text-anchor="middle">'+k+'</text>';
+  });
+  s+='<text x="'+(W-mr)+'" y="'+(H-6)+'" font-size="9" text-anchor="end">operadores en turno</text>';
+  s+='<text x="'+ml+'" y="14" font-size="9">espera media de quien llama</text>';
+  svgQ.innerHTML=s;
+}
+[qL,qT,qC].forEach(function(x){x.addEventListener('input',dibujarCola);});
+dibujarCola();
+
+/* ============================================================
+   CASO 2 · LOCALIZACIÓN DEL CAI
+   ============================================================ */
+var rnd2=lcg(77123), INC=[];
+(function(){
+  for(var i=0;i<16;i++) INC.push({x:110+rnd2()*120, y:80+rnd2()*110});
+  for(var j=0;j<8;j++)  INC.push({x:330+rnd2()*130, y:190+rnd2()*110});
+})();
+var svgCai=document.getElementById('mapa-cai'), puntoUser=null, verOptCai=false;
+function distMedia(p){
+  return INC.reduce(function(a,q){ return a+Math.hypot(p.x-q.x,p.y-q.y); },0)/INC.length;
+}
+function weiszfeld(){
+  var p={x:INC.reduce(function(a,q){return a+q.x;},0)/INC.length,
+         y:INC.reduce(function(a,q){return a+q.y;},0)/INC.length};
+  for(var it=0;it<300;it++){
+    var sx=0, sy=0, sw=0;
+    INC.forEach(function(q){
+      var d=Math.max(1e-6, Math.hypot(p.x-q.x,p.y-q.y));
+      sx+=q.x/d; sy+=q.y/d; sw+=1/d;
+    });
+    var np={x:sx/sw, y:sy/sw};
+    if(Math.hypot(np.x-p.x,np.y-p.y)<1e-7){ p=np; break; }
+    p=np;
+  }
+  return p;
+}
+var OPTCAI=weiszfeld(), ESCALA=0.035;   /* unidades del mapa → km */
+function dibujarCai(){
+  var cLin=css('--line'), cInk3=css('--ink-3'), cVerde=css('--verde'),
+      cAzul=css('--azul'), cAmbar=css('--ambar'), cSup=css('--surface');
+  var s='<rect x="0" y="0" width="520" height="340" fill="'+cLin+'" opacity=".18" rx="8"/>';
+  for(var gx=40;gx<520;gx+=60) s+='<line x1="'+gx+'" y1="0" x2="'+gx+'" y2="340" stroke="'+cLin+'" stroke-width="1" opacity=".6"/>';
+  for(var gy=40;gy<340;gy+=60) s+='<line x1="0" y1="'+gy+'" x2="520" y2="'+gy+'" stroke="'+cLin+'" stroke-width="1" opacity=".6"/>';
+  if(puntoUser) INC.forEach(function(q){
+    s+='<line x1="'+puntoUser.x+'" y1="'+puntoUser.y+'" x2="'+q.x+'" y2="'+q.y+'" stroke="'+cAzul+'" stroke-width=".8" opacity=".3"/>';
+  });
+  INC.forEach(function(q){ s+='<circle cx="'+q.x+'" cy="'+q.y+'" r="4" fill="'+cAmbar+'" opacity=".85"/>'; });
+  if(verOptCai){
+    s+='<circle cx="'+OPTCAI.x+'" cy="'+OPTCAI.y+'" r="19" fill="'+cVerde+'" opacity=".18"/>';
+    s+='<path d="M'+(OPTCAI.x-8)+' '+OPTCAI.y+'h16M'+OPTCAI.x+' '+(OPTCAI.y-8)+'v16" stroke="'+cVerde+'" stroke-width="2.6" stroke-linecap="round"/>';
+    s+='<text x="'+OPTCAI.x+'" y="'+(OPTCAI.y-23)+'" font-size="10" text-anchor="middle" fill="'+cVerde+'" font-weight="600">óptimo</text>';
+  }
+  if(puntoUser){
+    s+='<circle cx="'+puntoUser.x+'" cy="'+puntoUser.y+'" r="9" fill="'+cSup+'" stroke="'+cAzul+'" stroke-width="2.6"/>';
+    s+='<circle cx="'+puntoUser.x+'" cy="'+puntoUser.y+'" r="3" fill="'+cAzul+'"/>';
+    s+='<text x="'+puntoUser.x+'" y="'+(puntoUser.y+25)+'" font-size="10" text-anchor="middle" fill="'+cAzul+'">su CAI</text>';
+  }
+  s+='<text x="510" y="332" font-size="9" text-anchor="end" fill="'+cInk3+'">cada punto = un incidente</text>';
+  svgCai.innerHTML=s;
+
+  var dOpt=distMedia(OPTCAI)*ESCALA;
+  document.getElementById('cai-opt').textContent = verOptCai ? num(dOpt,2)+' km' : '—';
+  if(puntoUser){
+    var dU=distMedia(puntoUser)*ESCALA;
+    document.getElementById('cai-user').textContent=num(dU,2)+' km';
+    document.getElementById('cai-dif').textContent = verOptCai
+      ? num(Math.max(0,dU-dOpt)*INC.length*4,1)+' km' : '—';
+    document.getElementById('chip-cai').textContent = verOptCai
+      ? (dU-dOpt < 0.12 ? 'Muy cerca del óptimo' : 'Se puede mejorar')
+      : 'Ahora compare con el óptimo';
+  } else {
+    document.getElementById('cai-user').textContent='—';
+    document.getElementById('cai-dif').textContent='—';
+    document.getElementById('chip-cai').textContent='Toque el mapa';
+  }
+}
+svgCai.addEventListener('click',function(e){
+  var r=svgCai.getBoundingClientRect();
+  puntoUser={x:(e.clientX-r.left)/r.width*520, y:(e.clientY-r.top)/r.height*340};
+  dibujarCai();
+});
+document.getElementById('btn-cai-opt').addEventListener('click',function(){ verOptCai=true; dibujarCai(); });
+document.getElementById('btn-cai-reset').addEventListener('click',function(){
+  puntoUser=null; verOptCai=false; dibujarCai();
+});
+dibujarCai();
+
+/* ============================================================
+   CASO 3 · FALSOS POSITIVOS
+   ============================================================ */
+var fpU=document.getElementById('fp-umbral'), fpP=document.getElementById('fp-prev');
+var svgD=document.getElementById('dist-riesgo');
+function fnorm(x,m,s){ return Math.exp(-0.5*Math.pow((x-m)/s,2))/(s*Math.sqrt(2*Math.PI)); }
+function cdf(x,m,s){
+  var z=(x-m)/(s*Math.SQRT2), t=1/(1+0.3275911*Math.abs(z));
+  var y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-z*z);
+  return 0.5*(1+(z>=0?y:-y));
+}
+function dibujarFP(){
+  var u=+fpU.value, prev=+fpP.value/100, N=1000;
+  document.getElementById('fp-umbral-out').textContent=u;
+  document.getElementById('fp-prev-out').textContent=+fpP.value;
+  var mR=62, sR=12, mN=42, sN=12;
+  var nR=Math.round(N*prev), nN=N-nR;
+  var vp=Math.round(nR*(1-cdf(u,mR,sR))), fn=nR-vp;
+  var fp=Math.round(nN*(1-cdf(u,mN,sN))), vn=nN-fp;
+  document.getElementById('m-vp').textContent=vp;
+  document.getElementById('m-fp').textContent=fp;
+  document.getElementById('m-fn').textContent=fn;
+  document.getElementById('m-vn').textContent=vn;
+  var prec=(vp+fp)>0?vp/(vp+fp):0, sens=nR>0?vp/nR:0;
+  document.getElementById('fp-prec').textContent=num(prec*100,0)+' %';
+  document.getElementById('fp-sens').textContent=num(sens*100,0)+' %';
+  var chip=document.getElementById('chip-fp');
+  chip.textContent=(vp+fp)+' personas señaladas';
+  chip.className='chip '+(prec<0.4?'a':'v');
+  document.getElementById('fp-nota').innerHTML = prec<0.5
+    ? 'Con este umbral, <strong>más de la mitad</strong> de los señalados no iba a reincidir. '+
+      'Cada uno es una persona bajo seguimiento sin motivo real: por eso este tipo de modelo exige control judicial.'
+    : 'Buen nivel de acierto, pero mire «se le escapó»: son <strong>'+fn+'</strong> personas que sí '+
+      'reincidieron y el modelo no señaló. Subir el umbral siempre se paga por ese lado.';
+
+  var W=560,H=250, ml=44, mb=36, mt=20, mr=18, x0=10, x1=100;
+  function X(v){ return ml + (v-x0)/(x1-x0)*(W-ml-mr); }
+  var maxD=Math.max(fnorm(mR,mR,sR)*Math.max(prev,.02), fnorm(mN,mN,sN)*(1-prev));
+  function Y(d){ return H-mb - d/maxD*(H-mb-mt); }
+  var cLin=css('--line'), cInk3=css('--ink-3'), cVerde=css('--verde'), cRojo=css('--rojo');
+  var s='<line x1="'+ml+'" y1="'+Y(0)+'" x2="'+(W-mr)+'" y2="'+Y(0)+'" stroke="'+cLin+'" stroke-width="1"/>';
+  function curva(m,sd,peso,color,rot){
+    var p='';
+    for(var v=x0;v<=x1;v+=1) p+=X(v)+','+Y(fnorm(v,m,sd)*peso)+' ';
+    return '<polygon points="'+X(x0)+','+Y(0)+' '+p+X(x1)+','+Y(0)+'" fill="'+color+'" opacity=".22"/>'+
+           '<polyline points="'+p+'" fill="none" stroke="'+color+'" stroke-width="2"/>'+
+           '<text x="'+X(m)+'" y="'+(Y(fnorm(m,m,sd)*peso)-8)+'" font-size="10" text-anchor="middle" fill="'+color+'">'+rot+'</text>';
+  }
+  s+=curva(mN,sN,1-prev,cInk3,'no reincide');
+  s+=curva(mR,sR,prev,cRojo,'sí reincide');
+  s+='<line x1="'+X(u)+'" y1="'+mt+'" x2="'+X(u)+'" y2="'+Y(0)+'" stroke="'+cVerde+'" stroke-width="2.4"/>';
+  s+='<text x="'+(X(u)+7)+'" y="'+(mt+11)+'" font-size="10" fill="'+cVerde+'">seguimiento →</text>';
+  for(var v2=x0;v2<=x1;v2+=15)
+    s+='<text x="'+X(v2)+'" y="'+(H-mb+16)+'" font-size="9" text-anchor="middle">'+v2+'</text>';
+  s+='<text x="'+(W-mr)+'" y="'+(H-6)+'" font-size="9" text-anchor="end">puntaje de riesgo</text>';
+  svgD.innerHTML=s;
+}
+[fpU,fpP].forEach(function(x){x.addEventListener('input',dibujarFP);});
+dibujarFP();
+
+/* ============================================================
+   CASO 4 · CADENAS DE MARKOV
+   ============================================================ */
+var mkR=document.getElementById('mk-rein'), mkP=document.getElementById('mk-prog');
+var svgM=document.getElementById('markov');
+function dibujarMarkov(){
+  var pRein=+mkR.value/100, pProg=+mkP.value/100;
+  document.getElementById('mk-rein-out').textContent=+mkR.value;
+  document.getElementById('mk-prog-out').textContent=+mkP.value;
+  var pCapt=0.45, pSalida=0.35;
+  var restoB=Math.max(0, 1-pProg-pCapt);
+  var Tm=[[1-pRein,pRein,0],[pProg,restoB,pCapt],[0,pSalida,1-pSalida]];
+  var A=12, est=[[1,0,0]];
+  for(var t=1;t<=A;t++){
+    var p=est[t-1], n=[0,0,0];
+    for(var i=0;i<3;i++) for(var j=0;j<3;j++) n[j]+=p[i]*Tm[i][j];
+    est.push(n);
+  }
+  var fin=est[A];
+  document.getElementById('mk-a').textContent=num(fin[0]*1000,0)+' personas';
+  document.getElementById('mk-b').textContent=num(fin[1]*1000,0)+' personas';
+  document.getElementById('mk-c').textContent=num(fin[2]*1000,0)+' personas';
+  var chip=document.getElementById('chip-markov');
+  chip.textContent = fin[0]>0.5 ? 'Mayoría reinsertada' : 'Mayoría atrapada en el ciclo';
+  chip.className='chip '+(fin[0]>0.5?'v':'a');
+
+  var W=560,H=300, ml=48, mb=40, mt=22, mr=18;
+  function X(t){ return ml + t/A*(W-ml-mr); }
+  function Y(p){ return H-mb - p*(H-mb-mt); }
+  var cLin=css('--line'), cVerde=css('--verde'), cAmbar=css('--ambar'), cRojo=css('--rojo'), cInk3=css('--ink-3');
+  var s='';
+  for(var g=0;g<=4;g++){
+    s+='<line x1="'+ml+'" y1="'+Y(g/4)+'" x2="'+(W-mr)+'" y2="'+Y(g/4)+'" stroke="'+cLin+'" stroke-width="1"/>';
+    s+='<text x="'+(ml-8)+'" y="'+(Y(g/4)+3.5)+'" font-size="9" text-anchor="end">'+(g*25)+'%</text>';
+  }
+  var cols=[cVerde,cAmbar,cRojo], acum=est.map(function(){return 0;});
+  for(var k=0;k<3;k++){
+    var arriba='', abajo='';
+    est.forEach(function(p,t){ arriba+=X(t)+','+Y(acum[t]+p[k])+' '; });
+    for(var t2=est.length-1;t2>=0;t2--) abajo+=X(t2)+','+Y(acum[t2])+' ';
+    s+='<polygon points="'+arriba+abajo+'" fill="'+cols[k]+'" opacity=".68"/>';
+    est.forEach(function(p,t){ acum[t]+=p[k]; });
+  }
+  for(var t3=0;t3<=A;t3+=2)
+    s+='<text x="'+X(t3)+'" y="'+(H-mb+16)+'" font-size="9" text-anchor="middle">'+t3+'</text>';
+  s+='<text x="'+(W-mr)+'" y="'+(H-6)+'" font-size="9" text-anchor="end">años desde la salida</text>';
+  svgM.innerHTML=s;
+}
+[mkR,mkP].forEach(function(x){x.addEventListener('input',dibujarMarkov);});
+dibujarMarkov();
+
+/* ============================================================
+   CASO 5 · LEY DE BENFORD
+   ============================================================ */
+var svgB=document.getElementById('benford'), benSel=0;
+function primerDigito(v){ var t=String(Math.floor(Math.abs(v))); return +t[0]; }
+var BENSETS=(function(){
+  var r=lcg(4451), sets=[[],[],[]];
+  for(var i=0;i<800;i++){
+    sets[0].push(Math.exp(r()*Math.log(1e6))+1);                       /* magnitudes dispersas */
+    sets[1].push(1000+Math.floor(r()*9000));                           /* inventadas a mano */
+    sets[2].push(r()<0.62 ? 9000000+r()*999000 : Math.exp(r()*Math.log(1e6))+1); /* justo bajo el tope */
+  }
+  return sets.map(function(arr){
+    var c=[0,0,0,0,0,0,0,0,0];
+    arr.forEach(function(v){ var d=primerDigito(v); if(d>=1&&d<=9) c[d-1]++; });
+    return c.map(function(x){ return x/arr.length; });
+  });
+})();
+var BEN_ESP=[]; for(var bd=1;bd<=9;bd++) BEN_ESP.push(Math.log10(1+1/bd));
+var BEN_META=[
+  {n:'Contabilidad legítima', v:'Coincide con Benford. Nada raro aquí.'},
+  {n:'Cifras inventadas', v:'Dígitos demasiado parejos. Los escribió una persona.'},
+  {n:'Depósitos fraccionados', v:'Exceso de nueves: montos justo bajo el tope de reporte.'}
+];
+function dibujarBenford(){
+  var obs=BENSETS[benSel];
+  var dev=obs.reduce(function(a,p,i){ return a+Math.abs(p-BEN_ESP[i]); },0)/2;
+  document.getElementById('ben-dev').textContent=num(dev*100,1)+' %';
+  document.getElementById('ben-ver').textContent=BEN_META[benSel].v;
+  var chip=document.getElementById('chip-benford');
+  chip.textContent=BEN_META[benSel].n;
+  chip.className='chip '+(benSel===0?'v':'a');
+  document.querySelectorAll('[data-ben]').forEach(function(b){
+    var on=+b.dataset.ben===benSel;
+    b.style.background=on?'var(--verde-suave)':''; b.style.borderColor=on?'var(--verde)':'';
+    b.style.color=on?'var(--verde)':'';
+  });
+  var W=560,H=290, ml=46, mb=40, mt=30, mr=18;
+  var maxP=Math.max(0.35, Math.max.apply(null,obs)*1.12);
+  function X(i){ return ml + (i+0.5)/9*(W-ml-mr); }
+  function Y(p){ return H-mb - p/maxP*(H-mb-mt); }
+  var bw=(W-ml-mr)/9*0.6;
+  var cLin=css('--line'), cVerde=css('--verde'), cAmbar=css('--ambar'), cInk3=css('--ink-3');
+  var s='';
+  for(var g=0;g<=4;g++){
+    var p=maxP*g/4;
+    s+='<line x1="'+ml+'" y1="'+Y(p)+'" x2="'+(W-mr)+'" y2="'+Y(p)+'" stroke="'+cLin+'" stroke-width="1"/>';
+    s+='<text x="'+(ml-8)+'" y="'+(Y(p)+3.5)+'" font-size="9" text-anchor="end">'+num(p*100,0)+'%</text>';
+  }
+  obs.forEach(function(p,i){
+    s+='<rect x="'+(X(i)-bw/2)+'" y="'+Y(p)+'" width="'+bw+'" height="'+(Y(0)-Y(p))+'" rx="2" fill="'+
+       (benSel===0?cVerde:cAmbar)+'" opacity=".8"/>';
+    s+='<text x="'+X(i)+'" y="'+(H-mb+16)+'" font-size="10" text-anchor="middle">'+(i+1)+'</text>';
+  });
+  var pe='';
+  BEN_ESP.forEach(function(p,i){ pe+=X(i)+','+Y(p)+' '; });
+  s+='<polyline points="'+pe+'" fill="none" stroke="'+cVerde+'" stroke-width="2.4" stroke-dasharray="6 4"/>';
+  BEN_ESP.forEach(function(p,i){ s+='<circle cx="'+X(i)+'" cy="'+Y(p)+'" r="3.4" fill="'+cVerde+'"/>'; });
+  s+='<text x="'+(W-mr)+'" y="16" font-size="10" text-anchor="end" fill="'+cVerde+'">línea = lo esperado (Benford)</text>';
+  s+='<text x="'+(W-mr)+'" y="'+(H-6)+'" font-size="9" text-anchor="end" fill="'+cInk3+'">primer dígito del monto</text>';
+  svgB.innerHTML=s;
+}
+document.querySelectorAll('[data-ben]').forEach(function(b){
+  b.addEventListener('click',function(){ benSel=+b.dataset.ben; dibujarBenford(); });
+});
+dibujarBenford();
+
+/* ============================================================
+   CASO 6 · TASAS POR 100.000
+   ============================================================ */
+var MUN=[
+  {n:'Barranquilla', hab:1274250, h:1840},
+  {n:'Soledad', hab:683486, h:1265},
+  {n:'Puerto Colombia', hab:63840, h:196}
+];
+var svgT=document.getElementById('tasas'), modoT='abs';
+function dibujarTasas(){
+  var datos=MUN.map(function(m){
+    return {n:m.n, v: modoT==='abs' ? m.h : m.h/m.hab*100000};
+  });
+  var orden=datos.slice().sort(function(a,b){return b.v-a.v;});
+  document.getElementById('t-primero').textContent=orden[0].n;
+  document.getElementById('t-ultimo').textContent=orden[2].n;
+  var chip=document.getElementById('chip-tasa');
+  chip.textContent= modoT==='abs' ? 'Cifras absolutas' : 'Tasa por 100.000';
+  chip.className='chip '+(modoT==='abs'?'a':'v');
+  document.querySelectorAll('[data-modo]').forEach(function(b){
+    var on=b.dataset.modo===modoT;
+    b.style.background=on?'var(--verde-suave)':''; b.style.borderColor=on?'var(--verde)':'';
+    b.style.color=on?'var(--verde)':'';
+  });
+  document.getElementById('t-nota').innerHTML = modoT==='abs'
+    ? 'Presentado así, Puerto Colombia parece el municipio más tranquilo del departamento. Ahora cambie a la tasa.'
+    : 'Con la misma cifra dividida entre la población, <strong>Puerto Colombia pasa al primer lugar</strong>: '+
+      'tiene menos hurtos, pero muchísima menos gente. Ese es el dato que debe ir en el informe.';
+
+  var W=560,H=260, ml=112, mb=30, mt=26, mr=74;
+  var maxV=Math.max.apply(null,datos.map(function(d){return d.v;}))*1.15;
+  function X(v){ return ml + v/maxV*(W-ml-mr); }
+  var cVerde=css('--verde'), cAmbar=css('--ambar'), cInk3=css('--ink-3');
+  var tope=Math.max.apply(null,datos.map(function(z){return z.v;}));
+  var s='', bh=40;
+  datos.forEach(function(d,i){
+    var y=mt+i*(bh+18), lider=d.v===tope;
+    s+='<text x="'+(ml-10)+'" y="'+(y+bh/2+4)+'" font-size="11" text-anchor="end" fill="'+cInk3+'">'+d.n+'</text>';
+    s+='<rect x="'+ml+'" y="'+y+'" width="'+Math.max(2,X(d.v)-ml)+'" height="'+bh+'" rx="4" fill="'+
+       (lider?cAmbar:cVerde)+'" opacity="'+(lider?.9:.55)+'"/>';
+    s+='<text x="'+(X(d.v)+9)+'" y="'+(y+bh/2+4)+'" font-size="11" fill="'+(lider?cAmbar:cInk3)+
+       '" font-weight="600">'+num(d.v,0)+'</text>';
+  });
+  s+='<text x="'+ml+'" y="'+(H-8)+'" font-size="9" fill="'+cInk3+'">'+
+     (modoT==='abs'?'hurtos denunciados en el trimestre':'hurtos por cada 100.000 habitantes')+'</text>';
+  svgT.innerHTML=s;
+}
+document.querySelectorAll('[data-modo]').forEach(function(b){
+  b.addEventListener('click',function(){ modoT=b.dataset.modo; dibujarTasas(); });
+});
+dibujarTasas();
 
 /* ============================================================
    RECURSOS
