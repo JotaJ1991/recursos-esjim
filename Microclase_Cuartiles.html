@@ -1,0 +1,1236 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Microclase interactiva de cuartiles, diagrama de caja y curvas de probabilidad, con el caso de la edad de ingreso a la universidad.">
+<meta name="author" content="José Javier Mercado Reyes">
+<meta name="color-scheme" content="light dark">
+<style>
+/* reset mínimo: el visor de Artifacts lo aporta, GitHub Pages no */
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+dl,dd,figure,blockquote{margin:0}
+img{max-width:100%; display:block}
+button,input{font:inherit; color:inherit}
+</style>
+<title>Cuartiles, caja y curva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+
+<style>
+:root{
+  --paper:#EDF1F5;
+  --surface:#FBFCFD;
+  --surface-2:#E2E9F1;
+  --ink:#0E2033;
+  --ink-soft:#4C6379;
+  --rule:#C3D1DE;
+  --rule-soft:#D9E2EA;
+  --amber:#B65E14;
+  --teal:#136F7C;
+  --crimson:#A62A40;
+  --curve:#2C4E73;
+  --band:#136F7C;
+  --shadow:0 1px 0 rgba(14,32,51,.05), 0 12px 30px -22px rgba(14,32,51,.45);
+
+  --f-display:"IBM Plex Sans Condensed", "Helvetica Neue", Arial, sans-serif;
+  --f-body:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --foto:url("data:image/jpeg;base64,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");
+  --measure:34rem;
+  --plate:60rem;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#091320;
+    --surface:#0F1E2D;
+    --surface-2:#16283A;
+    --ink:#DDE8F2;
+    --ink-soft:#8DA4B9;
+    --rule:#26394D;
+    --rule-soft:#1B2C3D;
+    --amber:#F09A4E;
+    --teal:#43BCC9;
+    --crimson:#EC6E84;
+    --curve:#8FB8E8;
+    --band:#43BCC9;
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 16px 34px -24px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#091320;
+  --surface:#0F1E2D;
+  --surface-2:#16283A;
+  --ink:#DDE8F2;
+  --ink-soft:#8DA4B9;
+  --rule:#26394D;
+  --rule-soft:#1B2C3D;
+  --amber:#F09A4E;
+  --teal:#43BCC9;
+  --crimson:#EC6E84;
+  --curve:#8FB8E8;
+  --band:#43BCC9;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 16px 34px -24px rgba(0,0,0,.9);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--f-body);
+  font-size:17px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image:linear-gradient(var(--rule-soft) 1px, transparent 1px),
+                   linear-gradient(90deg, var(--rule-soft) 1px, transparent 1px);
+  background-size:28px 28px;
+  opacity:.5;
+  mask-image:radial-gradient(120% 70% at 50% 0%, #000 0%, transparent 78%);
+}
+.doc{position:relative; z-index:1}
+
+/* ── regla lateral ─────────────────────────────── */
+.ruler{
+  position:fixed; left:26px; top:50%; transform:translateY(-50%);
+  z-index:5; display:none; padding-left:14px;
+  border-left:1px solid var(--rule);
+}
+.ruler a{
+  display:flex; align-items:center; gap:9px;
+  font-family:var(--f-display); font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-soft); text-decoration:none;
+  padding:7px 0; position:relative;
+}
+.ruler a::before{
+  content:""; position:absolute; left:-15px; width:9px; height:1px; background:var(--rule);
+}
+.ruler a[data-on="1"]{color:var(--amber)}
+.ruler a[data-on="1"]::before{width:15px; left:-15px; height:2px; background:var(--amber)}
+.ruler a:focus-visible{outline:2px solid var(--amber); outline-offset:3px}
+@media (min-width:1320px){ .ruler{display:block} }
+
+/* ── estructura ────────────────────────────────── */
+.wrap{max-width:var(--plate); margin:0 auto; padding:0 22px}
+.col{max-width:var(--measure); margin-left:auto; margin-right:auto}
+section{padding:0 0 4.5rem}
+
+h1,h2,h3,.eyebrow,.tag,.btn,.readout,.chip,table{font-family:var(--f-display)}
+h1{
+  font-size:clamp(2.9rem,9vw,5.2rem); line-height:.94; margin:0;
+  font-weight:700; letter-spacing:-.02em; text-wrap:balance;
+}
+h2{font-size:clamp(1.5rem,3.4vw,2rem); line-height:1.1; margin:.2rem 0 .6rem; font-weight:600; letter-spacing:-.01em; text-wrap:balance}
+h3{font-size:1.02rem; margin:0 0 .4rem; font-weight:600; letter-spacing:.02em}
+p{margin:0 0 1rem}
+.lead{font-size:1.16rem; color:var(--ink-soft)}
+.eyebrow{
+  font-size:11.5px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--amber); font-weight:600; display:flex; align-items:center; gap:10px; margin-bottom:.5rem;
+}
+.eyebrow::after{content:""; flex:1; height:1px; background:var(--rule)}
+b,strong{font-weight:600}
+.k{font-family:var(--f-mono); font-size:.92em; font-weight:500}
+.q1{color:var(--amber)} .q3{color:var(--amber)}
+.tealtx{color:var(--teal)}
+.crimtx{color:var(--crimson)}
+
+/* ── retratos ──────────────────────────────────── */
+.foto{background-image:var(--foto); background-size:cover; background-position:center 18%}
+.topbar{display:flex; justify-content:space-between; align-items:center; gap:1rem 1.5rem; flex-wrap:wrap; margin-bottom:1.4rem}
+.firma{display:flex; align-items:center; gap:.6rem; font-family:var(--f-display); font-size:11.5px;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft)}
+.firma .foto{width:40px; height:40px; flex:0 0 40px; border-radius:50%; border:1px solid var(--rule)}
+.docente{display:flex; gap:1.15rem; align-items:center; flex-wrap:wrap;
+  border:1px solid var(--rule); background:var(--surface); padding:1rem; box-shadow:var(--shadow)}
+.docente .foto{width:108px; height:108px; flex:0 0 108px; border:1px solid var(--rule); outline:5px solid var(--surface-2); outline-offset:-5px}
+.docente .txt{flex:1 1 15rem}
+.docente h3{font-size:1.2rem; margin:0 0 .25rem}
+.docente .cargo{font-family:var(--f-display); font-size:11.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--amber); margin:0 0 .3rem; font-weight:600}
+.docente .cargo2{font-size:.95rem; color:var(--ink-soft); margin:0}
+
+/* ── portada ───────────────────────────────────── */
+.hero{padding:clamp(3rem,8vw,5.5rem) 0 3rem}
+.hero-grid{display:grid; gap:2rem; grid-template-columns:1fr; align-items:end}
+@media(min-width:820px){ .hero-grid{grid-template-columns:1.15fr .85fr} }
+.topbar .stamp{margin-bottom:0}
+.stamp{
+  font-family:var(--f-display); font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--ink-soft); display:flex; gap:14px; flex-wrap:wrap; margin-bottom:1.4rem;
+}
+.stamp span{border:1px solid var(--rule); padding:3px 9px}
+.hero p{max-width:32rem}
+
+/* ── láminas ───────────────────────────────────── */
+.plate{
+  background:var(--surface);
+  border:1px solid var(--rule);
+  box-shadow:var(--shadow);
+  margin:1.6rem 0 1.4rem;
+}
+.plate-head{
+  display:flex; justify-content:space-between; align-items:baseline; gap:1rem; flex-wrap:wrap;
+  padding:.75rem 1.1rem; border-bottom:1px solid var(--rule);
+  background:var(--surface-2);
+  font-family:var(--f-display); font-size:11.5px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.plate-head b{color:var(--ink); font-weight:600}
+.plate-body{padding:1.1rem}
+figcaption{
+  font-family:var(--f-display); font-size:13.5px; color:var(--ink-soft);
+  border-left:2px solid var(--amber); padding-left:.7rem; margin-top:.2rem;
+}
+figure{margin:0}
+svg{display:block; width:100%; height:auto; touch-action:none}
+svg text{user-select:none; -webkit-user-select:none}
+.chip,.btn{user-select:none}
+.svg-scroll{overflow-x:auto; overflow-y:hidden}
+
+/* ── controles ─────────────────────────────────── */
+.controls{display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin:.9rem 0 .2rem}
+.btn{
+  font-size:12px; letter-spacing:.09em; text-transform:uppercase; font-weight:600;
+  background:transparent; color:var(--ink); border:1px solid var(--rule);
+  padding:.42rem .75rem; cursor:pointer; transition:background .15s, border-color .15s, color .15s;
+}
+.btn:hover{border-color:var(--amber); color:var(--amber)}
+.btn:focus-visible{outline:2px solid var(--amber); outline-offset:2px}
+.btn[aria-pressed="true"]{background:var(--amber); border-color:var(--amber); color:var(--surface)}
+.btn[aria-pressed="true"]{color:#FBFCFD}
+
+.sliders{display:grid; gap:.9rem; grid-template-columns:1fr; margin-top:.9rem}
+@media(min-width:640px){ .sliders{grid-template-columns:1fr 1fr} }
+.slider label{
+  font-family:var(--f-display); font-size:11.5px; letter-spacing:.16em;
+  color:var(--ink-soft); display:flex; justify-content:space-between; gap:1rem;
+}
+.slider label span{font-family:var(--f-mono); color:var(--ink); letter-spacing:0}
+input[type=range]{width:100%; accent-color:var(--amber); margin:.35rem 0 0}
+input[type=range]:focus-visible{outline:2px solid var(--amber); outline-offset:4px}
+
+/* ── lecturas numéricas ────────────────────────── */
+.readout{
+  display:grid; gap:1px; background:var(--rule);
+  grid-template-columns:repeat(2,1fr);
+  border:1px solid var(--rule); margin-top:1rem;
+}
+@media(min-width:560px){
+  .readout[data-cols="5"]{grid-template-columns:repeat(5,1fr)}
+  .readout[data-cols="6"]{grid-template-columns:repeat(3,1fr)}
+}
+@media(min-width:780px){ .readout[data-cols="6"]{grid-template-columns:repeat(6,1fr)} }
+.readout div{background:var(--surface); padding:.5rem .6rem}
+.readout dt, .readout .lab{
+  font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft);
+}
+.readout .val{font-family:var(--f-mono); font-size:1.12rem; font-variant-numeric:tabular-nums; font-weight:500}
+.readout div[data-hl="amber"] .val{color:var(--amber)}
+.readout div[data-hl="teal"] .val{color:var(--teal)}
+.readout div[data-hl="crim"] .val{color:var(--crimson)}
+
+/* ── chips de datos ────────────────────────────── */
+.chips{display:flex; flex-wrap:wrap; gap:5px; margin:.2rem 0 .8rem}
+.chip{
+  min-width:44px; text-align:center; border:1px solid var(--rule); background:var(--surface);
+  padding:.22rem .3rem .3rem; position:relative;
+}
+.chip .v{font-family:var(--f-mono); font-size:14px; font-variant-numeric:tabular-nums; display:block}
+.chip .i{font-size:9.5px; letter-spacing:.1em; color:var(--ink-soft); display:block}
+.chip[data-use="1"]{border-color:var(--amber); background:color-mix(in srgb, var(--amber) 14%, var(--surface))}
+.chip[data-use="1"] .v{color:var(--amber); font-weight:600}
+
+.calc{
+  font-family:var(--f-mono); font-size:14px; line-height:1.9;
+  background:var(--surface-2); border:1px solid var(--rule); padding:.75rem .85rem;
+  overflow-x:auto; white-space:nowrap;
+}
+.calc em{font-style:normal; color:var(--amber); font-weight:600}
+
+/* ── notas ─────────────────────────────────────── */
+.note{
+  border:1px solid var(--rule); border-left:3px solid var(--teal);
+  background:var(--surface); padding:.8rem .95rem; margin:1rem 0;
+  font-size:.97rem;
+}
+.note.warn{border-left-color:var(--crimson)}
+.note .t{
+  font-family:var(--f-display); font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--teal); display:block; margin-bottom:.25rem; font-weight:600;
+}
+.note.warn .t{color:var(--crimson)}
+.hint{min-height:2.9em; font-size:.95rem; color:var(--ink-soft); margin-top:.6rem}
+.hint b{color:var(--ink)}
+
+/* ── familia de medidas ────────────────────────── */
+table{width:100%; border-collapse:collapse; font-size:14px}
+th,td{border:1px solid var(--rule); padding:.45rem .6rem; text-align:left}
+th{background:var(--surface-2); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); font-weight:600}
+td .k{color:var(--amber)}
+
+/* ── quiz ──────────────────────────────────────── */
+.quiz{display:grid; gap:1rem}
+.qcard{background:var(--surface); border:1px solid var(--rule); padding:1rem 1.05rem; box-shadow:var(--shadow)}
+.qcard .qn{font-family:var(--f-display); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--amber)}
+.qcard p{margin:.3rem 0 .8rem}
+.opts{display:grid; gap:.4rem}
+.opt{
+  text-align:left; font-family:var(--f-body); font-size:.98rem; line-height:1.45;
+  background:transparent; border:1px solid var(--rule); color:var(--ink);
+  padding:.5rem .7rem; cursor:pointer; transition:border-color .15s, background .15s;
+}
+.opt:hover:not([disabled]){border-color:var(--amber)}
+.opt:focus-visible{outline:2px solid var(--amber); outline-offset:2px}
+.opt[data-state="ok"]{border-color:var(--teal); background:color-mix(in srgb, var(--teal) 12%, transparent)}
+.opt[data-state="no"]{border-color:var(--crimson); background:color-mix(in srgb, var(--crimson) 10%, transparent)}
+.fb{margin-top:.7rem; font-size:.95rem; color:var(--ink-soft); display:none}
+.fb[data-show="1"]{display:block}
+.fb b{color:var(--ink)}
+
+footer{
+  border-top:1px solid var(--rule); padding:1.6rem 0 3rem; margin-top:1rem;
+  font-family:var(--f-display); font-size:12px; letter-spacing:.06em; color:var(--ink-soft);
+  display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+}
+
+/* ── svg roles ─────────────────────────────────── */
+.ax{stroke:var(--rule); stroke-width:1}
+.axtick{stroke:var(--rule); stroke-width:1}
+.axlab{fill:var(--ink-soft); font-family:var(--f-mono); font-size:11px}
+.dot{fill:var(--curve); opacity:.75; cursor:grab}
+.dot:hover{opacity:1}
+.dot.drag{cursor:grabbing}
+.dot.out{fill:var(--crimson); opacity:1}
+.boxr{fill:color-mix(in srgb, var(--teal) 18%, transparent); stroke:var(--teal); stroke-width:1.6}
+.med{stroke:var(--amber); stroke-width:3}
+.whisk{stroke:var(--teal); stroke-width:1.6}
+.fence{stroke:var(--crimson); stroke-width:1; stroke-dasharray:3 4; opacity:.8}
+.cut{stroke:var(--amber); stroke-width:1.4; stroke-dasharray:5 4}
+.lab{font-family:var(--f-display); font-size:12px; font-weight:600; fill:var(--amber); letter-spacing:.06em}
+.lab.t{fill:var(--teal)} .lab.c{fill:var(--crimson)} .lab.n{fill:var(--ink-soft); font-weight:400}
+.curveline{fill:none; stroke:var(--curve); stroke-width:2.2; stroke-linejoin:round}
+.pct{font-family:var(--f-mono); font-size:12px; fill:var(--ink-soft)}
+.hot{cursor:pointer}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important; transition:none !important}
+}
+.grow{transform-origin:left center}
+@media (prefers-reduced-motion: no-preference){
+  .heroband{animation:fade .9s ease-out backwards}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+}
+</style>
+<style>
+.theme-tgl{position:fixed; top:14px; right:14px; z-index:20; width:38px; height:38px;
+  border:1px solid var(--rule); background:var(--surface); color:var(--ink); cursor:pointer;
+  font-family:var(--f-display); font-size:15px; line-height:1; display:grid; place-items:center;
+  box-shadow:var(--shadow); transition:border-color .15s, color .15s}
+.theme-tgl:hover{border-color:var(--amber); color:var(--amber)}
+.theme-tgl:focus-visible{outline:2px solid var(--amber); outline-offset:2px}
+@media print{.theme-tgl{display:none}}
+</style>
+</head>
+<body>
+<button class="theme-tgl" id="themeTgl" type="button" aria-label="Cambiar tema">&#9728;</button>
+
+
+<div class="doc">
+
+<nav class="ruler" aria-label="Secciones">
+  <a href="#idea" data-tick>00 · La idea</a>
+  <a href="#calculo" data-tick>01 · Cálculo</a>
+  <a href="#boxplot" data-tick>02 · Boxplot</a>
+  <a href="#curva" data-tick>03 · Curva</a>
+  <a href="#familia" data-tick>04 · Familia</a>
+  <a href="#quiz" data-tick>05 · Comprobación</a>
+</nav>
+
+<header class="hero wrap">
+  <div class="topbar">
+    <div class="stamp">
+      <span>Microclase</span><span>Estadística descriptiva</span><span>Caso: admisión universitaria</span>
+    </div>
+    <div class="firma">
+      <div class="foto" role="img" aria-label="Retrato de José Javier Mercado Reyes"></div>
+      <span>José Javier Mercado Reyes</span>
+    </div>
+  </div>
+  <div class="hero-grid">
+    <div>
+      <h1>Cuartiles,<br>caja y curva</h1>
+      <p class="lead" style="margin-top:1rem">Tres cortes parten cualquier conjunto de datos en cuatro partes iguales. De esos tres cortes nace el diagrama de caja, y ese diagrama es la sombra que proyecta la curva de probabilidad. Lo veremos con una sola pregunta: <b>¿qué edad tienen los jóvenes que ingresan a una universidad de Barranquilla?</b></p>
+      <p style="color:var(--ink-soft); font-size:.98rem">Arrastra los puntos, mueve los deslizadores, deforma la curva. Todo se recalcula en vivo.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 380 190" role="img" aria-label="Curva de densidad dividida en cuatro áreas iguales por tres cortes">
+        <g id="heroG"></g>
+      </svg>
+      <figcaption>Cuatro áreas iguales. Anchos distintos.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ═══════════ 00 ═══════════ -->
+<section id="idea">
+  <div class="col">
+    <div class="eyebrow">00 · La idea</div>
+    <h2>Ordenar y luego cortar</h2>
+    <p>Una <b>medida de posición</b> no responde «¿cuánto vale en promedio?» sino <b>«¿dónde cae este dato respecto a los demás?»</b>. Para saberlo hay un solo requisito previo: <b>ordenar los datos de menor a mayor</b>. Sobre esa fila ordenada hacemos cortes.</p>
+    <p>Si hacemos <b>tres cortes</b> que dejen la misma cantidad de datos en cada tramo, obtenemos los <b>cuartiles</b>. Cada tramo se lleva el 25 % de las observaciones. Si los datos son edades de admitidos, el primer tramo son <b>los 25 más jóvenes</b> y el último, <b>los 25 mayores</b>.</p>
+  </div>
+
+  <figure class="plate">
+    <div class="plate-head"><b>Fig. 00</b><span>100 admitidos ordenados por edad · tres cortes</span></div>
+    <div class="plate-body">
+      <div class="svg-scroll">
+        <svg viewBox="0 0 900 150" role="img" aria-label="Cien admitidos ordenados por edad, divididos en cuatro grupos de veinticinco por los cuartiles">
+          <g id="ideaG"></g>
+        </svg>
+      </div>
+      <figcaption><span class="q1">Q₁</span> deja por debajo el 25 % · <span class="q1">Q₂</span> es la mediana, deja el 50 % · <span class="q1">Q₃</span> deja el 75 %.</figcaption>
+    </div>
+  </figure>
+
+  <div class="col">
+    <div class="note">
+      <span class="t">Regla de lectura</span>
+      El subíndice dice <b>cuántos cuartos quedan a la izquierda</b>. Q₁ = un cuarto abajo. Q₃ = tres cuartos abajo. Por eso Q₂ y la mediana son el mismo número, y por eso «Q₄» casi nunca se nombra: sería el máximo.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 01 ═══════════ -->
+<section id="calculo">
+  <div class="col">
+    <div class="eyebrow">01 · Cálculo</div>
+    <h2>Dónde cae el corte</h2>
+    <p>Con pocos datos el corte casi nunca coincide con una observación: cae <em>entre</em> dos. Primero se calcula la <b>posición</b> del cuartil y después se <b>interpola</b> entre los dos valores vecinos.</p>
+    <p class="k" style="font-size:1.05rem; color:var(--amber)">Lₖ = k · (n + 1) / 4</p>
+    <p>Abajo están las <b>edades, en años, de 12 jóvenes admitidos en una universidad de Barranquilla</b>. <b>Arrástralos sobre la recta</b> y observa cómo se mueven los cortes.</p>
+  </div>
+
+  <figure class="plate">
+    <div class="plate-head"><b>Fig. 01</b><span>Edades de 12 admitidos · puntos arrastrables</span></div>
+    <div class="plate-body">
+      <div class="svg-scroll">
+        <svg id="dotSvg" viewBox="0 0 900 210" role="application" aria-label="Recta numérica con las edades de doce admitidos, arrastrables">
+          <g id="dotG"></g>
+        </svg>
+      </div>
+
+      <div class="controls" role="group" aria-label="Conjuntos de datos">
+        <button class="btn" data-preset="base">Cohorte real</button>
+        <button class="btn" data-preset="sim">Cohorte homogénea</button>
+        <button class="btn" data-preset="sesgo">Con adultos que retoman</button>
+        <button class="btn" data-preset="atip">Un admitido de 38</button>
+      </div>
+
+      <h3 style="margin-top:1.3rem">Edades ordenadas</h3>
+      <div class="chips" id="chips"></div>
+
+      <div class="controls" role="group" aria-label="Cuartil que se explica">
+        <button class="btn" data-qsel="1" aria-pressed="true">Explicar Q₁</button>
+        <button class="btn" data-qsel="2" aria-pressed="false">Explicar Q₂</button>
+        <button class="btn" data-qsel="3" aria-pressed="false">Explicar Q₃</button>
+      </div>
+      <div class="calc" id="calc" aria-live="polite"></div>
+      <figcaption style="margin-top:.8rem">Los chips resaltados son las dos edades entre las que cae el corte.</figcaption>
+    </div>
+  </figure>
+
+  <div class="col">
+    <div class="note">
+      <span class="t">Cuidado en el examen</span>
+      Existen varios métodos de interpolación (n+1, n, «bisagras de Tukey»…) y <b>cada software elige uno</b>. Excel tiene <span class="k">CUARTIL.INC</span> y <span class="k">CUARTIL.EXC</span>; con los mismos datos dan números distintos. No es un error: es un convenio. Aquí usamos la posición k(n+1)/4, la del método <span class="k">CUARTIL.EXC</span>.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 02 ═══════════ -->
+<section id="boxplot">
+  <div class="col">
+    <div class="eyebrow">02 · Boxplot</div>
+    <h2>La caja es el dibujo de los cortes</h2>
+    <p>El diagrama de caja no añade información nueva: <b>dibuja a escala lo que ya calculaste</b>. La caja va de Q₁ a Q₃, la línea interna es la mediana, y los bigotes se estiran hasta la edad más lejana que todavía es «normal».</p>
+    <p>Ese límite de normalidad se fija con el <b>rango intercuartílico</b>, <span class="k">RIC = Q₃ − Q₁</span>: todo lo que quede a más de <span class="k">1,5 · RIC</span> de la caja se marca aparte como <b class="crimtx">atípico</b>.</p>
+  </div>
+
+  <figure class="plate">
+    <div class="plate-head"><b>Fig. 02</b><span>Las mismas 12 edades · anatomía</span></div>
+    <div class="plate-body">
+      <div class="svg-scroll">
+        <svg id="boxSvg" viewBox="0 0 900 300" role="img" aria-label="Diagrama de caja construido con las edades anteriores">
+          <g id="boxG"></g>
+        </svg>
+      </div>
+      <div class="controls">
+        <button class="btn" id="tFence" aria-pressed="true">Mostrar límites 1,5·RIC</button>
+        <button class="btn" id="tDots" aria-pressed="true">Mostrar edades observadas</button>
+      </div>
+      <div class="hint" id="boxHint">Pasa el cursor (o el foco) por cada pieza del diagrama para leer qué representa.</div>
+      <dl class="readout" data-cols="5" id="boxRead"></dl>
+    </div>
+  </figure>
+
+  <div class="col">
+    <p>Vuelve a la Fig. 01 y arrastra un punto hacia la derecha del todo, como si un aspirante de 35 años entrara a la cohorte: verás el bigote estirarse hasta que la edad cruza el límite, y entonces <b class="crimtx">se desprende</b> y el bigote retrocede al último admitido válido. Esa es toda la mecánica del boxplot.</p>
+    <div class="note">
+      <span class="t">Por qué 1,5</span>
+      No es magia: Tukey lo eligió porque en una distribución aproximadamente normal ese límite deja fuera cerca del <b>0,7 % de los datos</b>. Es decir, marca lo <em>raro</em> sin marcar de más. Con 3·RIC se habla de atípicos extremos.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 03 ═══════════ -->
+<section id="curva">
+  <div class="col">
+    <div class="eyebrow">03 · Curva</div>
+    <h2>El mismo corte, ahora sobre el área</h2>
+    <p>Doce admitidos caben en una recta. Pero si quisiéramos describir a <b>los miles que se inscriben cada semestre</b>, ya no contaríamos uno por uno: pasaríamos a un <b>modelo de probabilidad</b> y <b>mediríamos área</b>. La regla es idéntica; cambia la moneda.</p>
+    <p style="color:var(--ink-soft)"><b>Datos:</b> Q₁ deja el 25 % de las <em>observaciones</em> por debajo.<br><b>Curva:</b> Q₁ deja el 25 % del <em>área</em> por debajo, o sea <span class="k">P(edad ≤ Q₁) = 0,25</span>.</p>
+    <p>Deforma la curva y mira el boxplot que hay debajo: comparten el eje horizontal, así que puedes ver <b>de dónde sale cada pieza de la caja</b>.</p>
+  </div>
+
+  <figure class="plate">
+    <div class="plate-head"><b>Fig. 03</b><span>Densidad de la edad de ingreso y su caja</span></div>
+    <div class="plate-body">
+      <div class="svg-scroll">
+        <svg id="curveSvg" viewBox="0 0 900 400" role="img" aria-label="Curva de densidad de la edad de ingreso con cuatro áreas iguales y su diagrama de caja alineado debajo">
+          <g id="curveG"></g>
+        </svg>
+      </div>
+
+      <div class="controls" role="group" aria-label="Formas de la distribución">
+        <button class="btn" data-shape="sim" aria-pressed="true">Simétrica</button>
+        <button class="btn" data-shape="der" aria-pressed="false">Con adultos</button>
+        <button class="btn" data-shape="izq" aria-pressed="false">Cola izquierda</button>
+        <button class="btn" data-shape="unif" aria-pressed="false">Uniforme</button>
+        <button class="btn" data-shape="bi" aria-pressed="false">Bimodal</button>
+      </div>
+
+      <div class="sliders">
+        <div class="slider">
+          <label for="sk">ASIMETRÍA <span id="skV">0,00</span></label>
+          <input type="range" id="sk" min="-1" max="1" step="0.02" value="0">
+        </div>
+        <div class="slider">
+          <label for="sp">DISPERSIÓN σ, EN AÑOS <span id="spV">1,8</span></label>
+          <input type="range" id="sp" min="1" max="4" step="0.1" value="1.8">
+        </div>
+      </div>
+
+      <dl class="readout" data-cols="6" id="curveRead"></dl>
+      <div class="hint" id="curveHint"></div>
+    </div>
+  </figure>
+
+  <div class="col">
+    <div class="note">
+      <span class="t">La lectura que hay que llevarse</span>
+      Las cuatro franjas <b>siempre valen 25 % cada una</b>, pero sus <b>anchos cambian</b>. Donde la curva es alta, un 25 % de los aspirantes cabe en pocos años de edad y la franja es angosta; donde la curva es baja, ese mismo 25 % necesita un tramo largo. <b>Franja angosta = edades apretadas. Franja larga = edades dispersas.</b>
+    </div>
+    <div class="note warn">
+      <span class="t">Lo que la caja no puede contarte</span>
+      Prueba el botón <b>Bimodal</b> y compáralo con <b>Simétrica</b>: la curva separa a los bachilleres recientes de los adultos que retoman estudios y, sin embargo, <b>el boxplot se ve casi igual</b>. El diagrama de caja resume posición y dispersión, pero <b>es ciego a la forma interna</b>. Por eso nunca se presenta solo: se acompaña de un histograma o de un gráfico de puntos.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 04 ═══════════ -->
+<section id="familia">
+  <div class="col">
+    <div class="eyebrow">04 · Familia</div>
+    <h2>Cuartiles son un caso particular</h2>
+    <p>Cortar en cuatro es solo una elección. El mismo procedimiento —ordenar, ubicar la posición, interpolar— sirve para cortar en cualquier número de partes.</p>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Medida</th><th>Partes</th><th>Cortes</th><th>Posición del corte k</th><th>Equivalencia</th></tr></thead>
+        <tbody>
+          <tr><td>Mediana</td><td>2</td><td>1</td><td><span class="k">(n+1)/2</span></td><td>Q₂ = D₅ = P₅₀</td></tr>
+          <tr><td>Cuartiles</td><td>4</td><td>3</td><td><span class="k">k(n+1)/4</span></td><td>Q₁ = P₂₅ · Q₃ = P₇₅</td></tr>
+          <tr><td>Quintiles</td><td>5</td><td>4</td><td><span class="k">k(n+1)/5</span></td><td>K₁ = P₂₀</td></tr>
+          <tr><td>Deciles</td><td>10</td><td>9</td><td><span class="k">k(n+1)/10</span></td><td>D₃ = P₃₀</td></tr>
+          <tr><td>Percentiles</td><td>100</td><td>99</td><td><span class="k">k(n+1)/100</span></td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:1rem">Por eso los informes hablan indistintamente de «estar en el cuartil superior» o «estar por encima del percentil 75»: <b>es el mismo corte con otro nombre</b>.</p>
+  </div>
+</section>
+
+<!-- ═══════════ 05 ═══════════ -->
+<section id="quiz">
+  <div class="col">
+    <div class="eyebrow">05 · Comprobación</div>
+    <h2>Cuatro preguntas de interpretación</h2>
+    <p style="margin-bottom:1.4rem">Ninguna pide calcular. Todas piden <b>leer</b>.</p>
+    <div class="quiz" id="quizList"></div>
+  </div>
+</section>
+
+<section>
+  <div class="col">
+    <div class="eyebrow">Quién dicta la microclase</div>
+    <div class="docente">
+      <div class="foto" role="img" aria-label="Retrato de José Javier Mercado Reyes"></div>
+      <div class="txt">
+        <h3>José Javier Mercado Reyes</h3>
+        <p class="cargo">Ingeniero Industrial · MSc en Estadística Aplicada</p>
+        <p class="cargo2">Docente de Matemática aplicada y Estadística. Esta lámina es material de clase: los datos son ilustrativos y están pensados para manipularse en vivo frente al grupo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="col">
+    <div class="eyebrow">Cierre</div>
+    <h2>Leer un boxplot en cuatro segundos</h2>
+    <p><b>1.</b> Mira la <b>línea de la mediana</b>: esa es la edad típica de ingreso.<br>
+       <b>2.</b> Mira el <b>ancho de la caja</b>: es el rango de edades del 50 % central de la cohorte.<br>
+       <b>3.</b> Compara los <b>dos bigotes</b>: si uno es mucho más largo, hay asimetría hacia ese lado.<br>
+       <b>4.</b> Busca <b class="crimtx">puntos sueltos</b>: son los aspirantes que hay que revisar uno por uno, no borrar.</p>
+    <p style="color:var(--ink-soft)">Y recuerda el punto ciego: si la forma interna importa, pide también el histograma.</p>
+  </div>
+</section>
+
+<footer class="wrap">
+  <span>Microclase · Medidas de posición</span>
+  <span>Arrastra · desliza · vuelve a mirar</span>
+</footer>
+</main>
+</div>
+
+<script>
+(function(){
+"use strict";
+const SVGNS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent){
+  const n=document.createElementNS(SVGNS,tag);
+  for(const k in attrs){ if(attrs[k]!==null&&attrs[k]!==undefined) n.setAttribute(k,attrs[k]); }
+  if(parent) parent.appendChild(n);
+  return n;
+}
+function clear(n){ while(n.firstChild) n.removeChild(n.firstChild); }
+function fmt(x,d){
+  if(!isFinite(x)) return "—";
+  d = (d===undefined)?2:d;
+  return x.toFixed(d).replace(".",",").replace("-","\u2212");
+}
+
+/* ───── cuantiles muestrales, posición k(n+1)/4 ───── */
+function quant(sorted,p){
+  const n=sorted.length;
+  if(n===0) return NaN;
+  if(n===1) return sorted[0];
+  const pos=(n+1)*p;
+  if(pos<=1) return sorted[0];
+  if(pos>=n) return sorted[n-1];
+  const lo=Math.floor(pos), f=pos-lo;
+  return sorted[lo-1]+f*(sorted[lo]-sorted[lo-1]);
+}
+function edad(x){
+  if(!isFinite(x)) return "—";
+  const a=Math.floor(x), m=Math.round((x-a)*12);
+  if(m===0) return a+" años justos";
+  if(m===12) return (a+1)+" años justos";
+  return a+" años y "+m+" "+(m===1?"mes":"meses");
+}
+function posInfo(n,p){
+  const pos=(n+1)*p, lo=Math.floor(pos);
+  return {pos:pos, lo:Math.max(1,Math.min(n,lo)), hi:Math.max(1,Math.min(n,lo+1)), f:pos-lo};
+}
+
+/* ════════════ portada ════════════ */
+(function hero(){
+  const g=document.getElementById("heroG");
+  const W=380,H=190, ml=14,mr=14,mb=26,mt=14;
+  const iw=W-ml-mr, ih=H-mt-mb;
+  const xs=[],ys=[];
+  const f=x=>0.62*Math.exp(-Math.pow(x-42,2)/(2*11*11))+0.38*Math.exp(-Math.pow(x-66,2)/(2*17*17));
+  const N=220;
+  for(let i=0;i<=N;i++){ const x=i/N*100; xs.push(x); ys.push(f(x)); }
+  const step=100/N;
+  let tot=0; const cum=[0];
+  for(let i=1;i<=N;i++){ tot+=(ys[i]+ys[i-1])/2*step; cum.push(tot); }
+  const inv=p=>{ const t=p*tot; for(let i=1;i<=N;i++){ if(cum[i]>=t){ const d=cum[i]-cum[i-1]; const fr=d>0?(t-cum[i-1])/d:0; return xs[i-1]+fr*step; } } return 100; };
+  const ymax=Math.max.apply(null,ys);
+  const X=v=>ml+v/100*iw, Y=v=>mt+ih-v/ymax*ih;
+  const cuts=[inv(.25),inv(.5),inv(.75)];
+  const bounds=[0].concat(cuts,[100]);
+  for(let b=0;b<4;b++){
+    let d="M "+X(bounds[b])+" "+Y(0);
+    for(let i=0;i<=N;i++){ if(xs[i]>=bounds[b]&&xs[i]<=bounds[b+1]) d+=" L "+X(xs[i])+" "+Y(ys[i]); }
+    d+=" L "+X(bounds[b+1])+" "+Y(0)+" Z";
+    const p=el("path",{d:d,fill:"var(--band)","fill-opacity":(b%2?0.13:0.24),class:"heroband"},g);
+    p.style.animationDelay=(b*0.14)+"s";
+  }
+  let d="M "+X(0)+" "+Y(ys[0]);
+  for(let i=1;i<=N;i++) d+=" L "+X(xs[i])+" "+Y(ys[i]);
+  el("path",{d:d,class:"curveline"},g);
+  cuts.forEach(function(c,i){
+    el("line",{x1:X(c),y1:Y(0),x2:X(c),y2:Y(f(c)),class:"cut"},g);
+    const t=el("text",{x:X(c),y:mt+ih+16,class:"lab","text-anchor":"middle"},g);
+    t.textContent="Q"+(i+1);
+  });
+  el("line",{x1:ml,y1:Y(0),x2:W-mr,y2:Y(0),class:"ax"},g);
+})();
+
+/* ════════════ Fig. 00 ════════════ */
+(function idea(){
+  const g=document.getElementById("ideaG");
+  const W=900,H=150, ml=20, mr=20, top=26;
+  const iw=W-ml-mr;
+  const n=100, cols=20, rows=5;
+  for(let i=0;i<n;i++){
+    const grp=Math.floor(i/25);
+    const col=Math.floor(i/rows);
+    const row=i%rows;
+    const cx=ml+col*(iw/cols)+(iw/(2*cols));
+    const cy=top+8+row*15;
+    el("circle",{cx:cx,cy:cy,r:4.6,fill:"var(--curve)","fill-opacity":(grp%2?0.40:0.75)},g);
+  }
+  const yBase=top+8+(rows-1)*15+18;
+  el("line",{x1:ml,y1:yBase,x2:W-mr,y2:yBase,class:"ax"},g);
+  for(let k=1;k<=3;k++){
+    const x=ml+iw*k/4;
+    el("line",{x1:x,y1:top-8,x2:x,y2:yBase+8,class:"cut"},g);
+    const t=el("text",{x:x,y:top-14,class:"lab","text-anchor":"middle"},g);
+    t.textContent="Q"+k;
+  }
+  for(let k=0;k<4;k++){
+    const x=ml+iw*(k+0.5)/4;
+    const t=el("text",{x:x,y:yBase+22,class:"pct","text-anchor":"middle"},g);
+    t.textContent="25 % · 25 admitidos";
+  }
+})();
+
+/* ════════════ estado de datos ════════════ */
+const PRESETS={
+  base:[16,17,17,18,18,18,19,19,20,21,23,26],
+  sim:[17,17,18,18,18,19,19,19,20,20,21,21],
+  sesgo:[16,17,17,18,18,18,19,19,20,22,24,26],
+  atip:[16,17,17,18,18,18,19,19,20,21,23,38]
+};
+const DMIN=14, DMAX=40;
+let data=PRESETS.base.slice();
+let qsel=1;
+let showFence=true, showDots=true;
+
+function stats(){
+  const s=data.slice().sort(function(a,b){return a-b;});
+  const q1=quant(s,.25), q2=quant(s,.5), q3=quant(s,.75);
+  const iqr=q3-q1, lo=q1-1.5*iqr, hi=q3+1.5*iqr;
+  const inl=s.filter(function(v){return v>=lo&&v<=hi;});
+  return {s:s,q1:q1,q2:q2,q3:q3,iqr:iqr,lo:lo,hi:hi,
+    wlo:inl.length?inl[0]:s[0], whi:inl.length?inl[inl.length-1]:s[s.length-1],
+    out:s.filter(function(v){return v<lo||v>hi;}), min:s[0], max:s[s.length-1]};
+}
+
+/* ════════════ Fig. 01 · puntos arrastrables ════════════ */
+const dotSvg=document.getElementById("dotSvg"), dotG=document.getElementById("dotG");
+const DW=900, ML=48, MR=48, IW=DW-ML-MR, AXY=150;
+const X=function(v){ return ML+(v-DMIN)/(DMAX-DMIN)*IW; };
+const V=function(x){ return DMIN+(x-ML)/IW*(DMAX-DMIN); };
+
+function drawAxis(g,axy,h){
+  el("line",{x1:ML,y1:axy,x2:ML+IW,y2:axy,class:"ax"},g);
+  for(let v=DMIN;v<=DMAX;v+=1){
+    const big=(v%4===0);
+    el("line",{x1:X(v),y1:axy,x2:X(v),y2:axy+(big?7:4),class:"axtick"},g);
+    if(big){ const t=el("text",{x:X(v),y:axy+21,class:"axlab","text-anchor":"middle"},g); t.textContent=v; }
+  }
+  const t=el("text",{x:ML+IW,y:axy+38,class:"axlab","text-anchor":"end"},g);
+  t.textContent="edad (años)";
+}
+
+function drawDots(){
+  clear(dotG);
+  const st=stats();
+  drawAxis(dotG,AXY,0);
+  /* cortes */
+  [[st.q1,"Q₁"],[st.q2,"Q₂ (mediana)"],[st.q3,"Q₃"]].forEach(function(c,i){
+    el("line",{x1:X(c[0]),y1:36,x2:X(c[0]),y2:AXY,class:"cut"},dotG);
+    const t=el("text",{x:X(c[0]),y:28,class:"lab","text-anchor":"middle"},dotG);
+    t.textContent=c[1];
+    const v=el("text",{x:X(c[0]),y:AXY+ (i===1?58:44),class:"lab","text-anchor":"middle"},dotG);
+    v.setAttribute("font-family","var(--f-mono)"); v.setAttribute("font-size","11.5");
+    v.textContent=fmt(c[0]);
+  });
+  /* franja caja */
+  el("rect",{x:X(st.q1),y:36,width:Math.max(0,X(st.q3)-X(st.q1)),height:AXY-36,
+             fill:"var(--band)","fill-opacity":.09},dotG);
+  /* puntos con apilado */
+  const counts={};
+  data.forEach(function(v,idx){
+    const key=Math.round(v*2);
+    counts[key]=(counts[key]||0)+1;
+    const stack=counts[key]-1;
+    const cy=AXY-11-stack*13;
+    const isOut=(v<st.lo||v>st.hi);
+    const c=el("circle",{cx:X(v),cy:cy,r:8,class:"dot"+(isOut?" out":""),"data-i":idx,
+      tabindex:"0",role:"slider","aria-label":"Dato "+(idx+1),
+      "aria-valuemin":DMIN,"aria-valuemax":DMAX,"aria-valuenow":v},dotG);
+    c.addEventListener("pointerdown",startDrag);
+    c.addEventListener("keydown",keyDrag);
+  });
+}
+let dragI=-1, dragEl=null;
+function evtVal(e){
+  const r=dotSvg.getBoundingClientRect();
+  const x=(e.clientX-r.left)/r.width*DW;
+  let v=V(x);
+  v=Math.round(v*2)/2;
+  return Math.max(DMIN,Math.min(DMAX,v));
+}
+function startDrag(e){
+  dragI=+this.getAttribute("data-i"); dragEl=this;
+  this.classList.add("drag");
+  dotSvg.setPointerCapture(e.pointerId);
+  e.preventDefault();
+}
+dotSvg.addEventListener("pointermove",function(e){
+  if(dragI<0) return;
+  data[dragI]=evtVal(e);
+  renderAll();
+});
+function endDrag(){ if(dragEl) dragEl.classList.remove("drag"); dragI=-1; dragEl=null; }
+dotSvg.addEventListener("pointerup",endDrag);
+dotSvg.addEventListener("pointercancel",endDrag);
+function keyDrag(e){
+  const i=+this.getAttribute("data-i");
+  let d=0;
+  if(e.key==="ArrowRight"||e.key==="ArrowUp") d=.5;
+  else if(e.key==="ArrowLeft"||e.key==="ArrowDown") d=-.5;
+  else return;
+  e.preventDefault();
+  data[i]=Math.max(DMIN,Math.min(DMAX,data[i]+d));
+  renderAll();
+  const nx=dotG.querySelector('[data-i="'+i+'"]');
+  if(nx) nx.focus();
+}
+
+/* chips + cálculo */
+const chipsEl=document.getElementById("chips"), calcEl=document.getElementById("calc");
+function drawChips(){
+  const st=stats(), n=st.s.length;
+  const p=qsel===1?.25:qsel===2?.5:.75;
+  const pi=posInfo(n,p);
+  chipsEl.innerHTML="";
+  st.s.forEach(function(v,i){
+    const idx=i+1;
+    const use=(idx===pi.lo||idx===pi.hi)?"1":"0";
+    const d=document.createElement("div");
+    d.className="chip"; d.setAttribute("data-use",use);
+    d.innerHTML='<span class="v">'+fmt(v,(v%1?1:0))+'</span><span class="i">x('+idx+')</span>';
+    chipsEl.appendChild(d);
+  });
+  const qv=[null,st.q1,st.q2,st.q3][qsel];
+  const a=st.s[pi.lo-1], b=st.s[pi.hi-1];
+  const sub=["","₁","₂","₃"][qsel];
+  let txt="n = "+n+"   ·   L"+sub+" = "+qsel+"·(12+1)/4".replace("12",n)+" = <em>"+fmt(pi.pos)+"</em>\n";
+  if(Math.abs(pi.f)<1e-9){
+    txt+="La posición es exacta → Q"+sub+" = x("+pi.lo+") = <em>"+fmt(qv)+"</em> años   ("+edad(qv)+")";
+  }else{
+    txt+="Cae entre x("+pi.lo+") = "+fmt(a,(a%1?1:0))+" y x("+pi.hi+") = "+fmt(b,(b%1?1:0))+"\n";
+    txt+="Q"+sub+" = "+fmt(a,(a%1?1:0))+" + "+fmt(pi.f)+"·("+fmt(b,(b%1?1:0))+" − "+fmt(a,(a%1?1:0))+") = <em>"+fmt(qv)+"</em> años   ("+edad(qv)+")";
+  }
+  calcEl.innerHTML=txt.replace(/\n/g,"<br>");
+}
+
+/* ════════════ Fig. 02 · boxplot ════════════ */
+const boxG=document.getElementById("boxG"), boxHint=document.getElementById("boxHint");
+const BAXY=240, BY=110, BH=64;
+const DEFAULT_HINT="Pasa el cursor (o el foco) por cada pieza del diagrama para leer qué representa.";
+function hint(t){ boxHint.innerHTML=t||DEFAULT_HINT; }
+function hotspot(node,text){
+  node.classList.add("hot");
+  node.setAttribute("tabindex","0");
+  node.addEventListener("mouseenter",function(){hint(text);});
+  node.addEventListener("focus",function(){hint(text);});
+  node.addEventListener("mouseleave",function(){hint(null);});
+  node.addEventListener("blur",function(){hint(null);});
+}
+function drawBox(){
+  clear(boxG);
+  const st=stats();
+  drawAxis(boxG,BAXY,0);
+  const yc=BY+BH/2;
+
+  if(showFence){
+    [[st.lo,"límite inferior"],[st.hi,"límite superior"]].forEach(function(f){
+      if(f[0]<DMIN-1||f[0]>DMAX+1) return;
+      el("line",{x1:X(f[0]),y1:BY-32,x2:X(f[0]),y2:BAXY,class:"fence"},boxG);
+      const t=el("text",{x:X(f[0]),y:BY-38,class:"lab c","text-anchor":"middle","font-size":"11"},boxG);
+      t.textContent=fmt(f[0])+"";
+    });
+  }
+
+  /* bigotes */
+  const wl=el("line",{x1:X(st.wlo),y1:yc,x2:X(st.q1),y2:yc,class:"whisk"},boxG);
+  const wr=el("line",{x1:X(st.q3),y1:yc,x2:X(st.whi),y2:yc,class:"whisk"},boxG);
+  el("line",{x1:X(st.wlo),y1:yc-14,x2:X(st.wlo),y2:yc+14,class:"whisk"},boxG);
+  el("line",{x1:X(st.whi),y1:yc-14,x2:X(st.whi),y2:yc+14,class:"whisk"},boxG);
+  hotspot(wl,"<b>Bigote izquierdo</b> — llega hasta "+fmt(st.wlo)+" años, la edad más baja que todavía está dentro del límite. No llega al mínimo si hay atípicos.");
+  hotspot(wr,"<b>Bigote derecho</b> — llega hasta "+fmt(st.whi)+" años, la edad más alta que aún no es atípico.");
+
+  /* caja */
+  const r=el("rect",{x:X(st.q1),y:BY,width:Math.max(1,X(st.q3)-X(st.q1)),height:BH,class:"boxr"},boxG);
+  hotspot(r,"<b>La caja</b> — va de Q₁ = "+fmt(st.q1)+" a Q₃ = "+fmt(st.q3)+". Contiene el <b>50 % central</b> de los datos. Su ancho es el RIC = "+fmt(st.iqr)+" años.");
+
+  /* mediana */
+  const m=el("line",{x1:X(st.q2),y1:BY,x2:X(st.q2),y2:BY+BH,class:"med"},boxG);
+  hotspot(m,"<b>Mediana (Q₂)</b> = "+fmt(st.q2)+" años. Si no está centrada en la caja, hay asimetría: aquí está más cerca de "+((st.q2-st.q1)<(st.q3-st.q2)?"Q₁, así que la mitad superior está más estirada (cola derecha).":((st.q2-st.q1)>(st.q3-st.q2)?"Q₃, así que la mitad inferior está más estirada (cola izquierda).":"el centro: reparto simétrico.")));
+
+  /* rótulos */
+  [[st.q1,"Q₁"],[st.q2,"Q₂"],[st.q3,"Q₃"]].forEach(function(c){
+    const t=el("text",{x:X(c[0]),y:BY-12,class:"lab","text-anchor":"middle"},boxG);
+    t.textContent=c[1]+" "+fmt(c[0]);
+  });
+
+  /* atípicos */
+  st.out.forEach(function(v){
+    const c=el("circle",{cx:X(v),cy:yc,r:7,class:"dot out"},boxG);
+    hotspot(c,"<b>Atípico</b> — "+fmt(v)+" años queda fuera del intervalo ["+fmt(st.lo)+" ; "+fmt(st.hi)+"]. No se borra: se investiga.");
+    const t=el("text",{x:X(v),y:yc-16,class:"lab c","text-anchor":"middle","font-size":"11"},boxG);
+    t.textContent=fmt(v,(v%1?1:0));
+  });
+
+  /* datos crudos */
+  if(showDots){
+    const counts={};
+    st.s.forEach(function(v){
+      const key=Math.round(v*2);
+      counts[key]=(counts[key]||0)+1;
+      const cy=52-(counts[key]-1)*11;
+      el("circle",{cx:X(v),cy:cy,r:5,fill:"var(--curve)","fill-opacity":.5},boxG);
+    });
+    const t=el("text",{x:ML,y:14,class:"pct"},boxG);
+    t.textContent="edades observadas";
+  }
+
+  /* llave RIC */
+  const yb=BY+BH+22;
+  el("line",{x1:X(st.q1),y1:yb,x2:X(st.q3),y2:yb,class:"whisk"},boxG);
+  el("line",{x1:X(st.q1),y1:yb-5,x2:X(st.q1),y2:yb+5,class:"whisk"},boxG);
+  el("line",{x1:X(st.q3),y1:yb-5,x2:X(st.q3),y2:yb+5,class:"whisk"},boxG);
+  const rt=el("text",{x:(X(st.q1)+X(st.q3))/2,y:yb+17,class:"lab t","text-anchor":"middle","font-size":"11.5"},boxG);
+  rt.textContent="RIC = "+fmt(st.iqr)+" años  ·  50 % de los admitidos";
+}
+
+const boxRead=document.getElementById("boxRead");
+function drawRead(){
+  const st=stats();
+  const rows=[
+    ["n",String(st.s.length),""],["Mín",fmt(st.min),""],["Q₁",fmt(st.q1),"amber"],["Mediana",fmt(st.q2),"amber"],
+    ["Q₃",fmt(st.q3),"amber"],["Máx",fmt(st.max),""],["RIC",fmt(st.iqr),"teal"],
+    ["Lím. inf.",fmt(st.lo),"crim"],["Lím. sup.",fmt(st.hi),"crim"],
+    ["Atípicos",String(st.out.length),"crim"]
+  ];
+  boxRead.innerHTML=rows.map(function(r){
+    return '<div'+(r[2]?' data-hl="'+r[2]+'"':'')+'><dt class="lab">'+r[0]+'</dt><dd class="val" style="margin:0">'+r[1]+'</dd></div>';
+  }).join("");
+}
+
+function renderAll(){ drawDots(); drawChips(); drawBox(); drawRead(); }
+
+/* controles Fig. 01 / 02 */
+document.querySelectorAll("[data-preset]").forEach(function(b){
+  b.addEventListener("click",function(){
+    data=PRESETS[b.getAttribute("data-preset")].slice();
+    renderAll();
+  });
+});
+document.querySelectorAll("[data-qsel]").forEach(function(b){
+  b.addEventListener("click",function(){
+    qsel=+b.getAttribute("data-qsel");
+    document.querySelectorAll("[data-qsel]").forEach(function(o){
+      o.setAttribute("aria-pressed", o===b?"true":"false");
+    });
+    drawChips();
+  });
+});
+document.getElementById("tFence").addEventListener("click",function(){
+  showFence=!showFence; this.setAttribute("aria-pressed",showFence?"true":"false"); drawBox();
+});
+document.getElementById("tDots").addEventListener("click",function(){
+  showDots=!showDots; this.setAttribute("aria-pressed",showDots?"true":"false"); drawBox();
+});
+
+/* ════════════ Fig. 03 · curva ════════════ */
+const cg=document.getElementById("curveG");
+const CW=900, CML=54, CMR=54, CIW=CW-CML-CMR;
+const CTOP=30, CBOT=250, CAX=250;          /* zona curva */
+const BXY=300, BXH=52;                      /* boxplot */
+const CXMIN=14, CXMAX=42, CXR=CXMAX-CXMIN;
+let shape="sim", skew=0, spread=1.8;
+
+function gauss(x,m,s){ return Math.exp(-Math.pow(x-m,2)/(2*s*s))/s; }
+function density(x){
+  if(shape==="unif"){
+    const a=1/(1+Math.exp(-(x-17)/0.45)), b=1/(1+Math.exp((x-32)/0.45));
+    return a*b*0.55;
+  }
+  if(shape==="bi"){ return 0.5*gauss(x,18.5,1.2)+0.5*gauss(x,28,2.2); }
+  const s=skew, sg=spread;
+  const w2=0.30*Math.abs(s);
+  const m1=20-(s>=0?2.0*s:3.6*s), s1=sg;
+  const m2=m1+(s>=0?1:-1)*(5+2.5*Math.abs(s)), s2=sg*1.7;
+  return (1-w2)*gauss(x,m1,s1)+w2*gauss(x,m2,s2);
+}
+const NG=600;
+function computeCurve(){
+  const xs=[],ys=[];
+  for(let i=0;i<=NG;i++){ const x=CXMIN+i/NG*CXR; xs.push(x); ys.push(density(x)); }
+  const step=CXR/NG;
+  const cum=[0]; let tot=0;
+  for(let i=1;i<=NG;i++){ tot+=(ys[i]+ys[i-1])/2*step; cum.push(tot); }
+  const inv=function(p){
+    const t=p*tot;
+    for(let i=1;i<=NG;i++){
+      if(cum[i]>=t){ const d=cum[i]-cum[i-1]; const fr=d>0?(t-cum[i-1])/d:0; return xs[i-1]+fr*step; }
+    }
+    return CXMAX;
+  };
+  return {xs:xs,ys:ys,tot:tot,inv:inv,ymax:Math.max.apply(null,ys)};
+}
+const CX=function(v){ return CML+(v-CXMIN)/CXR*CIW; };
+
+function drawCurve(){
+  clear(cg);
+  const c=computeCurve();
+  const CY=function(v){ return CAX-v/c.ymax*(CAX-CTOP); };
+  const q1=c.inv(.25), q2=c.inv(.5), q3=c.inv(.75);
+  const p001=c.inv(.002), p999=c.inv(.998);
+  const iqr=q3-q1, lo=q1-1.5*iqr, hi=q3+1.5*iqr;
+  const wl=Math.max(lo,p001), wh=Math.min(hi,p999);
+
+  /* franjas */
+  const bounds=[CXMIN,q1,q2,q3,CXMAX];
+  for(let b=0;b<4;b++){
+    let d="M "+CX(bounds[b])+" "+CY(0);
+    for(let i=0;i<=NG;i++){
+      if(c.xs[i]>=bounds[b]&&c.xs[i]<=bounds[b+1]) d+=" L "+CX(c.xs[i])+" "+CY(c.ys[i]);
+    }
+    d+=" L "+CX(bounds[b+1])+" "+CY(0)+" Z";
+    el("path",{d:d,fill:"var(--band)","fill-opacity":(b%2?0.14:0.26)},cg);
+    const mid=(Math.max(bounds[b],p001)+Math.min(bounds[b+1],p999))/2;
+    const t=el("text",{x:CX(mid),y:CAX-10,class:"pct","text-anchor":"middle"},cg);
+    t.textContent="25 %";
+  }
+  /* curva */
+  let d="M "+CX(c.xs[0])+" "+CY(c.ys[0]);
+  for(let i=1;i<=NG;i++) d+=" L "+CX(c.xs[i])+" "+CY(c.ys[i]);
+  el("path",{d:d,class:"curveline"},cg);
+
+  /* cortes */
+  [[q1,"Q₁"],[q2,"Q₂"],[q3,"Q₃"]].forEach(function(k){
+    el("line",{x1:CX(k[0]),y1:CY(density(k[0])),x2:CX(k[0]),y2:BXY+BXH+10,class:"cut"},cg);
+    const t=el("text",{x:CX(k[0]),y:CY(density(k[0]))-8,class:"lab","text-anchor":"middle"},cg);
+    t.textContent=k[1];
+  });
+
+  /* eje */
+  el("line",{x1:CML,y1:CAX,x2:CML+CIW,y2:CAX,class:"ax"},cg);
+  for(let v=CXMIN;v<=CXMAX;v+=1){
+    const big=(v%2===0);
+    el("line",{x1:CX(v),y1:CAX,x2:CX(v),y2:CAX+(big?6:3),class:"axtick"},cg);
+    if(big){
+      const t=el("text",{x:CX(v),y:CAX+20,class:"axlab","text-anchor":"middle"},cg);
+      t.textContent=v;
+    }
+  }
+  const ttl=el("text",{x:CML,y:CTOP-10,class:"pct"},cg);
+  ttl.textContent="densidad de probabilidad";
+
+  /* boxplot alineado */
+  const yc=BXY+BXH/2;
+  el("line",{x1:CX(wl),y1:yc,x2:CX(q1),y2:yc,class:"whisk"},cg);
+  el("line",{x1:CX(q3),y1:yc,x2:CX(wh),y2:yc,class:"whisk"},cg);
+  el("line",{x1:CX(wl),y1:yc-12,x2:CX(wl),y2:yc+12,class:"whisk"},cg);
+  el("line",{x1:CX(wh),y1:yc-12,x2:CX(wh),y2:yc+12,class:"whisk"},cg);
+  el("rect",{x:CX(q1),y:BXY,width:Math.max(1,CX(q3)-CX(q1)),height:BXH,class:"boxr"},cg);
+  el("line",{x1:CX(q2),y1:BXY,x2:CX(q2),y2:BXY+BXH,class:"med"},cg);
+  if(hi<p999){
+    el("rect",{x:CX(hi),y:yc-9,width:Math.max(2,CX(p999)-CX(hi)),height:18,
+      fill:"var(--crimson)","fill-opacity":.22,stroke:"var(--crimson)","stroke-width":1,"stroke-dasharray":"3 3"},cg);
+    const t=el("text",{x:CX((hi+p999)/2),y:yc+30,class:"lab c","text-anchor":"middle","font-size":"11"},cg);
+    t.textContent="zona atípica";
+  }
+  if(lo>p001){
+    el("rect",{x:CX(p001),y:yc-9,width:Math.max(2,CX(lo)-CX(p001)),height:18,
+      fill:"var(--crimson)","fill-opacity":.22,stroke:"var(--crimson)","stroke-width":1,"stroke-dasharray":"3 3"},cg);
+  }
+  const bl=el("text",{x:CML,y:BXY-10,class:"pct"},cg);
+  bl.textContent="mismo eje → mismo corte";
+  const fl=el("text",{x:CML+CIW,y:BXY+BXH+30,class:"pct","text-anchor":"end"},cg);
+  fl.textContent="edad de ingreso (años)";
+
+  /* lecturas */
+  const dl=q2-q1, dr=q3-q2;
+  const rows=[["Q₁",fmt(q1,1),"amber"],["Mediana",fmt(q2,1),"amber"],["Q₃",fmt(q3,1),"amber"],
+              ["RIC",fmt(iqr,1),"teal"],["Q₂−Q₁",fmt(dl,1),""],["Q₃−Q₂",fmt(dr,1),""]];
+  document.getElementById("curveRead").innerHTML=rows.map(function(r){
+    return '<div'+(r[2]?' data-hl="'+r[2]+'"':'')+'><dt class="lab">'+r[0]+'</dt><dd class="val" style="margin:0">'+r[1]+'</dd></div>';
+  }).join("");
+
+  let msg;
+  const rel=(dr-dl)/Math.max(iqr,.001);
+  if(shape==="bi"){
+    msg="<b>Dos picos, una sola caja.</b> La curva muestra dos poblaciones: los que entran recién salidos del bachillerato (~18 años) y los adultos que retoman estudios (~28). El boxplot las promedia y no delata nada: la mediana cae en el valle, justo donde casi no hay aspirantes.";
+  }else if(shape==="unif"){
+    msg="<b>Uniforme:</b> si todas las edades entre 17 y 32 fueran igual de frecuentes, las cuatro franjas tendrían el <b>mismo ancho</b> y la caja quedaría centrada, con bigotes cortos y sin atípicos. Es un caso teórico: ninguna admisión real se ve así.";
+  }else if(rel>0.14){
+    msg="<b>Asimetría a la derecha:</b> Q₃−Q₂ = "+fmt(dr,1)+" años supera a Q₂−Q₁ = "+fmt(dl,1)+". La mediana se recuesta hacia Q₁, el bigote derecho se alarga y aparece zona atípica alta. <b>Es la forma típica de una admisión real:</b> hay un piso de edad, pero no un techo.";
+  }else if(rel<-0.14){
+    msg="<b>Asimetría a la izquierda:</b> Q₂−Q₁ = "+fmt(dl,1)+" años supera a Q₃−Q₂ = "+fmt(dr,1)+". La mediana se recuesta hacia Q₃ y la cola larga queda a la izquierda. En edades de ingreso casi no ocurre; sí aparece en programas de posgrado.";
+  }else{
+    msg="<b>Reparto simétrico:</b> Q₂−Q₁ ≈ Q₃−Q₂, así que la mediana queda centrada en la caja y los bigotes son parecidos. Fíjate igual en que las franjas <b>centrales son más angostas</b> que las de los extremos: donde la curva es alta, un 25 % de los aspirantes cabe en muy pocos años de edad.";
+  }
+  document.getElementById("curveHint").innerHTML=msg;
+}
+
+function setShape(s){
+  shape=s;
+  document.querySelectorAll("[data-shape]").forEach(function(b){
+    b.setAttribute("aria-pressed", b.getAttribute("data-shape")===s?"true":"false");
+  });
+  if(s==="sim"){ skew=0; spread=1.8; }
+  if(s==="der"){ skew=0.7; spread=1.6; }
+  if(s==="izq"){ skew=-0.7; spread=1.6; }
+  syncSliders();
+  drawCurve();
+}
+function syncSliders(){
+  document.getElementById("sk").value=skew;
+  document.getElementById("sp").value=spread;
+  document.getElementById("skV").textContent=fmt(skew,2);
+  document.getElementById("spV").textContent=fmt(spread,1);
+}
+document.querySelectorAll("[data-shape]").forEach(function(b){
+  b.addEventListener("click",function(){ setShape(b.getAttribute("data-shape")); });
+});
+document.getElementById("sk").addEventListener("input",function(){
+  skew=+this.value;
+  if(shape==="unif"||shape==="bi") shape="sim";
+  document.querySelectorAll("[data-shape]").forEach(function(b){
+    b.setAttribute("aria-pressed", b.getAttribute("data-shape")==="sim"?"true":"false");
+  });
+  document.getElementById("skV").textContent=fmt(skew,2);
+  drawCurve();
+});
+document.getElementById("sp").addEventListener("input",function(){
+  spread=+this.value;
+  if(shape==="unif"||shape==="bi") shape="sim";
+  document.querySelectorAll("[data-shape]").forEach(function(b){
+    b.setAttribute("aria-pressed", b.getAttribute("data-shape")==="sim"?"true":"false");
+  });
+  document.getElementById("spV").textContent=fmt(spread,1);
+  drawCurve();
+});
+
+/* ════════════ Quiz ════════════ */
+const QS=[
+  {q:"En la cohorte admitida de este semestre, Q₁ = 17 años y Q₃ = 21 años. ¿Qué porcentaje de los admitidos tiene entre 17 y 21 años?",
+   o:["El 25 %","El 50 %","El 75 %","No se puede saber"],
+   a:1,
+   f:"<b>El 50 %.</b> Entre Q₁ y Q₃ siempre está la mitad central de las observaciones, sin importar la forma de la distribución. Esa distancia (4 años) es el RIC."},
+  {q:"El boxplot de las edades tiene la caja muy corta y el bigote derecho tres veces más largo que el izquierdo. ¿Qué está diciendo sobre la cohorte?",
+   o:["Hay un error en los datos","La mayoría entra con edades muy parecidas, pero hay una cola de estudiantes mayores","La edad media es igual a la mediana","La cohorte es muy pequeña"],
+   a:1,
+   f:"<b>Concentración central + asimetría positiva.</b> Caja corta = RIC pequeño = el 50 % central entra casi a la misma edad (los bachilleres recientes). Bigote derecho largo = un grupo de adultos que retoman estudios estira la distribución. Es el perfil normal de una admisión de pregrado."},
+  {q:"Con Q₁ = 17 y Q₃ = 21 años, ¿cómo se clasifica un admitido de 29 años?",
+   o:["Es simplemente el mayor de la cohorte","Es atípico: supera 21 + 1,5·4 = 27","Está dentro de lo esperado","Es atípico solo si la cohorte tiene más de 30 admitidos"],
+   a:1,
+   f:"<b>Atípico.</b> RIC = 4, así que el límite superior es Q₃ + 1,5·RIC = 21 + 6 = 27 años. Como 29 > 27, se dibuja como punto suelto. Ojo con la lectura: atípico significa <em>hay que mirar ese caso</em> (¿reingreso?, ¿validación?), nunca <em>hay que borrarlo</em>."},
+  {q:"Una cohorte con dos grupos de edad bien separados y otra concentrada en una sola edad, ¿pueden producir boxplots casi idénticos?",
+   o:["No, el boxplot es único para cada distribución","Sí, porque el boxplot solo resume posición y dispersión","Solo si tienen la misma edad promedio","Solo con cohortes grandes"],
+   a:1,
+   f:"<b>Sí, y es su principal limitación.</b> El boxplot usa cinco números; todo lo que pase <em>dentro</em> de la caja es invisible, incluidos dos picos de edad. Compruébalo en la Fig. 03 alternando <b>Bimodal</b> y <b>Simétrica</b>. Por eso conviene acompañarlo de un histograma."}
+];
+const quizEl=document.getElementById("quizList");
+QS.forEach(function(item,qi){
+  const card=document.createElement("div");
+  card.className="qcard";
+  const opts=item.o.map(function(t,oi){
+    return '<button class="opt" data-q="'+qi+'" data-o="'+oi+'">'+t+'</button>';
+  }).join("");
+  card.innerHTML='<div class="qn">Pregunta 0'+(qi+1)+'</div><p>'+item.q+'</p>'+
+                 '<div class="opts">'+opts+'</div>'+
+                 '<div class="fb" id="fb'+qi+'"></div>';
+  quizEl.appendChild(card);
+});
+quizEl.addEventListener("click",function(e){
+  const b=e.target.closest(".opt");
+  if(!b||b.disabled) return;
+  const qi=+b.getAttribute("data-q"), oi=+b.getAttribute("data-o");
+  const item=QS[qi];
+  const card=b.closest(".qcard");
+  card.querySelectorAll(".opt").forEach(function(o){
+    const j=+o.getAttribute("data-o");
+    o.disabled=true;
+    if(j===item.a) o.setAttribute("data-state","ok");
+    else if(j===oi) o.setAttribute("data-state","no");
+  });
+  const fb=document.getElementById("fb"+qi);
+  fb.innerHTML=(oi===item.a?"✓ Correcto. ":"✗ No es esa. ")+item.f;
+  fb.setAttribute("data-show","1");
+});
+
+/* ════════════ regla lateral ════════════ */
+(function ruler(){
+  const links=Array.prototype.slice.call(document.querySelectorAll(".ruler a"));
+  const secs=links.map(function(a){ return document.querySelector(a.getAttribute("href")); });
+  if(!("IntersectionObserver" in window)) return;
+  const io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(!en.isIntersecting) return;
+      const i=secs.indexOf(en.target);
+      links.forEach(function(a,j){ a.setAttribute("data-on", j===i?"1":"0"); });
+    });
+  },{rootMargin:"-45% 0px -50% 0px"});
+  secs.forEach(function(s){ if(s) io.observe(s); });
+})();
+
+/* init */
+renderAll();
+setShape("sim");
+})();
+</script>
+
+<script>
+(function(){
+  var r=document.documentElement, b=document.getElementById("themeTgl");
+  try{ var sv=localStorage.getItem("cuartiles-theme"); if(sv) r.setAttribute("data-theme",sv); }catch(e){}
+  function cur(){
+    var a=r.getAttribute("data-theme");
+    if(a) return a;
+    return (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+  }
+  function paint(){
+    var d=cur()==="dark";
+    b.textContent = d ? "\u2600" : "\u263E";
+    b.setAttribute("aria-label", d ? "Cambiar a tema claro" : "Cambiar a tema oscuro");
+  }
+  paint();
+  b.addEventListener("click",function(){
+    var n = cur()==="dark" ? "light" : "dark";
+    r.setAttribute("data-theme",n);
+    try{ localStorage.setItem("cuartiles-theme",n); }catch(e){}
+    paint();
+  });
+})();
+</script>
+</body>
+</html>
