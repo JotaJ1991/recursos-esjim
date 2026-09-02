@@ -1,0 +1,1123 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Presentacion interactiva de la Unidad 2 - Operaciones Basicas para la Gestion Efectiva en la Administracion Policial. Matematica aplicada a la profesion, ESJIM 2026-II.">
+<style>*{margin:0}</style>
+</head>
+<body>
+<title>Operaciones Básicas · Unidad 2</title>
+<style>
+:root{
+  --ground:#F0F2ED; --surface:#FFFFFF; --surface-2:#E7EAE2; --surface-3:#DDE2D7;
+  --ink:#101711; --ink-2:#4A554C; --ink-3:#6E7A70; --line:#D2D8CD; --line-fuerte:#B9C2B4;
+  --verde:#1E5B3B; --verde-alto:#2E7D51; --verde-suave:#DCE9DF;
+  --ambar:#9E6A1F; --ambar-suave:#F2E6CF; --azul:#26637F; --azul-suave:#D8E6EC;
+  --rojo:#9C382C; --rojo-suave:#F3DFDB; --morado:#5B4B7A; --morado-suave:#E7E2F0;
+  --sombra:0 1px 2px rgba(16,23,17,.06),0 8px 24px -12px rgba(16,23,17,.18);
+  --sombra-alta:0 2px 4px rgba(16,23,17,.08),0 20px 48px -20px rgba(16,23,17,.30);
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  --fs-h2:clamp(1.7rem,3.2vw,2.6rem); --fs-body:clamp(1rem,1.05vw,1.075rem);
+  --fs-small:.875rem; --fs-micro:.72rem; --rail:252px; --maxw:1120px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0C110E; --surface:#131A15; --surface-2:#1A231C; --surface-3:#222D24;
+  --ink:#E9EEE8; --ink-2:#A3AFA4; --ink-3:#7D8A7F; --line:#2A342C; --line-fuerte:#3A473C;
+  --verde:#5FC48C; --verde-alto:#8ADCAC; --verde-suave:#172A1E;
+  --ambar:#E0A94A; --ambar-suave:#2C2417; --azul:#71B6D8; --azul-suave:#152730;
+  --rojo:#E28273; --rojo-suave:#2E1C18; --morado:#AC99D4; --morado-suave:#211C2E;
+  --sombra:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+  --sombra-alta:0 2px 4px rgba(0,0,0,.5),0 20px 48px -20px rgba(0,0,0,.8);}}
+:root[data-theme="dark"]{
+  --ground:#0C110E; --surface:#131A15; --surface-2:#1A231C; --surface-3:#222D24;
+  --ink:#E9EEE8; --ink-2:#A3AFA4; --ink-3:#7D8A7F; --line:#2A342C; --line-fuerte:#3A473C;
+  --verde:#5FC48C; --verde-alto:#8ADCAC; --verde-suave:#172A1E;
+  --ambar:#E0A94A; --ambar-suave:#2C2417; --azul:#71B6D8; --azul-suave:#152730;
+  --rojo:#E28273; --rojo-suave:#2E1C18; --morado:#AC99D4; --morado-suave:#211C2E;
+  --sombra:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+  --sombra-alta:0 2px 4px rgba(0,0,0,.5),0 20px 48px -20px rgba(0,0,0,.8);}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+  font-size:var(--fs-body);line-height:1.62;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--verde-alto);outline-offset:3px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+#app{display:flex;min-height:100vh}
+#riel{position:fixed;inset:0 auto 0 0;width:var(--rail);z-index:40;background:var(--surface);
+  border-right:1px solid var(--line);display:flex;flex-direction:column;padding:20px 0 12px}
+.marca{padding:0 20px 14px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.marca .esc{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:var(--fs-micro);
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.marca h1{font-family:var(--serif);font-size:1rem;line-height:1.26;margin:8px 0 0;font-weight:600}
+.marca .per{font-family:var(--mono);font-size:var(--fs-micro);color:var(--verde);margin-top:5px;letter-spacing:.07em}
+nav#idx{flex:1;overflow-y:auto;padding:0 10px}
+nav#idx ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px}
+nav#idx a{display:grid;grid-template-columns:24px 1fr;gap:8px;align-items:baseline;padding:6px 9px;
+  border-radius:6px;text-decoration:none;color:var(--ink-2);font-size:.81rem;line-height:1.32;
+  transition:background .18s,color .18s}
+nav#idx a .n{font-family:var(--mono);font-size:var(--fs-micro);color:var(--ink-3)}
+nav#idx a:hover{background:var(--surface-2);color:var(--ink)}
+nav#idx a[aria-current="true"]{background:var(--verde-suave);color:var(--verde);font-weight:600}
+nav#idx a[aria-current="true"] .n{color:var(--verde)}
+.sep{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ink-3);padding:14px 9px 5px}
+.pie{padding:11px 20px 0;border-top:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.prog{height:3px;background:var(--surface-3);border-radius:2px;overflow:hidden;flex:1}
+.prog i{display:block;height:100%;width:0;background:var(--verde);transition:width .2s}
+button.ico{appearance:none;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);
+  width:30px;height:30px;border-radius:7px;cursor:pointer;display:grid;place-items:center;flex:0 0 auto}
+button.ico:hover{background:var(--verde-suave);color:var(--verde);border-color:var(--verde)}
+main{margin-left:var(--rail);flex:1;min-width:0;height:100vh;overflow-y:auto;scroll-snap-type:y proximity}
+section.lam{min-height:100vh;scroll-snap-align:start;padding:clamp(36px,5.5vh,68px) clamp(20px,4.2vw,60px);
+  display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid var(--line)}
+.cont{width:100%;max-width:var(--maxw);margin:0 auto}
+#menu{display:none}
+@media (max-width:900px){
+  :root{--rail:0px}
+  #riel{transform:translateX(-100%);transition:transform .25s;width:266px;box-shadow:var(--sombra-alta)}
+  #riel.abierto{transform:translateX(0)}
+  main{margin-left:0;height:auto;overflow:visible;scroll-snap-type:none}
+  section.lam{min-height:auto;padding:44px 18px}
+  #menu{display:flex;align-items:center;gap:8px;position:fixed;top:12px;right:12px;z-index:50;
+    background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:8px 12px;
+    font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-2);cursor:pointer;box-shadow:var(--sombra)}
+}
+.rot{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.17em;text-transform:uppercase;
+  color:var(--verde);display:flex;align-items:center;gap:10px;margin-bottom:13px}
+.rot::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,var(--line-fuerte),transparent)}
+h2.tit{font-family:var(--serif);font-size:var(--fs-h2);line-height:1.12;letter-spacing:-.02em;
+  margin:0 0 .45em;font-weight:600;text-wrap:balance}
+h3{font-size:1.05rem;line-height:1.3;margin:0 0 .4em;font-weight:650;letter-spacing:-.01em}
+h4{font-size:.94rem;margin:0 0 .35em;font-weight:650}
+p{margin:0 0 1em;max-width:68ch}
+p.lead{font-size:1.08em;color:var(--ink-2);max-width:64ch}
+strong{font-weight:650;color:var(--ink)}
+.dato{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:19px;box-shadow:var(--sombra)}
+.g{display:grid;gap:15px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(158px,1fr))}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;
+  border:1px solid var(--line-fuerte);background:var(--surface);font-family:var(--mono);
+  font-size:var(--fs-micro);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.chip.v{border-color:var(--verde);color:var(--verde);background:var(--verde-suave)}
+.chip.a{border-color:var(--ambar);color:var(--ambar);background:var(--ambar-suave)}
+.chip.z{border-color:var(--azul);color:var(--azul);background:var(--azul-suave)}
+.chip.r{border-color:var(--rojo);color:var(--rojo);background:var(--rojo-suave)}
+.chip.m{border-color:var(--morado);color:var(--morado);background:var(--morado-suave)}
+.frase{display:grid;grid-template-columns:auto 1fr;gap:15px;align-items:start;background:var(--verde-suave);
+  border-left:3px solid var(--verde);border-radius:0 12px 12px 0;padding:15px 19px;margin:0 0 22px}
+.frase .et{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.13em;text-transform:uppercase;
+  color:var(--verde);white-space:nowrap;padding-top:3px}
+.frase p{margin:0;font-size:1.06rem;color:var(--ink);max-width:60ch}
+.aviso{background:var(--ambar-suave);border-left:3px solid var(--ambar);border-radius:0 10px 10px 0;
+  padding:14px 17px;font-size:.93rem;color:var(--ink-2);margin:16px 0}
+.aviso b{color:var(--ink)}
+.aviso.ok{background:var(--verde-suave);border-left-color:var(--verde)}
+.aviso.err{background:var(--rojo-suave);border-left-color:var(--rojo)}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:15px}
+.kpi b{display:block;font-family:var(--mono);font-size:1.6rem;line-height:1;color:var(--verde);
+  font-variant-numeric:tabular-nums;margin-bottom:7px}
+.kpi span{display:block;font-size:var(--fs-small);color:var(--ink-3);line-height:1.35}
+.kpi.a b{color:var(--ambar)} .kpi.z b{color:var(--azul)} .kpi.r b{color:var(--rojo)} .kpi.m b{color:var(--morado)}
+svg.ch{width:100%;height:auto;display:block;overflow:hidden}
+svg text{font-family:var(--mono);fill:var(--ink-3)}
+.lab{background:var(--surface);border:1px solid var(--line-fuerte);border-radius:14px;overflow:hidden;box-shadow:var(--sombra-alta)}
+.lab-cab{padding:13px 20px;border-bottom:1px solid var(--line);background:var(--surface-2);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.lab-cab .t{font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.16em;text-transform:uppercase;color:var(--verde)}
+.lab-cuerpo{display:grid;grid-template-columns:minmax(0,1fr) 296px}
+@media (max-width:880px){.lab-cuerpo{grid-template-columns:1fr}}
+.lab-vista{padding:19px;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.lab-mandos{padding:19px;border-left:1px solid var(--line);background:var(--surface-2);display:flex;flex-direction:column;gap:15px}
+@media (max-width:880px){.lab-mandos{border-left:0;border-top:1px solid var(--line)}}
+.mando label{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  font-size:var(--fs-small);color:var(--ink-2);margin-bottom:6px}
+.mando label b{font-family:var(--mono);color:var(--ink);font-variant-numeric:tabular-nums;font-weight:600}
+input[type=range]{width:100%;appearance:none;background:transparent;cursor:pointer;height:20px;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--surface-3);border-radius:3px}
+input[type=range]::-moz-range-track{height:4px;background:var(--surface-3);border-radius:3px}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:16px;height:16px;border-radius:50%;
+  background:var(--verde);border:2px solid var(--surface);margin-top:-6px;box-shadow:var(--sombra)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--verde);
+  border:2px solid var(--surface);box-shadow:var(--sombra)}
+.salida{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px}
+.salida .lin{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:4px 0;
+  font-size:var(--fs-small);color:var(--ink-2)}
+.salida .lin b{font-family:var(--mono);color:var(--ink);font-variant-numeric:tabular-nums;font-size:.95rem}
+.salida .lin b.dest{color:var(--verde);font-size:1.18rem}
+.nota{font-size:var(--fs-small);color:var(--ink-3);margin:0}
+.boton{appearance:none;font:inherit;font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.12em;
+  text-transform:uppercase;cursor:pointer;background:var(--verde);color:var(--ground);border:0;
+  border-radius:8px;padding:11px 15px;transition:filter .18s}
+.boton:hover{filter:brightness(1.12)}
+.boton.sec{background:var(--surface);color:var(--ink-2);border:1px solid var(--line-fuerte)}
+.boton:disabled{opacity:.5;cursor:default}
+.scroll{overflow-x:auto}
+table.t{border-collapse:collapse;width:100%;font-size:.86rem;min-width:480px}
+table.t th{text-align:left;font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:500;padding:8px 9px;border-bottom:1px solid var(--line-fuerte)}
+table.t td{padding:7px 9px;border-bottom:1px solid var(--line);color:var(--ink-2)}
+table.t td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;color:var(--ink)}
+table.t td.up{color:var(--verde);font-weight:600} table.t td.dn{color:var(--rojo)}
+.form{background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:13px 15px;
+  font-family:var(--mono);font-size:.86rem;color:var(--ink);overflow-x:auto;margin:12px 0;line-height:1.75}
+.form .c{color:var(--ink-3)}
+ul.li{margin:10px 0 0;padding-left:19px;color:var(--ink-2);font-size:.94rem;line-height:1.72}
+ul.li li{margin-bottom:6px}
+.rev{opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s}
+.rev.vis{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rev{opacity:1;transform:none}}
+h1.big{font-family:var(--serif);font-size:clamp(2.2rem,5.4vw,3.9rem);line-height:1;letter-spacing:-.032em;
+  font-weight:600;margin:0 0 20px;max-width:16ch;text-wrap:balance}
+h1.big em{font-style:italic;color:var(--verde)}
+.nodo{cursor:pointer}
+.pastilla{background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:9px 13px;flex:1;min-width:96px}
+.pastilla b{display:block;font-family:var(--mono);font-size:1.2rem;color:var(--verde);font-variant-numeric:tabular-nums}
+.pastilla span{display:block;font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+.leyenda{display:flex;gap:16px;flex-wrap:wrap;font-size:var(--fs-small);color:var(--ink-2)}
+.leyenda i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:7px;vertical-align:-1px}
+.tabs{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:3px;gap:3px;flex-wrap:wrap}
+.tabs button{appearance:none;border:0;background:transparent;color:var(--ink-2);cursor:pointer;
+  font-family:var(--mono);font-size:var(--fs-micro);letter-spacing:.09em;text-transform:uppercase;
+  padding:7px 12px;border-radius:6px;transition:background .18s,color .18s}
+.tabs button[aria-pressed="true"]{background:var(--verde);color:var(--ground)}
+</style>
+<button id="menu" aria-expanded="false" aria-controls="riel">Índice</button>
+<div id="app">
+<aside id="riel">
+  <div class="marca">
+    <div class="esc">
+      <svg width="15" height="17" viewBox="0 0 16 18" fill="none" aria-hidden="true">
+        <path d="M8 1 1 4v6c0 4 3 6.5 7 7 4-.5 7-3 7-7V4L8 1Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+        <path d="M5 9l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      ESJIM · UNIDAD 2
+    </div>
+    <h1>Operaciones básicas para la gestión efectiva</h1>
+    <div class="per">MATEMÁTICA APLICADA · 2026-II</div>
+  </div>
+  <nav id="idx" aria-label="Índice de la unidad"><ol id="lista"></ol></nav>
+  <div class="pie">
+    <div class="prog" role="progressbar" aria-label="Avance" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="pb"></i></div>
+    <button class="ico" id="tema" aria-label="Cambiar entre tema claro y oscuro" title="Cambiar tema">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="8" cy="8" r="3.4" stroke="currentColor" stroke-width="1.3"/>
+        <path d="M8 .8v2M8 13.2v2M.8 8h2M13.2 8h2M2.9 2.9l1.4 1.4M11.7 11.7l1.4 1.4M13.1 2.9l-1.4 1.4M4.3 11.7l-1.4 1.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</aside>
+<main id="deck">
+<!-- 1 PORTADA -->
+<section class="lam" data-t="Portada">
+  <div class="cont">
+    <div class="rot">Unidad 2 · Matemática aplicada a la profesión</div>
+    <h1 class="big">Seis herramientas, <em>una sola</em> decisión</h1>
+    <p class="lead" style="max-width:56ch">
+      Bienvenidos a <strong>Operaciones Básicas para la Gestión Efectiva en la Administración
+      Policial</strong>. En esta unidad no vamos a estudiar seis temas sueltos: vamos a armar
+      un ciclo completo que empieza estructurando un problema del servicio y termina con una
+      decisión sustentada en cifras.
+    </p>
+    <div class="g g4" style="margin:24px 0">
+      <div class="kpi"><b>6</b><span>Temáticas encadenadas</span></div>
+      <div class="kpi z"><b>48</b><span>Horas de la unidad</span></div>
+      <div class="kpi a"><b>7</b><span>Simuladores para practicar</span></div>
+      <div class="kpi m"><b>1</b><span>Caso real que las integra</span></div>
+    </div>
+    <div class="frase">
+      <span class="et">La pregunta</span>
+      <p>Usted comanda un CAI con <strong>8 patrulleros y 3 motos</strong> para un cuadrante de
+      1,5 km² con 12.000 habitantes y 9 delitos diarios. Le piden bajar el delito un 20 % en
+      tres meses <strong>sin recursos adicionales</strong>. ¿Por dónde empieza?</p>
+    </div>
+    <p class="nota">Todo lo que verá aquí se puede tocar. Mueva los controles y observe cómo cambian los resultados.</p>
+  </div>
+</section>
+
+<!-- 2 EL CICLO -->
+<section class="lam" data-t="El ciclo completo">
+  <div class="cont">
+    <div class="rot">Cómo se conectan las seis temáticas</div>
+    <h2 class="tit">Cada herramienta responde una pregunta distinta del mismo problema</h2>
+    <p class="lead">Toque cada paso del ciclo para ver qué pregunta resuelve y con qué se resuelve.</p>
+    <div class="lab" style="margin-top:20px">
+      <div class="lab-cab"><span class="t">Ciclo de gestión operativa basada en datos</span>
+        <span class="chip v" id="ciclo-chip">Paso 1 de 7</span></div>
+      <div class="lab-cuerpo">
+        <div class="lab-vista">
+          <svg class="ch" id="c-ciclo" viewBox="0 0 560 300" role="img" aria-label="Ciclo de las seis herramientas de la unidad"></svg>
+        </div>
+        <div class="lab-mandos">
+          <div>
+            <h3 id="ci-tit" style="font-size:1.05rem">Árbol de problemas</h3>
+            <p class="nota" id="ci-preg" style="margin-bottom:10px"></p>
+          </div>
+          <div class="salida">
+            <div class="lin"><span>Responde</span><b id="ci-resp" style="font-size:.8rem">—</b></div>
+            <div class="lin"><span>Herramienta</span><b id="ci-herr" style="font-size:.8rem">—</b></div>
+          </div>
+          <p class="nota" id="ci-desc"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 RESULTADO E INDICADORES -->
+<section class="lam" data-t="Qué se espera de usted">
+  <div class="cont">
+    <div class="rot">Resultado de aprendizaje de la unidad</div>
+    <h2 class="tit">Cálculos fundamentales, decisiones informadas</h2>
+    <div class="frase">
+      <span class="et">Resultado</span>
+      <p>Realiza cálculos y operaciones matemáticas fundamentales —porcentajes, proporciones y
+      manejo de datos cuantitativos— en el contexto policial, para tomar decisiones informadas
+      que fortalezcan la eficiencia operativa en su labor profesional.</p>
+    </div>
+    <h3 style="margin-top:22px">¿En qué nivel quiere cerrar la unidad?</h3>
+    <div class="tabs" id="niv-tabs" role="group" aria-label="Nivel de desempeño" style="margin:12px 0 14px"></div>
+    <div class="card" id="niv-txt" aria-live="polite"></div>
+    <div class="g g3" style="margin-top:18px">
+      <div class="card"><span class="chip">Se mide con</span>
+        <h4 style="margin-top:11px">Aprendo haciendo</h4>
+        <p class="nota" style="margin:0">Sesión en línea y participación en el foro de la unidad.</p></div>
+      <div class="card"><span class="chip a">Se mide con</span>
+        <h4 style="margin-top:11px">Profundizo</h4>
+        <p class="nota" style="margin:0">Lectura, foro de discusión y comentarios a compañeros.</p></div>
+      <div class="card" style="border-color:var(--verde)"><span class="chip v">Se mide con</span>
+        <h4 style="margin-top:11px">Demuestro mi aprendizaje</h4>
+        <p class="nota" style="margin:0">Informe técnico grupal con árbol de problemas, formulación
+        matemática y análisis costo-beneficio.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 ÁRBOL DE PROBLEMAS -->
+<section class="lam" data-t="Árbol de problemas">
+  <div class="cont">
+    <div class="rot">Antes de calcular</div>
+    <h2 class="tit">Estructurar el problema antes de resolverlo</h2>
+    <div class="frase">
+      <span class="et">En una frase</span>
+      <p>Ninguna herramienta sirve si el problema está mal formulado. El árbol separa
+      <strong>causas</strong>, <strong>problema central</strong> y <strong>consecuencias</strong>
+      — y cada causa apunta a la herramienta que la ataca.</p>
+    </div>
+    <p class="lead">Toque cualquier causa del árbol para ver con qué se aborda.</p>
+    <div class="lab" style="margin-top:18px">
+      <div class="lab-cab"><span class="t">Caso base de la unidad · datos BD1 Bogotá 2024–2025</span>
+        <span class="chip z" id="arb-chip">Toque una causa</span></div>
+      <div class="lab-cuerpo">
+        <div class="lab-vista">
+          <svg class="ch" id="c-arbol" viewBox="0 0 580 360" role="img" aria-label="Árbol de problemas del caso base"></svg>
+        </div>
+        <div class="lab-mandos">
+          <div><h3 id="ar-tit" style="font-size:1rem">Problema central</h3>
+            <p class="nota" id="ar-desc">Alta incidencia de hurto a persona en la franja 16:00–19:00,
+            con 193 casos/mes en promedio.</p></div>
+          <div class="salida">
+            <div class="lin"><span>Tipo</span><b id="ar-tipo" style="font-size:.8rem">—</b></div>
+            <div class="lin"><span>Se aborda con</span><b id="ar-herr" style="font-size:.8rem">—</b></div>
+          </div>
+          <p class="nota">El árbol es el mapa de la unidad: cada raíz conduce a una de las
+          seis temáticas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- T1 REDES -->
+<section class="lam" data-t="1 · Redes criminales">
+  <div class="cont">
+    <div class="rot">Temática 1 · Análisis de redes criminales</div>
+    <h2 class="tit">El más visible no siempre es el más importante</h2>
+    <div class="frase">
+      <span class="et">En una frase</span>
+      <p>Una organización se modela como un <strong>grafo</strong>: personas son nodos y vínculos
+      son aristas. Así se ve quién sostiene la estructura, aunque nunca salga en la foto.</p>
+    </div>
+    <p class="lead">Célula de microtráfico en Kennedy. Toque un integrante para ver sus métricas;
+    después <strong>captúrelo</strong> y observe en cuántos pedazos queda la red.</p>
+    <div class="lab" style="margin-top:18px">
+      <div class="lab-cab"><span class="t">Célula simulada · 8 integrantes</span>
+        <span class="chip" id="red-chip">Red completa</span></div>
+      <div class="lab-cuerpo">
+        <div class="lab-vista">
+          <svg class="ch" id="c-red" viewBox="0 0 520 330" role="img" aria-label="Grafo de la célula criminal"></svg>
+          <div class="leyenda">
+            <span><i style="background:var(--verde)"></i>Componente principal</span>
+            <span><i style="background:var(--azul)"></i>Fragmento</span>
+            <span><i style="background:var(--rojo)"></i>Capturado</span>
+          </div>
+        </div>
+        <div class="lab-mandos">
+          <div><h3 id="rd-nom" style="font-size:1rem">Seleccione un integrante</h3>
+            <p class="nota" id="rd-rol">Toque un círculo del diagrama.</p></div>
+          <div style="display:flex;gap:9px;flex-wrap:wrap">
+            <div class="pastilla"><b id="rd-grado">—</b><span>Grado</span></div>
+            <div class="pastilla"><b id="rd-inter">—</b><span>Intermediación</span></div>
+          </div>
+          <div class="salida">
+            <div class="lin"><span>Densidad de la red</span><b id="rd-dens">—</b></div>
+            <div class="lin"><span>Si lo capturan queda en</span><b class="dest" id="rd-frag">—</b></div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="boton" id="btn-cap" disabled>Capturar</button>
+            <button class="boton sec" id="btn-res">Restaurar</button>
+          </div>
+          <p class="nota"><b>Grado</b> = vínculos directos. <b>Intermediación</b> = en cuántas rutas
+          cortas entre otros dos aparece. <b>Densidad</b> = D = 2E / [N(N−1)].</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- T2 PROGRAMACIÓN LINEAL -->
+<section class="lam" data-t="2 · Programación lineal">
+  <div class="cont">
+    <div class="rot">Temática 2 · Programación lineal aplicada</div>
+    <h2 class="tit">Repartir lo escaso sin pasarse de los límites</h2>
+    <div class="frase">
+      <span class="et">En una frase</span>
+      <p>Tres ingredientes y ya tiene un modelo: <strong>qué puede elegir</strong> (variables),
+      <strong>qué quiere lograr</strong> (función objetivo) y <strong>qué no puede pasar</strong>
+      (restricciones).</p>
+    </div>
+    <p class="lead">Caso Comando Suroccidente, Cali. Las tres zonas tienen <strong>la misma
+    prioridad</strong>: ninguna vale más que otra. Lo único que las distingue es cuánto cuesta
+    operar en cada una y el mínimo que no se puede bajar. Mueva los controles.</p>
+    <div class="form">
+      <b>Maximizar</b> Z = x₁ + x₂ + x₃ <span class="c">← patrullas efectivamente desplegadas</span><br>
+      <b>sujeto a</b> x₁+x₂+x₃ ≤ P · 180.000x₁ + 150.000x₂ + 130.000x₃ ≤ B<br>
+      x₁ ≥ 6 · x₂ ≥ 4 · x₃ ≥ 3 <span class="c">← mínimos operativos</span> · x enteros
+    </div>
+    <div class="lab" style="margin-top:14px">
+      <div class="lab-cab"><span class="t">Asignación de patrullas · 3 zonas, misma prioridad</span>
+        <span class="chip" id="pl-chip">—</span></div>
+      <div class="lab-cuerpo">
+        <div class="lab-vista">
+          <svg class="ch" id="c-pl" viewBox="0 0 560 290" role="img" aria-label="Reparto óptimo de patrullas por zona"></svg>
+        </div>
+        <div class="lab-mandos">
+          <div class="mando"><label for="pl-p">Patrullas disponibles <b><span id="pl-p-out">20</span></b></label>
+            <input type="range" id="pl-p" min="13" max="34" step="1" value="20"></div>
+          <div class="mando"><label for="pl-b">Presupuesto diario <b>$<span id="pl-b-out">3,20</span> M</b></label>
+            <input type="range" id="pl-b" min="20" max="60" step="1" value="32"></div>
+          <div class="salida">
+            <div class="lin"><span>Z1 Aguablanca <span class="chip r" style="padding:1px 6px">$180 k</span></span><b id="pl-x1">—</b></div>
+            <div class="lin"><span>Z2 Ladera <span class="chip a" style="padding:1px 6px">$150 k</span></span><b id="pl-x2">—</b></div>
+            <div class="lin"><span>Z3 Centro <span class="chip z" style="padding:1px 6px">$130 k</span></span><b id="pl-x3">—</b></div>
+            <div class="lin" style="border-top:1px solid var(--line);margin-top:6px;padding-top:8px">
+              <span>Patrullas desplegadas</span><b class="dest" id="pl-z">—</b></div>
+            <div class="lin"><span>Margen presupuestal</span><b id="pl-m">—</b></div>
+          </div>
+          <p class="nota" id="pl-nota">Sin prioridades, todas las patrullas valen igual;
+          lo que decide el reparto es el costo por zona.</p>
+        </div>
+      </div>
+    </div>
+    <div class="aviso" style="margin-top:18px">
+      <b>Lo que pasa cuando ninguna zona tiene prioridad.</b> El modelo cubre los mínimos
+      obligatorios (6, 4 y 3) y manda <b>todas las patrullas restantes al Centro</b>, que es la
+      zona más barata: $130.000 por patrulla-día contra $180.000 de Aguablanca. Con 20 patrullas
+      y $3,2 M el óptimo es <b>6 / 4 / 10</b>. Es matemáticamente impecable y operativamente
+      discutible: se está reforzando la zona más económica, no la más golpeada.
+    </div>
+    <div class="aviso ok" style="margin-top:14px">
+      <b>Y por eso existen los pesos.</b> Si el comandante considera que un delito en Aguablanca
+      pesa más que uno en el Centro, esa valoración tiene que entrar en la función objetivo; si no
+      entra, el modelo la ignora. <b>Un modelo sin prioridades no es neutral: prioriza el costo.</b>
+      Los mínimos operativos son la única defensa que queda, y por eso conviene fijarlos con criterio.
+    </div>
+  </div>
+</section>
+
+<!-- T3 POISSON -->
+<section class="lam" data-t="3 · Modelos en criminología">
+  <div class="cont">
+    <div class="rot">Temática 3 · Modelos matemáticos en criminología</div>
+    <h2 class="tit">Con el promedio basta para saber qué tan mala puede ser la hora</h2>
+    <div class="frase">
+      <span class="et">En una frase</span>
+      <p>Si en promedio entran 3,2 llamadas críticas por hora, eso <strong>no</strong> significa que
+      siempre sean 3. La distribución de Poisson dice qué tan probable es cada número.</p>
+    </div>
+    <p class="lead">CAI Kennedy-Castilla, franja 16:00–19:00. Ajuste el promedio y la capacidad de
+    atención simultánea del CAI.</p>
+    <div class="lab" style="margin-top:18px">
+      <div class="lab-cab"><span class="t">Llamadas críticas por hora</span>
+        <span class="chip" id="po-chip">—</span></div>
+      <div class="lab-cuerpo">
+        <div class="lab-vista">
+          <svg class="ch" id="c-poisson" viewBox="0 0 560 290" role="img" aria-label="Distribución de Poisson de llamadas por hora"></svg>
+        </div>
+        <div class="lab-mandos">
+          <div class="mando"><label for="po-l">Promedio λ por hora <b><span id="po-l-out">3,2</span></b></label>
+            <input type="range" id="po-l" min="8" max="90" step="1" value="32"></div>
+          <div class="mando"><label for="po-c">Capacidad del CAI <b><span id="po-c-out">4</span> simultáneas</b></label>
+            <input type="range" id="po-c" min="1" max="12" step="1" value="4"></div>
+          <div class="salida">
+            <div class="lin"><span>Probabilidad de saturación</span><b class="dest" id="po-sat">—</b></div>
+            <div class="lin"><span>Horas así por turno de 8 h</span><b id="po-h">—</b></div>
+            <div class="lin"><span>Número más probable</span><b id="po-moda">—</b></div>
+          </div>
+          <p class="nota">Con esto se sustenta un refuerzo: <span id="po-frase">…</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- T4 EVALUACIÓN -->
+<section class="lam" data-t="4 · Evaluación de estrategias">
+  <div class="cont">
+    <div class="rot">Temática 4 · Evaluación de estrategias de intervención</div>
+    <h2 class="tit">¿La reducción fue suya o del calendario?</h2>
+    <div class="frase">
+      <span class="et">En una frase</span>
+      <p>Comparar el mes con plan contra el mes anterior <strong>no mide su intervención</strong>:
+      mide su intervención más lo que el calendario iba a hacer de todos modos.</p>
+    </div>
+    <p class="lead">Plan «Navidad Segura» en Chapinero: 193 hurtos en noviembre, 83 en diciembre con
+    el plan. Mueva el comportamiento estacional de diciembre y vea qué queda del efecto.</p>
+    <div class="lab" style="margin-top:18px">
+      <div class="lab-cab"><span class="t">Corrección por estacionalidad</span>
+        <span class="chip" id="ev-chip">—</span></div>
+      <div class="lab-cuerpo">
+        <div class="lab-vista">
+          <svg class="ch" id="c-eval" viewBox="0 0 560 290" role="img" aria-label="Comparación del efecto aparente y el efecto corregido"></svg>
+        </div>
+        <div class="lab-mandos">
+          <div class="mando">
+            <label for="ev-s">Diciembre frente a noviembre <b>×<span id="ev-s-out">1,25</span></b></label>
+            <input type="range" id="ev-s" min="60" max="160" step="5" value="125">
+            <p class="nota" style="margin-top:6px" id="ev-s-txt"></p>
+          </div>
+          <div class="salida">
+            <div class="lin"><span>Reducción aparente</span><b id="ev-ap">57,0 %</b></div>
+            <div class="lin"><span>Contrafactual sin plan</span><b id="ev-cf">—</b></div>
+            <div class="lin"><span>Efecto real del plan</span><b class="dest" id="ev-real">—</b></div>
+          </div>
+          <p class="nota" id="ev-nota"></p>
+        </div>
+      </div>
+    </div>
+    <div class="aviso err" style="margin-top:18px">
+      <b>Corrección respecto al material del periodo anterior.</b> La versión anterior advertía que,
+      como diciembre tiene naturalmente más hurtos, «la reducción real es menor». Es al revés:
+      si el mes tratado iba a ser <b>peor</b> por temporada, el contrafactual es más alto y el
+      efecto real del plan resulta <b>mayor</b> que el aparente. La advertencia solo aplica cuando
+      el mes tratado iba a ser naturalmente <b>mejor</b>. Mueva el control y compruébelo.
+    </div>
+  </div>
+</section>
+
+<!-- T5 COSTO-BENEFICIO -->
+<section class="lam" data-t="5 · Costo-beneficio">
+  <div class="cont">
+    <div class="rot">Temática 5 · Análisis costo-beneficio en operaciones policiales</div>
+    <h2 class="tit">Tres indicadores que responden tres preguntas distintas</h2>
+    <div class="frase">
+      <span class="et">En una frase</span>
+      <p><strong>B/C</strong> dice cuánto rinde cada peso, <strong>VPN</strong> cuánto vale hoy la
+      inversión completa, y <strong>TIR</strong> a qué tasa rinde. Se usan juntos, no por separado.</p>
+    </div>
+    <p class="lead">La decisión real: ¿20 cámaras LPR o 5 motos con patrulleros? Mueva los supuestos
+    y observe si cambia el ganador.</p>
+    <div class="lab" style="margin-top:18px">
+      <div class="lab-cab"><span class="t">Comparación a 5 años</span>
+        <span class="chip" id="cb-chip">—</span></div>
+      <div class="lab-cuerpo">
+        <div class="lab-vista">
+          <svg class="ch" id="c-cb" viewBox="0 0 560 300" role="img" aria-label="Flujo acumulado descontado de las dos alternativas"></svg>
+          <div class="leyenda">
+            <span><i style="background:var(--azul)"></i>A · 20 cámaras LPR</span>
+            <span><i style="background:var(--ambar)"></i>B · 5 motos + patrulleros</span>
+          </div>
+        </div>
+        <div class="lab-mandos">
+          <div class="mando"><label for="cb-i">Tasa de descuento <b><span id="cb-i-out">10</span> %</b></label>
+            <input type="range" id="cb-i" min="0" max="25" step="1" value="10"></div>
+          <div class="mando"><label for="cb-ba">Beneficio anual A <b>$<span id="cb-ba-out">180</span> M</b></label>
+            <input type="range" id="cb-ba" min="60" max="320" step="10" value="180"></div>
+          <div class="mando"><label for="cb-bb">Beneficio anual B <b>$<span id="cb-bb-out">290</span> M</b></label>
+            <input type="range" id="cb-bb" min="120" max="450" step="10" value="290"></div>
+          <div class="salida">
+            <div class="lin"><span>A · VPN</span><b id="cb-va">—</b></div>
+            <div class="lin"><span>A · B/C</span><b id="cb-ra">—</b></div>
+            <div class="lin" style="border-top:1px solid var(--line);margin-top:6px;padding-top:8px">
+              <span>B · VPN</span><b id="cb-vb">—</b></div>
+            <div class="lin"><span>B · B/C</span><b id="cb-rb">—</b></div>
+          </div>
+          <p class="nota" id="cb-nota"></p>
+        </div>
+      </div>
+    </div>
+    <div class="aviso">
+      <b>El VPN positivo es condición necesaria, no suficiente.</b> Las cámaras pueden ganar en el
+      número y aun así perder en la decisión: flagrancia, percepción ciudadana y sostenibilidad
+      técnica no entran en la fórmula. El comandante aporta el juicio que el modelo no ve.
+    </div>
+  </div>
+</section>
+
+<!-- T6 CASO INTEGRADOR -->
+<section class="lam" data-t="6 · Caso integrador">
+  <div class="cont">
+    <div class="rot">Temática 6 · Estudios de caso en toma de decisiones</div>
+    <h2 class="tit">Patrulla Inteligente en Rafael Uribe Uribe</h2>
+    <div class="frase">
+      <span class="et">El resultado</span>
+      <p>La localidad pasó de <strong>26 a 1 caso de hurto a persona por mes</strong> (−96 %).
+      Reconstruimos cómo se llegó ahí usando las cinco herramientas anteriores, en orden.</p>
+    </div>
+    <p class="lead">Avance paso a paso por la cadena de decisión.</p>
+    <div class="lab" style="margin-top:18px">
+      <div class="lab-cab"><span class="t">Cadena de decisión · datos BD1 Bogotá 2024–2025</span>
+        <span class="chip v" id="caso-chip">Paso 1 de 5</span></div>
+      <div class="lab-cuerpo">
+        <div class="lab-vista">
+          <svg class="ch" id="c-caso" viewBox="0 0 560 220" role="img" aria-label="Cadena de las cinco herramientas aplicadas al caso"></svg>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="boton sec" id="caso-prev">Anterior</button>
+            <button class="boton" id="caso-next">Siguiente paso</button>
+          </div>
+        </div>
+        <div class="lab-mandos">
+          <div><h3 id="cs-tit" style="font-size:1.02rem">—</h3>
+            <p class="nota" id="cs-desc"></p></div>
+          <div class="salida" id="cs-datos"></div>
+          <p class="nota" id="cs-dec"></p>
+        </div>
+      </div>
+    </div>
+    <div class="aviso err" style="margin-top:18px">
+      <b>La pregunta que faltó hacer.</b> ¿Qué pasó en la localidad de donde salieron las 8 patrullas
+      reasignadas? Si el delito simplemente se movió, el −96 % de Rafael Uribe no es una victoria
+      del sistema sino un traslado. <b>Eso se llama efecto desplazamiento</b> y se mide comparando la
+      tendencia de las zonas vecinas antes y después. Ningún informe de impacto está completo sin ese control.
+    </div>
+  </div>
+</section>
+
+<!-- RECOMENDACIONES -->
+<section class="lam" data-t="Cómo estudiar la unidad">
+  <div class="cont">
+    <div class="rot">Recomendaciones de estudio</div>
+    <h2 class="tit">Qué hacer para que esto rinda</h2>
+    <div class="g g3">
+      <div class="card"><span class="chip v">Practicar</span>
+        <h4 style="margin-top:11px">Ejercicios con datos reales</h4>
+        <p class="nota" style="margin:0">Trabaje los cálculos sobre las bases BD1 y BD2 del aula,
+        no sobre ejemplos genéricos. Los números de su jurisdicción enseñan más.</p></div>
+      <div class="card"><span class="chip z">Consultar</span>
+        <h4 style="margin-top:11px">Bibliografía de la unidad</h4>
+        <p class="nota" style="margin:0">Villarreal sobre optimización, Pontón sobre crimen económico
+        y Rohatgi para la parte probabilística. Están en el aula.</p></div>
+      <div class="card"><span class="chip a">Debatir</span>
+        <h4 style="margin-top:11px">Estudios de caso en el foro</h4>
+        <p class="nota" style="margin:0">Aplique las estrategias a un caso propio y discútalo con
+        enfoque crítico. Señalar la debilidad de un modelo también suma.</p></div>
+    </div>
+    <h3 style="margin-top:26px">Herramientas que va a necesitar</h3>
+    <div class="scroll" style="margin-top:12px"><table class="t">
+      <thead><tr><th>Herramienta</th><th>Para qué</th><th>Dónde</th></tr></thead>
+      <tbody>
+        <tr><td><b>Excel con Solver</b></td><td>Resolver los modelos de programación lineal</td><td>Datos → Solver → Simplex LP</td></tr>
+        <tr><td><b>Calculadora con exponencial</b></td><td>Cálculos de Poisson</td><td>Función e<sup>x</sup></td></tr>
+        <tr><td><b>BD1 y BD2</b></td><td>Datos reales de incidentes y cuadrantes</td><td>Aula virtual</td></tr>
+        <tr><td><b>Graph Online o Gephi</b></td><td>Dibujar y medir redes criminales</td><td>graphonline.ru</td></tr>
+      </tbody></table></div>
+    <div class="aviso ok" style="margin-top:20px">
+      <b>El entregable de la unidad.</b> El Demuestro pide un informe técnico con árbol de problemas,
+      formulación matemática con función objetivo y restricciones, y análisis costo-beneficio con
+      conclusiones sustentadas. Todo lo que practicó en estas siete pantallas entra ahí.
+    </div>
+  </div>
+</section>
+
+<!-- CIERRE -->
+<section class="lam" data-t="Cierre" style="border-bottom:none">
+  <div class="cont">
+    <div class="rot">Para cerrar</div>
+    <h1 class="big" style="font-size:clamp(1.5rem,3vw,2.3rem);max-width:24ch">
+      Estructurar un problema con un árbol y decidir con un número es, exactamente, <em>lo que hace un buen comandante</em>.
+    </h1>
+    <p class="lead">Aquí lo practicamos con casos pequeños. En el servicio lo aplicará a decisiones
+    que afectan a miles de personas.</p>
+    <div class="g g2" style="margin-top:20px">
+      <div class="card"><h4>Lo que se lleva</h4>
+        <ul class="li">
+          <li>Un problema mal formulado no se arregla con matemática</li>
+          <li>El integrante más conectado no siempre es el que sostiene la red</li>
+          <li>Una reducción sin contrafactual no prueba nada</li>
+          <li>El VPN positivo es necesario, pero no suficiente</li>
+        </ul></div>
+      <div class="card"><h4>Lo que sigue</h4>
+        <ul class="li">
+          <li>Participar en el foro de la unidad</li>
+          <li>Leer la bibliografía antes del Profundizo</li>
+          <li>Armar el grupo para el Demuestro</li>
+          <li>Escoger un problema propio, no uno de ejemplo</li>
+        </ul></div>
+    </div>
+    <p class="nota" style="border-top:1px solid var(--line);padding-top:16px;margin-top:22px">
+      ESJIM — Escuela de Suboficiales y Nivel Ejecutivo «Gonzalo Jiménez de Quesada» ·
+      Matemática aplicada a la profesión · Unidad 2 · Administración Policial Virtual · 2026-II.
+    </p>
+  </div>
+</section>
+</main></div>
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const nf=(v,d=0)=>Number(v).toLocaleString('es-CO',{minimumFractionDigits:d,maximumFractionDigits:d});
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const C=()=>({lin:css('--line'),ink3:css('--ink-3'),ink2:css('--ink-2'),verde:css('--verde'),
+  ambar:css('--ambar'),azul:css('--azul'),rojo:css('--rojo'),morado:css('--morado'),sup:css('--surface')});
+
+/* índice */
+const lams=[...document.querySelectorAll('section.lam')], lista=$('lista'), links=[];
+lams.forEach((s,i)=>{
+  if(!s.id) s.id='L'+i;
+  if(s.dataset.t==='1 · Redes criminales') lista.insertAdjacentHTML('beforeend','<li><div class="sep">Las seis temáticas</div></li>');
+  if(s.dataset.t==='Cómo estudiar la unidad') lista.insertAdjacentHTML('beforeend','<li><div class="sep">Cierre</div></li>');
+  const li=document.createElement('li');
+  li.innerHTML=`<a href="#${s.id}"><span class="n">${String(i+1).padStart(2,'0')}</span><span>${esc(s.dataset.t)}</span></a>`;
+  lista.appendChild(li); links.push(li.querySelector('a'));
+});
+lams.forEach(s=>new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting) return;
+  const i=lams.indexOf(e.target);
+  links.forEach((a,j)=>a.setAttribute('aria-current',j===i?'true':'false'));
+  const p=Math.round(i/(lams.length-1)*100);
+  $('pb').style.width=p+'%'; document.querySelector('.prog').setAttribute('aria-valuenow',p);
+}),{rootMargin:'-45% 0px -45% 0px'}).observe(s));
+const riel=$('riel'), bm=$('menu');
+bm.addEventListener('click',()=>{const a=riel.classList.toggle('abierto');bm.setAttribute('aria-expanded',a?'true':'false');});
+lista.addEventListener('click',()=>{riel.classList.remove('abierto');bm.setAttribute('aria-expanded','false');});
+$('tema').addEventListener('click',()=>{
+  const r=document.documentElement;
+  const osc=r.getAttribute('data-theme')?r.getAttribute('data-theme')==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+  r.setAttribute('data-theme',osc?'light':'dark'); pintar();
+});
+document.addEventListener('keydown',e=>{
+  if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+  let d=0; if(e.key==='ArrowRight'||e.key==='PageDown')d=1; else if(e.key==='ArrowLeft'||e.key==='PageUp')d=-1; else return;
+  e.preventDefault();
+  const act=links.findIndex(a=>a.getAttribute('aria-current')==='true');
+  lams[Math.max(0,Math.min(lams.length-1,(act<0?0:act)+d))].scrollIntoView({behavior:'smooth',block:'start'});
+});
+const ob=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');ob.unobserve(e.target);}}),{threshold:.06});
+document.querySelectorAll('.cont > *').forEach((n,i)=>{n.classList.add('rev');n.style.transitionDelay=Math.min(i*35,180)+'ms';ob.observe(n);});
+
+function gridY(X0,X1,y,vmin,vmax,n,fmt,c){
+  let s='';
+  for(let g=0;g<=n;g++){const v=vmin+(vmax-vmin)*g/n,Y=y(v);
+    s+=`<line x1="${X0}" y1="${Y}" x2="${X1}" y2="${Y}" stroke="${c.lin}" stroke-width="1"/>`;
+    s+=`<text x="${X0-8}" y="${Y+3.5}" font-size="9" text-anchor="end">${fmt(v)}</text>`;}
+  return s;
+}
+
+/* ---------- 1 · CICLO ---------- */
+const CICLO=[
+ {t:'Árbol de problemas',p:'¿Está bien formulado el problema?',r:'Estructura',h:'Diagrama causa–problema–consecuencia',d:'Separa lo que produce el problema de lo que el problema produce. Sin esto, cualquier cálculo posterior resuelve el problema equivocado.'},
+ {t:'Redes criminales',p:'¿A quién hay que capturar?',r:'Objetivo',h:'Teoría de grafos',d:'Modela la organización como nodos y vínculos. Identifica quién sostiene la estructura, que no siempre es quien más aparece.'},
+ {t:'Programación lineal',p:'¿Cómo distribuyo lo que tengo?',r:'Asignación',h:'Optimización con restricciones',d:'Reparte un recurso escaso maximizando cobertura sin violar presupuesto ni mínimos operativos.'},
+ {t:'Modelos en criminología',p:'¿Cuántos casos debo esperar?',r:'Previsión',h:'Distribución de Poisson',d:'Con el promedio histórico calcula la probabilidad de cada número de eventos, incluida la de saturarse.'},
+ {t:'Evaluación de estrategias',p:'¿Funcionó de verdad?',r:'Impacto',h:'Comparación contra contrafactual',d:'Descuenta tendencia y estacionalidad para separar el efecto del plan de lo que iba a pasar igual.'},
+ {t:'Costo-beneficio',p:'¿Vale lo que cuesta?',r:'Viabilidad',h:'B/C, VPN y TIR',d:'Traduce la decisión a pesos y permite comparar alternativas que compiten por el mismo presupuesto.'},
+ {t:'Estudios de caso',p:'¿Cómo se integra todo?',r:'Decisión',h:'Las cinco anteriores en cadena',d:'Un caso real recorre las cinco herramientas y termina en una decisión replicable con sus alertas.'}
+];
+let ciSel=0;
+function chCiclo(){
+  const c=C(), W=560,H=300, cx=W/2, cy=H/2+6, R=104;
+  let s='';
+  const n=CICLO.length;
+  const pos=CICLO.map((_,i)=>{const a=-Math.PI/2+i*2*Math.PI/n; return {x:cx+R*Math.cos(a),y:cy+R*Math.sin(a)};});
+  for(let i=0;i<n;i++){
+    const a=pos[i], b=pos[(i+1)%n];
+    s+=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${c.lin}" stroke-width="1.6"/>`;
+  }
+  const cols=[c.ink3,c.verde,c.azul,c.morado,c.ambar,c.rojo,c.verde];
+  pos.forEach((p,i)=>{
+    const sel=i===ciSel, col=cols[i];
+    s+=`<g class="nodo" data-ci="${i}" role="button" tabindex="0" aria-label="${esc(CICLO[i].t)}">`;
+    if(sel) s+=`<circle cx="${p.x}" cy="${p.y}" r="27" fill="${col}" opacity=".16"/>`;
+    s+=`<circle cx="${p.x}" cy="${p.y}" r="${sel?19:15}" fill="${sel?col:c.sup}" stroke="${col}" stroke-width="2.4"/>`;
+    s+=`<text x="${p.x}" y="${p.y+4}" font-size="12" text-anchor="middle" fill="${sel?c.sup:col}" font-weight="600">${i+1}</text>`;
+    const lx=p.x+(p.x-cx)*0.42, ly=p.y+(p.y-cy)*0.42;
+    s+=`<text x="${lx}" y="${ly+(p.y>cy?16:-10)}" font-size="9" text-anchor="middle" fill="${c.ink2}">${esc(CICLO[i].t.slice(0,20))}</text></g>`;
+  });
+  s+=`<text x="${cx}" y="${cy-4}" font-size="10" text-anchor="middle" fill="${c.ink3}">CICLO DE</text>`;
+  s+=`<text x="${cx}" y="${cy+9}" font-size="10" text-anchor="middle" fill="${c.ink3}">GESTIÓN</text>`;
+  $('c-ciclo').innerHTML=s;
+  const k=CICLO[ciSel];
+  $('ci-tit').textContent=k.t; $('ci-preg').textContent=k.p;
+  $('ci-resp').textContent=k.r; $('ci-herr').textContent=k.h; $('ci-desc').textContent=k.d;
+  $('ciclo-chip').textContent=`Paso ${ciSel+1} de ${CICLO.length}`;
+}
+$('c-ciclo').addEventListener('click',e=>{const g=e.target.closest('[data-ci]'); if(g){ciSel=+g.dataset.ci;chCiclo();}});
+$('c-ciclo').addEventListener('keydown',e=>{const g=e.target.closest('[data-ci]');
+  if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();ciSel=+g.dataset.ci;chCiclo();}});
+
+/* ---------- 2 · NIVELES ---------- */
+const NIV=[
+ {k:'Básico',t:'Identifica los conceptos y procedimientos necesarios para realizar análisis de datos cuantitativos mediante ejercicios guiados y ejemplos relacionados con situaciones comunes del contexto policial, para comprender su relevancia en la toma de decisiones informadas.',q:'Reconoce las herramientas y sabe para qué sirve cada una, con ejercicios acompañados.'},
+ {k:'Intermedio',t:'Aplica herramientas matemáticas en el análisis de datos cuantitativos en la resolución de problemas prácticos asociados a la planificación y distribución de recursos policiales, para mejorar la eficiencia operativa y la efectividad en la gestión profesional.',q:'Resuelve un problema real de su jurisdicción con la herramienta correcta y sustenta el resultado.'},
+ {k:'Superior',t:'Analiza el impacto de las estrategias y la pertinencia del uso de herramientas de análisis matemático en casos complejos y escenarios operativos reales del ámbito policial, para optimizar la toma de decisiones estratégicas y fortalecer la eficiencia operativa en su labor profesional.',q:'Compara estrategias, discute si la herramienta era la adecuada y reconoce los límites de su propio análisis.'}
+];
+let nSel=1;
+function chNiv(){
+  $('niv-tabs').innerHTML=NIV.map((n,i)=>`<button type="button" data-n="${i}" aria-pressed="${i===nSel}">${n.k}</button>`).join('');
+  const n=NIV[nSel];
+  $('niv-txt').innerHTML=`<h4>${esc(n.k)} — ${esc(n.q)}</h4><p style="margin:8px 0 0;color:var(--ink-2);font-size:.95rem">${esc(n.t)}</p>`;
+}
+$('niv-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-n]'); if(b){nSel=+b.dataset.n;chNiv();}});
+
+/* ---------- 3 · ÁRBOL ---------- */
+const ARB={
+ causas:[
+  {t:'Saturación del CAI\nen hora pico',x:60,y:290,tipo:'Operativa',h:'Distribución de Poisson (temática 3)'},
+  {t:'Red criminal activa\n(11 individuos)',x:200,y:305,tipo:'Estructural',h:'Análisis de redes criminales (temática 1)'},
+  {t:'Distribución ineficiente\nde recursos',x:345,y:290,tipo:'Operativa',h:'Programación lineal (temática 2)'},
+  {t:'Relevos de turno\nen hora crítica',x:470,y:305,tipo:'Operativa',h:'Evaluación de estrategias (temática 4)'},
+  {t:'Baja cobertura de\ncámaras y alumbrado',x:120,y:340,tipo:'Situacional',h:'Análisis costo-beneficio (temática 5)'},
+  {t:'Alta afluencia\npeatonal comercial',x:400,y:340,tipo:'Situacional',h:'No se interviene: es contexto, no causa accionable'}
+ ],
+ cons:[
+  {t:'Pérdida de confianza\nciudadana',x:90,y:40},
+  {t:'Sobredemanda\nservicio 123',x:245,y:32},
+  {t:'Migración comercial\ny turística',x:400,y:40},
+  {t:'Presión mediática\ny política',x:500,y:75}
+ ]
+};
+let arSel=null;
+function chArbol(){
+  const c=C(), W=580,H=360, px=290, py=175;
+  let s='';
+  ARB.cons.forEach(k=>{ s+=`<line x1="${px}" y1="${py-22}" x2="${k.x}" y2="${k.y+14}" stroke="${c.morado}" stroke-width="1.2" opacity=".4"/>`; });
+  ARB.causas.forEach(k=>{ s+=`<line x1="${px}" y1="${py+22}" x2="${k.x}" y2="${k.y-12}" stroke="${c.rojo}" stroke-width="1.2" opacity=".4"/>`; });
+  ARB.cons.forEach(k=>{
+    s+=`<rect x="${k.x-62}" y="${k.y-14}" width="124" height="30" rx="6" fill="${c.morado}" opacity=".14" stroke="${c.morado}" stroke-width="1"/>`;
+    k.t.split('\n').forEach((l,j)=>{ s+=`<text x="${k.x}" y="${k.y-2+j*11}" font-size="8" text-anchor="middle" fill="${c.ink2}">${esc(l)}</text>`; });
+  });
+  s+=`<rect x="${px-138}" y="${py-24}" width="276" height="48" rx="8" fill="${c.azul}" opacity=".16" stroke="${c.azul}" stroke-width="1.8"/>`;
+  s+=`<text x="${px}" y="${py-8}" font-size="9.5" text-anchor="middle" fill="${c.ink2}" font-weight="600">PROBLEMA CENTRAL</text>`;
+  s+=`<text x="${px}" y="${py+5}" font-size="8.5" text-anchor="middle" fill="${c.ink2}">Hurto a persona 16:00–19:00 · Bogotá</text>`;
+  s+=`<text x="${px}" y="${py+16}" font-size="8.5" text-anchor="middle" fill="${c.azul}">193 casos/mes promedio (BD1 2024)</text>`;
+  ARB.causas.forEach((k,i)=>{
+    const sel=arSel===i;
+    s+=`<g class="nodo" data-ar="${i}" role="button" tabindex="0" aria-label="${esc(k.t.replace('\n',' '))}">`;
+    s+=`<rect x="${k.x-62}" y="${k.y-12}" width="124" height="30" rx="6" fill="${c.rojo}" opacity="${sel?'.30':'.13'}" stroke="${c.rojo}" stroke-width="${sel?2:1}"/>`;
+    k.t.split('\n').forEach((l,j)=>{ s+=`<text x="${k.x}" y="${k.y+j*11}" font-size="8" text-anchor="middle" fill="${c.ink2}">${esc(l)}</text>`; });
+    s+=`</g>`;
+  });
+  s+=`<text x="14" y="18" font-size="9" fill="${c.morado}">CONSECUENCIAS ↑</text>`;
+  s+=`<text x="14" y="${H-6}" font-size="9" fill="${c.rojo}">CAUSAS ↓ · toque una</text>`;
+  $('c-arbol').innerHTML=s;
+  if(arSel!==null){
+    const k=ARB.causas[arSel];
+    $('ar-tit').textContent=k.t.replace('\n',' ');
+    $('ar-desc').textContent='Causa identificada en el diagnóstico del caso base.';
+    $('ar-tipo').textContent=k.tipo; $('ar-herr').textContent=k.h;
+    $('arb-chip').textContent='Causa '+(arSel+1)+' de 6';
+  }
+}
+$('c-arbol').addEventListener('click',e=>{const g=e.target.closest('[data-ar]'); if(g){arSel=+g.dataset.ar;chArbol();}});
+$('c-arbol').addEventListener('keydown',e=>{const g=e.target.closest('[data-ar]');
+  if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();arSel=+g.dataset.ar;chArbol();}});
+/* ---------- 4 · RED CRIMINAL ---------- */
+const RN=[
+ {id:0,n:'A · Alias «el Zar»',r:'Cabecilla',x:120,y:70},
+ {id:1,n:'B · Alias «Pipe»',r:'Lugarteniente',x:60,y:170},
+ {id:2,n:'C · Alias «Kiko»',r:'Lugarteniente',x:180,y:170},
+ {id:3,n:'D · Alias «Mona»',r:'Finanzas',x:120,y:265},
+ {id:4,n:'E · Alias «Tico»',r:'Operario',x:255,y:255},
+ {id:5,n:'F · Alias «el Puente»',r:'Enlace con proveedor',x:305,y:150},
+ {id:6,n:'G · Alias «Rulo»',r:'Operario',x:425,y:95},
+ {id:7,n:'H · Alias «Sombra»',r:'Proveedor externo',x:440,y:225}
+];
+const RE=[[0,1],[0,2],[1,2],[1,3],[2,3],[2,5],[4,5],[5,6],[5,7]];
+let rCap=[], rSel=null;
+function vec(ex){const m={};RN.forEach(n=>{if(ex.indexOf(n.id)<0)m[n.id]=[];});
+  RE.forEach(e=>{if(ex.indexOf(e[0])>=0||ex.indexOf(e[1])>=0)return;m[e[0]].push(e[1]);m[e[1]].push(e[0]);});return m;}
+function comps(ex){const m=vec(ex),v={},o=[];Object.keys(m).forEach(k=>{k=+k;if(v[k])return;
+  const q=[k],c=[];v[k]=1;while(q.length){const u=q.shift();c.push(u);m[u].forEach(w=>{if(!v[w]){v[w]=1;q.push(w);}});}o.push(c);});return o;}
+function inter(id){const m=vec([]),ids=RN.map(n=>n.id);let tot=0;
+  ids.forEach(s=>{ if(s===id) return;
+    const d={},cn={};d[s]=0;cn[s]=1;const q=[s];
+    while(q.length){const u=q.shift();m[u].forEach(w=>{if(d[w]===undefined){d[w]=d[u]+1;cn[w]=0;q.push(w);}if(d[w]===d[u]+1)cn[w]+=cn[u];});}
+    const di={},ci={};di[id]=0;ci[id]=1;const q2=[id];
+    while(q2.length){const u=q2.shift();m[u].forEach(w=>{if(di[w]===undefined){di[w]=di[u]+1;ci[w]=0;q2.push(w);}if(di[w]===di[u]+1)ci[w]+=ci[u];});}
+    ids.forEach(t=>{ if(t===id||t===s||t<=s) return;
+      if(d[t]===undefined) return;
+      if(di[s]!==undefined&&di[t]!==undefined&&di[s]+di[t]===d[t]) tot+=(ci[s]*ci[t])/cn[t];});});
+  return Math.round(tot);}
+function chRed(){
+  const c=C(), cs=comps(rCap), mp={};
+  cs.forEach((x,i)=>x.forEach(u=>mp[u]=i));
+  const pal=[c.verde,c.azul,c.morado,c.ambar];
+  let s='';
+  RE.forEach(e=>{const m=rCap.indexOf(e[0])>=0||rCap.indexOf(e[1])>=0, a=RN[e[0]],b=RN[e[1]];
+    s+=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${m?c.rojo:css('--line-fuerte')}" stroke-width="${m?1:1.7}" opacity="${m?.3:.8}"${m?' stroke-dasharray="3 4"':''}/>`;});
+  RN.forEach(n=>{
+    const cap=rCap.indexOf(n.id)>=0;
+    const col=cap?c.rojo:(cs.length>1?pal[mp[n.id]%4]:c.verde);
+    const r=rSel===n.id?15:11;
+    s+=`<g class="nodo" data-rd="${n.id}" role="button" tabindex="0" aria-label="${esc(n.n)}">`;
+    if(rSel===n.id) s+=`<circle cx="${n.x}" cy="${n.y}" r="21" fill="${col}" opacity=".16"/>`;
+    s+=`<circle cx="${n.x}" cy="${n.y}" r="${r}" fill="${cap?c.sup:col}" stroke="${col}" stroke-width="2.2" opacity="${cap?.55:1}"/>`;
+    if(cap) s+=`<path d="M${n.x-5} ${n.y-5}l10 10M${n.x+5} ${n.y-5}l-10 10" stroke="${c.rojo}" stroke-width="2" stroke-linecap="round"/>`;
+    s+=`<text x="${n.x}" y="${n.y+26}" font-size="9" text-anchor="middle" fill="${c.ink3}">${esc(n.n.split(' ')[0])}</text></g>`;});
+  $('c-red').innerHTML=s;
+  const N=RN.length-rCap.length, E=RE.filter(e=>rCap.indexOf(e[0])<0&&rCap.indexOf(e[1])<0).length;
+  $('rd-dens').textContent = N>1 ? nf(2*E/(N*(N-1)),2) : '—';
+  $('red-chip').textContent = rCap.length===0?'Red completa':(cs.length>1?`Partida en ${cs.length} pedazos`:`${rCap.length} capturado(s), sigue unida`);
+}
+function selRed(id){
+  rSel=id; const n=RN[id], m=vec([]);
+  $('rd-nom').textContent=n.n; $('rd-rol').textContent=n.r;
+  $('rd-grado').textContent=m[id].length; $('rd-inter').textContent=inter(id);
+  const cs=comps(rCap.indexOf(id)>=0?rCap:rCap.concat([id]));
+  $('rd-frag').textContent=cs.length+(cs.length===1?' pedazo':' pedazos');
+  const b=$('btn-cap'); b.disabled=false; b.textContent=rCap.indexOf(id)>=0?'Liberar':'Capturar';
+  chRed();
+}
+$('c-red').addEventListener('click',e=>{const g=e.target.closest('[data-rd]'); if(g) selRed(+g.dataset.rd);});
+$('c-red').addEventListener('keydown',e=>{const g=e.target.closest('[data-rd]');
+  if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();selRed(+g.dataset.rd);}});
+$('btn-cap').addEventListener('click',()=>{ if(rSel===null)return;
+  const k=rCap.indexOf(rSel); if(k>=0)rCap.splice(k,1); else rCap.push(rSel); selRed(rSel);});
+$('btn-res').addEventListener('click',()=>{rCap=[];rSel=null;
+  $('rd-nom').textContent='Seleccione un integrante'; $('rd-rol').textContent='Toque un círculo del diagrama.';
+  ['rd-grado','rd-inter','rd-frag'].forEach(x=>$(x).textContent='—');
+  $('btn-cap').disabled=true; $('btn-cap').textContent='Capturar'; chRed();});
+
+/* ---------- 5 · PROGRAMACIÓN LINEAL ---------- */
+const Z=[{n:'Z1 Aguablanca',w:1,c:180000,min:6,col:'--rojo'},
+         {n:'Z2 Ladera',w:1,c:150000,min:4,col:'--ambar'},
+         {n:'Z3 Centro',w:1,c:130000,min:3,col:'--azul'}];
+function resolverPL(P,B){
+  let best=null;
+  for(let a=Z[0].min;a<=P;a++) for(let b=Z[1].min;b<=P-a;b++){
+    const d=P-a-b; if(d<Z[2].min) continue;
+    const costo=Z[0].c*a+Z[1].c*b+Z[2].c*d;
+    if(costo>B) continue;
+    const z=a+b+d;
+    if(!best||z>best.z||(z===best.z&&costo<best.costo)) best={x:[a,b,d],z,costo};
+  }
+  return best;
+}
+function chPL(){
+  const P=+$('pl-p').value, B=+$('pl-b').value*100000;
+  $('pl-p-out').textContent=P; $('pl-b-out').textContent=nf(+$('pl-b').value/10,2);
+  const r=resolverPL(P,B), c=C();
+  const W=560,H=290,ml=96,mr=30,mt=28,mb=40, X0=ml,X1=W-mr,Y0=H-mb,Y1=mt;
+  if(!r){ $('c-pl').innerHTML=`<text x="${W/2}" y="${H/2}" font-size="13" text-anchor="middle" fill="${c.rojo}">Sin solución factible: no alcanza para los mínimos</text>`;
+    ['pl-x1','pl-x2','pl-x3','pl-z','pl-m'].forEach(k=>$(k).textContent='—');
+    $('pl-chip').textContent='Infactible'; $('pl-chip').className='chip r';
+    $('pl-nota').textContent='Con estos recursos no se cumplen los mínimos operativos (6, 4 y 3). Suba las patrullas o el presupuesto.';
+    return; }
+  const max=Math.max(...r.x)*1.25;
+  const x=v=>X0+v/max*(X1-X0), bh=42;
+  let s='';
+  r.x.forEach((v,i)=>{
+    const y=Y1+i*(bh+16), col=css(Z[i].col);
+    s+=`<text x="${X0-10}" y="${y+bh/2+4}" font-size="10.5" text-anchor="end" fill="${c.ink2}">${esc(Z[i].n)}</text>`;
+    s+=`<rect x="${X0}" y="${y}" width="${Math.max(2,x(v)-X0)}" height="${bh}" rx="5" fill="${col}" opacity=".82"/>`;
+    s+=`<text x="${x(v)+9}" y="${y+bh/2-2}" font-size="12" fill="${col}" font-weight="600">${v} patrullas</text>`;
+    s+=`<text x="${x(v)+9}" y="${y+bh/2+12}" font-size="9" fill="${c.ink3}">$${nf(Z[i].c*v/1e6,2)} M · mín ${Z[i].min}</text>`;
+    s+=`<line x1="${x(Z[i].min)}" y1="${y-3}" x2="${x(Z[i].min)}" y2="${y+bh+3}" stroke="${c.ink3}" stroke-width="1.4" stroke-dasharray="3 3"/>`;
+  });
+  s+=`<text x="${X0}" y="16" font-size="9" fill="${c.ink3}">línea punteada = mínimo operativo de la zona</text>`;
+  $('c-pl').innerHTML=s;
+  $('pl-x1').textContent=r.x[0]; $('pl-x2').textContent=r.x[1]; $('pl-x3').textContent=r.x[2];
+  $('pl-z').textContent=r.z;
+  $('pl-m').textContent='$'+nf((B-r.costo)/1e6,2)+' M';
+  const usadas=r.x[0]+r.x[1]+r.x[2];
+  $('pl-chip').textContent=usadas<P?`Sobran ${P-usadas} patrullas`:'Todas asignadas';
+  $('pl-chip').className='chip '+(usadas<P?'a':'v');
+  $('pl-nota').innerHTML = usadas<P
+    ? `Quedan <b>${P-usadas}</b> patrullas sin desplegar: el presupuesto se agotó antes que el personal. El límite activo es el dinero.`
+    : `Se desplegaron las <b>${P}</b> patrullas. Fíjese dónde quedaron: cubiertos los mínimos, el resto se fue a la zona más barata.`;
+}
+['pl-p','pl-b'].forEach(k=>$(k).addEventListener('input',chPL));
+
+/* ---------- 6 · POISSON ---------- */
+function pois(k,l){let lg=-l+k*Math.log(l);for(let i=2;i<=k;i++)lg-=Math.log(i);return Math.exp(lg);}
+function chPoisson(){
+  const l=+$('po-l').value/10, cap=+$('po-c').value;
+  $('po-l-out').textContent=nf(l,1); $('po-c-out').textContent=cap;
+  const K=Math.max(12,Math.ceil(l+4*Math.sqrt(l)));
+  const ps=[]; for(let k=0;k<=K;k++) ps.push(pois(k,l));
+  let sat=0; for(let k=cap+1;k<=K;k++) sat+=ps[k];
+  const moda=ps.indexOf(Math.max(...ps));
+  $('po-sat').textContent=nf(sat*100,1)+' %';
+  $('po-h').textContent=nf(sat*8,1)+' de 8';
+  $('po-moda').textContent=moda+(moda===1?' llamada':' llamadas');
+  $('po-chip').textContent = sat>0.2?'CAI en riesgo':(sat>0.08?'Saturación ocasional':'Capacidad holgada');
+  $('po-chip').className='chip '+(sat>0.2?'r':(sat>0.08?'a':'v'));
+  $('po-frase').textContent = sat<0.02
+    ? '«con esta capacidad la saturación es marginal; el refuerzo no se justifica por este dato».'
+    : `«en el ${nf(sat*100,1)} % de las horas pico entran más de ${cap} llamadas y el CAI se satura; por eso solicito una patrulla adicional en esa franja».`;
+  const c=C(), W=560,H=290,ml=46,mr=18,mt=26,mb=40, X0=ml,X1=W-mr,Y0=H-mb,Y1=mt;
+  const maxP=Math.max(...ps);
+  const x=k=>X0+(k+0.5)/(K+1)*(X1-X0), y=p=>Y0-p/maxP*(Y0-Y1), bw=(X1-X0)/(K+1)*0.72;
+  let s=gridY(X0,X1,y,0,maxP,4,v=>nf(v*100,0)+'%',c);
+  ps.forEach((p,k)=>{
+    const over=k>cap;
+    s+=`<rect x="${x(k)-bw/2}" y="${y(p)}" width="${bw}" height="${Y0-y(p)}" rx="2" fill="${over?c.rojo:c.verde}" opacity="${over?.85:.75}"/>`;
+    if(k%2===0||K<=14) s+=`<text x="${x(k)}" y="${Y0+15}" font-size="9" text-anchor="middle">${k}</text>`;});
+  const xc=x(cap)+bw/2+2;
+  s+=`<line x1="${xc}" y1="${mt}" x2="${xc}" y2="${Y0}" stroke="${c.ambar}" stroke-width="1.8" stroke-dasharray="5 4"/>`;
+  s+=`<text x="${xc+6}" y="${mt+11}" font-size="9.5" fill="${c.ambar}">capacidad del CAI</text>`;
+  s+=`<text x="${X1}" y="${H-5}" font-size="9" text-anchor="end">llamadas críticas por hora</text>`;
+  $('c-poisson').innerHTML=s;
+}
+['po-l','po-c'].forEach(k=>$(k).addEventListener('input',chPoisson));
+/* ---------- 7 · EVALUACIÓN CON CONTRAFACTUAL ---------- */
+const NOV=193, DIC=83;
+function chEval(){
+  const s=+$('ev-s').value/100;
+  $('ev-s-out').textContent=nf(s,2);
+  const cf=NOV*s, real=(cf-DIC)/cf*100, ap=(NOV-DIC)/NOV*100;
+  $('ev-cf').textContent=nf(cf,0)+' casos';
+  $('ev-real').textContent=nf(real,1)+' %';
+  $('ev-s-txt').textContent = s>1
+    ? `Diciembre suele ser ${nf((s-1)*100,0)} % peor que noviembre.`
+    : (s<1 ? `Diciembre suele ser ${nf((1-s)*100,0)} % mejor que noviembre.` : 'Diciembre se comporta igual que noviembre.');
+  const dif=real-ap;
+  $('ev-chip').textContent = Math.abs(dif)<0.5?'Sin cambio':(dif>0?'El plan rindió más':'El plan rindió menos');
+  $('ev-chip').className='chip '+(Math.abs(dif)<0.5?'':(dif>0?'v':'r'));
+  $('ev-nota').innerHTML = Math.abs(dif)<0.5
+    ? 'Sin estacionalidad, el efecto aparente coincide con el real.'
+    : (dif>0
+      ? `Como diciembre iba a ser peor, el plan tuvo que trabajar más: el efecto real (<b>${nf(real,1)} %</b>) es <b>mayor</b> que el aparente. Comparar contra noviembre <b>subestima</b> el plan.`
+      : `Como diciembre iba a ser mejor de por sí, parte de la caída no es del plan: el efecto real (<b>${nf(real,1)} %</b>) es <b>menor</b> que el aparente. Aquí sí hay que corregir a la baja.`);
+  const c=C(), W=560,H=290,ml=52,mr=24,mt=30,mb=44, X0=ml,X1=W-mr,Y0=H-mb,Y1=mt;
+  const max=Math.max(NOV,cf,DIC)*1.18;
+  const y=v=>Y0-v/max*(Y0-Y1);
+  const barras=[{l:'Nov · real',v:NOV,col:c.ink3},{l:'Dic · sin plan',v:cf,col:c.ambar},{l:'Dic · con plan',v:DIC,col:c.verde}];
+  const bw=(X1-X0)/barras.length*0.5;
+  let out=gridY(X0,X1,y,0,max,4,v=>nf(v,0),c);
+  barras.forEach((b,i)=>{
+    const cx=X0+(i+0.5)/barras.length*(X1-X0);
+    const punt=i===1;
+    out+=`<rect x="${cx-bw/2}" y="${y(b.v)}" width="${bw}" height="${Y0-y(b.v)}" rx="4" fill="${b.col}" opacity="${punt?.28:.85}"${punt?` stroke="${c.ambar}" stroke-width="1.6" stroke-dasharray="5 4"`:''}/>`;
+    out+=`<text x="${cx}" y="${y(b.v)-8}" font-size="12" text-anchor="middle" fill="${b.col}" font-weight="600">${nf(b.v,0)}</text>`;
+    out+=`<text x="${cx}" y="${Y0+16}" font-size="9" text-anchor="middle">${b.l}</text>`;
+  });
+  const x1=X0+(1.5)/barras.length*(X1-X0), x2=X0+(2.5)/barras.length*(X1-X0);
+  out+=`<line x1="${x1}" y1="${y(cf)}" x2="${x2}" y2="${y(cf)}" stroke="${c.ambar}" stroke-width="1.2" stroke-dasharray="3 3"/>`;
+  out+=`<text x="${X0}" y="16" font-size="9.5" fill="${c.ambar}">la barra punteada es el contrafactual: lo que habría pasado sin plan</text>`;
+  $('c-eval').innerHTML=out;
+}
+$('ev-s').addEventListener('input',chEval);
+
+/* ---------- 8 · COSTO-BENEFICIO ---------- */
+const OPT={A:{n:'20 cámaras LPR',I:350,Co:40},B:{n:'5 motos + patrulleros',I:180,Co:240}};
+function flujo(I,Co,Be,i,n=5){
+  let vpb=0,vpc=I,ac=[-I],s=-I;
+  for(let t=1;t<=n;t++){const f=Math.pow(1+i,t);const b=Be/f,c2=Co/f;vpb+=b;vpc+=c2;s+=b-c2;ac.push(s);}
+  return {vpn:vpb-vpc, bc:vpc>0?vpb/vpc:0, ac};
+}
+function chCB(){
+  const i=+$('cb-i').value/100, Ba=+$('cb-ba').value, Bb=+$('cb-bb').value;
+  $('cb-i-out').textContent=+$('cb-i').value; $('cb-ba-out').textContent=Ba; $('cb-bb-out').textContent=Bb;
+  const A=flujo(OPT.A.I,OPT.A.Co,Ba,i), B=flujo(OPT.B.I,OPT.B.Co,Bb,i);
+  $('cb-va').textContent=(A.vpn>=0?'+':'−')+nf(Math.abs(A.vpn),1)+' M';
+  $('cb-ra').textContent=nf(A.bc,2);
+  $('cb-vb').textContent=(B.vpn>=0?'+':'−')+nf(Math.abs(B.vpn),1)+' M';
+  $('cb-rb').textContent=nf(B.bc,2);
+  const gana = A.vpn>B.vpn?'A':'B';
+  const amb = A.vpn>0&&B.vpn>0;
+  $('cb-chip').textContent = (A.vpn<0&&B.vpn<0)?'Ninguna es viable':`Domina la opción ${gana}`;
+  $('cb-chip').className='chip '+((A.vpn<0&&B.vpn<0)?'r':(gana==='A'?'z':'a'));
+  $('cb-nota').innerHTML = (A.vpn<0&&B.vpn<0)
+    ? 'Con estos supuestos ninguna alternativa devuelve lo invertido: ambas tienen VPN negativo.'
+    : `Gana <b>${gana==='A'?OPT.A.n:OPT.B.n}</b> por VPN.${amb?' Ambas son viables, así que la decisión final la define el criterio operativo, no solo el número.':' La otra alternativa no alcanza a devolver lo invertido.'}`;
+  const c=C(), W=560,H=300,ml=56,mr=20,mt=24,mb=42, X0=ml,X1=W-mr,Y0=H-mb,Y1=mt;
+  const todos=[...A.ac,...B.ac];
+  const paso=[50,100,150,200,300,500].find(p=>p>=(Math.max(...todos)-Math.min(...todos))/4)||500;
+  const bot=Math.floor(Math.min(...todos,0)/paso)*paso, top=Math.ceil(Math.max(...todos,0)/paso)*paso;
+  const x=t=>X0+t/5*(X1-X0), y=v=>Y1+(top-v)/((top-bot)||1)*(Y0-Y1);
+  let s='';
+  for(let v=bot;v<=top+.01;v+=paso){
+    s+=`<line x1="${X0}" y1="${y(v)}" x2="${X1}" y2="${y(v)}" stroke="${c.lin}" stroke-width="1"/>`;
+    s+=`<text x="${X0-8}" y="${y(v)+3.5}" font-size="9" text-anchor="end">${nf(v,0)}</text>`;}
+  s+=`<line x1="${X0}" y1="${y(0)}" x2="${X1}" y2="${y(0)}" stroke="${c.ink3}" stroke-width="1.5"/>`;
+  [[A.ac,c.azul,'A'],[B.ac,c.ambar,'B']].forEach(([ac,col,lb])=>{
+    const pts=ac.map((v,t)=>`${x(t)},${y(v)}`).join(' ');
+    s+=`<polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2.6" stroke-linejoin="round"/>`;
+    ac.forEach((v,t)=>{s+=`<circle cx="${x(t)}" cy="${y(v)}" r="${t===5?5:3.2}" fill="${col}" stroke="${c.sup}" stroke-width="1.6"/>`;});
+    s+=`<text x="${x(5)}" y="${y(ac[5])-12}" font-size="11" text-anchor="end" fill="${col}" font-weight="600">${lb} ${ac[5]>=0?'+':'−'}${nf(Math.abs(ac[5]),0)}</text>`;});
+  for(let t=0;t<=5;t++) s+=`<text x="${x(t)}" y="${Y0+16}" font-size="9" text-anchor="middle">${t===0?'hoy':'año '+t}</text>`;
+  s+=`<text x="${X0}" y="14" font-size="9">flujo acumulado descontado (millones)</text>`;
+  $('c-cb').innerHTML=s;
+}
+['cb-i','cb-ba','cb-bb'].forEach(k=>$(k).addEventListener('input',chCB));
+
+/* ---------- 9 · CASO INTEGRADOR ---------- */
+const CASO=[
+ {t:'1 · Redes criminales',d:'Se mapeó la estructura que operaba en la localidad y se identificó al cabecilla por su grado de conexión.',
+  datos:[['Individuos mapeados','11'],['Grado del cabecilla','5'],['Componentes tras captura','3']],
+  dec:'Objetivo definido: descabezar, no capturar por volumen.'},
+ {t:'2 · Programación lineal',d:'Con el objetivo claro, se reasignaron patrullas desde zonas de menor demanda hacia los cuadrantes críticos.',
+  datos:[['Patrullas reasignadas','+8'],['Presupuesto adicional','$0'],['Cuadrantes reforzados','4']],
+  dec:'La mejora se logró redistribuyendo, sin pedir recursos nuevos.'},
+ {t:'3 · Modelos en criminología',d:'Se recalculó la tasa esperada de eventos por hora para dimensionar la respuesta y verificar el efecto.',
+  datos:[['λ antes','4,8 / hora'],['λ después','0,5 / hora'],['P(ninguna llamada)','60,7 %']],
+  dec:'El modelo confirmó que la reducción no era ruido estadístico.'},
+ {t:'4 · Evaluación de estrategias',d:'Se compararon los indicadores antes y después, controlando por tendencia para no atribuirle al plan lo que era temporada.',
+  datos:[['Hurto a persona','−96 %'],['Casos por mes','26 → 1'],['Tasa de captura','+18 puntos']],
+  dec:'El efecto se sostuvo más allá del mes de implementación.'},
+ {t:'5 · Costo-beneficio',d:'Se valoró si el resultado justificaba el costo de sostener el dispositivo en el tiempo.',
+  datos:[['Inversión total','$680 M'],['Relación B/C','1,62'],['Veredicto','Viable']],
+  dec:'Decisión final: replicar en Bosa, Ciudad Bolívar y Usme ajustando por población.'}
+];
+let csI=0;
+function chCaso(){
+  const c=C(), W=560,H=220, n=CASO.length;
+  const cols=[c.verde,c.azul,c.morado,c.ambar,c.rojo];
+  let s='';
+  const y=H/2-10, w=(W-70)/n;
+  for(let i=0;i<n;i++){
+    const cx=40+w*i+w/2, act=i<=csI, sel=i===csI;
+    if(i<n-1){ const nx=40+w*(i+1)+w/2;
+      s+=`<line x1="${cx+26}" y1="${y}" x2="${nx-26}" y2="${y}" stroke="${i<csI?cols[i]:c.lin}" stroke-width="2"/>`;
+      if(i<csI) s+=`<path d="M${nx-30} ${y-4}l5 4-5 4" stroke="${cols[i]}" stroke-width="2" fill="none"/>`;}
+    s+=`<circle cx="${cx}" cy="${y}" r="${sel?24:19}" fill="${act?cols[i]:c.sup}" stroke="${cols[i]}" stroke-width="2.2" opacity="${act?1:.45}"/>`;
+    s+=`<text x="${cx}" y="${y+5}" font-size="13" text-anchor="middle" fill="${act?c.sup:cols[i]}" font-weight="600">${i+1}</text>`;
+    s+=`<text x="${cx}" y="${y+44}" font-size="8.5" text-anchor="middle" fill="${c.ink3}">${esc(CASO[i].t.split('· ')[1].slice(0,14))}</text>`;
+  }
+  s+=`<text x="40" y="${H-12}" font-size="9" fill="${c.ink3}">26 casos/mes</text>`;
+  s+=`<text x="${W-40}" y="${H-12}" font-size="9" text-anchor="end" fill="${c.verde}">1 caso/mes · −96 %</text>`;
+  $('c-caso').innerHTML=s;
+  const k=CASO[csI];
+  $('cs-tit').textContent=k.t; $('cs-desc').textContent=k.d;
+  $('cs-datos').innerHTML=k.datos.map(([a,b])=>`<div class="lin"><span>${esc(a)}</span><b>${esc(b)}</b></div>`).join('');
+  $('cs-dec').textContent=k.dec;
+  $('caso-chip').textContent=`Paso ${csI+1} de ${n}`;
+  $('caso-prev').disabled=csI===0; $('caso-next').disabled=csI===n-1;
+}
+$('caso-next').addEventListener('click',()=>{if(csI<CASO.length-1){csI++;chCaso();}});
+$('caso-prev').addEventListener('click',()=>{if(csI>0){csI--;chCaso();}});
+
+function pintar(){ chCiclo(); chNiv(); chArbol(); chRed(); chPL(); chPoisson(); chEval(); chCB(); chCaso(); }
+pintar();
+addEventListener('resize',()=>{clearTimeout(window._t);window._t=setTimeout(pintar,180);});
+})();
+</script>
+
+</body>
+</html>
