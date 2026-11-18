@@ -1,0 +1,105 @@
+\documentclass[11pt, a4paper]{article}
+
+% ==================== PAQUETES ====================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{array, booktabs, tabularx}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\usepackage{longtable}
+
+\usetikzlibrary{shapes, arrows, positioning, calc, trees, fit}
+\tcbuselibrary{skins, breakable}
+
+% ==================== COLORES ====================
+\definecolor{policiaAzul}{HTML}{0A3B66}
+\definecolor{policiaAzulClaro}{HTML}{1E5A8E}
+\definecolor{policiaDorado}{HTML}{C9A227}
+\definecolor{grisClaro}{HTML}{F4F6F8}
+\definecolor{grisBorde}{HTML}{DCE2E8}
+\definecolor{acentoSuave}{HTML}{EAF2FA}
+\definecolor{exitoVerde}{HTML}{1E7E34}
+\definecolor{exitoSuave}{HTML}{E9F7EF}
+\definecolor{alertaRojo}{HTML}{C0392B}
+\definecolor{alertaSuave}{HTML}{FDECEA}
+\definecolor{causa}{HTML}{A93226}
+\definecolor{consecuencia}{HTML}{7D3C98}
+
+% ==================== ESTILO ====================
+\hypersetup{
+  colorlinks=true,
+  linkcolor=policiaAzul,
+  urlcolor=policiaAzulClaro,
+  pdftitle={Guia Demuestro mi aprendizaje U1 (Partes I y II) - Matematica aplicada},
+  pdfauthor={Jose Javier Mercado Reyes - ESJIM}
+}
+
+\titleformat{\section}[hang]
+  {\Large\bfseries\color{policiaAzul}}
+  {\thesection.}{0.6em}{}
+  [\vspace{4pt}{\color{policiaDorado}\titlerule[1.2pt]}]
+
+\titlespacing*{\section}{0pt}{1.8em}{0.9em}
+
+\titleformat{\subsection}[hang]
+  {\large\bfseries\color{policiaAzulClaro}}
+  {\thesubsection.}{0.5em}{}
+
+\titlespacing*{\subsection}{0pt}{1.2em}{0.5em}
+
+% Encabezado/pie
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\color{policiaAzul}\textbf{ESJIM} $\cdot$ Matem\'atica aplicada a la profesi\'on}
+\fancyhead[R]{\footnotesize\color{policiaAzul}U1 $\cdot$ Demuestro mi aprendizaje I y II}
+\fancyfoot[C]{\footnotesize\color{policiaAzul}P\'agina \thepage\ de \pageref*{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{policiaDorado}\hrule width\headwidth height0.8pt}
+\usepackage{lastpage}
+
+% Cajas tem\'aticas
+\newtcolorbox{cajaInfo}[1][]{
+  colback=acentoSuave, colframe=policiaAzulClaro,
+  fonttitle=\bfseries\color{white}, title=#1,
+  arc=2mm, left=10pt, right=10pt, top=6pt, bottom=6pt,
+  breakable
+}
+\newtcolorbox{cajaExito}{
+  colback=exitoSuave, colframe=exitoVerde, coltitle=exitoVerde,
+  arc=2mm, left=10pt, right=10pt, top=6pt, bottom=6pt,
+  leftrule=4pt, rightrule=0pt, toprule=0pt, bottomrule=0pt,
+  breakable
+}
+\newtcolorbox{cajaAlerta}{
+  colback=alertaSuave, colframe=alertaRojo, coltitle=alertaRojo,
+  arc=2mm, left=10pt, right=10pt, top=6pt, bottom=6pt,
+  leftrule=4pt, rightrule=0pt, toprule=0pt, bottomrule=0pt,
+  breakable
+}
+\newtcolorbox{cajaPaso}[1][]{
+  colback=white, colframe=policiaDorado, coltitle=policiaAzul,
+  fonttitle=\bfseries, title=#1,
+  arc=2mm, left=10pt, right=10pt, top=6pt, bottom=6pt,
+  leftrule=4pt, rightrule=0.4pt, toprule=0.4pt, bottomrule=0.4pt,
+  breakable
+}
+
+% ==================== DOCUMENTO ====================
+\usepackage{multirow}
+\newcommand{\var}[1]{\texttt{\small #1}}
+\newtcolorbox{cajaModelo}[1][]{
+  colback=grisClaro, colframe=policiaAzul, coltitle=white,
+  fonttitle=\bfseries, title=#1,
+  arc=2mm, left=10pt, right=10pt, top=6pt, bottom=6pt, breakable
+}
+\setlength{\parskip}{4pt}
+\setlength{\emergencystretch}{3em}
