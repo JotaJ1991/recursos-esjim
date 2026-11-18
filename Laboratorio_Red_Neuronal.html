@@ -1,0 +1,478 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Laboratorio de Red Neuronal · ESJIM</title><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: banco de laboratorio. Izquierda la red y su ciclo de aprendizaje; derecha lo que la red "ve" y su curva de pérdida. */
+:root{
+  --bg:#eef1f6; --surface:#ffffff; --ink:#131c2e; --muted:#5b667a; --line:#d5dbe6; --soft:#e6eaf2;
+  --pos:#2166d9; --neg:#e36a14; --accent:#7a3fd0; --mid:#f4f5f8;
+  --display:"Space Grotesk","Inter",system-ui,sans-serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e131d; --surface:#161d2b; --ink:#e8ecf4; --muted:#96a1b5; --line:#2a3447; --soft:#222b3d;
+    --pos:#5b9bff; --neg:#ff9248; --accent:#b488ff; --mid:#1b2231; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e131d; --surface:#161d2b; --ink:#e8ecf4; --muted:#96a1b5; --line:#2a3447; --soft:#222b3d;
+  --pos:#5b9bff; --neg:#ff9248; --accent:#b488ff; --mid:#1b2231; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.5;
+  padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.2}
+h1{font-size:clamp(24px,3.4vw,32px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:15px;font-weight:600}
+h3{font-size:14px;font-weight:600}
+p{margin:0}
+.lede{color:var(--muted);max-width:68ch;margin-top:6px;font-size:15px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;min-width:0}
+.panel-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.hint{color:var(--muted);font-size:12.5px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.cpos{color:var(--pos);font-weight:600}.cneg{color:var(--neg);font-weight:600}.cacc{color:var(--accent);font-weight:600}
+
+button,select,input{font:inherit;color:inherit}
+.btn{border:1px solid var(--line);background:var(--soft);border-radius:8px;padding:7px 12px;cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--ink);color:var(--surface);border-color:var(--ink);min-width:108px}
+.btn.step{border-color:var(--accent);color:var(--accent);background:transparent}
+.btn.mini{padding:0;width:24px;height:24px;line-height:1;border-radius:6px}
+.btn:disabled{opacity:.4;cursor:default}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+select{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 8px}
+
+.bar{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.stats{display:flex;flex-wrap:wrap;gap:6px 22px}
+.stat{display:flex;flex-direction:column}
+.stat span{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.stat b{font-family:var(--mono);font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+
+.settings{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field>label,.field>.lab{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:4px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;background:var(--surface)}
+.seg input:checked+label{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.seg input:focus-visible+label{outline:2px solid var(--accent);outline-offset:2px}
+input[type=range]{width:130px;accent-color:var(--accent)}
+.check{display:flex;gap:6px;align-items:center;padding-bottom:6px}
+
+.main{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:14px;align-items:start}
+.col{display:flex;flex-direction:column;gap:14px;min-width:0}
+@media (max-width:900px){.main{grid-template-columns:minmax(0,1fr)}}
+
+/* Red */
+.net-scroll{overflow-x:auto}
+.net{position:relative;min-width:560px;aspect-ratio:700/440}
+.net svg{position:absolute;inset:0;width:100%;height:100%}
+.edge{fill:none;stroke-linecap:round;opacity:.8}
+.hit{fill:none;stroke:transparent;stroke-width:12;pointer-events:stroke;cursor:help}
+.flow-fwd .edge{stroke-dasharray:7 5;animation:fwd .7s linear infinite}
+.flow-back .edge{stroke-dasharray:7 5;animation:back .7s linear infinite}
+@keyframes fwd{from{stroke-dashoffset:12}to{stroke-dashoffset:0}}
+@keyframes back{from{stroke-dashoffset:0}to{stroke-dashoffset:12}}
+@media (prefers-reduced-motion:reduce){.flow-fwd .edge,.flow-back .edge{animation:none}}
+.node{position:absolute;width:6.6%;aspect-ratio:1;transform:translate(-50%,-50%);padding:0;border:1.5px solid var(--line);
+  border-radius:22%;background:var(--mid);cursor:pointer}
+.node canvas{display:block;width:100%;height:100%;border-radius:inherit}
+.node.sel{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink)}
+.node .pill{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--surface);color:var(--ink);
+  font-family:var(--mono);font-size:10.5px;font-weight:600;padding:0 3px;border-radius:4px;white-space:nowrap}
+.lay{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px;white-space:nowrap}
+.lay .name{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lay .pm{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:12px}
+.nlabel{position:absolute;transform:translate(-100%,-50%);font-family:var(--mono);font-size:12px;color:var(--muted);padding-right:6px}
+.nlabel.r{transform:translate(0,-50%);padding:0 0 0 6px}
+#edgeinfo{margin-top:8px;min-height:38px}
+
+/* Ciclo */
+.cycle{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;list-style:none;margin:0;padding:0}
+@media (max-width:620px){.cycle{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cycle li{border:1px solid var(--line);border-radius:8px;padding:9px 10px;display:flex;flex-direction:column;gap:3px;transition:border-color .2s,background .2s}
+.cycle .n{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.cycle b{font-family:var(--display);font-size:13.5px;font-weight:600;line-height:1.25}
+.cycle small{color:var(--muted);font-size:12px;line-height:1.35}
+.cycle li.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface))}
+.cycle li.on .n{color:var(--accent)}
+.cycle.loop li{border-color:color-mix(in srgb,var(--accent) 55%,var(--line))}
+#explain{margin-top:10px;padding:10px 12px;border-radius:8px;background:var(--mid);max-width:none;min-height:66px}
+
+/* Salida y curvas */
+.plot{display:block;width:100%;aspect-ratio:1;border-radius:8px;border:1px solid var(--line);cursor:crosshair;max-width:100%}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--muted);margin-top:8px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.dot.ring{background:var(--surface);border:2px solid var(--muted)}
+.sw{display:inline-block;width:18px;height:0;border-top:2px solid var(--ink);margin-right:5px;vertical-align:middle}
+.sw.dash{border-top:2px dashed var(--muted)}
+#loss{display:block;width:100%;height:150px}
+
+/* Inspector */
+.lower{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:900px){.lower{grid-template-columns:minmax(0,1fr)}}
+.insp{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+.insp .tbl{overflow-x:auto;min-width:0;flex:1 1 300px}
+table{border-collapse:collapse;font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums}
+th{font-family:var(--body);font-weight:500;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);text-align:right;padding:3px 10px}
+td{text-align:right;padding:3px 10px;border-top:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;padding-left:0}
+tr.sum td{font-weight:600}
+#actplot{width:220px;height:130px;max-width:100%;flex:0 0 auto}
+.exps{display:flex;flex-direction:column;gap:10px}
+.exp{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;border-top:1px solid var(--line);padding-top:10px}
+.exp:first-child{border-top:0;padding-top:0}
+.exp p{color:var(--muted);font-size:13px}
+.exp b{color:var(--ink);font-weight:600}
+dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px 24px;margin:0}
+dt{font-family:var(--display);font-weight:600}
+dd{margin:0;color:var(--muted);font-size:13px}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Laboratorio de Red Neuronal</h1>
+    <p class="lede">Una red pequeña aprende a separar puntos <span class="cpos">azules</span> de puntos <span class="cneg">naranjas</span>. Entrénala y observa cómo cambian los pesos, qué detecta cada neurona y cómo baja el error.</p>
+  </header>
+
+  <section class="panel bar" aria-label="Controles de entrenamiento">
+    <div class="actions">
+      <button class="btn primary" id="play">▶ Entrenar</button>
+      <button class="btn" id="one">+1 época</button>
+      <button class="btn step" id="step">1 · Propagar un ejemplo</button>
+      <button class="btn" id="reset">Reiniciar pesos</button>
+      <select id="speed" aria-label="Velocidad">
+        <option value="3">Lenta</option><option value="12" selected>Normal</option><option value="60">Rápida</option>
+      </select>
+    </div>
+    <div class="stats">
+      <div class="stat"><span>Época</span><b id="s-ep">0</b></div>
+      <div class="stat"><span>Pérdida entren.</span><b id="s-tr">–</b></div>
+      <div class="stat"><span>Pérdida prueba</span><b id="s-te">–</b></div>
+      <div class="stat"><span>Aciertos prueba</span><b id="s-acc">–</b></div>
+    </div>
+  </section>
+
+  <section class="panel settings" aria-label="Problema y ajustes">
+    <div class="field"><span class="lab">Datos a clasificar</span>
+      <div class="seg" id="ds">
+        <input type="radio" name="ds" id="ds-grupos" value="grupos"><label for="ds-grupos">Dos grupos</label>
+        <input type="radio" name="ds" id="ds-circulo" value="circulo" checked><label for="ds-circulo">Círculo</label>
+        <input type="radio" name="ds" id="ds-xor" value="xor"><label for="ds-xor">Cuadrantes (XOR)</label>
+        <input type="radio" name="ds" id="ds-lunas" value="lunas"><label for="ds-lunas">Lunas</label>
+      </div>
+    </div>
+    <div class="field"><label for="noise">Ruido en los datos: <span id="noise-v" class="mono">15 %</span></label>
+      <input type="range" id="noise" min="0" max="50" step="5" value="15"></div>
+    <div class="field"><label for="lr">Tasa de aprendizaje (η)</label>
+      <select id="lr"><option>0.003</option><option>0.01</option><option>0.03</option><option selected>0.1</option><option>0.3</option><option>1</option><option>3</option></select></div>
+    <div class="field"><label for="act">Función de activación</label>
+      <select id="act"><option value="tanh" selected>tanh</option><option value="relu">ReLU</option><option value="sigmoid">sigmoide</option></select></div>
+    <label class="check"><input type="checkbox" id="showtest" checked> Mostrar datos de prueba</label>
+  </section>
+
+  <div class="main">
+    <div class="col">
+      <section class="panel">
+        <div class="panel-head">
+          <h2>La red: neuronas y conexiones</h2>
+          <div class="actions"><span class="hint">Capas ocultas</span>
+            <button class="btn mini" id="l-minus" aria-label="Quitar capa oculta">−</button>
+            <b class="mono" id="l-n">2</b>
+            <button class="btn mini" id="l-plus" aria-label="Agregar capa oculta">+</button></div>
+        </div>
+        <div class="net-scroll"><div class="net" id="net"></div></div>
+        <p class="hint" id="edgeinfo"></p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h2>El ciclo de aprendizaje</h2><span class="hint">Usa el botón violeta para recorrerlo con un solo ejemplo</span></div>
+        <ol class="cycle" id="cycle">
+          <li><span class="n">Fase 1</span><b>Propagación hacia adelante</b><small>Los datos cruzan la red y sale una predicción.</small></li>
+          <li><span class="n">Fase 2</span><b>Cálculo del error</b><small>Se compara la predicción con la respuesta correcta.</small></li>
+          <li><span class="n">Fase 3</span><b>Retropropagación</b><small>El error viaja hacia atrás y reparte responsabilidades.</small></li>
+          <li><span class="n">Fase 4</span><b>Ajuste de pesos</b><small>Cada peso se corrige un poco, según la tasa η.</small></li>
+        </ol>
+        <p id="explain" aria-live="polite"></p>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="panel">
+        <div class="panel-head"><h2>Lo que la red predice</h2><span class="hint">Clic en un punto para inspeccionarlo</span></div>
+        <canvas id="out" class="plot" aria-label="Mapa de predicción de la red sobre el plano x₁, x₂ con los datos"></canvas>
+        <div class="legend">
+          <span><i class="dot" style="background:var(--pos)"></i>Clase azul (1)</span>
+          <span><i class="dot" style="background:var(--neg)"></i>Clase naranja (0)</span>
+          <span><i class="dot ring"></i>Datos de prueba</span>
+          <span>Fondo: lo que respondería la red en cada zona</span>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h2>Pérdida por época</h2>
+          <div class="legend" style="margin:0"><span><i class="sw"></i>Entrenamiento</span><span><i class="sw dash"></i>Prueba</span></div></div>
+        <canvas id="loss" aria-label="Curva de pérdida de entrenamiento y prueba"></canvas>
+      </section>
+    </div>
+  </div>
+
+  <div class="lower">
+    <section class="panel">
+      <div class="panel-head"><h2 id="insp-title">Dentro de una neurona</h2><span class="hint">Clic en cualquier neurona de la red</span></div>
+      <p class="hint" id="insp-sub" style="margin-bottom:10px"></p>
+      <div class="insp"><div class="tbl" id="insp-tbl"></div><canvas id="actplot" aria-label="Función de activación de la neurona"></canvas></div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><h2>Experimentos para probar</h2></div>
+      <div class="exps">
+        <div class="exp"><p><b>Una sola neurona contra el círculo.</b> Solo puede trazar una recta: nunca encierra el centro. Luego súbela a 3.</p><button class="btn" data-exp="a">Probar</button></div>
+        <div class="exp"><p><b>Tasa de aprendizaje excesiva.</b> Con η = 3 los pasos son tan largos que la pérdida salta en vez de bajar.</p><button class="btn" data-exp="b">Probar</button></div>
+        <div class="exp"><p><b>Cuadrantes con dos capas.</b> La primera capa traza rectas; la segunda las combina en regiones.</p><button class="btn" data-exp="c">Probar</button></div>
+      </div>
+    </section>
+  </div>
+
+  <section class="panel">
+    <div class="panel-head"><h2>Los componentes, en una frase</h2></div>
+    <dl>
+      <div><dt>Neurona</dt><dd>Suma sus entradas multiplicadas por los pesos, añade el sesgo y pasa el resultado por la función de activación. Su cuadrito muestra en qué zona del plano se enciende.</dd></div>
+      <div><dt>Peso</dt><dd>La fuerza de una conexión. Es lo que la red aprende. Línea azul: positivo; naranja: negativo; más gruesa: más influyente.</dd></div>
+      <div><dt>Sesgo</dt><dd>Un número propio de cada neurona que desplaza su umbral de encendido.</dd></div>
+      <div><dt>Función de activación</dt><dd>Curva que dobla la suma. Sin ella, toda la red equivaldría a una sola recta.</dd></div>
+      <div><dt>Pérdida</dt><dd>Mide qué tan lejos quedó la predicción de la respuesta correcta (aquí, entropía cruzada). Entrenar es hacerla bajar.</dd></div>
+      <div><dt>Gradiente</dt><dd>Indica, para cada peso, hacia dónde y cuánto cambiaría la pérdida si ese peso se moviera.</dd></div>
+      <div><dt>Tasa de aprendizaje</dt><dd>El tamaño del paso en cada corrección. Muy pequeña: aprende lento. Muy grande: se pasa de largo.</dd></div>
+      <div><dt>Época</dt><dd>Una pasada completa por los 160 ejemplos de entrenamiento, en lotes de 10.</dd></div>
+    </dl>
+  </section>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const SUB='₀₁₂₃₄₅₆₇₈₉';
+const f2=(n,d=2)=>(Object.is(n,-0)?0:n).toFixed(d).replace('.',',').replace('-','−');
+const BATCH=10, G=50, M=25, R=1.2;
+const S={ds:'circulo',noise:.15,hidden:[4,3],act:'tanh',lr:.1,rate:12,running:false,epoch:0,
+  tr:[],te:[],sel:{l:1,j:0},sample:0,phase:0,step:null,showTest:true};
+let net,data,nodes=[],edges=[],C={};
+
+/* ---------- colores desde los tokens ---------- */
+function hex(h){h=h.replace('#','');if(h.length===3)h=[...h].map(c=>c+c).join('');return[0,2,4].map(i=>parseInt(h.slice(i,i+2),16))}
+function readColors(){const cs=getComputedStyle(document.documentElement);
+  for(const k of['bg','surface','ink','muted','line','pos','neg','accent','mid'])C[k]=cs.getPropertyValue('--'+k).trim();
+  C.P=hex(C.pos);C.N=hex(C.neg);C.M=hex(C.mid)}
+function heat(v){const t=Math.min(1,Math.abs(v))*.88,T=v>0?C.P:C.N;return[C.M[0]+(T[0]-C.M[0])*t,C.M[1]+(T[1]-C.M[1])*t,C.M[2]+(T[2]-C.M[2])*t]}
+
+/* ---------- datos ---------- */
+function gauss(){let u=0;while(!u)u=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(6.2832*Math.random())}
+function genData(){const pts=[],nz=S.noise;
+  for(let k=0;k<240;k++){let y=k%2,x1,x2;
+    if(S.ds==='grupos'){const c=y?.45:-.45,s=.17+nz*.5;x1=c+gauss()*s;x2=c+gauss()*s}
+    else if(S.ds==='circulo'){const r=y?Math.random()*.38:.62+Math.random()*.3,t=Math.random()*6.2832;
+      x1=r*Math.cos(t)+gauss()*nz*.35;x2=r*Math.sin(t)+gauss()*nz*.35}
+    else if(S.ds==='xor'){x1=(Math.random()*2-1)*.9;x2=(Math.random()*2-1)*.9;x1+=Math.sign(x1)*.07;x2+=Math.sign(x2)*.07;
+      y=x1*x2>0?1:0;x1+=gauss()*nz*.35;x2+=gauss()*nz*.35}
+    else{const t=Math.random()*Math.PI,X=y?Math.cos(t):1-Math.cos(t),Y=y?Math.sin(t):.5-Math.sin(t),s=.03+nz*.3;
+      x1=(X-.5)*.6+gauss()*s;x2=(Y-.25)*.9+gauss()*s}
+    pts.push({x:[Math.max(-1.15,Math.min(1.15,x1)),Math.max(-1.15,Math.min(1.15,x2))],y})}
+  data={train:pts.slice(0,160),test:pts.slice(160)}}
+
+/* ---------- red ---------- */
+function initNet(){const sizes=[2,...S.hidden,1];net={sizes,W:[],b:[]};
+  for(let l=0;l<sizes.length-1;l++){const nin=sizes[l],n=sizes[l+1],s=S.act==='relu'?Math.sqrt(6/nin):Math.sqrt(6/(nin+n))*1.4;
+    net.W.push(Array.from({length:n},()=>Float64Array.from({length:nin},()=>(Math.random()*2-1)*s)));
+    net.b.push(Float64Array.from({length:n},()=>S.act==='relu'?.1:0))}}
+const sig=z=>1/(1+Math.exp(-z));
+function actf(z,last){if(last)return sig(z);return S.act==='tanh'?Math.tanh(z):S.act==='relu'?Math.max(0,z):sig(z)}
+function dact(a,z){return S.act==='tanh'?1-a*a:S.act==='relu'?(z>0?1:0):a*(1-a)}
+function forward(x){const a=[x],z=[null],L=net.W.length;
+  for(let l=0;l<L;l++){const p=a[l],W=net.W[l],n=W.length,zz=new Float64Array(n),aa=new Float64Array(n);
+    for(let j=0;j<n;j++){let s=net.b[l][j];const w=W[j];for(let i=0;i<w.length;i++)s+=w[i]*p[i];zz[j]=s;aa[j]=actf(s,l===L-1)}
+    z.push(zz);a.push(aa)}
+  return{a,z}}
+function backward(fw,y){const L=net.W.length,d=new Array(L+1),dW=[],db=[];
+  d[L]=Float64Array.of(fw.a[L][0]-y);
+  for(let l=L-1;l>=1;l--){const n=net.sizes[l];d[l]=new Float64Array(n);
+    for(let i=0;i<n;i++){let s=0;for(let j=0;j<net.W[l].length;j++)s+=net.W[l][j][i]*d[l+1][j];d[l][i]=s*dact(fw.a[l][i],fw.z[l][i])}}
+  for(let l=0;l<L;l++){dW.push(net.W[l].map((w,j)=>Float64Array.from(w,(_,i)=>d[l+1][j]*fw.a[l][i])));db.push(Float64Array.from(d[l+1]))}
+  return{d,dW,db}}
+function applyGrad(gs,scale){for(const g of gs)for(let l=0;l<net.W.length;l++)for(let j=0;j<net.W[l].length;j++){
+  for(let i=0;i<net.W[l][j].length;i++)net.W[l][j][i]-=scale*g.dW[l][j][i];net.b[l][j]-=scale*g.db[l][j]}}
+function bce(p,y){p=Math.min(1-1e-7,Math.max(1e-7,p));return y?-Math.log(p):-Math.log(1-p)}
+function evalSet(set){let s=0,ok=0;for(const p of set){const o=forward(p.x).a.at(-1)[0];s+=bce(o,p.y);if((o>.5)==(p.y===1))ok++}
+  return{loss:s/set.length,acc:ok/set.length}}
+function trainEpoch(){const idx=data.train.map((_,i)=>i);
+  for(let i=idx.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[idx[i],idx[j]]=[idx[j],idx[i]]}
+  for(let s=0;s<idx.length;s+=BATCH){const gs=[];for(let k=s;k<Math.min(s+BATCH,idx.length);k++){const p=data.train[idx[k]];gs.push(backward(forward(p.x),p.y))}
+    applyGrad(gs,S.lr/gs.length)}
+  S.epoch++;record()}
+function record(){S.tr.push(evalSet(data.train).loss);S.te.push(evalSet(data.test).loss)}
+
+/* ---------- construcción del diagrama ---------- */
+function pos(l,j){const L=net.sizes.length-1,n=net.sizes[l];return{x:70+l*560/L,y:255+(j-(n-1)/2)*58}}
+function nodeName(l,j){const L=net.sizes.length-1;
+  if(l===0)return'x'+SUB[j+1];if(l===L)return'la salida ŷ';return`neurona ${j+1} de la capa oculta ${l}`}
+function buildNet(){const box=$('#net'),L=net.sizes.length-1;nodes=[];edges=[];
+  let svg='<svg viewBox="0 0 700 440" aria-hidden="true">',html='';
+  for(let l=0;l<L;l++)for(let j=0;j<net.sizes[l+1];j++)for(let i=0;i<net.sizes[l];i++){
+    const a=pos(l,i),b=pos(l+1,j),x1=a.x+23,x2=b.x-23,m=(x1+x2)/2,d=`M${x1},${a.y} C${m},${a.y} ${m},${b.y} ${x2},${b.y}`;
+    svg+=`<path class="edge" d="${d}"/><path class="hit" d="${d}" data-e="${edges.length}"/>`;edges.push({l,j,i})}
+  svg+='</svg>';
+  for(let l=0;l<=L;l++){const p=pos(l,0),left=p.x/7;
+    const name=l===0?'Entradas':l===L?'Salida':'Oculta '+l;
+    html+=`<div class="lay" style="left:${left}%"><span class="name">${name}</span>`+
+      (l>0&&l<L?`<span class="pm"><button class="btn mini" data-n="${l}" data-d="-1" aria-label="Quitar neurona de la capa oculta ${l}">−</button>${net.sizes[l]}<button class="btn mini" data-n="${l}" data-d="1" aria-label="Agregar neurona a la capa oculta ${l}">+</button></span>`:'')+'</div>';
+    for(let j=0;j<net.sizes[l];j++){const q=pos(l,j);
+      html+=`<button class="node" data-l="${l}" data-j="${j}" style="left:${q.x/7}%;top:${q.y/4.4}%" aria-label="${nodeName(l,j)}"><canvas width="${M}" height="${M}"></canvas><span class="pill" hidden></span></button>`;
+      if(l===0)html+=`<span class="nlabel" style="left:${(q.x-23)/7}%;top:${q.y/4.4}%">x${SUB[j+1]}</span>`;
+      if(l===L)html+=`<span class="nlabel r" style="left:${(q.x+23)/7}%;top:${q.y/4.4}%">ŷ</span>`}}
+  box.innerHTML=svg+html;
+  const ps=box.querySelectorAll('.edge');edges.forEach((e,k)=>e.el=ps[k]);
+  box.querySelectorAll('.node').forEach(el=>{const cv=el.firstChild;
+    nodes.push({l:+el.dataset.l,j:+el.dataset.j,el,ctx:cv.getContext('2d'),img:new ImageData(M,M),pill:el.lastChild})});
+  $('#l-n').textContent=S.hidden.length;$('#l-minus').disabled=S.hidden.length<=1;$('#l-plus').disabled=S.hidden.length>=3;
+  if(S.sel.l>L||S.sel.j>=net.sizes[S.sel.l])S.sel={l:1,j:0}}
+
+/* ---------- dibujo ---------- */
+const off=document.createElement('canvas');off.width=off.height=G;const offc=off.getContext('2d'),offImg=new ImageData(G,G);
+function disp(l,v){const L=net.sizes.length-1;if(l===0)return v/R;if(l===L)return 2*v-1;
+  return S.act==='tanh'?v:S.act==='relu'?Math.tanh(v):2*v-1}
+function drawMaps(){const L=net.sizes.length-1,byL=[];for(const n of nodes)(byL[n.l]??=[])[n.j]=n;
+  for(let gy=0;gy<G;gy++)for(let gx=0;gx<G;gx++){
+    const x=[-R+2*R*(gx+.5)/G,R-2*R*(gy+.5)/G],fw=forward(x),c=heat(2*fw.a[L][0]-1),o=(gy*G+gx)*4;
+    offImg.data[o]=c[0];offImg.data[o+1]=c[1];offImg.data[o+2]=c[2];offImg.data[o+3]=255;
+    if(gx%2===0&&gy%2===0){const mo=((gy>>1)*M+(gx>>1))*4;
+      for(let l=0;l<=L;l++)for(let j=0;j<net.sizes[l];j++){const cc=heat(disp(l,fw.a[l][j])),d=byL[l][j].img.data;
+        d[mo]=cc[0];d[mo+1]=cc[1];d[mo+2]=cc[2];d[mo+3]=255}}}
+  offc.putImageData(offImg,0,0);for(const n of nodes)n.ctx.putImageData(n.img,0,0)}
+function fit(cv){const r=cv.getBoundingClientRect(),d=window.devicePixelRatio||1,w=Math.max(1,Math.round(r.width*d)),h=Math.max(1,Math.round(r.height*d));
+  if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h}return{ctx:cv.getContext('2d'),w,h,d}}
+function drawOut(){const{ctx,w,d}=fit($('#out'));ctx.imageSmoothingEnabled=true;ctx.drawImage(off,0,0,w,w);
+  const X=v=>(v+R)/(2*R)*w,Y=v=>(R-v)/(2*R)*w;
+  ctx.strokeStyle=C.muted;ctx.globalAlpha=.35;ctx.lineWidth=d;ctx.beginPath();ctx.moveTo(X(0),0);ctx.lineTo(X(0),w);ctx.moveTo(0,Y(0));ctx.lineTo(w,Y(0));ctx.stroke();
+  ctx.globalAlpha=.9;ctx.fillStyle=C.ink;ctx.font=`${11*d}px JetBrains Mono,monospace`;ctx.textAlign='center';
+  for(const t of[-1,1])ctx.fillText(t<0?'−1':'1',X(t),Y(0)+13*d);
+  ctx.textAlign='left';for(const t of[-1,1])ctx.fillText(t<0?'−1':'1',X(0)+5*d,Y(t)+4*d);
+  ctx.fillText('x₁',w-20*d,Y(0)-6*d);ctx.fillText('x₂',X(0)+5*d,13*d);ctx.globalAlpha=1;
+  if(S.showTest)for(const p of data.test){ctx.beginPath();ctx.arc(X(p.x[0]),Y(p.x[1]),3.4*d,0,7);ctx.fillStyle=C.surface;ctx.fill();ctx.lineWidth=1.8*d;ctx.strokeStyle=p.y?C.pos:C.neg;ctx.stroke()}
+  for(const p of data.train){ctx.beginPath();ctx.arc(X(p.x[0]),Y(p.x[1]),4*d,0,7);ctx.fillStyle=p.y?C.pos:C.neg;ctx.fill();ctx.lineWidth=1.2*d;ctx.strokeStyle=C.surface;ctx.stroke()}
+  const s=data.train[S.sample];ctx.beginPath();ctx.arc(X(s.x[0]),Y(s.x[1]),9*d,0,7);ctx.lineWidth=2.5*d;ctx.strokeStyle=C.ink;ctx.stroke()}
+function drawLoss(){const{ctx,w,h,d}=fit($('#loss'));ctx.clearRect(0,0,w,h);
+  const ml=38*d,mr=10*d,mt=8*d,mb=20*d,n=S.tr.length;
+  let mx=Math.max(.1,...S.tr,...S.te);mx=mx>1?Math.ceil(mx*2)/2:Math.ceil(mx*10)/10;
+  const X=i=>ml+(n>1?i/(n-1):0)*(w-ml-mr),Y=v=>mt+(1-Math.min(v,mx)/mx)*(h-mt-mb);
+  ctx.font=`${10.5*d}px JetBrains Mono,monospace`;ctx.fillStyle=C.muted;ctx.strokeStyle=C.line;ctx.lineWidth=d;
+  ctx.textAlign='right';for(const t of[0,mx/2,mx]){ctx.beginPath();ctx.moveTo(ml,Y(t));ctx.lineTo(w-mr,Y(t));ctx.stroke();ctx.fillText(f2(t),ml-6*d,Y(t)+4*d)}
+  ctx.textAlign='left';ctx.fillText('época 0',ml,h-5*d);ctx.textAlign='right';ctx.fillText('época '+S.epoch,w-mr,h-5*d);
+  if(n<2){ctx.textAlign='center';ctx.fillText('Pulsa Entrenar para ver bajar la pérdida',(ml+w-mr)/2,(mt+h-mb)/2);}
+  const st=Math.ceil(n/500);
+  const line=(arr,col,dash,lw)=>{ctx.beginPath();for(let i=0;i<n;i+=st)ctx[i?'lineTo':'moveTo'](X(i),Y(arr[i]));ctx.lineTo(X(n-1),Y(arr[n-1]));
+    ctx.setLineDash(dash);ctx.strokeStyle=col;ctx.lineWidth=lw*d;ctx.stroke();ctx.setLineDash([])};
+  if(n>=2){line(S.te,C.muted,[5*d,4*d],1.6);line(S.tr,C.ink,[],2)}
+  ctx.beginPath();ctx.arc(X(n-1),Y(S.tr[n-1]),3.5*d,0,7);ctx.fillStyle=C.ink;ctx.fill()}
+function drawEdges(){const box=$('#net'),back=S.phase===3;
+  box.classList.toggle('flow-fwd',S.running||S.phase===1);box.classList.toggle('flow-back',back);
+  let mg=1e-9;if(back)for(const e of edges)mg=Math.max(mg,Math.abs(S.step.bw.dW[e.l][e.j][e.i]));
+  for(const e of edges){const w=net.W[e.l][e.j][e.i];
+    if(back){const g=Math.abs(S.step.bw.dW[e.l][e.j][e.i])/mg;e.el.style.stroke=C.accent;e.el.style.strokeWidth=.6+7.5*g}
+    else{e.el.style.stroke=w>=0?C.pos:C.neg;e.el.style.strokeWidth=Math.min(8.5,.6+Math.abs(w)*2.1)}}
+  for(const n of nodes){n.el.classList.toggle('sel',n.l===S.sel.l&&n.j===S.sel.j);
+    if(S.phase>=1&&S.phase<=3&&!(back&&n.l===0)){n.pill.hidden=false;
+      n.pill.textContent=back?'δ '+f2(S.step.bw.d[n.l][n.j]):f2(S.step.fw.a[n.l][n.j])}else n.pill.hidden=true}}
+function drawStats(){const tr=S.tr.at(-1),te=evalSet(data.test);
+  $('#s-ep').textContent=S.epoch;$('#s-tr').textContent=f2(tr,3);$('#s-te').textContent=f2(te.loss,3);$('#s-acc').textContent=Math.round(te.acc*100)+' %'}
+const cls=y=>y?'<span class="cpos">azul (1)</span>':'<span class="cneg">naranja (0)</span>';
+function drawInspector(){const{l,j}=S.sel,L=net.sizes.length-1,p=data.train[S.sample],fw=forward(p.x);
+  $('#insp-sub').innerHTML=`Punto seleccionado: (x₁ = ${f2(p.x[0])}; x₂ = ${f2(p.x[1])}), clase real ${cls(p.y)}.`;
+  const cv=$('#actplot');
+  if(l===0){$('#insp-title').textContent='Entrada x'+SUB[j+1];cv.hidden=true;
+    $('#insp-tbl').innerHTML=`<p>Las entradas no calculan nada: solo entregan el dato a la primera capa. Aquí x${SUB[j+1]} = <b class="mono">${f2(p.x[j])}</b>.</p>`;return}
+  cv.hidden=false;const fn=l===L?'sigmoide':S.act==='sigmoid'?'sigmoide':S.act==='relu'?'ReLU':'tanh';
+  $('#insp-title').textContent=l===L?'Dentro de la neurona de salida':`Dentro de la neurona ${j+1} de la capa oculta ${l}`;
+  let h='<table><tr><th>Entrada</th><th>Valor</th><th>Peso</th><th>Valor × peso</th></tr>';
+  net.W[l-1][j].forEach((w,i)=>{const v=fw.a[l-1][i];h+=`<tr><td>${l===1?'x':'a'}${SUB[i+1]}</td><td>${f2(v)}</td><td class="${w>=0?'cpos':'cneg'}">${f2(w)}</td><td>${f2(v*w)}</td></tr>`});
+  h+=`<tr><td>Sesgo</td><td></td><td></td><td>${f2(net.b[l-1][j])}</td></tr>`+
+    `<tr class="sum"><td>Suma z</td><td></td><td></td><td>${f2(fw.z[l][j])}</td></tr>`+
+    `<tr class="sum"><td>Salida = ${fn}(z)</td><td></td><td></td><td>${f2(fw.a[l][j])}</td></tr></table>`;
+  $('#insp-tbl').innerHTML=h;
+  const{ctx,w,h:H,d}=fit(cv);ctx.clearRect(0,0,w,H);const relu=l<L&&S.act==='relu',lo=relu?-.5:(fn==='sigmoide'?-.15:-1.15),hi=relu?4:1.15;
+  const X=z=>(z+4)/8*w,Y=a=>H-6*d-(a-lo)/(hi-lo)*(H-12*d);
+  ctx.strokeStyle=C.line;ctx.lineWidth=d;ctx.beginPath();ctx.moveTo(0,Y(0));ctx.lineTo(w,Y(0));ctx.moveTo(X(0),0);ctx.lineTo(X(0),H);ctx.stroke();
+  ctx.beginPath();for(let k=0;k<=80;k++){const z=-4+k/10;ctx[k?'lineTo':'moveTo'](X(z),Y(actf(z,l===L)))}ctx.strokeStyle=C.ink;ctx.lineWidth=2*d;ctx.stroke();
+  const z=Math.max(-4,Math.min(4,fw.z[l][j])),a=Math.max(lo,Math.min(hi,fw.a[l][j]));
+  ctx.beginPath();ctx.arc(X(z),Y(a),5*d,0,7);ctx.fillStyle=C.accent;ctx.fill();
+  ctx.fillStyle=C.muted;ctx.font=`${10.5*d}px JetBrains Mono,monospace`;ctx.textAlign='left';ctx.fillText(fn+'(z)',4*d,12*d);ctx.textAlign='right';ctx.fillText('z',w-4*d,Y(0)-5*d)}
+const STEP_LABEL=['1 · Propagar un ejemplo','2 · Calcular el error','3 · Retropropagar','4 · Ajustar pesos','Otro ejemplo ↻'];
+function drawCycle(){const lis=$('#cycle').children;for(let k=0;k<4;k++)lis[k].classList.toggle('on',S.phase===k+1);
+  $('#cycle').classList.toggle('loop',S.running);$('#step').textContent=STEP_LABEL[S.phase];
+  $('#play').textContent=S.running?'❚❚ Pausar':'▶ Entrenar';
+  const ex=$('#explain'),st=S.step,p=data.train[S.sample];let t;
+  if(S.running)t=`Entrenando: en cada época la red repite las cuatro fases 16 veces, una por cada lote de ${BATCH} ejemplos. Mira cómo engordan o cambian de color las conexiones y cómo el fondo del mapa se acomoda a los puntos.`;
+  else if(S.phase===0)t='Pulsa <b>Entrenar</b> para ver el aprendizaje completo, o el botón violeta para seguir un solo ejemplo fase por fase, con sus números.';
+  else{const yh=st.fw.a.at(-1)[0];
+    if(S.phase===1)t=`Entra el punto marcado (x₁ = ${f2(p.x[0])}; x₂ = ${f2(p.x[1])}). Cada neurona multiplica sus entradas por los pesos, suma su sesgo y aplica la activación; el número sobre cada una es su resultado. La red responde <b>ŷ = ${f2(yh)}</b>: ${Math.round(yh*100)} % de probabilidad de que sea azul.`;
+    else if(S.phase===2)t=`La respuesta correcta es ${cls(p.y)} y la red dijo ${f2(yh)}. La pérdida mide esa distancia: ${p.y?'−ln(ŷ)':'−ln(1 − ŷ)'} = <b>${f2(st.loss,3)}</b>. Cuanto más cerca de 0, mejor.`;
+    else if(S.phase===3)t=`El error de salida (ŷ − y = ${f2(yh-p.y)}) viaja hacia atrás. Cada conexión recibe un <span class="cacc">gradiente</span>: cuánto cambiaría la pérdida si ese peso cambiara. Las líneas más gruesas son las más responsables. La mayor: de ${nodeName(st.top.l,st.top.i)} a ${nodeName(st.top.l+1,st.top.j)}, gradiente = ${f2(st.top.g,3)}.`;
+    else t=`Cada peso se movió en contra de su gradiente: peso nuevo = peso − η × gradiente, con η = ${f2(S.lr,S.lr<.01?3:2)}. El de ${nodeName(st.top.l,st.top.i)} a ${nodeName(st.top.l+1,st.top.j)} pasó de ${f2(st.top.w0,3)} a ${f2(st.top.w1,3)}. La pérdida de este punto ${st.loss2<=st.loss?'bajó':'subió (el paso fue demasiado largo)'} de ${f2(st.loss,3)} a <b>${f2(st.loss2,3)}</b>.`}
+  ex.innerHTML=t}
+function render(){drawMaps();drawOut();drawEdges();drawStats();drawLoss();drawInspector();drawCycle()}
+
+/* ---------- acciones ---------- */
+function resetAll(regen){S.running=false;S.epoch=0;S.tr=[];S.te=[];S.phase=0;S.step=null;
+  if(regen){genData();S.sample=0}initNet();record();buildNet();render()}
+function stepPhase(){S.running=false;const st=S.step;
+  if(S.phase===0||S.phase===4){S.sample=Math.random()*data.train.length|0;const p=data.train[S.sample],fw=forward(p.x);
+    S.step={fw,loss:bce(fw.a.at(-1)[0],p.y)};S.phase=1}
+  else if(S.phase===1)S.phase=2;
+  else if(S.phase===2){const p=data.train[S.sample];st.bw=backward(st.fw,p.y);let top={g:0,l:0,j:0,i:0};
+    for(const e of edges){const g=st.bw.dW[e.l][e.j][e.i];if(Math.abs(g)>=Math.abs(top.g))top={g,l:e.l,j:e.j,i:e.i}}
+    st.top=top;S.phase=3}
+  else{const p=data.train[S.sample],t=st.top;t.w0=net.W[t.l][t.j][t.i];applyGrad([st.bw],S.lr);t.w1=net.W[t.l][t.j][t.i];
+    st.loss2=bce(forward(p.x).a.at(-1)[0],p.y);S.tr[S.tr.length-1]=evalSet(data.train).loss;S.te[S.te.length-1]=evalSet(data.test).loss;S.phase=4}
+  render()}
+function leaveStep(){S.phase=0;S.step=null}
+const EDGE_HINT='Línea <span class="cpos">azul</span>: peso positivo. <span class="cneg">Naranja</span>: negativo. El grosor es su magnitud. Pasa el cursor sobre una conexión para ver su valor; el cuadrito de cada neurona muestra en qué zona del plano se activa.';
+$('#edgeinfo').innerHTML=EDGE_HINT;
+$('#play').onclick=()=>{leaveStep();S.running=!S.running;render()};
+$('#one').onclick=()=>{leaveStep();S.running=false;trainEpoch();render()};
+$('#step').onclick=stepPhase;
+$('#reset').onclick=()=>resetAll(false);
+$('#speed').onchange=e=>S.rate=+e.target.value;
+$('#ds').onchange=e=>{S.ds=e.target.value;resetAll(true)};
+$('#noise').oninput=e=>{S.noise=e.target.value/100;$('#noise-v').textContent=e.target.value+' %';resetAll(true)};
+$('#lr').onchange=e=>S.lr=+e.target.value;
+$('#act').onchange=e=>{S.act=e.target.value;resetAll(false)};
+$('#showtest').onchange=e=>{S.showTest=e.target.checked;render()};
+$('#l-minus').onclick=()=>{if(S.hidden.length>1){S.hidden.pop();resetAll(false)}};
+$('#l-plus').onclick=()=>{if(S.hidden.length<3){S.hidden.push(3);resetAll(false)}};
+$('#net').addEventListener('click',e=>{const b=e.target.closest('[data-n]'),n=e.target.closest('.node');
+  if(b){const l=+b.dataset.n-1,v=S.hidden[l]+ +b.dataset.d;if(v>=1&&v<=6){S.hidden[l]=v;resetAll(false)}}
+  else if(n){S.sel={l:+n.dataset.l,j:+n.dataset.j};drawEdges();drawInspector()}});
+$('#net').addEventListener('mouseover',e=>{const k=e.target.dataset?.e;if(k===undefined)return;const ed=edges[k],w=net.W[ed.l][ed.j][ed.i];
+  $('#edgeinfo').innerHTML=`Conexión de ${nodeName(ed.l,ed.i)} a ${nodeName(ed.l+1,ed.j)}: peso = <b class="mono ${w>=0?'cpos':'cneg'}">${f2(w,3)}</b>`});
+$('#net').addEventListener('mouseout',e=>{if(e.target.dataset?.e!==undefined)$('#edgeinfo').innerHTML=EDGE_HINT});
+$('#out').addEventListener('click',e=>{const r=e.currentTarget.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*2*R-R,y=R-(e.clientY-r.top)/r.height*2*R;
+  let best=0,bd=1e9;data.train.forEach((p,i)=>{const d=(p.x[0]-x)**2+(p.x[1]-y)**2;if(d<bd){bd=d;best=i}});
+  S.sample=best;leaveStep();render()});
+const EXP={a:{ds:'circulo',hidden:[1],lr:.1},b:{ds:'lunas',hidden:[4,4],lr:3},c:{ds:'xor',hidden:[4,3],lr:.1}};
+document.querySelectorAll('[data-exp]').forEach(b=>b.onclick=()=>{const x=EXP[b.dataset.exp];S.ds=x.ds;S.hidden=[...x.hidden];S.lr=x.lr;S.act='tanh';
+  $('#ds-'+x.ds).checked=true;$('#lr').value=String(x.lr);$('#act').value='tanh';resetAll(true);S.running=true;render();
+  $('#net').scrollIntoView({behavior:'smooth',block:'center'})});
+
+/* ---------- bucle ---------- */
+let last=0,acc=0;
+function loop(t){if(S.running){acc=Math.min(8,acc+(t-last)/1000*S.rate);const n=Math.floor(acc);acc-=n;for(let k=0;k<n;k++)trainEpoch();if(n)render()}
+  last=t;requestAnimationFrame(loop)}
+const retheme=()=>{readColors();render()};
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',retheme);
+new MutationObserver(retheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+new ResizeObserver(()=>{drawOut();drawLoss();drawInspector()}).observe($('#out'));
+readColors();genData();initNet();record();buildNet();render();requestAnimationFrame(loop);
+</script>
+
+</body></html>
