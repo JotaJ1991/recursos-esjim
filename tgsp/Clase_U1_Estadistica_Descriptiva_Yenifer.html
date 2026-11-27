@@ -1,0 +1,1143 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estadística descriptiva · Unidad 1</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --azul:#0b2545; --azul2:#13315c; --azul3:#1d4e89;
+  --oro:#e0a80d; --oro2:#ffd166;
+  --verde:#1b998b; --rojo:#e63946; --violeta:#7b2cbf;
+  --claro:#f6f8fc; --blanco:#fff; --gris:#64748b;
+  --sombra:0 20px 50px rgba(11,37,69,.18);
+  --sombra2:0 8px 24px rgba(11,37,69,.12);
+}
+html,body{height:100%}
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+  background:
+    radial-gradient(1200px 700px at 10% -10%, #1d4e89 0%, transparent 55%),
+    radial-gradient(900px 600px at 100% 110%, #7b2cbf22 0%, transparent 60%),
+    linear-gradient(135deg,#081b33 0%,#0b2545 55%,#13315c 100%);
+  color:#0f172a; overflow:hidden;
+}
+button{font-family:inherit}
+#viewport{position:fixed;left:0;right:0;top:0;bottom:62px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#stage{width:1280px;height:720px;position:relative;flex:none;transform-origin:center center}
+.slide{position:absolute;inset:0;display:none;padding:40px 30px 14px;animation:entra .55s cubic-bezier(.22,1,.36,1) both}
+.slide.on{display:block}
+@keyframes entra{from{opacity:0;transform:translateY(28px) scale(.985)}to{opacity:1;transform:none}}
+.marca{position:absolute;top:13px;right:30px;color:#ffffff8c;font-size:11.5px;letter-spacing:2px;font-weight:700}
+.card{background:var(--blanco);border-radius:26px;box-shadow:var(--sombra);padding:26px 36px;height:100%;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:7px;background:linear-gradient(90deg,var(--azul),var(--verde),var(--oro),var(--rojo))}
+
+h1{font-size:54px;line-height:1.08;color:var(--azul);letter-spacing:-.5px}
+h2{font-size:32px;color:var(--azul);margin-bottom:2px;letter-spacing:-.3px}
+h3{font-size:19px;color:var(--azul2);margin-bottom:8px}
+h4{font-size:17px;color:var(--azul2)}
+p{font-size:17px;line-height:1.5;color:#334155}
+.lead{font-size:19px;color:#475569;line-height:1.55}
+.sub{color:var(--gris);font-size:13.5px;letter-spacing:2.5px;text-transform:uppercase;font-weight:700}
+.hl{background:linear-gradient(180deg,transparent 58%,var(--oro2) 58%);padding:0 4px;font-weight:700;color:var(--azul)}
+.tit{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.tit .ico{width:56px;height:56px;flex:0 0 56px;border-radius:18px;display:grid;place-items:center;font-size:27px;background:linear-gradient(135deg,var(--azul3),var(--azul));color:#fff;box-shadow:0 10px 22px rgba(29,78,137,.35)}
+.tit .tools{margin-left:auto;display:flex;align-items:center;gap:10px}
+
+/* portada */
+.portada{height:100%;display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center;color:#fff;padding:0 34px}
+.badge{display:inline-flex;align-items:center;gap:9px;background:#ffffff1f;border:1px solid #ffffff38;color:#fff;padding:9px 18px;border-radius:999px;font-size:13px;font-weight:700;letter-spacing:1.3px;margin-bottom:20px}
+.portada h1{color:#fff;text-shadow:0 6px 30px rgba(0,0,0,.35)}
+.portada h1 span{display:block;background:linear-gradient(90deg,var(--oro2),#fff 60%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.portada .lead{color:#dbe7f5;margin-top:16px;max-width:620px}
+.flot{animation:flot 5.5s ease-in-out infinite}
+@keyframes flot{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+/* docente */
+.docente{background:#ffffff14;border:1px solid #ffffff2b;border-radius:20px;padding:14px 22px;display:flex;align-items:center;gap:16px;max-width:560px}
+.docente small{display:block;color:var(--oro2);font-size:11.5px;letter-spacing:2px;text-transform:uppercase;font-weight:800}
+.docente b{font-size:19px;color:#fff;display:block;margin-top:2px}
+.docente i{font-style:normal;color:#a9c2de;font-size:13.5px;display:block;margin-top:2px}
+.avatar{width:72px;height:72px;flex:0 0 72px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,var(--oro),#ff8c42);border:3px solid var(--oro2);box-shadow:0 8px 20px rgba(224,168,13,.45)}
+.avatar img{width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block}
+.retrato{position:relative;border-radius:22px;overflow:hidden;background:linear-gradient(160deg,#fff,#eef4fb);box-shadow:0 18px 46px rgba(3,14,30,.35);border:1px solid #e2e8f0}
+.retrato img{width:100%;display:block}
+.retrato .pie{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(6,20,38,.94) 55%);color:#fff;padding:54px 18px 16px}
+.retrato .pie small{display:block;color:var(--oro2);font-size:11.5px;letter-spacing:2px;text-transform:uppercase;font-weight:800;margin-bottom:5px}
+.retrato .pie b{display:block;font-size:20px;line-height:1.2}
+.retrato .pie i{display:block;color:#b9cde4;font-size:13.5px;font-style:normal;margin-top:4px}
+
+/* grids y cajas */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.g23{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:start}
+.g32{display:grid;grid-template-columns:.85fr 1.15fr;gap:24px;align-items:start}
+.box{background:var(--claro);border:1px solid #e2e8f0;border-radius:18px;padding:16px 18px;transition:.25s;position:relative;overflow:hidden}
+.box:hover{transform:translateY(-4px);box-shadow:var(--sombra2);border-color:var(--azul3)}
+.box .n{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-weight:800;color:#fff;font-size:18px;margin-bottom:9px;background:var(--azul3)}
+.box p{font-size:15.5px}
+.box.oro .n{background:var(--oro)} .box.verde .n{background:var(--verde)} .box.rojo .n{background:var(--rojo)} .box.violeta .n{background:var(--violeta)}
+.box.fila{display:flex;gap:14px;align-items:center}
+.box.fila .n{margin:0;flex:0 0 40px}
+
+/* simuladores */
+.sim{background:linear-gradient(150deg,#0b2545,#1d4e89);border-radius:22px;padding:20px 22px;color:#fff;box-shadow:var(--sombra)}
+.sim h3{color:var(--oro2);font-size:18px;display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.sim p{color:#dbe7f5}
+.sim .tag{display:inline-block;background:var(--oro);color:#2b1a00;font-size:11px;font-weight:800;letter-spacing:1.5px;padding:4px 10px;border-radius:999px;text-transform:uppercase}
+.ctrl label{display:flex;justify-content:space-between;align-items:center;color:#cfe0f2;font-size:14.5px;font-weight:700;margin-bottom:4px}
+.ctrl label b{color:var(--oro2);font-size:18px;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;height:7px;border-radius:99px;-webkit-appearance:none;appearance:none;background:#ffffff2e;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--oro2);border:3px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.4);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--oro2);border:3px solid #fff;cursor:pointer}
+.out{background:#ffffff17;border:1.5px solid #ffffff30;border-radius:14px;padding:10px 14px}
+.out .k{color:#a9c2de;font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800}
+.out .v{font-size:27px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;line-height:1.25;margin-top:2px}
+.out .v small{font-size:14px;color:var(--oro2);font-weight:700}
+.btn2{background:var(--oro);color:#2b1a00;border:none;border-radius:12px;padding:10px 18px;font-size:14.5px;font-weight:800;cursor:pointer;transition:.2s}
+.btn2:hover{background:var(--oro2);transform:translateY(-2px)}
+.btn3{background:#ffffff1f;border:1.5px solid #ffffff3d;color:#fff;border-radius:12px;padding:8px 14px;font-size:14px;font-weight:700;cursor:pointer;transition:.2s}
+.btn3:hover{background:#ffffff33}
+.btn3.act{background:var(--oro);color:#2b1a00;border-color:var(--oro)}
+.btnL{background:#eef4fb;border:1.5px solid #cfe0f2;color:var(--azul2);border-radius:12px;padding:8px 14px;font-size:14px;font-weight:800;cursor:pointer;transition:.2s}
+.btnL:hover{background:var(--oro);border-color:var(--oro);color:#2b1a00}
+.btnL.act{background:var(--azul3);border-color:var(--azul3);color:#fff}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+
+/* chips, alertas, cita */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
+.chip{background:#eef4fb;border:1px solid #cfe0f2;color:var(--azul2);padding:6px 13px;border-radius:999px;font-size:14px;font-weight:600}
+.chip.o{background:#fff6e0;border-color:#f2dda4;color:#8a6100}
+.chip.v{background:#e6f7f4;border-color:#a9e5dc;color:#0f6b60}
+.chip.r{background:#fdeaec;border-color:#f5c2c7;color:#a01722}
+.chip.vi{background:#f3e8fd;border-color:#dcc2f5;color:#5b1d96}
+.chipd{background:#ffffff1a;border-color:#ffffff33;color:#fff}
+.alert{border-radius:16px;padding:12px 16px;font-size:16px;display:flex;gap:12px;align-items:flex-start;line-height:1.45}
+.alert .i{font-size:22px;line-height:1;flex:0 0 auto}
+.a-err{background:#fdeaec;border-left:5px solid var(--rojo);color:#7a1220}
+.a-ok{background:#e6f7f4;border-left:5px solid var(--verde);color:#0b5a51}
+.a-info{background:#eef4fb;border-left:5px solid var(--azul3);color:#153e6e}
+.a-warn{background:#fff6e0;border-left:5px solid var(--oro);color:#6b4d00}
+.cita{background:linear-gradient(135deg,#fff6e0,#fffdf6);border-left:6px solid var(--oro);border-radius:0 18px 18px 0;padding:14px 20px;font-size:17px;font-style:italic;color:#5c4300;line-height:1.5}
+
+/* matemática */
+.m{font-family:'Cambria Math',Cambria,'Times New Roman',serif}
+.m i,.vi{font-style:italic}
+.xbar{text-decoration:overline;text-decoration-thickness:2px;font-style:italic}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 5px;line-height:1.15}
+.fr>span:first-child{border-bottom:2.2px solid currentColor;padding:0 6px 3px}
+.fr>span:last-child{padding:3px 6px 0}
+.sum{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:.95;margin-right:2px}
+.sum b{font-size:1.45em;font-weight:400}
+.sum small{font-size:.55em}
+.raiz{display:inline-flex;align-items:stretch;vertical-align:middle}
+.raiz>.s{width:20px;flex:0 0 20px;font-size:0;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 40' preserveAspectRatio='none'><path d='M1 26 L5 23 L10 39 L19.5 1' fill='none' stroke='%230b2545' stroke-width='2.2' vector-effect='non-scaling-stroke'/></svg>") no-repeat;background-size:100% 100%}
+.raiz>.c{border-top:2.2px solid currentColor;padding:6px 6px 0;display:inline-flex;align-items:center}
+.res{display:inline-block;border:2.5px solid var(--azul3);border-radius:10px;padding:2px 12px;background:#fff6e0;font-weight:800;color:var(--azul)}
+.eqs{display:grid;grid-template-columns:auto 1fr auto;column-gap:12px;row-gap:10px;align-items:center;font-size:22px;color:var(--azul)}
+.eqs .lhs{text-align:right}
+.eqs .lab{font-family:'Segoe UI',system-ui,sans-serif;font-size:13px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--gris);background:#eef4fb;padding:4px 10px;border-radius:999px;justify-self:start}
+.paso{font-size:16.5px;color:#334155;line-height:1.45;margin-bottom:8px}
+.paso b.pn{display:inline-block;background:var(--azul3);color:#fff;border-radius:8px;padding:1px 9px;font-size:13.5px;margin-right:6px;letter-spacing:.5px}
+.interp{background:#e6f7f4;border-left:5px solid var(--verde);border-radius:0 14px 14px 0;padding:11px 16px;font-size:16px;color:#0b5a51;line-height:1.45}
+.interp b{color:#075048}
+
+/* pasos revelables */
+.slide [data-s]{transition:opacity .45s ease,filter .45s ease,transform .45s ease}
+.slide [data-s]:not(.vis){opacity:.1;filter:grayscale(1)}
+.slide [data-s].pop:not(.vis){opacity:0;transform:scale(.6)}
+.stepb{display:flex;align-items:center;gap:8px;background:#eef4fb;border:1.5px solid #cfe0f2;border-radius:14px;padding:5px 6px 5px 14px}
+.stepb span{font-size:13px;font-weight:800;color:var(--azul2);letter-spacing:1px;min-width:74px}
+.stepb button{border:none;border-radius:10px;padding:8px 14px;font-weight:800;font-size:14px;cursor:pointer;background:var(--azul3);color:#fff;transition:.2s}
+.stepb button:hover{background:var(--oro);color:#2b1a00}
+.stepb button.r{background:#fff;color:var(--azul2);border:1.5px solid #cfe0f2;padding:6px 10px}
+
+/* tablas */
+table.t{border-collapse:collapse;width:100%;font-size:16.5px}
+table.t th{background:var(--azul);color:#fff;font-weight:700;padding:9px 12px;text-align:center;font-size:15px}
+table.t th:first-child{border-radius:12px 0 0 0} table.t th:last-child{border-radius:0 12px 0 0}
+table.t td{padding:7px 12px;border-bottom:1px solid #e2e8f0;text-align:center;font-variant-numeric:tabular-nums;color:#1e293b}
+table.t tr:nth-child(even) td{background:#f8fafc}
+table.t tr.tot td{font-weight:800;background:#fff6e0;border-top:2px solid var(--oro);color:#6b4d00}
+table.t td.neg{color:#c81e2c;font-weight:700} table.t td.pos{color:#0f7d70;font-weight:700}
+table.t.cc td{padding:13px 12px}
+table.t tr.sel td{background:#fff3cd !important}
+#tDatos td{padding:12px 12px}
+table.t tr.clk{cursor:pointer} table.t tr.clk:hover td{background:#eef4fb}
+
+/* fichas de datos */
+.fichas{display:flex;gap:12px;justify-content:center}
+.ficha{width:86px;border-radius:16px;background:#eef4fb;border:2px solid #cfe0f2;text-align:center;padding:10px 0 8px;position:relative;transition:.35s}
+.ficha .sec{font-size:12.5px;font-weight:800;color:var(--gris);letter-spacing:1px}
+.ficha .val{font-size:32px;font-weight:800;color:var(--azul);line-height:1.1}
+.ficha .pos{font-size:12px;font-weight:700;color:var(--azul3)}
+.ficha.c{background:#fff6e0;border-color:var(--oro);transform:translateY(-8px);box-shadow:0 10px 22px rgba(224,168,13,.3)}
+.ficha.cv{background:#f3e8fd;border-color:var(--violeta);transform:translateY(-8px)}
+.ficha .tg{position:absolute;top:-13px;font-size:14px;font-weight:800;color:#fff;border-radius:999px;padding:2px 11px;box-shadow:0 3px 8px rgba(0,0,0,.2)}
+.fichas.big .ficha{width:128px;padding:14px 0 10px}.fichas.big .ficha .val{font-size:46px}.fichas.big .ficha .sec{font-size:14px}.fichas.big .ficha .pos{font-size:13.5px}
+.ficha .tg.m{left:-6px;background:var(--rojo);font-family:'Segoe UI'}
+.ficha .tg.d{right:-6px;background:var(--verde)}
+.ficha .ring{position:absolute;inset:-7px;border:3.5px solid var(--oro);border-radius:20px;box-shadow:0 0 22px rgba(224,168,13,.6)}
+
+/* reto */
+.opt{background:#ffffff14;border:1.5px solid #ffffff30;border-radius:13px;padding:11px 14px;margin-top:9px;cursor:pointer;transition:.2s;font-size:16.5px;display:flex;align-items:center;gap:11px;color:#fff;width:100%;text-align:left;font-weight:600}
+.opt:hover{background:#ffffff26;transform:translateX(5px)}
+.opt .k{width:28px;height:28px;flex:0 0 28px;border-radius:8px;background:#ffffff2b;display:grid;place-items:center;font-weight:800;font-size:14px}
+.opt.ok{background:#1b998b;border-color:#06d6a0}
+.opt.no{background:#e6394655;border-color:#e63946}
+.fb{margin-top:12px;font-size:15.5px;background:#ffffff18;border-radius:11px;padding:12px 14px;display:none;color:#e8f1fb;line-height:1.45}
+.fb.show{display:block;animation:entra .4s both}
+.q{display:none}.q.on{display:block;animation:entra .45s both}
+#qdots{display:flex;gap:8px}
+#qdots i{width:32px;height:32px;border-radius:9px;background:#eef4fb;border:1.5px solid #cfe0f2;display:grid;place-items:center;font-style:normal;font-weight:800;font-size:14px;cursor:pointer;color:var(--azul2)}
+#qdots i.on{background:var(--oro);color:#2b1a00;border-color:var(--oro)}
+#qdots i.ok{background:#1b998b;border-color:#06d6a0;color:#fff}
+#qdots i.no{background:#e63946;border-color:#e63946;color:#fff}
+
+/* venn y gráficos */
+svg text{font-family:'Segoe UI',system-ui,sans-serif}
+.barclk{cursor:pointer;transition:opacity .2s}
+.barclk:hover{opacity:.85}
+
+/* ¿qué es? */
+.que{position:relative;display:flex;gap:12px;align-items:center;background:linear-gradient(90deg,#fff6e0,#fffdf6);border:1.5px solid #f2dda4;border-radius:16px;padding:9px 14px;margin:-4px 0 12px}
+.que .qi{width:36px;height:36px;flex:0 0 36px;border-radius:11px;display:grid;place-items:center;font-size:19px;background:linear-gradient(135deg,var(--oro2),var(--oro))}
+.que p{font-size:16.5px;color:#4a3800;line-height:1.4}
+.que p b{color:var(--azul)}
+.qbtn{margin-left:auto;flex:0 0 auto;background:#fff;border:1.5px solid var(--oro);color:#8a6100;border-radius:11px;padding:7px 12px;font-weight:800;font-size:13.5px;cursor:pointer;white-space:nowrap;transition:.2s}
+.qbtn:hover,.qbtn.on{background:var(--oro);color:#2b1a00}
+.ej{position:absolute;right:10px;top:calc(100% + 10px);width:480px;z-index:30;background:#0b2545;color:#e8f1fb;border-radius:16px;padding:14px 18px;font-size:15.5px;line-height:1.5;box-shadow:0 18px 40px rgba(3,14,30,.45);display:none}
+.ej.on{display:block;animation:entra .35s both}
+.ej b{color:var(--oro2)}
+.ej::before{content:'';position:absolute;top:-8px;right:46px;border:8px solid transparent;border-top:0;border-bottom-color:#0b2545}
+/* tarjetas giratorias */
+.flips{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.flip{perspective:1000px;height:198px;cursor:pointer}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.22,1,.36,1);transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.flip .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px;padding:13px 16px;display:flex;flex-direction:column}
+.flip .front{background:var(--claro);border:1.5px solid #e2e8f0;transition:.2s}
+.flip:hover .front{border-color:var(--azul3);box-shadow:var(--sombra2)}
+.flip .back{transform:rotateY(180deg);background:linear-gradient(150deg,#0b2545,#1d4e89);color:#fff}
+.flip .top{display:flex;align-items:center;justify-content:space-between}
+.flip .sym{font-family:'Cambria Math',Cambria,serif;font-size:32px;font-weight:700;color:var(--azul3);line-height:1}
+.flip .grp{font-size:10.5px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;padding:3px 9px;border-radius:999px}
+.flip h4{margin-top:8px;font-size:18px}
+.flip .qq{font-size:15px;color:#475569;margin-top:4px;line-height:1.35}
+.flip .hint{margin-top:auto;font-size:12px;color:var(--gris);font-weight:700}
+.flip .back h4{color:var(--oro2);margin:0 0 6px}
+.flip .back p{color:#dbe7f5;font-size:14.5px;line-height:1.4}
+.flip .back .caso{margin-top:auto;background:#ffffff1a;border-radius:10px;padding:7px 10px;font-size:14px;color:var(--oro2);font-weight:700}
+/* pestañas y repartir */
+.pan{display:none}.pan.on{display:block;animation:entra .35s both}
+.rep{display:flex;align-items:flex-end;justify-content:space-around;height:192px;border-bottom:2px solid #ffffff88;position:relative;margin-top:6px;padding:0 6px}
+.rep .col{width:54px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative;z-index:1}
+.rep .col i{display:block;width:100%;background:linear-gradient(180deg,#4f8fd6,#1d4e89);border-radius:8px 8px 0 0;transition:height .9s cubic-bezier(.22,1,.36,1)}
+.rep.done .col i{background:linear-gradient(180deg,#ffd166,#e0a80d)}
+.rep .col b{font-size:17px;color:#fff;margin-bottom:2px}
+.rep .col small{font-size:13px;font-weight:800;height:17px}
+.rep .lin{position:absolute;left:0;right:0;border-top:2.5px dashed var(--oro2);opacity:0;transition:opacity .5s .7s}
+.rep.done .lin{opacity:1}
+.rep .lin span{position:absolute;right:4px;top:-24px;background:var(--oro2);color:#2b1a00;font-size:12.5px;font-weight:800;border-radius:99px;padding:1px 9px}
+.repx{display:flex;justify-content:space-around;padding:0 6px;margin-top:4px}
+.repx span{width:54px;text-align:center;font-weight:800;color:#a9c2de;font-size:14px}
+/* nav */
+#prog{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--oro),var(--verde));z-index:60;transition:width .35s;width:0}
+#nav{position:fixed;left:0;right:0;bottom:0;height:62px;z-index:50;background:rgba(6,20,38,.8);border-top:1px solid #ffffff1f;display:flex;align-items:center;gap:10px;padding:0 22px;color:#fff}
+#nav .btn{background:#ffffff1a;border:1px solid #ffffff33;color:#fff;border-radius:11px;padding:9px 16px;font-size:14px;font-weight:700;cursor:pointer;transition:.2s}
+#nav .btn:hover{background:var(--oro);color:#2b1a00;border-color:var(--oro)}
+#nav .btn:disabled{opacity:.32;cursor:not-allowed}
+#nav .btn.run{background:#1b998b;border-color:#1b998b}
+#nav .btn.late{background:var(--rojo);border-color:var(--rojo)}
+#dots{display:flex;gap:6px;justify-content:center;margin:0 auto}
+#dots i{width:8px;height:8px;border-radius:50%;background:#ffffff40;cursor:pointer;transition:.25s}
+#dots i.on{background:var(--oro);width:24px;border-radius:6px}
+#cont{font-size:13.5px;color:#b9cde4;font-weight:700;letter-spacing:1px;min-width:56px;text-align:right}
+#notes{position:fixed;right:16px;bottom:72px;width:440px;max-height:60vh;overflow:auto;background:rgba(6,20,38,.96);border:1px solid #ffffff2b;color:#e8f1fb;border-radius:16px;padding:16px 18px;font-size:16px;line-height:1.5;display:none;z-index:70;box-shadow:0 18px 46px rgba(3,14,30,.5)}
+#notes.on{display:block}
+#notes h4{color:var(--oro2);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+/* sin transiciones */
+.slide,.pan.on,.q.on,.fb.show,.ej.on,.flot{animation:none!important}
+.slide [data-s]{transition:none!important}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<div id="viewport"><div id="stage">
+
+<!-- ============ 1 · PORTADA ============ -->
+<section class="slide on" data-notes="[0:00–1:30] Buenas noches, bienvenidos. Hoy trabajamos la Unidad 1: estadística descriptiva aplicada al servicio policial. Vamos a resolver, paso a paso, el mismo caso que trae la guía de desarrollo matemático: los hurtos registrados en seis sectores de una estación ficticia. Todo lo que hagamos hoy es el modelo de lo que ustedes harán en la Actividad 1 con la tabla de 12 ciudades. Tengan a mano calculadora, cuaderno y, si pueden, Excel.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="portada">
+    <div>
+      <div class="badge">📊 UNIDAD 1 · MATERIAL DE ESTUDIO PARA LA ACTIVIDAD 1</div>
+      <h1>Estadística descriptiva<span>aplicada al servicio policial</span></h1>
+      <p class="lead">Ejemplos resueltos paso a paso con los hurtos registrados en <b style="color:#fff">seis sectores</b>: indicadores, conjuntos y gráficos para leer los datos con rigor.</p>
+      <div class="chips" style="margin-top:18px">
+        <span class="chip chipd">x̄ Media</span><span class="chip chipd">Me Mediana</span><span class="chip chipd">Mo Moda</span><span class="chip chipd">R Rango</span><span class="chip chipd">σ Desviación</span><span class="chip chipd">% Frecuencias</span><span class="chip chipd">∩ Conjuntos</span><span class="chip chipd">📊 Gráficos</span>
+      </div>
+      <div class="docente" style="margin-top:22px">
+        <div class="avatar"><img src="data:image/jpeg;base64,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" alt="Yenifer Fontalvo Marriaga"></div>
+        <div><small>Docente</small><b>Yenifer Fontalvo Marriaga</b><i>Matemática aplicada a la profesión · Tecnología en Gestión del Servicio de Policía</i></div>
+      </div>
+      <p style="color:#9fb8d4;margin-top:16px;font-size:14px">▸ Use ← → para avanzar paso a paso · N: notas · T: cronómetro · F: pantalla completa</p>
+    </div>
+    <div style="display:grid;place-items:center">
+      <svg id="cover" class="flot" width="460" height="400" viewBox="0 0 460 400" aria-label="Gráfico de barras de los hurtos por sector"></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2 · DOCENTE ============ -->
+<section class="slide" data-notes="[1:30–4:00] Me presento: soy Yenifer Fontalvo Marriaga, docente de Matemática aplicada. Soy licenciada en Matemáticas, especialista en Estudios Pedagógicos, magíster en Educación y candidata a doctora en Tecnología Educativa. Les pido que se presenten en el chat con su nombre, su unidad y una cifra de su servicio que revisen con frecuencia (casos, llamadas, comparendos). Esas cifras son, precisamente, la materia prima de la estadística descriptiva.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">👩‍🏫</div><div><span class="sub">Quién los acompaña</span><h2>Presentación de la docente</h2></div></div>
+    <div class="g32" style="grid-template-columns:300px 1fr;gap:32px">
+      <div class="retrato" style="height:520px">
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQUFBAYFBQUHBgYHCQ8KCQgICRMNDgsPFhMXFxYTFRUYGyMeGBohGhUVHikfISQlJygnGB0rLismLiMmJyb/2wBDAQYHBwkICRIKChImGRUZJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJib/wAARCAJqAcwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD6oooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKXFACUUtFACUtFFABRRRQAUUUUAJRS0nFABRS0UAJRS0mKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKWkooAWikozQAtFFFABRSUUALRSUUALRzSUUAFFFFABRRRQAtApKKAFpKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigApaSigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK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" alt="Yenifer Fontalvo Marriaga" style="height:100%;object-fit:cover;object-position:center 15%">
+        <div class="pie"><small>Docente</small><b>Yenifer Fontalvo Marriaga</b><i>Docente de Matemática aplicada</i></div>
+      </div>
+      <div>
+        <div class="g2" style="gap:14px">
+          <div class="box oro"><div class="n">🎓</div><h4>Candidata a Doctora en Tecnología Educativa</h4><p>Universidad Da Vinci (México)</p></div>
+          <div class="box verde"><div class="n">📘</div><h4>Magíster en Educación</h4><p>Formación en investigación y gestión de procesos educativos</p></div>
+          <div class="box violeta"><div class="n">🧭</div><h4>Especialista en Estudios Pedagógicos</h4><p>Didáctica y evaluación del aprendizaje</p></div>
+          <div class="box"><div class="n">➗</div><h4>Licenciada en Matemáticas</h4><p>Base disciplinar de la enseñanza de la matemática</p></div>
+        </div>
+        <div class="box rojo fila" style="margin-top:14px"><div class="n">💻</div><div><h4>Docente de Matemática aplicada a la profesión</h4><p>Tecnología en Gestión del Servicio de Policía · Dirección de Educación Policial</p></div></div>
+        <div class="cita" style="margin-top:16px">«La estadística no es una lista de fórmulas: es una manera de mirar los datos con rigor antes de tomar decisiones en el servicio.»</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 · PROPÓSITO ============ -->
+<section class="slide" data-notes="[4:00–5:30] Al terminar, cada uno debe poder calcular e interpretar los cinco indicadores del cuadro comparativo, construir la matriz de frecuencias, reconocer qué registros cumplen dos criterios con conjuntos y elaborar dos gráficos bien rotulados. Trabajaremos en cuatro momentos. Una regla para toda la clase: cada número va acompañado de su unidad y de una interpretación en palabras.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">🎯</div><div><span class="sub">Propósito de la sesión</span><h2>¿Qué se espera al terminar?</h2></div></div>
+    <div class="alert a-info" style="font-size:18.5px;padding:16px 20px"><span class="i">🎯</span><div>Al finalizar, usted <span class="hl">calcula e interpreta</span> media, mediana, moda, rango y desviación estándar; <span class="hl">construye</span> la matriz de frecuencias; <span class="hl">identifica</span> con conjuntos los registros que cumplen dos criterios y <span class="hl">elabora</span> gráficos de barras e histogramas para apoyar la planeación del servicio.</div></div>
+    <div class="g2" style="margin-top:14px;gap:14px">
+      <div class="box fila"><div class="n">📐</div><p><b>RAP 1.</b> Usar conceptos matemáticos al interpretar gráficos, símbolos y lenguaje en la atención de motivos de policía.</p></div>
+      <div class="box fila verde"><div class="n">🧮</div><p><b>RAP 2.</b> Realizar cálculos deductivos que soporten la planeación del servicio de policía.</p></div>
+    </div>
+    <h3 style="margin-top:18px">🗺️ Ruta de la clase</h3>
+    <div class="g4">
+      <div class="box"><div class="n">1</div><h4>Tendencia central</h4><p>Datos del caso, media, mediana y moda</p><div class="chip" style="margin-top:8px;display:inline-block">0–19 min</div></div>
+      <div class="box verde"><div class="n">2</div><h4>Dispersión</h4><p>Rango, desviación estándar y laboratorio</p><div class="chip v" style="margin-top:8px;display:inline-block">19–30 min</div></div>
+      <div class="box oro"><div class="n">3</div><h4>Frecuencias, conjuntos y gráficos</h4><p>Matriz, Venn, barras e histograma</p><div class="chip o" style="margin-top:8px;display:inline-block">30–43 min</div></div>
+      <div class="box rojo"><div class="n">4</div><h4>Síntesis y reto</h4><p>Cuadro comparativo, preguntas y Actividad 1</p><div class="chip r" style="margin-top:8px;display:inline-block">43–60 min</div></div>
+    </div>
+    <div class="cita" style="margin-top:16px">Regla de la clase: cada número va acompañado de su <b>unidad</b> y de una <b>interpretación</b> en palabras.</div>
+  </div>
+</section>
+
+<!-- ============ 4 · DATOS ============ -->
+<section class="slide" data-notes="[5:30–7:00] Leo el recuadro «¿Qué es?» y abro el «Ejemplo cotidiano». Este es el caso de práctica. Una estación ficticia revisa los hurtos de un mismo periodo en seis sectores. Cada fila es un sector y la variable es el número de hurtos registrados: es cuantitativa y discreta, porque se cuenta. Con esta misma tabla vamos a calcular los indicadores, reconocer los sectores que cumplen dos criterios y construir los gráficos. Aclaro: este caso es independiente de la tabla de 12 ciudades del entregable. Allí repetirán el procedimiento con sus propios datos.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">🚓</div><div><span class="sub">Datos para los ejemplos</span><h2>Hurtos registrados en seis sectores</h2></div></div>
+    <div class="que"><div class="qi">💡</div><p><b>¿Qué es?</b> La <b>estadística descriptiva</b> organiza, resume y presenta datos con <b>indicadores</b> (como el promedio), <b>tablas</b> y <b>gráficos</b> para entender qué pasó. No adivina el futuro: <b>describe</b> lo que muestran los datos.</p><button class="qbtn">🧠 Ejemplo cotidiano</button><div class="ej">Cuando el comandante pregunta «¿cómo nos fue este mes?», no quiere oír los 72 reportes uno por uno. Quiere un <b>resumen</b>: cuántos hubo en total, cuánto en promedio por sector y dónde se concentran. Ese resumen es estadística descriptiva.</div></div>
+    <div class="g32" style="grid-template-columns:420px 1fr">
+      <div>
+        <table class="t" id="tDatos" style="font-size:18px">
+          <tr><th>Sector</th><th>Hurtos registrados</th><th style="width:46%"></th></tr>
+        </table>
+        <p style="font-size:14px;color:var(--gris);margin-top:8px">Fuente: estación ficticia, datos de práctica de la guía.</p>
+      </div>
+      <div>
+        <div class="g3" style="gap:12px">
+          <div class="box"><div class="n">📍</div><h4>Unidad</h4><p>El <b>sector</b>: cada fila de la tabla.</p></div>
+          <div class="box verde"><div class="n">🔢</div><h4>Variable</h4><p>Número de hurtos: <b>cuantitativa discreta</b>.</p></div>
+          <div class="box oro"><div class="n">n</div><h4>Tamaño</h4><p class="m" style="font-size:20px"><i>n</i> = 6 sectores</p></div>
+        </div>
+        <div class="alert a-info" style="margin-top:16px"><span class="i">🧭</span><div><b>Ruta de trabajo.</b> Use la misma tabla para calcular los indicadores, reconocer qué sectores cumplen dos criterios y construir los gráficos. Registre los datos originales <b>con sus unidades</b> y <b>conserve los decimales</b> durante las operaciones.</div></div>
+        <div class="alert a-warn" style="margin-top:12px"><span class="i">⚠️</span><div>El caso de práctica es <b>independiente</b> de la tabla de <b>12 ciudades</b> que se usa en el entregable de la Actividad 1.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4b · CONCEPTOS ============ -->
+<section class="slide" data-notes="[7:00–11:00] Antes de calcular, quiero que entiendan qué pregunta responde cada concepto. Hay ocho tarjetas. Antes de voltear cada una, pregunto al grupo: ¿qué creen que responde? Recibo dos o tres respuestas en el chat y luego la volteo con un clic. Idea clave: cada medida es una pregunta distinta sobre los mismos datos. Las azules hablan del centro; las verdes, de qué tan separados están los datos; las doradas sirven para analizar y comunicar.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">🗝️</div><div><span class="sub">Antes de calcular</span><h2>¿Qué pregunta responde cada concepto?</h2></div><div class="tools"><button class="btnL" id="bFlipAll">🔄 Voltear todas</button></div></div>
+    <div style="display:flex;align-items:center;gap:10px;margin:-4px 0 14px">
+      <p style="font-size:16px">Haga clic en una tarjeta: primero intente responder la pregunta y luego voltéela.</p>
+      <div class="chips" style="margin:0 0 0 auto"><span class="chip">● Centro de los datos</span><span class="chip v">● Dispersión</span><span class="chip o">● Análisis y comunicación</span></div>
+    </div>
+    <div class="flips" id="flips"></div>
+  </div>
+</section>
+
+<!-- ============ 5 · MEDIA ============ -->
+<section class="slide" data-notes="[11:00–14:30] Leo el recuadro «¿Qué es?» y abro el «Ejemplo cotidiano». Primer indicador: la media aritmética. Avanzo paso a paso con la flecha. Paso 1: identificamos los valores x sub i y el número de sectores, n igual a 6. Paso 2: fórmula, sustitución, suma del numerador y resultado: 72 entre 6, 12 hurtos por sector. A la derecha, en «Repartir por igual», junto los 72 hurtos y los reparto: todos los sectores quedan en 12. Eso es la media. En la pestaña «Punto de equilibrio» muestro que las distancias a la media suman cero. Pregunta al grupo: ¿algún sector tuvo exactamente 12? (sí, el D).">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">⚖️</div><div><span class="sub">1 · Tendencia central</span><h2>Media aritmética</h2></div><div class="tools"><div class="stepb"><span class="sc"></span><button class="r" data-reset>↺</button><button data-next>Siguiente paso ▶</button></div></div></div>
+    <div class="que"><div class="qi">💡</div><p><b>¿Qué es?</b> La <b>media aritmética</b> (o promedio) es lo que le tocaría a cada sector si el total de hurtos se repartiera <b>en partes iguales</b>. Se suman todos los datos y se divide entre cuántos son.</p><button class="qbtn">🧠 Ejemplo cotidiano</button><div class="ej">Seis compañeros hacen una «vaca»: ponen $8, $10, $10, $12, $15 y $17 mil. Si se reparte el total ($72 mil) por igual, a cada uno le tocan <b>$12 mil</b>. Ese valor es la media.</div></div>
+    <div class="g2" style="grid-template-columns:1.05fr .95fr">
+      <div>
+        <p class="paso" data-s="1"><b class="pn">Paso 1</b>Identifique los valores <span class="m"><i>x<sub>i</sub></i></span> y el número de sectores <span class="m"><i>n</i> = 6</span>.</p>
+        <p class="paso" data-s="2"><b class="pn">Paso 2</b>Escriba la fórmula, sustituya, sume y divida.</p>
+        <div class="eqs m" style="margin:10px 0 14px 10px;font-size:24px;row-gap:12px">
+          <span class="lhs" data-s="2"><span class="xbar">x</span> =</span><span data-s="2"><span class="fr"><span><span class="sum"><small><i>n</i></small><b>Σ</b><small><i>i</i>=1</small></span><i>x<sub>i</sub></i></span><span><i>n</i></span></span></span><span class="lab" data-s="2">Fórmula</span>
+          <span class="lhs" data-s="3">=</span><span data-s="3"><span class="fr"><span>8 + 10 + 10 + 12 + 15 + 17</span><span>6</span></span></span><span class="lab" data-s="3">Sustitución</span>
+          <span class="lhs" data-s="4">=</span><span data-s="4"><span class="fr"><span>72</span><span>6</span></span></span><span class="lab" data-s="4">Suma del numerador</span>
+          <span class="lhs" data-s="5">=</span><span data-s="5"><span class="res">12 hurtos por sector</span></span><span class="lab" data-s="5">Resultado</span>
+        </div>
+        <div class="interp" data-s="6"><b>Interpretación.</b> Cada sector registró, en promedio, 12 hurtos durante el periodo estudiado.</div>
+      </div>
+      <div class="sim" style="padding:16px 20px">
+        <div style="display:flex;align-items:center;gap:10px"><h3 style="margin:0">🧪 Entienda la media</h3><span class="tag" style="margin-left:auto">Interactivo</span></div>
+        <div class="btns" style="margin-top:8px"><button class="btn3 act" data-tab="rep">🤝 Repartir por igual</button><button class="btn3" data-tab="eq">⚖️ Punto de equilibrio</button></div>
+        <div class="pan on" data-pan="rep">
+          <div class="rep" id="rep"></div>
+          <div class="repx" id="repx"></div>
+          <div class="btns" style="margin-top:10px"><button class="btn2" id="bRep">Repartir por igual</button></div>
+          <p id="txtRep" style="font-size:15px;margin-top:8px;min-height:44px">Cada barra es un sector. Si juntamos los 72 hurtos y los repartimos en partes iguales, ¿cuánto le toca a cada uno?</p>
+        </div>
+        <div class="pan" data-pan="eq">
+          <svg id="dpMedia" viewBox="0 0 520 230" style="width:100%;margin-top:6px"></svg>
+          <div class="btns" style="margin-top:4px"><button class="btn2" id="bDist">Mostrar distancias</button></div>
+          <p id="txtDist" style="font-size:15px;margin-top:10px;min-height:46px">El triángulo dorado marca la media. Pulse el botón para ver cuánto se aleja cada sector de ella.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6 · MEDIANA ============ -->
+<section class="slide" data-notes="[14:30–17:00] Leo el recuadro «¿Qué es?» y abro el «Ejemplo cotidiano». Segundo indicador: la mediana, el dato del centro. Paso 1: los reportes llegan desordenados; al avanzar, las fichas se ordenan solas de menor a mayor. Paso 2: como n es 6, un número par, hay dos datos centrales, en las posiciones 3 y 4. Paso 3: promediamos esos dos valores, 10 y 12, y obtenemos 11 hurtos. Luego pulso «¿Y si n fuera impar?»: agrego un sector hipotético G con 20 hurtos y la mediana pasa a ser el dato de la posición central, el 4.º. Esto solo es para ilustrar; G no está en la guía.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">🎯</div><div><span class="sub">1 · Tendencia central</span><h2>Mediana</h2></div><div class="tools"><div class="stepb"><span class="sc"></span><button class="r" data-reset>↺</button><button data-next>Siguiente paso ▶</button></div></div></div>
+    <div class="que"><div class="qi">💡</div><p><b>¿Qué es?</b> La <b>mediana</b> es el dato que queda <b>justo en la mitad</b> cuando los datos se ordenan de menor a mayor: deja la mitad de los datos por debajo y la otra mitad por encima.</p><button class="qbtn">🧠 Ejemplo cotidiano</button><div class="ej">Seis patrulleros forman una fila ordenada por estatura. La mediana es la estatura de quien queda en el <b>centro de la fila</b>. Como son seis, en el centro quedan dos personas, y se promedian sus estaturas.</div></div>
+    <p class="paso" data-s="1"><b class="pn">Paso 1</b>Ordene los conteos de menor a mayor.</p>
+    <p id="medLbl" style="text-align:center;font-size:14.5px;font-weight:700;color:var(--gris);margin-top:4px"></p>
+    <div class="fichas big" id="fMed" style="margin:16px 0 18px"></div>
+    <p class="paso" data-s="2"><b class="pn">Paso 2</b><span id="medP2">Como <span class="m"><i>n</i> = 6</span> es <b>par</b>, tome los valores de las posiciones 3 y 4.</span></p>
+    <div class="g2" style="grid-template-columns:1fr 1fr;align-items:center">
+      <div>
+        <p class="paso" data-s="3"><b class="pn">Paso 3</b><span id="medP3">Calcule el promedio de los dos valores centrales.</span></p>
+        <div class="eqs m" style="font-size:22px;margin-left:14px" id="medEq">
+          <span class="lhs" data-s="3">Me =</span><span data-s="3"><span class="fr"><span><i>x</i><sub>(3)</sub> + <i>x</i><sub>(4)</sub></span><span>2</span></span> = <span class="fr"><span>10 + 12</span><span>2</span></span> = <span class="fr"><span>22</span><span>2</span></span> = <span class="res">11 hurtos</span></span><span></span>
+        </div>
+      </div>
+      <div>
+        <div class="interp" data-s="4" id="medInt"><b>Interpretación.</b> Tres sectores tienen conteos inferiores a 11 y tres tienen conteos superiores. Si la cantidad de observaciones fuera impar, se tomaría el dato de la posición central.</div>
+        <div class="btns" style="margin-top:12px"><button class="btnL" id="bImpar">¿Y si <i>n</i> fuera impar?</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7 · MODA ============ -->
+<section class="slide" data-notes="[17:00–19:00] Leo el recuadro «¿Qué es?» y abro el «Ejemplo cotidiano». Tercer indicador: la moda, el valor que más se repite. Paso 1: contamos cuántas veces aparece cada conteo. Paso 2: ubicamos la frecuencia mayor: el 10 aparece dos veces, en los sectores B y C. La moda es 10 hurtos. Si pulso «Ver una serie sin moda», cambio hipotéticamente el sector C a 11: todos los valores aparecen una sola vez y la serie no tiene moda. Ojo: no se dice que la moda es cero; se dice que no hay moda.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">🔁</div><div><span class="sub">1 · Tendencia central</span><h2>Moda</h2></div><div class="tools"><div class="stepb"><span class="sc"></span><button class="r" data-reset>↺</button><button data-next>Siguiente paso ▶</button></div></div></div>
+    <div class="que"><div class="qi">💡</div><p><b>¿Qué es?</b> La <b>moda</b> es el valor que <b>más se repite</b>, el más frecuente. Una serie puede tener una moda, varias modas o ninguna.</p><button class="qbtn">🧠 Ejemplo cotidiano</button><div class="ej">En la tienda de uniformes, la talla que más se vende es la <b>moda</b>. Si cada talla se vendiera una sola vez, no habría una talla «más vendida»: la serie no tendría moda.</div></div>
+    <div class="g2" style="grid-template-columns:1fr 1fr;gap:30px">
+      <div>
+        <p class="paso" data-s="1"><b class="pn">Paso 1</b>Cuente cuántas veces aparece cada valor.</p>
+        <table class="t" id="tModa" data-s="1" style="margin:8px 0 16px"></table>
+        <p class="paso" data-s="2"><b class="pn">Paso 2</b><span id="modaP2">Ubique la frecuencia mayor. El conteo 10 aparece dos veces.</span></p>
+        <div class="m" data-s="2" style="font-size:26px;color:var(--azul);text-align:center;margin:10px 0 16px" id="modaRes">Mo = <span class="res">10 hurtos</span></div>
+        <div class="interp" data-s="3" id="modaInt"><b>Interpretación.</b> El conteo que más se repitió fue 10. Si todos los conteos aparecen una sola vez, la serie no presenta moda.</div>
+      </div>
+      <div class="sim">
+        <div style="display:flex;align-items:center;gap:10px"><h3 style="margin:0">🟡 Diagrama de puntos</h3><span class="tag" style="margin-left:auto">Interactivo</span></div>
+        <p style="font-size:14.5px;margin-top:4px">Cada punto es un sector. La columna más alta es la moda.</p>
+        <svg id="dpModa" viewBox="0 0 520 230" style="width:100%;margin-top:4px"></svg>
+        <div class="btns" style="margin-top:8px"><button class="btn2" id="bSinModa">Ver una serie sin moda</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8 · RANGO ============ -->
+<section class="slide" data-notes="[19:00–20:30] Leo el recuadro «¿Qué es?» y abro el «Ejemplo cotidiano». Empezamos la dispersión. El rango es la medida más sencilla: máximo menos mínimo. Paso 1: identificamos el máximo, 17 hurtos en F, y el mínimo, 8 hurtos en A. Paso 2: restamos: 17 menos 8 es 9 hurtos. La limitación: solo usa dos datos. Por eso, en el cuadro comparativo, el rango siempre va acompañado de la desviación estándar, que usa todos los datos.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">↔️</div><div><span class="sub">2 · Dispersión</span><h2>Rango</h2></div><div class="tools"><div class="stepb"><span class="sc"></span><button class="r" data-reset>↺</button><button data-next>Siguiente paso ▶</button></div></div></div>
+    <div class="que"><div class="qi">💡</div><p><b>¿Qué es?</b> El <b>rango</b> es la distancia entre el valor <b>más alto</b> y el <b>más bajo</b>. Es la forma más rápida de ver qué tan separados están los datos.</p><button class="qbtn">🧠 Ejemplo cotidiano</button><div class="ej">Si esta semana la temperatura mínima fue 24 °C y la máxima 33 °C, el rango es <b>9 °C</b>. Ojo: solo mira los dos extremos, no lo que pasó los demás días.</div></div>
+    <div class="g2" style="grid-template-columns:.9fr 1.1fr;gap:30px;align-items:center">
+      <div>
+        <p class="paso" data-s="1"><b class="pn">Paso 1</b>Identifique el valor máximo, <b>17 hurtos</b> (sector F), y el mínimo, <b>8 hurtos</b> (sector A).</p>
+        <p class="paso" data-s="2"><b class="pn">Paso 2</b>Reste el valor mínimo al máximo.</p>
+        <div class="eqs m" style="margin:14px 0 18px 30px;font-size:24px">
+          <span class="lhs" data-s="2"><i>R</i> =</span><span data-s="2"><i>x</i><sub>máx</sub> − <i>x</i><sub>mín</sub></span><span class="lab" data-s="2">Fórmula</span>
+          <span class="lhs" data-s="3">=</span><span data-s="3">17 − 8</span><span class="lab" data-s="3">Sustitución</span>
+          <span class="lhs" data-s="3">=</span><span data-s="3"><span class="res">9 hurtos</span></span><span class="lab" data-s="3">Resultado</span>
+        </div>
+        <div class="interp" data-s="4"><b>Interpretación.</b> Hay una diferencia de 9 hurtos entre los sectores con mayor y menor conteo.</div>
+      </div>
+      <div>
+        <div style="background:var(--claro);border-radius:20px;padding:14px 18px">
+          <svg id="svgRango" viewBox="0 0 600 250" style="width:100%"></svg>
+        </div>
+        <div class="alert a-warn" style="margin-top:14px"><span class="i">💡</span><div>El rango solo usa <b>dos datos</b>: el máximo y el mínimo. Por eso se complementa con la <b>desviación estándar</b>, que considera todos los sectores.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8b · ¿QUÉ MIDE σ? ============ -->
+<section class="slide" data-notes="[20:30–23:00] Leo el recuadro «¿Qué es?» y abro el «Ejemplo cotidiano». Antes de calcular la desviación estándar, entendamos qué mide. Estos tres cuadrantes tienen la misma media, 12 hurtos, pero no se parecen. Pulso «Cuadrante parejo»: todos los puntos están pegados a la media y σ es casi cero. Luego «Datos de la guía» y por último «Cuadrante disperso»: las líneas se alargan y σ crece. Pregunta: ¿en cuál cuadrante es más fácil planear el servicio? (en el parejo, porque se comporta de forma predecible).">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">📏</div><div><span class="sub">2 · Dispersión</span><h2>¿Qué mide la desviación estándar?</h2></div></div>
+    <div class="que"><div class="qi">💡</div><p><b>¿Qué es?</b> La <b>desviación estándar</b> (σ) indica qué tan lejos están, en promedio, los datos de la media. Si es <b>pequeña</b>, los datos están parejos; si es <b>grande</b>, están dispersos.</p><button class="qbtn">🧠 Ejemplo cotidiano</button><div class="ej">Dos tiradores tienen el mismo puntaje promedio. Uno siempre pega cerca del centro (<b>desviación pequeña</b>); el otro a veces pega en el centro y a veces muy lejos (<b>desviación grande</b>). El promedio es igual; la constancia, no.</div></div>
+    <div class="g2" style="grid-template-columns:.9fr 1.1fr;gap:24px">
+      <div>
+        <h3>Tres cuadrantes con el <span class="hl">mismo promedio</span></h3>
+        <table class="t" id="tDisp" style="font-size:16px"></table>
+        <div class="alert a-info" style="margin-top:12px"><span class="i">🔑</span><div>La media sola <b>no basta</b>: los tres tienen media 12, pero no se comportan igual. La desviación dice si los datos están <b>parejos</b> o <b>dispersos</b>.</div></div>
+        <div class="g2" style="gap:10px;margin-top:10px">
+          <div class="box fila verde" style="padding:10px 12px"><div class="n">↓</div><p style="font-size:14.5px"><b>σ pequeña:</b> datos cerca de la media; comportamiento parejo y predecible.</p></div>
+          <div class="box fila rojo" style="padding:10px 12px"><div class="n">↑</div><p style="font-size:14.5px"><b>σ grande:</b> datos lejos de la media; sectores muy distintos entre sí.</p></div>
+        </div>
+      </div>
+      <div class="sim" style="padding:16px 20px">
+        <div style="display:flex;align-items:center;gap:10px"><h3 style="margin:0">📏 Distancias a la media</h3><span class="tag" style="margin-left:auto">Interactivo</span></div>
+        <div class="btns" style="margin-top:8px"><button class="btn3" data-dsp="0">Cuadrante parejo</button><button class="btn3 act" data-dsp="1">Datos de la guía</button><button class="btn3" data-dsp="2">Cuadrante disperso</button></div>
+        <svg id="dpDisp" viewBox="0 0 560 200" style="width:100%;margin-top:4px"></svg>
+        <div style="display:flex;align-items:center;gap:14px;margin-top:4px">
+          <div class="out" style="flex:0 0 140px;padding:8px 12px"><div class="k">σ desviación</div><div class="v" id="dspS">3,11</div></div>
+          <div style="flex:1"><div style="display:flex;justify-content:space-between;font-size:12px;color:#a9c2de;font-weight:800;letter-spacing:1px"><span>PAREJO</span><span>DISPERSO</span></div>
+            <div style="height:16px;background:#ffffff22;border-radius:99px;overflow:hidden;margin-top:4px"><div id="dspBar" style="height:100%;width:50%;background:linear-gradient(90deg,#06d6a0,#ffd166,#e63946);border-radius:99px;transition:width .6s"></div></div></div>
+        </div>
+        <p id="dspTxt" style="font-size:15px;margin-top:10px;min-height:44px"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9 · DESVIACIÓN ============ -->
+<section class="slide" data-notes="[23:00–26:30] La desviación estándar es la medida más importante de la unidad. Paso 1: usamos la media, mu igual a 12; a cada conteo le restamos la media (columna de diferencias), elevamos al cuadrado y sumamos: 58. Fíjense en que las diferencias suman cero; por eso se elevan al cuadrado. Paso 2: dividimos entre N igual a 6 y sacamos raíz: aproximadamente 3,11 hurtos. Usamos N porque el ejemplo describe todos los sectores del universo definido. Con el interruptor muestro la fórmula muestral, con n − 1: daría 3,41. En la Actividad 1, justifiquen cuál usan.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">σ</div><div><span class="sub">2 · Dispersión</span><h2>Desviación estándar</h2></div><div class="tools"><div class="stepb"><span class="sc"></span><button class="r" data-reset>↺</button><button data-next>Siguiente paso ▶</button></div></div></div>
+    <div class="g2" style="grid-template-columns:.95fr 1.05fr;gap:28px">
+      <div>
+        <p class="paso" data-s="1"><b class="pn">Paso 1</b>Use la media <span class="m"><i>μ</i> = 12</span>. Reste la media a cada conteo, eleve cada diferencia al cuadrado y sume los cuadrados.</p>
+        <table class="t" id="tDesv" style="font-size:16px"></table>
+      </div>
+      <div>
+        <p class="paso" data-s="4"><b class="pn">Paso 2</b>Divida la suma entre <span class="m"><i>N</i> = 6</span> y extraiga la raíz cuadrada. Se usa <span class="m"><i>N</i></span> porque el ejemplo describe todos los sectores del universo definido.</p>
+        <div class="eqs m" style="margin:10px 0 12px 8px;font-size:21px">
+          <span class="lhs" data-s="4"><i>σ</i> =</span><span data-s="4"><span class="raiz"><span class="s">√</span><span class="c"><span class="fr"><span><span class="sum"><small><i>N</i></small><b>Σ</b><small><i>i</i>=1</small></span>(<i>x<sub>i</sub></i> − <i>μ</i>)<sup>2</sup></span><span><i>N</i></span></span></span></span></span><span class="lab" data-s="4">Fórmula</span>
+          <span class="lhs" data-s="5">=</span><span data-s="5"><span class="raiz"><span class="s">√</span><span class="c"><span class="fr"><span>16 + 4 + 4 + 0 + 9 + 25</span><span>6</span></span></span></span> = <span class="raiz"><span class="s">√</span><span class="c"><span class="fr"><span>58</span><span>6</span></span></span></span></span><span class="lab" data-s="5">Sustitución</span>
+          <span class="lhs" data-s="6">≈</span><span data-s="6"><span class="res">3,11 hurtos</span></span><span class="lab" data-s="6">Resultado</span>
+        </div>
+        <div class="interp" data-s="7"><b>Interpretación.</b> Los conteos tienen una dispersión de aproximadamente 3,11 hurtos respecto a su media.</div>
+        <div class="sim" data-s="7" style="margin-top:12px;padding:12px 16px">
+          <div style="display:flex;align-items:center;gap:10px"><b style="color:var(--oro2);font-size:15px">¿Población o muestra?</b>
+            <div class="btns" style="margin-left:auto"><button class="btn3 act" data-dv="N">Población · N</button><button class="btn3" data-dv="n1">Muestra · n − 1</button></div></div>
+          <p id="dvTxt" style="font-size:15px;margin-top:8px" class="m"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10 · LABORATORIO ============ -->
+<section class="slide" data-notes="[26:30–29:30] Laboratorio. Muevo los deslizadores de cada sector y todos los indicadores se recalculan. Primero pulso «F = 40»: la media sube mucho y la mediana casi no se mueve. Esa es la razón por la que, cuando hay un valor atípico, la mediana describe mejor el centro. Luego pulso «Todos iguales»: la desviación y el rango quedan en cero, porque no hay dispersión. Pido a un estudiante que me dicte valores y comprobamos en vivo.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">🧪</div><div><span class="sub">Laboratorio</span><h2>Cambie los datos y observe los indicadores</h2></div></div>
+    <div class="sim" style="display:grid;grid-template-columns:330px 1fr;gap:24px;padding:18px 22px">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><h3 style="margin:0">🎚️ Hurtos por sector</h3><span class="tag" style="margin-left:auto">Interactivo</span></div>
+        <div id="labS" style="display:grid;gap:7px"></div>
+        <div class="btns" style="margin-top:12px">
+          <button class="btn3 act" data-lab="guia">Datos de la guía</button>
+          <button class="btn3" data-lab="atip">F = 40 (atípico)</button>
+          <button class="btn3" data-lab="igual">Todos iguales</button>
+        </div>
+      </div>
+      <div>
+        <div class="g3" style="grid-template-columns:repeat(5,1fr);gap:10px">
+          <div class="out"><div class="k">x̄ Media</div><div class="v" id="lMe">12</div></div>
+          <div class="out"><div class="k">Me Mediana</div><div class="v" id="lMd">11</div></div>
+          <div class="out"><div class="k">Mo Moda</div><div class="v" id="lMo" style="font-size:22px">10</div></div>
+          <div class="out"><div class="k">R Rango</div><div class="v" id="lR">9</div></div>
+          <div class="out"><div class="k">σ Desv.</div><div class="v" id="lS">3,11</div></div>
+        </div>
+        <svg id="dpLab" viewBox="0 0 640 220" style="width:100%;margin-top:8px"></svg>
+        <div class="out" style="margin-top:6px"><div id="lMsg" style="font-size:15.5px;line-height:1.45;color:#e8f1fb"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11 · FRECUENCIAS ============ -->
+<section class="slide" data-notes="[29:30–33:00] Leo el recuadro «¿Qué es?» y abro el «Ejemplo cotidiano». Pasamos a la matriz analítica. Paso 1: la frecuencia absoluta del sector A es 8 hurtos. Paso 2: el total de los seis sectores es 72. Paso 3: dividimos 8 entre 72, que da 0,1111…, y multiplicamos por 100: 11,11 %. Paso 4: repetimos para los demás. Puedo hacer clic en cualquier fila de la tabla para ver su cálculo a la izquierda. Verifiquen que la columna de porcentajes sume 100 %: es su control de calidad.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">%</div><div><span class="sub">3 · Matriz analítica</span><h2>Frecuencias y porcentajes</h2></div><div class="tools"><div class="stepb"><span class="sc"></span><button class="r" data-reset>↺</button><button data-next>Siguiente paso ▶</button></div></div></div>
+    <div class="que"><div class="qi">💡</div><p><b>¿Qué es?</b> La <b>frecuencia absoluta</b> (<i>f</i>) es cuántas veces ocurre algo; la <b>relativa</b> (<i>h</i>) es qué parte del total representa (<i>f</i> ÷ total), y el <b>porcentaje</b> (<i>p</i>) es esa parte multiplicada por 100.</p><button class="qbtn">🧠 Ejemplo cotidiano</button><div class="ej">De 72 hurtos, 8 ocurrieron en el sector A. Frecuencia absoluta: <b>8</b>. Relativa: 8 ÷ 72 ≈ <b>0,11</b>. Porcentaje: ≈ <b>11 %</b>. En palabras: unos 11 de cada 100 hurtos ocurrieron en A.</div></div>
+    <div class="g2" style="grid-template-columns:1fr 1fr;gap:30px">
+      <div>
+        <p class="paso" data-s="1"><b class="pn">Paso 1</b>Lea la frecuencia absoluta. Para el sector <b class="fSec">A</b>, <span class="m"><i>f</i><sub class="fSec">A</sub> = <span class="fVal">8</span></span> hurtos.</p>
+        <p class="paso" data-s="2"><b class="pn">Paso 2</b>Halle el total de hurtos de los seis sectores.</p>
+        <div class="m" data-s="2" style="font-size:20px;color:var(--azul);margin:0 0 10px 30px"><i>T</i> = 8 + 10 + 10 + 12 + 15 + 17 = <b>72 hurtos</b></div>
+        <p class="paso" data-s="3"><b class="pn">Paso 3</b>Divida el conteo del sector entre el total y convierta a porcentaje.</p>
+        <div class="eqs m" data-s="3" style="font-size:21px;margin-left:30px;grid-template-columns:auto 1fr">
+          <span class="lhs"><i>h</i><sub class="fSec">A</sub> =</span><span><span class="fr"><span><i>f</i><sub class="fSec">A</sub></span><span><i>T</i></span></span> = <span class="fr"><span class="fVal">8</span><span>72</span></span> = <span id="fH">0,1111…</span></span>
+          <span class="lhs"><i>p</i><sub class="fSec">A</sub> =</span><span><i>h</i><sub class="fSec">A</sub> × 100 % ≈ <span class="res" id="fP">11,11 %</span></span>
+        </div>
+        <div class="interp" data-s="4" style="margin-top:14px" id="fInt"><b>Interpretación.</b> El sector A aportó el 11,11 % de los hurtos registrados en los seis sectores. El denominador es el total de hurtos de la tabla.</div>
+      </div>
+      <div>
+        <p class="paso" data-s="4"><b class="pn">Paso 4</b>Repita la operación para los demás sectores. <span style="color:var(--gris)">(Haga clic en una fila.)</span></p>
+        <table class="t" id="tFrec" data-s="4"></table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12 · CONJUNTOS ============ -->
+<section class="slide" data-notes="[33:00–35:30] Leo el recuadro «¿Qué es?» y abro el «Ejemplo cotidiano». Ahora usamos conjuntos para reconocer qué sectores cumplen dos criterios. Paso 1: el universo U son los seis sectores. Paso 2: M son los sectores con conteo superior a la media, 12: E y F. Fíjense en que D, con 12 exactos, no entra, porque la condición es mayor estricto. Paso 3: D son los sectores con conteo superior a la mediana, 11: D, E y F. Paso 4: la intersección son los que están en ambos: E y F. En un análisis real, esto señala qué registros revisar con más detalle antes de proponer acciones preventivas.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">∩</div><div><span class="sub">3 · Conjuntos</span><h2>Conjuntos e intersección</h2></div><div class="tools"><div class="stepb"><span class="sc"></span><button class="r" data-reset>↺</button><button data-next>Siguiente paso ▶</button></div></div></div>
+    <div class="que"><div class="qi">💡</div><p><b>¿Qué es?</b> Un <b>conjunto</b> es un grupo de elementos que cumplen una condición. El <b>universo</b> (<i>U</i>) reúne todos los elementos y la <b>intersección</b> (∩) son los que están en <b>ambos</b> conjuntos a la vez.</p><button class="qbtn">🧠 Ejemplo cotidiano</button><div class="ej">Si <b>M</b> son los compañeros que hablan inglés y <b>D</b> los que conducen moto, <b>M ∩ D</b> son los que hacen las dos cosas: los candidatos ideales para una patrulla turística en moto.</div></div>
+    <div class="fichas big" id="fConj" style="margin:26px 0 30px;gap:18px"></div>
+    <div class="g2" style="gap:14px 30px">
+      <div>
+        <p class="paso" data-s="1"><b class="pn">Paso 1</b>Defina el universo de sectores.</p>
+        <div class="m" data-s="1" style="font-size:21px;color:var(--azul);margin:0 0 12px 30px"><i>U</i> = {A, B, C, D, E, F}</div>
+        <p class="paso" data-s="2"><b class="pn">Paso 2</b>Sectores con conteo superior a la <b>media</b>, que es 12.</p>
+        <div class="m" data-s="2" style="font-size:21px;color:var(--azul);margin:0 0 12px 30px"><i>M</i> = {<i>s</i> ∈ <i>U</i> : <i>x<sub>s</sub></i> &gt; 12} = {E, F}</div>
+      </div>
+      <div>
+        <p class="paso" data-s="3"><b class="pn">Paso 3</b>Sectores con conteo superior a la <b>mediana</b>, que es 11.</p>
+        <div class="m" data-s="3" style="font-size:21px;color:var(--azul);margin:0 0 12px 30px"><i>D</i> = {<i>s</i> ∈ <i>U</i> : <i>x<sub>s</sub></i> &gt; 11} = {D, E, F}</div>
+        <p class="paso" data-s="4"><b class="pn">Paso 4</b>Escriba los sectores que pertenecen a ambos conjuntos.</p>
+        <div class="m" data-s="4" style="font-size:21px;color:var(--azul);margin:0 0 12px 30px"><i>M</i> ∩ <i>D</i> = {E, F} ∩ {D, E, F} = <span class="res">{E, F}</span></div>
+      </div>
+    </div>
+    <div class="interp" data-s="5"><b>Interpretación.</b> Dos sectores registraron conteos superiores tanto a la media como a la mediana. En un análisis real, este resultado ayuda a señalar qué registros revisar con más detalle antes de proponer acciones preventivas.</div>
+  </div>
+</section>
+
+<!-- ============ 13 · VENN ============ -->
+<section class="slide" data-notes="[35:30–38:00] Leo el recuadro «¿Qué es?» y abro el «Ejemplo cotidiano». Construimos el diagrama de Venn en cuatro pasos. Paso 1: un rectángulo rotulado U; adentro van los seis sectores. Paso 2: un óvalo para D y, como todo elemento de M también está en D, el óvalo de M va completamente dentro del de D. Paso 3: E y F en el óvalo interior; D en el exterior; A, B y C por fuera de ambos. Paso 4: leemos la región común: como M está contenido en D, la intersección es el mismo M. Verifiquen que cada sector aparezca una sola vez.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">⭕</div><div><span class="sub">3 · Conjuntos</span><h2>Construcción del diagrama de Venn</h2></div><div class="tools"><div class="stepb"><span class="sc"></span><button class="r" data-reset>↺</button><button data-next>Siguiente paso ▶</button></div></div></div>
+    <div class="que"><div class="qi">💡</div><p><b>¿Qué es?</b> Un <b>diagrama de Venn</b> dibuja cada conjunto como un óvalo dentro de un rectángulo (el universo) para ver de un vistazo qué elementos <b>comparten</b> los conjuntos.</p><button class="qbtn">🧠 Ejemplo cotidiano</button><div class="ej">Piense en dos aros sobre una mesa con fichas de los sectores. Lo que cae dentro de los dos aros a la vez es la intersección. Si un aro está completamente dentro del otro, la intersección es todo el aro pequeño.</div></div>
+    <div class="g2" style="grid-template-columns:.8fr 1.2fr;gap:26px">
+      <div>
+        <div class="m" style="font-size:17px;color:var(--azul);background:var(--claro);border-radius:14px;padding:10px 14px;line-height:1.6;margin-bottom:12px">
+          <i>U</i> = {A, B, C, D, E, F}<br><i>M</i> = {E, F} <span style="font-family:'Segoe UI';font-size:14px;color:var(--gris)">(más de 12 hurtos, sobre la media)</span><br><i>D</i> = {D, E, F} <span style="font-family:'Segoe UI';font-size:14px;color:var(--gris)">(más de 11, sobre la mediana)</span>
+        </div>
+        <p class="paso" data-s="1" style="font-size:15.5px"><b class="pn">Paso 1</b>Dibuje un rectángulo y rotúlelo <i>U</i>. Dentro de él van los seis sectores.</p>
+        <p class="paso" data-s="2" style="font-size:15.5px"><b class="pn">Paso 2</b>Dibuje un óvalo para <i>D</i>. Como todos los elementos de <i>M</i> también están en <i>D</i>, dibuje el óvalo de <i>M</i> completamente dentro del de <i>D</i>.</p>
+        <p class="paso" data-s="3" style="font-size:15.5px"><b class="pn">Paso 3</b>Coloque E (15) y F (17) en el óvalo interior; D (12) en el exterior, fuera del interior; A (8), B (10) y C (10) fuera de ambos.</p>
+        <p class="paso" data-s="4" style="font-size:15.5px"><b class="pn">Paso 4</b>Lea la región común y verifique que cada sector aparezca una sola vez.</p>
+      </div>
+      <div>
+        <p style="text-align:center;font-weight:800;color:var(--azul2);font-size:15px;margin-bottom:4px">Figura 1. Diagrama de Venn con los conteos de hurtos</p>
+        <svg viewBox="0 0 660 330" style="width:100%;max-height:285px;display:block;margin:0 auto">
+          <g data-s="1"><rect x="8" y="8" width="644" height="314" rx="16" fill="#f3f9f6" stroke="#0b2545" stroke-width="2.5"/><text x="30" y="44" font-size="26" font-weight="800" fill="#0b2545">U</text></g>
+          <g data-s="2">
+            <ellipse cx="410" cy="170" rx="230" ry="132" fill="#e3f4ef" stroke="#1b998b" stroke-width="2.5"/>
+            <text x="260" y="88" font-size="24" font-weight="800" fill="#1b998b">D</text>
+            <ellipse id="vM" cx="490" cy="178" rx="120" ry="86" fill="#b9e3d8" stroke="#0f6b60" stroke-width="2.5"/>
+            <text x="482" y="124" font-size="24" font-weight="800" fill="#0f6b60">M</text>
+          </g>
+          <g data-s="3" font-size="21" fill="#0f172a">
+            <text x="50" y="150">A (8)</text><text x="50" y="182">B (10)</text><text x="50" y="214">C (10)</text>
+            <text x="250" y="186">D (12)</text>
+            <text x="452" y="176">E (15)</text><text x="452" y="208">F (17)</text>
+          </g>
+          <g data-s="4"><ellipse cx="490" cy="178" rx="126" ry="92" fill="none" stroke="#e0a80d" stroke-width="5" stroke-dasharray="10 6"/></g>
+        </svg>
+        <div class="m" data-s="4" style="font-size:22px;color:var(--azul);text-align:center;margin-top:6px"><i>M</i> ⊆ <i>D</i> &nbsp;⟹&nbsp; <i>M</i> ∩ <i>D</i> = <i>M</i> = <span class="res">{E, F}</span></div>
+        <div class="interp" data-s="4" style="margin-top:8px;font-size:15px"><b>Interpretación.</b> Los sectores E y F superan tanto la media como la mediana. En este caso, el óvalo interior representa toda la intersección.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14 · BARRAS ============ -->
+<section class="slide" data-notes="[38:00–40:30] Leo el recuadro «¿Qué es?» y abro el «Ejemplo cotidiano». Gráfico de barras. En Excel: sectores en una columna, conteos en la siguiente; seleccionamos ambas con encabezados e insertamos un gráfico de columnas agrupadas. Rotulamos los ejes, iniciamos el eje vertical en cero y ponemos un título con el periodo. Paso 4: comparamos dos barras. Por defecto están F y A: 9 hurtos de diferencia. Hago clic en otras dos barras para comparar, por ejemplo E y B. Recalco: si el eje no empieza en cero, las diferencias se ven exageradas.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">📊</div><div><span class="sub">3 · Gráficos</span><h2>Gráfico de barras</h2></div></div>
+    <div class="que"><div class="qi">💡</div><p><b>¿Qué es?</b> Un <b>gráfico de barras</b> compara categorías (aquí, los sectores) con barras <b>separadas</b> cuya altura es el valor de cada una. Permite ver de inmediato quién tiene más y quién menos.</p><button class="qbtn">🧠 Ejemplo cotidiano</button><div class="ej">Es como poner en fila las pilas de expedientes de cada sector: la pila más alta salta a la vista. Por eso el eje debe empezar en <b>cero</b>; si no, una pila pequeña parecería casi vacía y la comparación engañaría.</div></div>
+    <div class="g2" style="grid-template-columns:.78fr 1.22fr;gap:24px">
+      <div>
+        <p class="paso"><b class="pn">Paso 1</b>En Excel, escriba los sectores en una columna y los conteos de hurtos en la siguiente.</p>
+        <p class="paso"><b class="pn">Paso 2</b>Seleccione las dos columnas con sus encabezados y elija <b>Insertar → Gráfico de columnas agrupadas</b>.</p>
+        <p class="paso"><b class="pn">Paso 3</b>Rotule los ejes, <b>inicie el eje vertical en cero</b> y añada un título que indique el periodo de los datos.</p>
+        <p class="paso"><b class="pn">Paso 4</b>Compare dos barras y cuantifique la diferencia. <span style="color:var(--gris)">(Haga clic en dos barras.)</span></p>
+        <div class="m" style="font-size:24px;color:var(--azul);text-align:center;margin:8px 0 12px" id="barEq"></div>
+        <div class="interp" id="barInt" style="font-size:15.5px"></div>
+      </div>
+      <div>
+        <svg id="svgBar" viewBox="0 0 680 440" style="width:100%"></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 15 · HISTOGRAMA ============ -->
+<section class="slide" data-notes="[40:30–43:00] Leo el recuadro «¿Qué es?» y abro el «Ejemplo cotidiano». El histograma agrupa los conteos en intervalos de amplitud 4. Cada intervalo incluye el extremo inferior y excluye el superior: por eso el 12 va en [12, 16) y no en [8, 12). Contamos cuántos sectores caen en cada intervalo: 3, 2 y 1. En Excel, después de insertar columnas, se ajusta el ancho del intervalo a 0 % para que las barras queden pegadas. Diferencia clave con el de barras: en el eje vertical ahora se cuentan sectores, no hurtos. La barra más alta: 3 de 6 sectores, el 50 %.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">📶</div><div><span class="sub">3 · Gráficos</span><h2>Histograma</h2></div></div>
+    <div class="que"><div class="qi">💡</div><p><b>¿Qué es?</b> Un <b>histograma</b> muestra cuántos datos caen en cada <b>intervalo</b> de valores. Sus barras van <b>pegadas</b> porque los intervalos son continuos, uno sigue al otro.</p><button class="qbtn">🧠 Ejemplo cotidiano</button><div class="ej">Es como repartir los sectores en «canastas»: de 8 a menos de 12 hurtos, de 12 a menos de 16 y de 16 a menos de 20. La altura de cada barra es <b>cuántos sectores</b> cayeron en esa canasta. A diferencia del gráfico de barras, aquí el eje vertical cuenta sectores, no hurtos.</div></div>
+    <div class="g2" style="grid-template-columns:1.12fr .88fr;gap:22px">
+      <div>
+        <p class="paso"><b class="pn">Paso 1</b>Agrupe los conteos en intervalos de amplitud 4. Incluya el extremo inferior y excluya el superior.</p>
+        <p class="paso"><b class="pn">Paso 2</b>Cuente cuántos sectores caen en cada intervalo <span style="color:var(--gris)">(clic en una fila o barra)</span>.</p>
+        <table class="t" id="tHist" style="margin:4px 0 8px"></table>
+        <p class="paso"><b class="pn">Paso 3</b>En Excel, inserte columnas y ajuste el <b>ancho del intervalo a 0 %</b> para que las barras queden pegadas.</p>
+        <p class="paso"><b class="pn">Paso 4</b>Interprete la barra seleccionada.</p>
+        <div class="m" style="font-size:20px;color:var(--azul);text-align:center;margin:0 0 6px" id="histEq"></div>
+        <div class="interp" id="histInt" style="font-size:15px;padding:9px 14px"></div>
+      </div>
+      <div>
+        <svg id="svgHist" viewBox="0 0 640 420" style="width:100%;max-height:440px"></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 16 · CUADRO COMPARATIVO ============ -->
+<section class="slide" data-notes="[43:00–46:00] Síntesis: este es el modelo del cuadro comparativo que deben presentar en la Actividad 1. Para cada medida: qué pregunta responde, la fórmula, el resultado con su unidad y la interpretación en el contexto. Noten la relación entre media, mediana y moda: 12, 11 y 10. La media queda por encima porque los sectores E y F jalan el promedio hacia arriba. En su entregable harán este mismo cuadro con la tabla de 12 ciudades.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">🧾</div><div><span class="sub">4 · Síntesis</span><h2>Cuadro comparativo del caso</h2></div></div>
+    <table class="t cc" style="font-size:16.5px">
+      <tr><th style="width:15%">Medida</th><th style="width:22%">¿Qué responde?</th><th style="width:21%">Fórmula</th><th style="width:12%">Resultado</th><th>Interpretación</th></tr>
+      <tr><td><b>Media</b></td><td style="text-align:left">¿Cuánto registra un sector en promedio?</td><td class="m" style="font-size:18px"><span class="xbar">x</span> = Σ<i>x<sub>i</sub></i> / <i>n</i></td><td><b>12</b> hurtos</td><td style="text-align:left">En promedio, cada sector registró 12 hurtos en el periodo.</td></tr>
+      <tr><td><b>Mediana</b></td><td style="text-align:left">¿Cuál es el valor del centro?</td><td class="m" style="font-size:18px">(<i>x</i><sub>(3)</sub> + <i>x</i><sub>(4)</sub>) / 2</td><td><b>11</b> hurtos</td><td style="text-align:left">La mitad de los sectores está por debajo de 11 y la otra mitad por encima.</td></tr>
+      <tr><td><b>Moda</b></td><td style="text-align:left">¿Qué valor se repite más?</td><td style="font-size:15px">Mayor frecuencia</td><td><b>10</b> hurtos</td><td style="text-align:left">El conteo más frecuente fue 10 (sectores B y C).</td></tr>
+      <tr><td><b>Rango</b></td><td style="text-align:left">¿Qué tan separados están los extremos?</td><td class="m" style="font-size:18px"><i>x</i><sub>máx</sub> − <i>x</i><sub>mín</sub></td><td><b>9</b> hurtos</td><td style="text-align:left">Entre el sector con más y el de menos hurtos hay 9 de diferencia.</td></tr>
+      <tr><td><b>Desviación estándar</b></td><td style="text-align:left">¿Cuánto se alejan los datos de la media?</td><td class="m" style="font-size:18px">√(Σ(<i>x<sub>i</sub></i> − <i>μ</i>)² / <i>N</i>)</td><td><b>≈ 3,11</b> hurtos</td><td style="text-align:left">Los conteos se alejan, en promedio, unos 3,11 hurtos de la media.</td></tr>
+    </table>
+    <div class="g2" style="margin-top:16px;gap:16px">
+      <div class="alert a-info"><span class="i">🔎</span><div><b>Lectura conjunta:</b> Mo (10) &lt; Me (11) &lt; x̄ (12). Los conteos altos de E y F jalan la media hacia arriba.</div></div>
+      <div class="alert a-warn"><span class="i">✍️</span><div>Cada resultado lleva <b>unidad</b> e <b>interpretación en contexto</b>. Un número sin frase no comunica nada al mando.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 17 · RETO ============ -->
+<section class="slide" data-notes="[46:00–55:00] Evaluación formativa. Leo cada pregunta, doy unos 40 segundos y pido la letra en el chat. Marco aquí la opción más votada y la tarjeta da la retroalimentación. Si hay errores, le pido a un estudiante que explique su procedimiento. Las preguntas se parecen a las del cuestionario final, así que es buen entrenamiento.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="card">
+    <div class="tit"><div class="ico">🏁</div><div><span class="sub">Evaluación formativa</span><h2>Reto: responda en el chat</h2></div><div class="tools"><div id="qdots"></div></div></div>
+    <div class="sim" style="padding:22px 28px;min-height:470px" id="reto"></div>
+  </div>
+</section>
+
+<!-- ============ 18 · CIERRE ============ -->
+<section class="slide" data-notes="[55:00–60:00] Cierre. Para la Actividad 1 repitan exactamente esta ruta con la tabla de 12 ciudades: registro de datos con unidades, los cinco indicadores, el cuadro comparativo, la matriz de frecuencias, los conjuntos y el Venn, y los dos gráficos con título, ejes y fuente. Revisen el enunciado y la rúbrica en el aula virtual. Pregunta de salida en el chat: ¿cuándo preferirían reportar la mediana en lugar de la media? Muchas gracias.">
+  <div class="marca">MATEMÁTICA APLICADA A LA PROFESIÓN · UNIDAD 1</div>
+  <div class="portada" style="grid-template-columns:.85fr 1.15fr">
+    <div>
+      <div class="badge">✅ FIN DE LA SESIÓN</div>
+      <h1>Del dato<span>a la decisión</span></h1>
+      <p class="lead">Calcular, interpretar y graficar con rigor: la base para planear el servicio con evidencia.</p>
+      <div class="docente" style="margin-top:24px">
+        <div class="avatar"><img src="data:image/jpeg;base64,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" alt="Yenifer Fontalvo Marriaga"></div>
+        <div><small>¡Gracias!</small><b>Yenifer Fontalvo Marriaga</b><i>Docente de Matemática aplicada</i></div>
+      </div>
+      <div class="box oro" style="background:#fff;margin-top:20px;max-width:560px"><div class="n">❓</div><h4>Pregunta de salida (chat)</h4><p>¿En qué situación preferiría reportar la <b>mediana</b> en lugar de la <b>media</b>? Justifique en una frase.</p></div>
+    </div>
+    <div class="card" style="height:auto;padding:22px 28px">
+      <h3 style="font-size:21px">📝 Ruta para la Actividad 1 <span style="font-weight:600;color:var(--gris);font-size:15px">(tabla de 12 ciudades)</span></h3>
+      <div id="check" style="display:grid;gap:9px;margin-top:10px"></div>
+      <div class="alert a-info" style="margin-top:12px;font-size:15px"><span class="i">📌</span><div>Revise el enunciado y la rúbrica de la Actividad 1 en el aula virtual antes de entregar.</div></div>
+    </div>
+  </div>
+</section>
+
+</div></div>
+
+<div id="notes"><h4 id="notesH">Notas de la docente</h4><div id="notesT"></div></div>
+<div id="nav">
+  <button class="btn" id="prev">◀ Anterior</button>
+  <button class="btn" id="clock" title="Cronómetro de 60 minutos (T) · doble clic reinicia">⏱ 60:00</button>
+  <div id="dots"></div>
+  <button class="btn" id="bNotes" title="Notas de la docente (N)">📝 Notas</button>
+  <button class="btn" id="bFull" title="Pantalla completa (F)">⛶</button>
+  <span id="cont">1 / 20</span>
+  <button class="btn" id="next">Siguiente ▶</button>
+</div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const fmt=(x,d=2)=>x.toLocaleString('es-CO',{maximumFractionDigits:d,minimumFractionDigits:0});
+const fmt2=x=>x.toLocaleString('es-CO',{minimumFractionDigits:2,maximumFractionDigits:2});
+const SEC=['A','B','C','D','E','F'], DAT=[8,10,10,12,15,17], TOT=72;
+const NS='http://www.w3.org/2000/svg';
+
+/* ---------- escalado y navegación con pasos ---------- */
+const stage=$('#stage'), slides=$$('.slide'), N=slides.length;
+function fit(){stage.style.transform='scale('+Math.min(innerWidth/1280,(innerHeight-62)/720)+')';}
+addEventListener('resize',fit);fit();
+slides.forEach((_,i)=>{const d=document.createElement('i');d.title='Diapositiva '+(i+1);d.onclick=()=>go(i);$('#dots').appendChild(d);});
+const maxStep=s=>Math.max(0,...[...s.querySelectorAll('[data-s]')].map(e=>+e.dataset.s));
+function setStep(s,k){
+  s.dataset.step=k;
+  s.querySelectorAll('[data-s]').forEach(e=>e.classList.toggle('vis',+e.dataset.s<=k));
+  const sc=s.querySelector('.sc'), m=maxStep(s);
+  if(sc)sc.textContent='PASO '+k+' / '+m;
+  const nb=s.querySelector('[data-next]'); if(nb)nb.textContent=k>=m?'Completo ✓':'Siguiente paso ▶';
+}
+slides.forEach(s=>{
+  const m=maxStep(s); setStep(s,m?0:0);
+  const nb=s.querySelector('[data-next]'),rb=s.querySelector('[data-reset]');
+  if(nb)nb.onclick=()=>{const k=+s.dataset.step;if(k<m)setStep(s,k+1);};
+  if(rb)rb.onclick=()=>setStep(s,0);
+});
+let cur=0;
+function go(i,fromBack){
+  i=Math.max(0,Math.min(N-1,i));cur=i;
+  slides.forEach((s,k)=>s.classList.toggle('on',k===i));
+  const s=slides[i]; if(maxStep(s)) setStep(s,fromBack?maxStep(s):0);
+  $$('#dots i').forEach((d,k)=>d.classList.toggle('on',k===i));
+  $('#cont').textContent=(i+1)+' / '+N; $('#prog').style.width=((i+1)/N*100)+'%';
+  $('#prev').disabled=i===0; $('#next').disabled=i===N-1;
+  $('#notesH').textContent='Notas de la docente · diapositiva '+(i+1);
+  $('#notesT').textContent=s.dataset.notes||'';
+  history.replaceState(null,'','#'+(i+1));
+  if(i===0)cover();
+  $$('.ej.on,.qbtn.on').forEach(x=>x.classList.remove('on'));
+}
+function fwd(){const s=slides[cur],m=maxStep(s),k=+(s.dataset.step||0);if(m&&k<m)setStep(s,k+1);else go(cur+1);}
+function back(){const s=slides[cur],k=+(s.dataset.step||0);if(maxStep(s)&&k>0)setStep(s,k-1);else go(cur-1,true);}
+$('#prev').onclick=back;$('#next').onclick=fwd;
+addEventListener('keydown',e=>{
+  const t=e.target.tagName; if(t==='TEXTAREA'||t==='INPUT')return;
+  if(['ArrowRight','PageDown'].includes(e.key)||(e.key===' '&&t!=='BUTTON')){e.preventDefault();fwd();}
+  else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();back();}
+  else if(e.key==='Home')go(0);else if(e.key==='End')go(N-1);
+  else if(e.key==='n'||e.key==='N')$('#notes').classList.toggle('on');
+  else if(e.key==='t'||e.key==='T')toggleClock();
+  else if(e.key==='f'||e.key==='F')toggleFull();
+});
+$('#bNotes').onclick=()=>$('#notes').classList.toggle('on');
+function toggleFull(){if(!document.fullscreenElement)document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();else document.exitFullscreen();}
+$('#bFull').onclick=toggleFull;
+let left=3600,clockT=null;
+function drawClock(){const m=Math.floor(Math.abs(left)/60),s=Math.abs(left)%60;$('#clock').textContent='⏱ '+(left<0?'−':'')+m+':'+String(s).padStart(2,'0');$('#clock').classList.toggle('late',left<=300);}
+function toggleClock(){if(clockT){clearInterval(clockT);clockT=null;$('#clock').classList.remove('run');}else{clockT=setInterval(()=>{left--;drawClock();},1000);$('#clock').classList.add('run');}}
+$('#clock').onclick=toggleClock;$('#clock').ondblclick=()=>{left=3600;drawClock();};drawClock();
+
+/* ---------- 1 · portada (estática) ---------- */
+function cover(){
+  const W=460,base=330,sc=15.5,bw=52,gap=20,x0=40; let s=`<line x1="${x0-10}" y1="${base}" x2="${W-10}" y2="${base}" stroke="#ffffff55" stroke-width="2"/>`;
+  DAT.forEach((v,i)=>{const h=v*sc,x=x0+i*(bw+gap),y=base-h,last=i===5;
+    s+=`<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="8" fill="${last?'url(#gc2)':'url(#gc1)'}"/>`;
+    s+=`<text x="${x+bw/2}" y="${y-10}" text-anchor="middle" font-size="20" font-weight="800" fill="${last?'#ffd166':'#fff'}">${v}</text>`;
+    s+=`<text x="${x+bw/2}" y="${base+26}" text-anchor="middle" font-size="17" font-weight="700" fill="#a9c2de">${SEC[i]}</text>`;});
+  const ym=base-12*sc;
+  s+=`<line x1="${x0-10}" y1="${ym}" x2="${W-10}" y2="${ym}" stroke="#ffd166" stroke-width="2.5" stroke-dasharray="8 6"/><rect x="${x0-10}" y="${ym-34}" width="108" height="26" rx="13" fill="#ffd166"/><text x="${x0+44}" y="${ym-16}" text-anchor="middle" font-size="15" font-weight="800" fill="#2b1a00">x̄ = 12</text>`;
+  s+=`<defs><linearGradient id="gc1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4f8fd6"/><stop offset="1" stop-color="#1d4e89"/></linearGradient><linearGradient id="gc2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd166"/><stop offset="1" stop-color="#e0a80d"/></linearGradient></defs>`;
+  $('#cover').innerHTML=s;
+}
+
+/* ---------- 4 · tabla de datos ---------- */
+$('#tDatos').insertAdjacentHTML('beforeend',DAT.map((v,i)=>`<tr><td><b>${SEC[i]}</b></td><td style="font-size:19px;font-weight:700">${v}</td><td style="text-align:left"><div style="height:16px;width:${v/17*100}%;border-radius:99px;background:linear-gradient(90deg,#1d4e89,#1b998b)"></div></td></tr>`).join('')+`<tr class="tot"><td>Total</td><td>72</td><td></td></tr>`);
+
+/* ---------- diagrama de puntos (fondo oscuro) ---------- */
+function dotplot(svg,vals,o){
+  const W=o.W||520,H=o.H||230,lo=o.lo,hi=o.hi,ax=H-52,pad=28,X=v=>pad+(v-lo)/(hi-lo)*(W-2*pad);
+  let s=`<line x1="${pad-8}" y1="${ax}" x2="${W-pad+8}" y2="${ax}" stroke="#ffffff88" stroke-width="2"/>`;
+  for(let t=lo;t<=hi;t+=o.step||1){s+=`<line x1="${X(t)}" y1="${ax}" x2="${X(t)}" y2="${ax+6}" stroke="#ffffff88" stroke-width="1.5"/><text x="${X(t)}" y="${ax+22}" text-anchor="middle" font-size="13" fill="#a9c2de" font-weight="600">${t}</text>`;}
+  const cnt={},r=o.r||13;
+  vals.forEach((v,i)=>{const k=cnt[v]=(cnt[v]||0)+1;const cx=X(v),cy=ax-r-3-(k-1)*(2*r+4);
+    const hl=o.hl&&o.hl(v,i);
+    if(o.seg&&v!==o.mean){const d=v-o.mean;s+=`<line x1="${X(o.mean)}" y1="${cy}" x2="${cx}" y2="${cy}" stroke="${d<0?'#ff8a93':'#06d6a0'}" stroke-width="3.5" stroke-linecap="round"/>`;}
+    s+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${hl?'#ffd166':'#4f8fd6'}" stroke="#fff" stroke-width="2"/>`;
+    if(o.lab)s+=`<text x="${cx}" y="${cy+4.5}" text-anchor="middle" font-size="12.5" font-weight="800" fill="${hl?'#2b1a00':'#fff'}">${o.lab[i]}</text>`;
+    if(o.dev){const d=v-o.mean,c=d<0?'#ff8a93':d>0?'#06d6a0':'#fff';
+      s+=`<text x="${cx}" y="${cy-r-6}" text-anchor="middle" font-size="13" font-weight="800" fill="${c}">${d>0?'+':''}${fmt(d)}</text>`;}
+  });
+  if(o.mean!=null){const m=X(o.mean);s+=`<polygon points="${m},${ax+2} ${m-11},${ax+20} ${m+11},${ax+20}" fill="#ffd166"/><text x="${m}" y="${ax+40}" text-anchor="middle" font-size="13.5" font-weight="800" fill="#ffd166">x̄ = ${fmt(o.mean)}</text>`;}
+  if(o.med!=null){const m=X(o.med);s+=`<line x1="${m}" y1="18" x2="${m}" y2="${ax}" stroke="#c79bf2" stroke-width="2.5" stroke-dasharray="6 5"/><text x="${m}" y="14" text-anchor="middle" font-size="13.5" font-weight="800" fill="#c79bf2">Me = ${fmt(o.med)}</text>`;}
+  svg.innerHTML=s;
+}
+
+/* ---------- 5 · media ---------- */
+let showDist=false;
+function drawMedia(){dotplot($('#dpMedia'),DAT,{lo:6,hi:18,mean:12,lab:SEC,dev:showDist});}
+$('#bDist').onclick=()=>{showDist=!showDist;drawMedia();$('#bDist').textContent=showDist?'Ocultar distancias':'Mostrar distancias';
+  $('#txtDist').innerHTML=showDist?'Distancias a la media: <b style="color:#ff8a93">−4 −2 −2</b> <b>+0</b> <b style="color:#06d6a0">+3 +5</b> = <b style="color:var(--oro2)">0</b>. Lo que sobra a un lado compensa lo que falta al otro: la media es el <b style="color:var(--oro2)">punto de equilibrio</b>.':'El triángulo dorado marca la media. Pulse el botón para ver cuánto se aleja cada sector de ella.';};
+drawMedia();
+
+/* ---------- 6 · mediana: fichas que se ordenan ---------- */
+let impar=false, medOrd=null;
+const medSlide=$('#fMed').closest('.slide');
+function medBuild(){
+  const sec=impar?[...SEC,'G']:SEC, dat=impar?[...DAT,20]:DAT;
+  $('#fMed').innerHTML=dat.map((v,i)=>`<div class="ficha" data-i="${i}"><div class="sec">Sector ${sec[i]}</div><div class="val">${v}</div><div class="pos"></div></div>`).join('');
+  medOrd=null;
+  $('#medP2').innerHTML=impar?'Ahora <span class="m"><i>n</i> = 7</span> es <b>impar</b>: tome el dato de la posición central, la 4.ª.':'Como <span class="m"><i>n</i> = 6</span> es <b>par</b>, tome los valores de las posiciones 3 y 4.';
+  $('#medP3').innerHTML=impar?'No hay que promediar: la mediana es el dato central.':'Calcule el promedio de los dos valores centrales.';
+  $('#medEq').children[1].innerHTML=impar?'<i>x</i><sub>(4)</sub> = <span class="res">12 hurtos</span>':'<span class="fr"><span><i>x</i><sub>(3)</sub> + <i>x</i><sub>(4)</sub></span><span>2</span></span> = <span class="fr"><span>10 + 12</span><span>2</span></span> = <span class="fr"><span>22</span><span>2</span></span> = <span class="res">11 hurtos</span>';
+  $('#medInt').innerHTML=impar?'<b>Caso hipotético.</b> Con un sector G de 20 hurtos (n = 7), tres datos quedan por debajo de 12 y tres por encima. G no hace parte de la guía: solo ilustra el caso impar.':'<b>Interpretación.</b> Tres sectores tienen conteos inferiores a 11 y tres tienen conteos superiores. Si la cantidad de observaciones fuera impar, se tomaría el dato de la posición central.';
+  $('#bImpar').innerHTML=impar?'Volver a los datos de la guía':'¿Y si <i>n</i> fuera impar?';
+  medUpdate(false);
+}
+function medUpdate(anim=true){
+  const k=+(medSlide.dataset.step||0), want=k>=1, box=$('#fMed');
+  const els=[...box.children].sort((x,y)=>x.dataset.i-y.dataset.i), dat=els.map(e=>+e.querySelector('.val').textContent);
+  if(want!==medOrd){
+    const ord=want?els.map((_,i)=>i).sort((a,b)=>dat[a]-dat[b]||a-b):(impar?[3,0,6,5,1,4,2]:[3,0,5,1,4,2]);
+    const sc=stage.getBoundingClientRect().width/1280||1, first=new Map(els.map(e=>[e,e.getBoundingClientRect().left]));
+    ord.forEach(i=>box.appendChild(els[i]));
+    if(anim&&medOrd!==null)els.forEach(e=>{const dx=(first.get(e)-e.getBoundingClientRect().left)/sc;if(dx){e.style.transition='none';e.style.transform=`translateX(${dx}px)`;
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{e.style.transition='transform .8s cubic-bezier(.22,1,.36,1)';e.style.transform='';setTimeout(()=>{e.style.transition='';},850);}));}});
+    medOrd=want;
+  }
+  const n=els.length, cen=n%2?[(n-1)/2]:[n/2-1,n/2];
+  [...box.children].forEach((e,p)=>{e.querySelector('.pos').textContent=want?(p+1)+'.º dato':'sin ordenar';e.classList.toggle('c',want&&k>=2&&cen.includes(p));});
+  $('#medLbl').innerHTML=want?'✅ Ordenados de menor a mayor':'📥 Así llegan los reportes: <b>sin ordenar</b>. Avance para ordenarlos.';
+}
+$('#bImpar').onclick=()=>{impar=!impar;medBuild();};
+new MutationObserver(()=>medUpdate(true)).observe(medSlide,{attributes:true,attributeFilter:['data-step']});
+medBuild();
+
+/* ---------- 7 · moda ---------- */
+let sinModa=false;
+function drawModa(){
+  const dat=sinModa?[8,10,11,12,15,17]:DAT, f={}; dat.forEach(v=>f[v]=(f[v]||0)+1);
+  const ks=Object.keys(f).map(Number).sort((a,b)=>a-b), mx=Math.max(...Object.values(f));
+  $('#tModa').innerHTML=`<tr><th>Hurtos</th>${ks.map(k=>`<th>${k}</th>`).join('')}</tr><tr><td style="text-align:left;font-weight:700">Sectores con ese conteo</td>${ks.map(k=>`<td style="${f[k]===mx&&mx>1?'background:#fff3cd;font-weight:800;color:#6b4d00':''}">${f[k]}</td>`).join('')}</tr>`;
+  const lab=sinModa?['A','B','C*','D','E','F']:SEC;
+  dotplot($('#dpModa'),dat,{lo:6,hi:18,lab,hl:v=>mx>1&&f[v]===mx});
+  $('#modaP2').innerHTML=sinModa?'Todos los conteos aparecen <b>una sola vez</b>: no hay frecuencia mayor.':'Ubique la frecuencia mayor. El conteo 10 aparece dos veces.';
+  $('#modaRes').innerHTML=sinModa?'Mo: <span class="res">no hay moda</span>':'Mo = <span class="res">10 hurtos</span>';
+  $('#modaInt').innerHTML=sinModa?'<b>Caso hipotético (C = 11).</b> Ningún valor se repite, así que la serie no presenta moda. No se escribe «Mo = 0».':'<b>Interpretación.</b> El conteo que más se repitió fue 10. Si todos los conteos aparecen una sola vez, la serie no presenta moda.';
+  $('#bSinModa').textContent=sinModa?'Volver a los datos de la guía':'Ver una serie sin moda';
+}
+$('#bSinModa').onclick=()=>{sinModa=!sinModa;drawModa();};drawModa();
+
+/* ---------- 8 · rango ---------- */
+(function(){
+  const W=600,ax=150,pad=40,lo=6,hi=19,X=v=>pad+(v-lo)/(hi-lo)*(W-2*pad); let s='';
+  s+=`<line x1="${pad-10}" y1="${ax}" x2="${W-pad+10}" y2="${ax}" stroke="#94a3b8" stroke-width="2"/>`;
+  for(let t=lo;t<=hi;t++)s+=`<line x1="${X(t)}" y1="${ax}" x2="${X(t)}" y2="${ax+6}" stroke="#94a3b8"/><text x="${X(t)}" y="${ax+24}" text-anchor="middle" font-size="14" fill="#64748b" font-weight="600">${t}</text>`;
+  const cnt={};DAT.forEach((v,i)=>{const k=cnt[v]=(cnt[v]||0)+1,ex=i===0||i===5;
+    s+=`<circle cx="${X(v)}" cy="${ax-16-(k-1)*30}" r="13" fill="${ex?'#e0a80d':'#1d4e89'}" stroke="#fff" stroke-width="2"/><text x="${X(v)}" y="${ax-11.5-(k-1)*30}" text-anchor="middle" font-size="12.5" font-weight="800" fill="#fff">${SEC[i]}</text>`;});
+  s+=`<g data-s="1"><text x="${X(8)}" y="${ax+50}" text-anchor="middle" font-size="15" font-weight="800" fill="#8a6100">mín = 8</text><text x="${X(17)}" y="${ax+50}" text-anchor="middle" font-size="15" font-weight="800" fill="#8a6100">máx = 17</text></g>`;
+  s+=`<g data-s="3"><path d="M${X(8)} 66 V54 H${X(17)} V66" fill="none" stroke="#e63946" stroke-width="3"/><rect x="${(X(8)+X(17))/2-70}" y="22" width="140" height="28" rx="14" fill="#e63946"/><text x="${(X(8)+X(17))/2}" y="41" text-anchor="middle" font-size="16" font-weight="800" fill="#fff">R = 9 hurtos</text></g>`;
+  $('#svgRango').innerHTML=s;
+})();
+
+/* ---------- 9 · desviación ---------- */
+(function(){
+  let h=`<tr><th>Sector</th><th class="m"><i>x<sub>i</sub></i></th><th class="m" data-s="2"><i>x<sub>i</sub></i> − <i>μ</i></th><th class="m" data-s="3">(<i>x<sub>i</sub></i> − <i>μ</i>)<sup>2</sup></th></tr>`;
+  DAT.forEach((v,i)=>{const d=v-12;h+=`<tr><td><b>${SEC[i]}</b></td><td>${v}</td><td data-s="2" class="${d<0?'neg':d>0?'pos':''}">${d}</td><td data-s="3">${d*d}</td></tr>`;});
+  h+=`<tr class="tot"><td>Total</td><td>72</td><td data-s="2">0</td><td data-s="3" style="font-size:19px">58</td></tr>`;
+  $('#tDesv').innerHTML=h;
+  // la fila del paso 1 se activa con data-s=1 sobre las celdas base
+  $$('#tDesv tr').forEach(tr=>{[...tr.children].slice(0,2).forEach(c=>c.dataset.s=1);});
+  function dv(m){$$('[data-dv]').forEach(b=>b.classList.toggle('act',b.dataset.dv===m));
+    $('#dvTxt').innerHTML=m==='N'?'Universo completo (los 6 sectores definidos): <i>σ</i> = √(58 / 6) = √9,67 ≈ <b style="color:var(--oro2)">3,11 hurtos</b>.':'Si los 6 sectores fueran una muestra de un universo mayor: <i>s</i> = √(58 / 5) = √11,6 ≈ <b style="color:var(--oro2)">3,41 hurtos</b>. El denominador es <i>n</i> − 1.';}
+  $$('[data-dv]').forEach(b=>b.onclick=()=>dv(b.dataset.dv));dv('N');
+})();
+
+/* ---------- 10 · laboratorio ---------- */
+const lab=[...DAT];
+$('#labS').innerHTML=SEC.map((s,i)=>`<div class="ctrl"><label>Sector ${s} <b id="lv${i}">${DAT[i]}</b></label><input type="range" min="0" max="40" value="${DAT[i]}" data-i="${i}"></div>`).join('');
+function stats(a){const n=a.length,so=[...a].sort((x,y)=>x-y),me=a.reduce((p,c)=>p+c,0)/n;
+  const md=n%2?so[(n-1)/2]:(so[n/2-1]+so[n/2])/2,f={};a.forEach(v=>f[v]=(f[v]||0)+1);const mx=Math.max(...Object.values(f));
+  const mo=mx===1?null:Object.keys(f).filter(k=>f[k]===mx).map(Number).sort((x,y)=>x-y);
+  const sd=Math.sqrt(a.reduce((p,c)=>p+(c-me)**2,0)/n);return {me,md,mo,r:so[n-1]-so[0],sd};}
+function drawLab(){
+  const st=stats(lab);
+  $('#lMe').textContent=fmt(st.me);$('#lMd').textContent=fmt(st.md);
+  $('#lMo').textContent=st.mo?(st.mo.length>2?'varias':st.mo.join(' y ')):'Sin moda';
+  $('#lR').textContent=st.r;$('#lS').textContent=fmt2(st.sd);
+  dotplot($('#dpLab'),lab,{W:640,H:220,lo:0,hi:40,step:5,r:11,lab:SEC,mean:st.me,med:st.md});
+  let m;
+  if(st.sd===0)m='📏 Todos los sectores tienen el mismo conteo: <b style="color:var(--oro2)">rango y desviación valen 0</b>. No hay dispersión, y media, mediana y moda coinciden.';
+  else if(Math.abs(st.me-st.md)>=3)m=`⚠️ La media (${fmt(st.me)}) se alejó de la mediana (${fmt(st.md)}). Un valor extremo <b style="color:var(--oro2)">jala el promedio</b>; la mediana resiste mejor y describe mejor el centro.`;
+  else m=`✅ Media (${fmt(st.me)}) y mediana (${fmt(st.md)}) están cerca: los datos son bastante simétricos. La desviación indica que los conteos se alejan unos ${fmt2(st.sd)} hurtos de la media.`;
+  $('#lMsg').innerHTML=m;
+}
+$$('#labS input').forEach(inp=>inp.addEventListener('input',()=>{const i=+inp.dataset.i;lab[i]=+inp.value;$('#lv'+i).textContent=inp.value;$$('[data-lab]').forEach(b=>b.classList.remove('act'));drawLab();}));
+$$('[data-lab]').forEach(b=>b.onclick=()=>{const p=b.dataset.lab;const v=p==='guia'?DAT:p==='atip'?[8,10,10,12,15,40]:[12,12,12,12,12,12];
+  v.forEach((x,i)=>{lab[i]=x;const inp=$(`#labS input[data-i="${i}"]`);inp.value=x;$('#lv'+i).textContent=x;});
+  $$('[data-lab]').forEach(x=>x.classList.toggle('act',x===b));drawLab();});
+drawLab();
+
+/* ---------- 11 · frecuencias ---------- */
+let fsel=0;
+function drawFrec(){
+  $('#tFrec').innerHTML=`<tr><th>Sector</th><th>Hurtos</th><th>Porcentaje del total</th></tr>`+
+    DAT.map((v,i)=>`<tr class="clk ${i===fsel?'sel':''}" data-i="${i}"><td><b>${SEC[i]}</b></td><td>${v}</td><td style="text-align:left"><div style="display:flex;align-items:center;gap:10px"><div style="height:14px;width:${v/17*150}px;border-radius:99px;background:linear-gradient(90deg,#1d4e89,#1b998b)"></div><b style="font-variant-numeric:tabular-nums">${fmt2(v/TOT*100)} %</b></div></td></tr>`).join('')+
+    `<tr class="tot"><td>Total</td><td>72</td><td style="text-align:left">100,00 %</td></tr>`;
+  $$('#tFrec tr.clk').forEach(tr=>tr.onclick=()=>{fsel=+tr.dataset.i;drawFrec();});
+  const v=DAT[fsel],S=SEC[fsel];
+  $$('.fSec').forEach(e=>e.textContent=S);$$('.fVal').forEach(e=>e.textContent=v);
+  const h=v/TOT;$('#fH').textContent=(h*1).toLocaleString('es-CO',{minimumFractionDigits:4,maximumFractionDigits:4})+'…';
+  $('#fP').textContent=fmt2(h*100)+' %';
+  $('#fInt').innerHTML=`<b>Interpretación.</b> El sector ${S} aportó el ${fmt2(h*100)} % de los hurtos registrados en los seis sectores. El denominador es el total de hurtos de la tabla.`;
+}
+drawFrec();
+
+/* ---------- 12 · conjuntos ---------- */
+$('#fConj').innerHTML=DAT.map((v,i)=>`<div class="ficha"><div class="sec">Sector ${SEC[i]}</div><div class="val">${v}</div><div class="pos">hurtos</div>
+  ${v>12?'<span class="tg m pop" data-s="2">M</span>':''}${v>11?'<span class="tg d pop" data-s="3">D</span>':''}${v>12?'<span class="ring pop" data-s="4"></span>':''}</div>`).join('');
+$('#fConj').insertAdjacentHTML('afterbegin','');
+
+/* ---------- 14 · barras ---------- */
+let bsel=[5,0];
+function drawBar(){
+  const W=680,H=440,l=64,r=20,t=50,b=70,ih=H-t-b,iw=W-l-r,Y=v=>t+ih-(v/20)*ih,bw=iw/6*.62;
+  let s=`<text x="${W/2+20}" y="24" text-anchor="middle" font-size="16.5" font-weight="800" fill="#0b2545">Figura 2. Hurtos registrados por sector en el periodo de estudio</text>`;
+  for(let v=0;v<=20;v+=2)s+=`<line x1="${l}" y1="${Y(v)}" x2="${W-r}" y2="${Y(v)}" stroke="#e2e8f0"/><text x="${l-10}" y="${Y(v)+5}" text-anchor="end" font-size="13" fill="#64748b">${v}</text>`;
+  s+=`<line x1="${l}" y1="${Y(0)}" x2="${W-r}" y2="${Y(0)}" stroke="#334155" stroke-width="1.5"/>`;
+  DAT.forEach((v,i)=>{const cx=l+iw/6*(i+.5),sel=bsel.includes(i);
+    s+=`<g class="barclk" data-i="${i}"><rect x="${cx-bw/2}" y="${Y(v)}" width="${bw}" height="${Y(0)-Y(v)}" rx="4" fill="${sel?'#e0a80d':(i===5?'#0b2545':'#1d4e89')}" ${sel?'stroke="#8a6100" stroke-width="2.5"':''}/><text x="${cx}" y="${Y(v)-8}" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">${v}</text><text x="${cx}" y="${Y(0)+22}" text-anchor="middle" font-size="15" font-weight="700" fill="#334155">${SEC[i]}</text></g>`;});
+  s+=`<text x="${l+iw/2}" y="${H-24}" text-anchor="middle" font-size="14.5" font-weight="700" fill="#334155">Sector</text>`;
+  s+=`<text transform="translate(18 ${t+ih/2}) rotate(-90)" text-anchor="middle" font-size="14.5" font-weight="700" fill="#334155">Hurtos registrados</text>`;
+  s+=`<text x="${W/2}" y="${H-4}" text-anchor="middle" font-size="12.5" font-style="italic" fill="#64748b">Fuente. Elaboración propia con datos de práctica.</text>`;
+  $('#svgBar').innerHTML=s;
+  $$('#svgBar .barclk').forEach(g=>g.onclick=()=>{const i=+g.dataset.i;if(bsel.includes(i))return;bsel=[bsel[1],i];drawBar();});
+  const [p,q]=DAT[bsel[0]]>=DAT[bsel[1]]?[bsel[0],bsel[1]]:[bsel[1],bsel[0]],d=DAT[p]-DAT[q];
+  $('#barEq').innerHTML=`<i>x</i><sub>${SEC[p]}</sub> − <i>x</i><sub>${SEC[q]}</sub> = ${DAT[p]} − ${DAT[q]} = <span class="res">${d} hurtos</span>`;
+  $('#barInt').innerHTML=(p===5&&q===0)?'<b>Interpretación.</b> F tuvo el mayor conteo y A el menor. F registró 9 hurtos más que A en el mismo periodo. Esta diferencia puede orientar la revisión de los registros del sector F.'
+    :d===0?`<b>Interpretación.</b> Los sectores ${SEC[p]} y ${SEC[q]} registraron el mismo número de hurtos en el periodo.`
+    :`<b>Interpretación.</b> El sector ${SEC[p]} registró ${d} hurto${d===1?'':'s'} más que el sector ${SEC[q]} en el mismo periodo.`;
+}
+drawBar();
+
+/* ---------- 15 · histograma ---------- */
+const INT=[[8,12,'8, 10, 10',3],[12,16,'12, 15',2],[16,20,'17',1]];let hsel=0;
+function drawHist(){
+  $('#tHist').innerHTML=`<tr><th>Intervalo de hurtos</th><th>Conteos incluidos</th><th>Número de sectores</th></tr>`+
+    INT.map((r,i)=>`<tr class="clk ${i===hsel?'sel':''}" data-i="${i}"><td class="m" style="font-size:18px">[${r[0]}, ${r[1]})</td><td>${r[2]}</td><td><b>${r[3]}</b></td></tr>`).join('');
+  $$('#tHist tr.clk').forEach(tr=>tr.onclick=()=>{hsel=+tr.dataset.i;drawHist();});
+  const W=640,H=420,l=56,r=24,t=46,b=70,ih=H-t-b,iw=W-l-r,X=v=>l+14+(v-8)/12*(iw-28),Y=v=>t+ih-(v/4)*ih;
+  let s=`<text x="${W/2+10}" y="22" text-anchor="middle" font-size="16.5" font-weight="800" fill="#0b2545">Figura 3. Distribución de hurtos por sector</text>`;
+  for(let v=0;v<=4;v++)s+=`<line x1="${l}" y1="${Y(v)}" x2="${W-r}" y2="${Y(v)}" stroke="#e2e8f0"/><text x="${l-10}" y="${Y(v)+5}" text-anchor="end" font-size="13" fill="#64748b">${v}</text>`;
+  s+=`<line x1="${l}" y1="${Y(0)}" x2="${W-r}" y2="${Y(0)}" stroke="#334155" stroke-width="1.5"/>`;
+  INT.forEach((q,i)=>{const sel=i===hsel;s+=`<g class="barclk" data-i="${i}"><rect x="${X(q[0])}" y="${Y(q[3])}" width="${X(q[1])-X(q[0])}" height="${Y(0)-Y(q[3])}" fill="${sel?'#e0a80d':'#1b998b'}" stroke="#fff" stroke-width="2"/><text x="${(X(q[0])+X(q[1]))/2}" y="${Y(q[3])-9}" text-anchor="middle" font-size="16" font-weight="800" fill="#0f172a">${q[3]}</text></g>`;});
+  [8,12,16,20].forEach(v=>s+=`<line x1="${X(v)}" y1="${Y(0)}" x2="${X(v)}" y2="${Y(0)+6}" stroke="#334155"/><text x="${X(v)}" y="${Y(0)+22}" text-anchor="middle" font-size="14" fill="#334155" font-weight="600">${v}</text>`);
+  s+=`<text x="${l+iw/2}" y="${H-26}" text-anchor="middle" font-size="14.5" font-weight="700" fill="#334155">Hurtos registrados por sector</text>`;
+  s+=`<text transform="translate(16 ${t+ih/2}) rotate(-90)" text-anchor="middle" font-size="14.5" font-weight="700" fill="#334155">Número de sectores</text>`;
+  s+=`<text x="${W/2}" y="${H-4}" text-anchor="middle" font-size="12.5" font-style="italic" fill="#64748b">Fuente. Elaboración propia con datos de práctica.</text>`;
+  $('#svgHist').innerHTML=s;
+  $$('#svgHist .barclk').forEach(g=>g.onclick=()=>{hsel=+g.dataset.i;drawHist();});
+  const q=INT[hsel],p=q[3]/6*100;
+  $('#histEq').innerHTML=`Porcentaje de sectores en [${q[0]}, ${q[1]}) = <span class="fr"><span>${q[3]}</span><span>6</span></span> × 100 % ${Number.isInteger(p)?'=':'≈'} <span class="res">${fmt(p)} %</span>`;
+  $('#histInt').innerHTML=hsel===0?'<b>Interpretación.</b> La mitad de los sectores registró entre 8 y menos de 12 hurtos. En el eje vertical se cuentan sectores.'
+    :`<b>Interpretación.</b> ${q[3]===1?'Un sector':q[3]+' sectores'} (${q[3]===1?'el':'los'} de ${q[2]} hurtos) ${q[3]===1?'registró':'registraron'} entre ${q[0]} y menos de ${q[1]} hurtos: el ${fmt(p)} % de los sectores.`;
+}
+drawHist();
+
+/* ---------- ¿qué es? (ejemplo cotidiano) ---------- */
+$$('.qbtn').forEach(b=>b.onclick=e=>{e.stopPropagation();const ej=b.parentElement.querySelector('.ej'),on=!ej.classList.contains('on');
+  $$('.ej.on,.qbtn.on').forEach(x=>x.classList.remove('on'));ej.classList.toggle('on',on);b.classList.toggle('on',on);});
+document.addEventListener('click',e=>{if(!e.target.closest('.que'))$$('.ej.on,.qbtn.on').forEach(x=>x.classList.remove('on'));});
+
+/* ---------- tarjetas de conceptos ---------- */
+const GR={t:['Centro','#eef4fb','#13315c'],d:['Dispersión','#e6f7f4','#0f6b60'],a:['Análisis','#fff6e0','#8a6100']};
+const FL=[
+ ['x̄','Media','t','¿Cuánto le tocaría a cada sector si los hurtos se repartieran por igual?','Es el promedio: se suman todos los datos y se divide entre la cantidad de datos.','En el caso: 72 ÷ 6 = 12 hurtos'],
+ ['Me','Mediana','t','¿Cuál es el dato que queda en la mitad?','Con los datos ordenados, deja la mitad por debajo y la mitad por encima.','En el caso: (10 + 12) ÷ 2 = 11'],
+ ['Mo','Moda','t','¿Qué valor se repite más veces?','Es el dato más frecuente. Puede haber una, varias o ninguna moda.','En el caso: 10 (sectores B y C)'],
+ ['R','Rango','d','¿Qué tan lejos están el valor más alto y el más bajo?','Es la resta del máximo menos el mínimo.','En el caso: 17 − 8 = 9 hurtos'],
+ ['σ','Desviación estándar','d','¿Los datos están parejos o dispersos?','Mide la distancia típica de los datos a la media.','En el caso: ≈ 3,11 hurtos'],
+ ['%','Frecuencias','a','¿Qué parte del total aporta cada sector?','Se divide el conteo entre el total y se multiplica por 100.','En el caso: A aporta 11,11 %'],
+ ['∩','Conjuntos','a','¿Quiénes cumplen dos condiciones a la vez?','La intersección reúne los elementos que están en ambos conjuntos.','En el caso: E y F'],
+ ['📊','Gráficos','a','¿Cómo muestro los datos de un vistazo?','Barras para comparar sectores; histograma para ver intervalos.','En el caso: F es la barra más alta']];
+$('#flips').innerHTML=FL.map(f=>{const g=GR[f[2]];return `<div class="flip"><div class="in">
+  <div class="face front"><div class="top"><span class="sym">${f[0]}</span><span class="grp" style="background:${g[1]};color:${g[2]}">${g[0]}</span></div><h4>${f[1]}</h4><p class="qq">${f[3]}</p><span class="hint">👆 Clic para voltear</span></div>
+  <div class="face back"><h4>${f[0]} · ${f[1]}</h4><p>${f[4]}</p><div class="caso">${f[5]}</div></div></div></div>`;}).join('');
+$$('.flip').forEach(c=>c.onclick=()=>c.classList.toggle('on'));
+$('#bFlipAll').onclick=()=>{const all=$$('.flip').every(c=>c.classList.contains('on'));$$('.flip').forEach(c=>c.classList.toggle('on',!all));};
+
+/* ---------- pestañas ---------- */
+$$('[data-tab]').forEach(b=>b.onclick=()=>{const sim=b.closest('.sim');sim.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('act',x===b));
+  sim.querySelectorAll('[data-pan]').forEach(p=>p.classList.toggle('on',p.dataset.pan===b.dataset.tab));});
+
+/* ---------- repartir por igual ---------- */
+let repDone=false;const PX=9.5;
+$('#rep').innerHTML=`<div class="lin" style="bottom:${12*PX}px"><span>x̄ = 12</span></div>`+DAT.map((v,i)=>`<div class="col"><small id="rc${i}"></small><b id="rv${i}">${v}</b><i id="rb${i}" style="height:${v*PX}px"></i></div>`).join('');
+$('#repx').innerHTML=SEC.map(x=>`<span>${x}</span>`).join('');
+$('#bRep').onclick=()=>{repDone=!repDone;$('#rep').classList.toggle('done',repDone);
+  DAT.forEach((v,i)=>{const d=12-v;$('#rb'+i).style.height=(repDone?12:v)*PX+'px';$('#rv'+i).textContent=repDone?12:v;
+    const c=$('#rc'+i);c.textContent=repDone?(d>0?'+'+d:d<0?'−'+(-d):'0'):'';c.style.color=d>0?'#06d6a0':d<0?'#ff8a93':'#fff';});
+  $('#bRep').textContent=repDone?'Volver a los datos':'Repartir por igual';
+  $('#txtRep').innerHTML=repDone?'E y F <b style="color:#ff8a93">ceden</b> 3 + 5 = 8 hurtos; A, B y C <b style="color:#06d6a0">reciben</b> 4 + 2 + 2 = 8. Todos quedan en <b style="color:var(--oro2)">12</b>: esa es la media.':'Cada barra es un sector. Si juntamos los 72 hurtos y los repartimos en partes iguales, ¿cuánto le toca a cada uno?';};
+
+/* ---------- ¿qué mide σ? ---------- */
+const DSP=[['Parejo',[11,12,12,12,12,13]],['Guía',DAT],['Disperso',[4,8,12,12,16,20]]];
+const sdv=a=>{const m=a.reduce((p,c)=>p+c,0)/a.length;return Math.sqrt(a.reduce((p,c)=>p+(c-m)**2,0)/a.length);};
+const DTX=['Todos los sectores están a 1 hurto o menos de la media: σ ≈ 0,58. Comportamiento <b style="color:#06d6a0">muy parejo</b> y fácil de prever.',
+  'Los sectores se alejan, en promedio, unos 3 hurtos de la media: σ ≈ 3,11. Dispersión <b style="color:var(--oro2)">moderada</b>.',
+  'Hay sectores con 4 y con 20 hurtos: se alejan unos 5 de la media, σ ≈ 5,16. Datos <b style="color:#ff8a93">muy dispersos</b>: conviene revisar sector por sector.'];
+function drawDisp(k){
+  $('#tDisp').innerHTML='<tr><th>Cuadrante</th><th>Hurtos por sector</th><th>x̄</th><th>σ</th></tr>'+DSP.map((d,i)=>`<tr class="clk ${i===k?'sel':''}" data-k="${i}"><td><b>${['Parejo','De la guía','Disperso'][i]}</b></td><td>${d[1].join(', ')}</td><td>12</td><td><b>${fmt2(sdv(d[1]))}</b></td></tr>`).join('');
+  $$('#tDisp tr.clk').forEach(tr=>tr.onclick=()=>drawDisp(+tr.dataset.k));
+  $$('[data-dsp]').forEach(b=>b.classList.toggle('act',+b.dataset.dsp===k));
+  const a=DSP[k][1],sd=sdv(a);
+  dotplot($('#dpDisp'),a,{W:560,H:200,lo:2,hi:22,step:2,r:11,lab:SEC,mean:12,seg:true});
+  $('#dspS').textContent=fmt2(sd);$('#dspBar').style.width=Math.max(4,Math.min(100,sd/6*100))+'%';$('#dspTxt').innerHTML=DTX[k];
+}
+$$('[data-dsp]').forEach(b=>b.onclick=()=>drawDisp(+b.dataset.dsp));drawDisp(1);
+
+/* ---------- 17 · reto ---------- */
+const QS=[
+ {q:'En cinco cuadrantes se registraron <b>5, 7, 7, 9 y 12</b> hurtos. ¿Cuál es la media?',o:['7 hurtos','8 hurtos','9 hurtos'],a:1,
+  f:['❌ 7 es la moda (el valor que más se repite), no la media.','✅ Correcto. (5 + 7 + 7 + 9 + 12) ÷ 5 = 40 ÷ 5 = 8 hurtos por cuadrante.','❌ Revise la suma: 5 + 7 + 7 + 9 + 12 = 40, y 40 ÷ 5 = 8.']},
+ {q:'Datos ordenados: <b>4, 6, 9, 11, 20, 30</b>. ¿Cuál es la mediana?',o:['9','10','13,33'],a:1,
+  f:['❌ Con n = 6 (par) hay dos datos centrales: el 3.º y el 4.º. Hay que promediarlos.','✅ Correcto. (9 + 11) ÷ 2 = 10. Tres datos quedan por debajo y tres por encima.','❌ 13,33 es la media (80 ÷ 6). La mediana es el centro: (9 + 11) ÷ 2 = 10.']},
+ {q:'En el caso de los seis sectores (total 72), ¿qué porcentaje de los hurtos aportó el sector <b>E</b> (15 hurtos)?',o:['15 %','20,83 %','25 %'],a:1,
+  f:['❌ 15 es el conteo, no el porcentaje. Divida entre el total: 15 ÷ 72.','✅ Correcto. 15 ÷ 72 = 0,2083… × 100 % ≈ 20,83 %.','❌ El denominador es el total de hurtos, 72: 15 ÷ 72 × 100 % ≈ 20,83 %.']},
+ {q:'Si un sector reporta un valor <b>muy alto y atípico</b>, ¿qué medida describe mejor el centro de los datos?',o:['La media','La mediana','El rango'],a:1,
+  f:['❌ La media se deja arrastrar por los valores extremos (compruébelo en el laboratorio con F = 40).','✅ Correcto. La mediana solo depende de la posición central, por eso resiste los valores atípicos.','❌ El rango mide dispersión, no el centro, y además es muy sensible a los extremos.']},
+ {q:'Si los seis sectores registraran <b>exactamente 12 hurtos cada uno</b>, ¿cuánto valdría la desviación estándar?',o:['0','12','1'],a:0,
+  f:['✅ Correcto. Todas las diferencias xᵢ − μ valen 0, así que no hay dispersión: σ = 0.','❌ 12 sería la media. La desviación mide cuánto se alejan los datos de ella, y aquí nadie se aleja.','❌ Si todos son iguales, cada diferencia vale 0 y la suma de cuadrados también: σ = 0.']},
+ {q:'Con los datos del caso, ¿qué sectores pertenecen a <b>M ∩ D</b> (más de 12 y más de 11 hurtos)?',o:['{D, E, F}','{E, F}','{A, B, C}'],a:1,
+  f:['❌ {D, E, F} es D. El sector D tiene 12 hurtos, que no es mayor que 12, así que no está en M.','✅ Correcto. Solo E (15) y F (17) superan a la vez la media y la mediana.','❌ A, B y C están por debajo de ambas medidas: quedan fuera de los dos óvalos.']},
+ {q:'¿Qué gráfico usaría para mostrar <b>cuántos sectores</b> caen en cada intervalo de hurtos [8, 12), [12, 16), [16, 20)?',o:['Gráfico de barras','Histograma','Diagrama de Venn'],a:1,
+  f:['❌ Las barras comparan categorías separadas (cada sector). Para intervalos contiguos se usa el histograma.','✅ Correcto. El histograma representa intervalos contiguos, sin espacio entre barras, y en el eje vertical cuenta sectores.','❌ El Venn muestra pertenencia a conjuntos, no la distribución por intervalos.']}
+];
+let qi=0;const qres=Array(QS.length).fill(null);
+function drawQ(){
+  const Q=QS[qi];
+  $('#reto').innerHTML=`<div style="display:flex;align-items:center;gap:10px"><span class="tag">Pregunta ${qi+1} de ${QS.length}</span><span class="tag" style="background:#ffffff26;color:#fff">Interactivo</span></div>
+   <p style="font-size:23px;line-height:1.45;color:#fff;margin:16px 0 8px;font-weight:600">${Q.q}</p>
+   ${Q.o.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${'ABC'[k]}</span>${o}</button>`).join('')}
+   <div class="fb"></div>
+   <div style="display:flex;gap:10px;margin-top:16px"><button class="btn3" id="qPrev" ${qi===0?'disabled style="opacity:.35"':''}>◀ Anterior</button><button class="btn2" id="qNext" style="margin-left:auto" ${qi===QS.length-1?'disabled style="opacity:.45"':''}>Siguiente pregunta ▶</button></div>`;
+  $$('#reto .opt').forEach(b=>b.onclick=()=>{const k=+b.dataset.k;$$('#reto .opt').forEach(x=>x.classList.remove('ok','no'));b.classList.add(k===Q.a?'ok':'no');
+    const fb=$('#reto .fb');fb.textContent=Q.f[k];fb.classList.remove('show');void fb.offsetWidth;fb.classList.add('show');qres[qi]=k===Q.a;dotsQ();});
+  $('#qPrev').onclick=()=>{if(qi>0){qi--;drawQ();}};$('#qNext').onclick=()=>{if(qi<QS.length-1){qi++;drawQ();}};
+  dotsQ();
+}
+function dotsQ(){$('#qdots').innerHTML=QS.map((_,k)=>`<i class="${k===qi?'on':''} ${qres[k]===true&&k!==qi?'ok':''} ${qres[k]===false&&k!==qi?'no':''}" data-k="${k}">${k+1}</i>`).join('');
+  $$('#qdots i').forEach(d=>d.onclick=()=>{qi=+d.dataset.k;drawQ();});}
+drawQ();
+
+/* ---------- 18 · lista de chequeo ---------- */
+const CH=[['📋','Registre los datos originales de las 12 ciudades con sus unidades.'],['🧮','Calcule media, mediana, moda, rango y desviación estándar; conserve los decimales.'],['🧾','Arme el cuadro comparativo con resultado e interpretación de cada medida.'],['%','Construya la matriz analítica: frecuencias y porcentajes sobre el total.'],['∩','Identifique con conjuntos los registros que cumplen dos criterios y dibuje el Venn.'],['📊','Elabore los gráficos con título, ejes rotulados, eje vertical desde cero y fuente.']];
+$('#check').innerHTML=CH.map((c,i)=>`<label style="display:flex;gap:12px;align-items:center;background:var(--claro);border:1px solid #e2e8f0;border-radius:14px;padding:9px 14px;cursor:pointer;font-size:15.5px;color:#334155"><input type="checkbox" style="width:20px;height:20px;accent-color:#1b998b"><span style="width:34px;height:34px;flex:0 0 34px;border-radius:10px;display:grid;place-items:center;background:${['#1d4e89','#1b998b','#e0a80d','#7b2cbf','#e63946','#13315c'][i]};color:#fff;font-weight:800">${c[0]}</span>${c[1]}</label>`).join('');
+
+const fromHash=()=>go(Math.min(N,Math.max(1,parseInt(location.hash.slice(1))||1))-1);
+addEventListener('hashchange',()=>{const k=parseInt(location.hash.slice(1));if(k&&k-1!==cur)fromHash();});
+fromHash();
+})();
+</script>
+</body>
+</html>
